@@ -10,10 +10,16 @@ module.exports = {
         let userData = await got(`https://api.ivr.fi/twitch/resolve/${targetUser}`, { timeout: 10000}).json();
         console.log(userData)
         
-        const date = (userData.createdAt);
+        if (userData.code  == 'ERR_NON_2XX_3XX_RESPONSE') {
+            return {
+                text: `Account doesnt exist PoroSad`,
+            }
+
+        } else {
+            const date = (userData.createdAt);
             return {
                 text: `${message.senderUsername}, ${(date.split("T")[0] )} BatChest`,
-            };
-          
+            }
+        }  
     },
 };
