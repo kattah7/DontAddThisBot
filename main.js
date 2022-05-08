@@ -29,7 +29,8 @@ client.on("close", (err) => {
 });
 
 client.on("PRIVMSG", async (message) => {
-    const prefix = "!";
+    const prefix = "|";
+    if (!message.messageText.startsWith(prefix)) return; 
     const args = message.messageText.slice(prefix.length).trim().split(/ +/g);
     const cmd = args.length > 0 ? args.shift().toLowerCase() : "";
 
@@ -48,7 +49,7 @@ client.on("PRIVMSG", async (message) => {
                 }, command.cooldown);
             }
 
-            const response = await command.execute(message, args);
+            const response = await command.execute(message, args, client);
 
             if (response) {
                 if (response.error) {

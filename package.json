@@ -19,6 +19,8 @@
   "homepage": "https://github.com/kattah7/DontAddThisBot#readme",
   "dependencies": {
     "@kararty/dank-twitch-irc": "^4.6.0",
-    "dotenv": "^16.0.0"
+    "dotenv": "^16.0.0",
+    "got": "^11.8.3",
+    "humanize-duration": "^3.27.1"
   }
 }
