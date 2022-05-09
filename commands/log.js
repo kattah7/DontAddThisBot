@@ -8,7 +8,7 @@ module.exports = {
         const targetUser = args[0] ?? message.senderUsername;
         const token = {
             url: "https://api.twitch.tv/helix/streams?finrst=20",
-        header: {"client-ID": "gp762nuuoqcoxypju8c569th9wz7q5"}
+        header: {"client-ID": "gp762nuuoqco"}
         }
         let { body: userData, statusCode } = await got(`${token}`, { timeout: 10000, throwHttpErrors: false, responseType: "json" });
         console.log(userData)
