@@ -1,7 +1,7 @@
 const got = require("got");
 
 module.exports = {
-    name: "clip",
+    name: "topclip",
     aliases: [],
     cooldown: 3000,
     execute: async (message, args) => {
