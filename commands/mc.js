@@ -15,17 +15,21 @@ module.exports = {
         console.log(data)
 
         const firstname = (data.username_history[0].username)
-        
+        const undefined = (data.uuid)
         const accage = (data.created_at)
        
-        if (accage == null)  {
+        if (undefined == 'f0369554-7707-486a-b230-8518f04102f7')  {
             return {
-                text: `${targetUser}'s first Minecraft name is ${firstname} and could not fetch account age. SSSsss`
+                text: `${targetUser}'s account does not exist. SSSsss`
+            }
+        } else if (accage == null) {
+            return {
+                text: `${targetUser}'s first Minecraft name is ${firstname} and could not fetch account age. PoroSad`
             }
         } else {
-            return {
-                text: `${targetUser}'s first Minecraft name is ${firstname} and created at ${accage} PunchTrees`
-            }
+           return {
+            text: `${targetUser}'s first Minecraft name is ${firstname} and created at ${accage} PunchTrees`
+           }
         }
         
 
