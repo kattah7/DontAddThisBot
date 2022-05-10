@@ -1,4 +1,5 @@
 require("dotenv").config();
+const nodeCron = require("node-cron");
 const { readdirSync } = require("fs");
 const { ChatClient } = require("@kararty/dank-twitch-irc");
 
@@ -19,6 +20,10 @@ const client = new ChatClient({
 
 client.on("ready", () => {
     console.log("Connected to chat!");
+
+    nodeCron.schedule("0 0-22/2 * * *<", () => {
+        client.say("kattah", "!cookie");
+    });
 });
 
 client.on("close", (err) => {

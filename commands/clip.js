@@ -15,11 +15,14 @@ module.exports = {
                 Authorization: `Bearer ${process.env.ACCESS_TOKEN}`,
             },
         }).json();
+        console.log(data)
 
         const clip = (data[0].url)
         const name = (data[0].broadcaster_name)
+        const views = (data[0].view_count)
+        const by = (data[0].creator_name)
             return {
-                text: `${name}'s all time top clip ${clip}`
+                text: `${name}'s all time top clip with ${views} views by ${by} at ${(data[0].created_at.split("T")[0])} ${clip}`
             }
     },
 };
