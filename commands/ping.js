@@ -1,10 +1,16 @@
+const { performance } = require('perf_hooks');
+const humanizeDuration = require("./humanizeDuration");
+
 module.exports = {
     name: "ping",
     aliases: ["xd"],
     cooldown: 3000,
-    execute: async (message, args) => {
+    execute: async (message, args, client) => {
+
+       
+
         return {
-            text: `${message.senderUsername} lol`,
+            text: `${message.senderUsername}, PotFriend BOT UPTIME: ${humanizeDuration(process.uptime() * 1000 )}`,
         };
     },
 };

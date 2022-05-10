@@ -20,7 +20,9 @@
   "dependencies": {
     "@kararty/dank-twitch-irc": "^4.6.0",
     "dotenv": "^16.0.0",
+    "eventsource": "^2.0.1",
     "got": "^11.8.3",
-    "humanize-duration": "^3.27.1"
+    "humanize-duration": "^3.27.1",
+    "perf_hooks": "0.0.1"
   }
 }
