@@ -73,3 +73,4 @@ client.on("PRIVMSG", async (message) => {
 
 client.connect();
 client.joinAll(["kattah", "turtoise", "dontaddthisbot"]);
+
