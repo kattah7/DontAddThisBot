@@ -1,1 +1,0 @@
-{"version":3,"file":"send-pings.d.ts","sourceRoot":"","sources":["../../lib/functionalities/send-pings.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,gBAAgB,EAAE,MAAM,sBAAsB,CAAC;AAIxD,MAAM,WAAW,gBAAgB;IAC/B;;OAEG;IACH,QAAQ,EAAE,MAAM,CAAC;IAEjB;;OAEG;IACH,OAAO,EAAE,MAAM,CAAC;CACjB;AAOD,wBAAgB,eAAe,CAC7B,IAAI,EAAE,gBAAgB,EACtB,MAAM,GAAE,OAAO,CAAC,gBAAgB,CAAM,GACrC,IAAI,CAeN"}

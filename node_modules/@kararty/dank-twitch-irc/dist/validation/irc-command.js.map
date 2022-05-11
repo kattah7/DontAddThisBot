@@ -1,1 +1,0 @@
-{"version":3,"file":"irc-command.js","sourceRoot":"","sources":["../../lib/validation/irc-command.ts"],"names":[],"mappings":";;;AAAA,yDAAqD;AAErD,SAAgB,kBAAkB,CAAC,OAAe;IAChD,IAAI,OAAO,CAAC,QAAQ,CAAC,IAAI,CAAC,IAAI,OAAO,CAAC,QAAQ,CAAC,IAAI,CAAC,EAAE;QACpD,MAAM,IAAI,kCAAe,CAAC,wCAAwC,CAAC,CAAC;KACrE;AACH,CAAC;AAJD,gDAIC"}

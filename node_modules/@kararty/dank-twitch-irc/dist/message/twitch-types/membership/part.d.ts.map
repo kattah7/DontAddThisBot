@@ -1,1 +1,0 @@
-{"version":3,"file":"part.d.ts","sourceRoot":"","sources":["../../../../lib/message/twitch-types/membership/part.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,iBAAiB,EAAE,MAAM,+BAA+B,CAAC;AAClE,OAAO,EAAE,cAAc,EAAmB,MAAM,uBAAuB,CAAC;AAExE,qBAAa,WAAY,SAAQ,iBAAiB;IAChD,SAAgB,cAAc,EAAE,MAAM,CAAC;gBAEpB,OAAO,EAAE,cAAc;CAI3C"}

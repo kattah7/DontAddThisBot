@@ -1,1 +1,0 @@
-{"version":3,"file":"clearmsg.d.ts","sourceRoot":"","sources":["../../../lib/message/twitch-types/clearmsg.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,iBAAiB,EAAE,MAAM,4BAA4B,CAAC;AAC/D,OAAO,EAAE,cAAc,EAAoB,MAAM,oBAAoB,CAAC;AAGtE,qBAAa,eAAgB,SAAQ,iBAAiB;IACpD,SAAgB,cAAc,EAAE,MAAM,CAAC;IACvC,SAAgB,eAAe,EAAE,MAAM,CAAC;IACxC,SAAgB,oBAAoB,EAAE,MAAM,CAAC;gBAE1B,OAAO,EAAE,cAAc;CAQ3C"}
