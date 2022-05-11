@@ -1,0 +1,1 @@
+{"version":3,"file":"cap.d.ts","sourceRoot":"","sources":["../../../lib/message/twitch-types/cap.ts"],"names":[],"mappings":"AAAA,OAAO,EACL,UAAU,EACV,cAAc,EAEf,MAAM,oBAAoB,CAAC;AAS5B,qBAAa,UAAW,SAAQ,UAAU;IACxC,SAAgB,UAAU,EAAE,MAAM,CAAC;IACnC,SAAgB,YAAY,EAAE,MAAM,EAAE,CAAC;gBACpB,OAAO,EAAE,cAAc;CAM3C"}

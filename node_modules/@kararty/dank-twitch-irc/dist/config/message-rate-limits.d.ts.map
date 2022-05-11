@@ -1,0 +1,1 @@
+{"version":3,"file":"message-rate-limits.d.ts","sourceRoot":"","sources":["../../lib/config/message-rate-limits.ts"],"names":[],"mappings":"AAAA,MAAM,WAAW,iBAAiB;IAChC,iBAAiB,EAAE,MAAM,CAAC;IAC1B,gBAAgB,EAAE,MAAM,CAAC;CAK1B;AAED,oBAAY,UAAU,GAAG,SAAS,GAAG,UAAU,GAAG,aAAa,CAAC;AAEhE,eAAO,MAAM,uBAAuB,EAAE,MAAM,CAAC,UAAU,EAAE,iBAAiB,CAyBzE,CAAC"}

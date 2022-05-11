@@ -1,0 +1,1 @@
+{"version":3,"file":"notice.d.ts","sourceRoot":"","sources":["../../../lib/message/twitch-types/notice.ts"],"names":[],"mappings":"AACA,OAAO,EACL,UAAU,EACV,cAAc,EAEf,MAAM,oBAAoB,CAAC;AAG5B,qBAAa,aAAc,SAAQ,UAAU;IAC3C,SAAgB,WAAW,EAAE,MAAM,GAAG,SAAS,CAAC;IAChD,SAAgB,WAAW,EAAE,MAAM,CAAC;IACpC,SAAgB,SAAS,EAAE,MAAM,GAAG,SAAS,CAAC;gBAE3B,OAAO,EAAE,cAAc;CAY3C"}

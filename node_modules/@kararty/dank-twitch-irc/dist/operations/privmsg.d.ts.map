@@ -1,0 +1,1 @@
+{"version":3,"file":"privmsg.d.ts","sourceRoot":"","sources":["../../lib/operations/privmsg.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,gBAAgB,EAAE,MAAM,sBAAsB,CAAC;AAExD,wBAAsB,WAAW,CAC/B,IAAI,EAAE,gBAAgB,EACtB,WAAW,EAAE,MAAM,EACnB,OAAO,EAAE,MAAM,EACf,OAAO,CAAC,EAAE,MAAM,GACf,OAAO,CAAC,IAAI,CAAC,CAMf"}

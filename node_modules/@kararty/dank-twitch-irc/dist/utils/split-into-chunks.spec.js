@@ -1,0 +1,41 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const chai_1 = require("chai");
+const helpers_spec_1 = require("../helpers.spec");
+const split_into_chunks_1 = require("./split-into-chunks");
+describe("./utils/split-into-chunks", function () {
+    describe("#splitIntoChunks()", function () {
+        describe("splitIntoChunks", () => {
+            it("should return an empty array when an empty array is passed", () => {
+                chai_1.assert.deepStrictEqual((0, split_into_chunks_1.splitIntoChunks)([], " ", 500), []);
+            });
+            it("should return a single-element array as is", () => {
+                chai_1.assert.deepStrictEqual((0, split_into_chunks_1.splitIntoChunks)(["test"], " ", 500), [["test"]]);
+            });
+            it("should return a two-element array that does not need to be split as is", () => {
+                chai_1.assert.deepStrictEqual((0, split_into_chunks_1.splitIntoChunks)(["test", "abc"], " ", 500), [
+                    ["test", "abc"],
+                ]);
+            });
+            it("should handle custom-length separators correctly", () => {
+                // test123KKona
+                chai_1.assert.deepStrictEqual((0, split_into_chunks_1.splitIntoChunks)(["test", "KKona", "abc"], "123", 13), [["test", "KKona"], ["abc"]]);
+            });
+            // for when the resulting chunk of bits is of the exact same length that was requested
+            it("should handle exact-requested-length output chunks", () => {
+                const s = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, " +
+                    "sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed " +
+                    "diam voluptua. At vero eos et accusam et justo duo dolores";
+                chai_1.assert.deepStrictEqual((0, split_into_chunks_1.splitIntoChunks)(s.split(" "), " ", 72), [
+                    "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy".split(" "),
+                    "eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam".split(" "),
+                    "voluptua. At vero eos et accusam et justo duo dolores".split(" "),
+                ]);
+            });
+            it("should throw an error when the split is impossible", () => {
+                (0, helpers_spec_1.assertThrowsChain)(() => (0, split_into_chunks_1.splitIntoChunks)(["superlongmessage", "NaM"], " ", 15), Error, "Found a piece that can never fit the target length limit");
+            });
+        });
+    });
+});
+//# sourceMappingURL=split-into-chunks.spec.js.map

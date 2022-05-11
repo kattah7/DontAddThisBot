@@ -1,0 +1,1 @@
+{"version":3,"file":"join.js","sourceRoot":"","sources":["../../../../lib/message/twitch-types/membership/join.ts"],"names":[],"mappings":";;;AAAA,uEAAkE;AAClE,uDAAwE;AAExE,MAAa,WAAY,SAAQ,uCAAiB;IAChC,cAAc,CAAS;IAEvC,YAAmB,OAAuB;QACxC,KAAK,CAAC,OAAO,CAAC,CAAC;QACf,IAAI,CAAC,cAAc,GAAG,IAAA,6BAAe,EAAC,IAAI,CAAC,CAAC;IAC9C,CAAC;CACF;AAPD,kCAOC"}
