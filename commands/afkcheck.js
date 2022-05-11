@@ -1,4 +1,5 @@
 const got = require("got");
+const humanizeDuration = require("./humanizeDuration");
 
 module.exports = {
     name: "isafk",
@@ -17,18 +18,28 @@ module.exports = {
         }
 
         const afkStatus = userData.data.status;
+        const STATUS = afkStatus.status;
+        
 
         //If there is no afk status, return a message saying that the user is not afk
         if (!afkStatus) {
             return {
-                text: "User is not AFK. FeelsDankMan",
+                text: `${targetUser} is not AFK. FeelsDankMan`,
             };
             // else return a message saying that the user is afk
-        } else {
+        } else if (STATUS == 'afk') {
             console.log(afkStatus);
+            const ms = new Date().getTime() - Date.parse(afkStatus.started);
             return {
-                text: `${targetUser} went AFK at ${afkStatus.started.split("T")[0]} BatChest Reason: ${afkStatus.text}`,
+                text: `${targetUser} went AFK ${humanizeDuration(ms)} ago BatChest Reason: ${afkStatus.text}`,
             };
+        } else { 
+            console.log(afkStatus);
+            const ms = new Date().getTime() - Date.parse(afkStatus.started);
+            const STATUS = afkStatus.status
+            return {
+                text: `${targetUser} went AFK(${STATUS}) ${humanizeDuration(ms)} ago BatChest Reason: ${afkStatus.text}`,
+            }
         }
     },
 };
