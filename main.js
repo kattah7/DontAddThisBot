@@ -35,7 +35,7 @@ client.on("close", (err) => {
 
 client.on("PRIVMSG", async (message) => {
     const prefix = "|";
-    if (!message.messageText.startsWith(prefix)) return; 
+    if (!message.messageText.startsWith(prefix)) return;
     const args = message.messageText.slice(prefix.length).trim().split(/ +/g);
     const cmd = args.length > 0 ? args.shift().toLowerCase() : "";
 
@@ -52,6 +52,13 @@ client.on("PRIVMSG", async (message) => {
                 setTimeout(() => {
                     cooldown.delete(`${command.name}${message.senderUserID}`);
                 }, command.cooldown);
+            }
+            if (command.permission) {
+                if (command.permission == 1 && !message.isMod) {
+                    return client.say(message.channelName, "This command is mod only.");
+                } else if (command.permission == 2 && message.channelName !== message.senderUsername) {
+                    return client.say(message.channelName, "This command is broadcaster only.");
+                }
             }
 
             const response = await command.execute(message, args, client);
@@ -72,4 +79,4 @@ client.on("PRIVMSG", async (message) => {
 });
 
 client.connect();
-client.joinAll(["kattah", "turtoise", "dontaddthisbot"]); 
+client.joinAll(["kattah", "turtoise", "dontaddthisbot"]);
