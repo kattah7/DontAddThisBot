@@ -2,6 +2,7 @@ module.exports = {
     name: 'pyramid',
     aliases: [],
     cooldown: 10000,
+    description:"Pyramid command in chat",
     async execute(message, args, client) {
         const size = args[0]
         const emote = args.slice(1).join(' ') + " "; 

@@ -3,6 +3,7 @@ module.exports = {
     aliases: [],
     cooldown: 30,
     permission: 1, //1 = mod, 2 = broadcaster
+    description:"Spams message in chat",
     execute: async (message, args, client) => {
         if (args.length < 2) return { text: "Usage: |spam 3 xd" };
 

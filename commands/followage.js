@@ -5,6 +5,7 @@ module.exports = {
     name: "followage",
     aliases: [],
     cooldown: 3000,
+    adescription:"Check following age of user",
     execute: async (message, args) => {
         const targetUser = args[0] ?? message.senderUsername;
         const targetChannel = args[1] ?? message.channelName

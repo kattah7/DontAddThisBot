@@ -4,6 +4,7 @@ module.exports = {
     name: "name",
     aliases: [],
     cooldown: 3000,
+    description:"Check available names on Twitch",
     execute: async (message, args) => {
         const targetUser = args[0] ?? message.senderUsername;
         const targetChannel = args[1] ?? message.channelName

@@ -4,6 +4,7 @@ module.exports = {
     name: "subage",
     aliases: [],
     cooldown: 3000,
+    description:"Checks a subcribed age of a user",
     execute: async (message, args) => {
         const targetUser = args[0] ?? message.senderUsername;
         const targetChannel = args[1] ?? message.channelName

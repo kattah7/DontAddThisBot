@@ -4,6 +4,7 @@ module.exports = {
     name: "randomline",
     aliases: [],
     cooldown: 3000,
+    description:"Fetches random message of a user in a channel that is logged on logs.ivr.fi",
     execute: async (message, args) => {
         const targetUser = args[0] ?? message.senderUsername;
         const targetChannel = args[1] ?? message.channelName

@@ -4,6 +4,7 @@ module.exports = {
     name: "firstmod",
     aliases: [],
     cooldown: 3000,
+    description:"First moderator of the channel",
     execute: async (message, args) => {
         const targetUser = args[0] ?? message.senderUsername;
         let { body: userData, statusCode } = await got(`https://api.ivr.fi/twitch/modsvips/${targetUser}`, { timeout: 10000, throwHttpErrors: false, responseType: "json" });

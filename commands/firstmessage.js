@@ -4,6 +4,7 @@ module.exports = {
     name: "firstline",
     aliases: [],
     cooldown: 3000,
+    description:"Gets first message of a user in any channel that is logged on logs.ivr.fi",
     execute: async (message, args) => {
         const targetUser = args[0] ?? message.senderUsername;
         const targetChannel = args[1] ?? message.channelName

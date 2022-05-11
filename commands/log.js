@@ -12,8 +12,9 @@ module.exports = {
                 Authorization: `Basic 1878360:${process.env.SUPINIC_API_KEY}`,
             },
         }).json();
-        console.log(data)
-        let { body: userData, statusCode } = await got(`https://supinic.com/api/bot/afk/check/137199626`, { timeout: 10000, throwHttpErrors: false, responseType: "json" });
-        
+        const uid = 1878360
+
+        let { body: userData, statusCode } = await got(`https://supinic.com/api/test/auth?auth_user=${uid}&auth_key=${process.env.SUPINIC_API_KEY}`, { timeout: 10000, throwHttpErrors: false, responseType: "json" });
+        console.log(userData)
     },
 };

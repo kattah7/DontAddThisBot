@@ -4,6 +4,7 @@ module.exports = {
     name: "currency",
     aliases: [],
     cooldown: 3000,
+    description:"Example: |currency USD EUR amount",
     execute: async (message, args) => {
         var myHeaders = new Headers();
         myHeaders.append("apikey", `${process.env.API_KEY}`);

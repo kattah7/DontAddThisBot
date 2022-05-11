@@ -2,6 +2,7 @@ module.exports = {
     name: "unix",
     aliases: [],
     cooldown: 3000,
+    description:"Random unix time lol, The Unix epoch is 00:00:00 UTC on 1 January 1970.",
     execute: async (message, args) => {
         const math = Math.floor(Math.random() * 1999999999);
 
