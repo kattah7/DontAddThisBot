@@ -5,7 +5,7 @@ module.exports = {
     execute: async (message, args) => {
          
             return {
-                text: 'TriHard 7'
+                text: 'TriHard'
             }
         
     },
