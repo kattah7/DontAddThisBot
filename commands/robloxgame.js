@@ -4,6 +4,7 @@ module.exports = {
     name: "robloxgame",
     aliases: [],
     cooldown: 3000,
+    description:"Gets information of a roblox game, please use Place ID",
     execute: async (message, args) => {
         const targetUser = args[0] ?? message.senderUsername;
         const targetChannel = args[1] ?? message.channelName

@@ -4,6 +4,7 @@ module.exports = {
     name: "topgames",
     aliases: [],
     cooldown: 3000,
+    description:"Live playercount of top games on steam",
     execute: async (message, args, client) => {
         const id = args[0] ?? message.senderUsername;
         let { body: userData, statusCode } = await got(`https://api.steampowered.com/ISteamUserStats/GetNumberOfCurrentPlayers/v0001/?appid=1599340`, { timeout: 10000, throwHttpErrors: false, responseType: "json" });

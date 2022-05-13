@@ -4,6 +4,7 @@ module.exports = {
     name: "info",
     aliases: [],
     cooldown: 3000,
+    description:"Gets basic information of a user",
     execute: async (message, args) => {
         const targetUser = args[0] ?? message.senderUsername;
         let { body: userData, statusCode } = await got(`https://api.ivr.fi/twitch/resolve/${targetUser}`, { timeout: 10000, throwHttpErrors: false, responseType: "json" });

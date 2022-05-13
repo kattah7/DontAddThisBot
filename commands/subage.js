@@ -4,6 +4,7 @@ module.exports = {
     name: "subage",
     aliases: [],
     cooldown: 3000,
+    description:"Checks a subcribed age of a user",
     execute: async (message, args) => {
         const targetUser = args[0] ?? message.senderUsername;
         const targetChannel = args[1] ?? message.channelName
@@ -15,10 +16,16 @@ module.exports = {
             return {
                 text: `${targetUser} is currently subbed to ${targetChannel} for ${(months)} months BatChest`,
             };
-        } else {
-            const months = userData.cumulative.months
+        } else if (userData.cumulative.months == 0) {
+            
             return {
-                text: `${targetUser} was previously subbed for ${(months)} months PoroSad`,
+                text: `${targetUser} was never subbed to ${targetChannel}`,
+            }
+        } else if (userData.cumulative.months > 0) {
+            const months = userData.cumulative.months
+
+            return {
+                text: `${targetUser} has been subbed to ${targetChannel} for ${months}`
             }
         }
         

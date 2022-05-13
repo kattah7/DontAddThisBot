@@ -4,6 +4,7 @@ module.exports = {
     name: "currency",
     aliases: [],
     cooldown: 3000,
+    description:"Example: |currency USD EUR amount",
     execute: async (message, args) => {
         var myHeaders = new Headers();
         myHeaders.append("apikey", `${process.env.API_KEY}`);
@@ -25,7 +26,7 @@ module.exports = {
        console.log(user);
         const FROM = user.query.from
         const TO = user.query.to
-        const RESULT = user.result
+        const RESULT = (Math.round(user.result * 100)/100).toFixed(2); 
         const AMOUNT = user.query.amount
 
 

@@ -4,6 +4,7 @@ module.exports = {
     name: "topclip",
     aliases: [],
     cooldown: 3000,
+    description:"Gets the top clip of the channel",
     execute: async (message, args) => {
         const targetChannel = args[0] ?? message.channelName;
         let { body: userData, statusCode } = await got(`https://api.ivr.fi/twitch/resolve/${targetChannel}`, { timeout: 10000, throwHttpErrors: false, responseType: "json" });

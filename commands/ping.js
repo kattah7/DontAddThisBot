@@ -5,6 +5,7 @@ module.exports = {
     name: "ping",
     aliases: ["xd"],
     cooldown: 3000,
+    description:"Bot response",
     execute: async (message, args, client) => {
 
        

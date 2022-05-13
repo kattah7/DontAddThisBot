@@ -4,6 +4,7 @@ module.exports = {
     name: "mc",
     aliases: [],
     cooldown: 3000,
+    description:"Gets user's minecraft account age and first name",
     execute: async (message, args) => {
         const targetUser = args[0] ?? message.senderUsername;
         const targetChannel = args[1] ?? message.channelName
