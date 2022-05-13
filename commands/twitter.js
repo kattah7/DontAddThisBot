@@ -5,7 +5,7 @@ module.exports = {
     name: "tweet",
     aliases: [],
     cooldown: 5000,
-    description:"TriHard",
+    description:"Tweet anything :) Check out your tweet twitter.com/twitchsayschat ",
     execute: async (message, args) => {
             const targetUser = message.senderUsername;
             let { body: userData, statusCode } = await got(`https://api.ivr.fi/twitch/resolve/${targetUser}`, { timeout: 10000, throwHttpErrors: false, responseType: "json" });
