@@ -20,6 +20,7 @@ const client = new ChatClient({
     	type: "websocket",
 	secure: true,
     },
+    maxChannelCountPerConnection: 5,
     connectionRateLimits: {
     	parallelConnections: 20,
     },
