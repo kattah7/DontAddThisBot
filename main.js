@@ -23,6 +23,7 @@ const client = new ChatClient({
     maxChannelCountPerConnection: 5,
     connectionRateLimits: {
     	parallelConnections: 20,
+	releaseTime: 50,
     },
 });
 
