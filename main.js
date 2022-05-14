@@ -16,9 +16,13 @@ for (let file of readdirSync(`./commands/`).filter((file) => file.endsWith(".js"
 const client = new ChatClient({
     username: process.env.TWITCH_USERNAME,
     password: process.env.TWITCH_OAUTH,
-	connectionRateLimits: {
-		parallelConnections: 20,
-	},
+    connection: {
+    	type: "websocket",
+	secure: true,
+    },
+    connectionRateLimits: {
+    	parallelConnections: 20,
+    },
 });
 
 client.on("ready", () => {
