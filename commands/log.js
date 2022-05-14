@@ -1,7 +1,7 @@
 const got = require("got");
 
 module.exports = {
-    name: "test",
+    name: "log",
     aliases: [],
     cooldown: 3000,
     description: "test command",
