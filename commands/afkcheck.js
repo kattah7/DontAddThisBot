@@ -18,17 +18,17 @@ module.exports = {
         }
 
         const afkStatus = userData.data.status;
-        const STATUS = afkStatus.status;
+        
         
 
         //If there is no afk status, return a message saying that the user is not afk
-        if (!afkStatus ) {
+        if (!afkStatus) {
             console.log(afkStatus)
             return {
                 text: `${targetUser} is not AFK. FeelsDankMan`,
             };
             // else return a message saying that the user is afk
-        } else if (STATUS == 'afk') {
+        } else if (afkStatus.status == 'afk') {
             console.log(afkStatus);
             const ms = new Date().getTime() - Date.parse(afkStatus.started);
             return {
@@ -37,9 +37,9 @@ module.exports = {
         } else { 
             console.log(afkStatus);
             const ms = new Date().getTime() - Date.parse(afkStatus.started);
-            const STATUS = afkStatus.status
+            
             return {
-                text: `${targetUser} went AFK(${STATUS}) ${humanizeDuration(ms)} ago BatChest Reason: ${afkStatus.text}`,
+                text: `${targetUser} went AFK(${afkStatus.status}) ${humanizeDuration(ms)} ago BatChest Reason: ${afkStatus.text}`,
             }
         }
     },
