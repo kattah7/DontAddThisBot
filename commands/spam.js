@@ -14,7 +14,7 @@ module.exports = {
         if (count < 2) return { text: `the minimum spam count is 2` };
 
         for (let xd = 0; xd < count; xd++) {
-            client.say(message.channelName, phrase);
+            client.privmsg(message.channelName, phrase);
         }
     },
 };

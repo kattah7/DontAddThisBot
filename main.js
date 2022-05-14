@@ -16,9 +16,15 @@ for (let file of readdirSync(`./commands/`).filter((file) => file.endsWith(".js"
 const client = new ChatClient({
     username: process.env.TWITCH_USERNAME,
     password: process.env.TWITCH_OAUTH,
-	connectionRateLimits: {
-		parallelConnections: 20,
-	},
+    connection: {
+    	type: "websocket",
+	secure: true,
+    },
+    maxChannelCountPerConnection: 5,
+    connectionRateLimits: {
+    	parallelConnections: 20,
+	releaseTime: 50,
+    },
 });
 
 client.on("ready", () => {
@@ -82,4 +88,5 @@ client.on("PRIVMSG", async (message) => {
 });
 
 client.connect();
-client.joinAll(["kattah", "lorestorm"]);
+client.joinAll(["kattah", "lorestorm","dontaddthisbot"]);
+
