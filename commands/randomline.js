@@ -2,7 +2,7 @@ const got = require("got");
 
 module.exports = {  
     name: "randomline",
-    aliases: [],
+    aliases: ["rl"],
     cooldown: 3000,
     description:"Fetches random message of a user in a channel that is logged on logs.ivr.fi",
     execute: async (message, args) => {

@@ -2,7 +2,7 @@ const got = require("got");
 
 module.exports = {
     name: "subage",
-    aliases: [],
+    aliases: ["sa"],
     cooldown: 3000,
     description:"Checks a subcribed age of a user",
     execute: async (message, args) => {

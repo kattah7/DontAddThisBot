@@ -2,8 +2,9 @@ const got = require("got");
 
 module.exports = {  
     name: "lastseen",
-    aliases: [],
+    aliases: ["ls"],
     cooldown: 3000,
+    description: "Check last seen of a user in a chat",
     execute: async (message, args) => {
         const targetUser = args[0] ?? message.senderUsername;
         const targetChannel = args[1] ?? message.channelName

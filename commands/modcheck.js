@@ -2,7 +2,7 @@ const got = require("got");
 
 module.exports = {
     name: "firstmod",
-    aliases: [],
+    aliases: ["fm"],
     cooldown: 3000,
     description:"First moderator of the channel",
     execute: async (message, args) => {

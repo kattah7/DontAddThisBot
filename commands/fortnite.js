@@ -3,7 +3,7 @@ const util = require('util')
 
 module.exports = {
     name: "fortnite",
-    aliases: [],
+    aliases: ["fn"],
     cooldown: 1000,
     description:"check your fortnite stats zzoomerPls",
     execute: async (message, args) => {

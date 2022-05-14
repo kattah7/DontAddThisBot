@@ -2,7 +2,7 @@ const got = require("got");
 
 module.exports = {
     name: "firstvip",
-    aliases: [],
+    aliases: ["fv"],
     cooldown: 3000,
     description:"First VIP of the channel",
     execute: async (message, args) => {

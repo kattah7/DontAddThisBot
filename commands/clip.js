@@ -2,7 +2,7 @@ const got = require("got");
 
 module.exports = {
     name: "topclip",
-    aliases: [],
+    aliases: ["tc"],
     cooldown: 3000,
     description:"Gets the top clip of the channel",
     execute: async (message, args) => {

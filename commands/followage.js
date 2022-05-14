@@ -1,11 +1,11 @@
 const got = require("got");
-const humanizeDuration = require("./humanizeDuration");
+const humanizeDuration = require("../humanizeDuration");
 
 module.exports = {
     name: "followage",
-    aliases: [],
+    aliases: ["fa"],
     cooldown: 3000,
-    adescription:"Check following age of user",
+    description:"Check following age of user",
     execute: async (message, args) => {
         const targetUser = args[0] ?? message.senderUsername;
         const targetChannel = args[1] ?? message.channelName

@@ -4,7 +4,7 @@ module.exports = {
     name: "whathappen",
     aliases: ["whathappened", "wh"],
     cooldown: 3000,
-    description: "test command",
+    description: "Tells you what happened on that date of history.[Usage |wh (month) (day), |whathappened (month) (day), |whathappen (month) (day) ",
     execute: async (message, args) => {
         const MONTH = args[0] ?? message.senderUsername;
         const DAY = args[1] ?? message.senderUsername;
