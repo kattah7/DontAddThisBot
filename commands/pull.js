@@ -14,7 +14,7 @@ module.exports = {
                 }
             }
             else {
-                client.say; await(message.channelName, "Commit pulled, restarting.. MrDestructoid")
+                await client.say(message.channelName, "Commit pulled, restarting.. MrDestructoid")
                 process.exit(0);
             }
         });
