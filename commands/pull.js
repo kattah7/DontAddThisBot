@@ -8,15 +8,14 @@ module.exports = {
     execute: async (message, args, client) => {
         exec("cd /home/DontAddThisBot && git pull && npm i", (err) => {
             if (err) {
-                console.error(error)
+                console.error(error);
                 return {
                     text: `FeelsDankMan !!! failed to pull commit`,
-                }
-            }
-            else {
-                await client.say(message.channelName, "Commit pulled, restarting.. MrDestructoid")
-                process.exit(0);
+                };
             }
         });
+
+        await client.say(message.channelName, "Commit pulled, restarting.. MrDestructoid");
+        process.exit(0);
     },
-}
+};
