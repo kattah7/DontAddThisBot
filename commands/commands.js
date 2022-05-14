@@ -10,7 +10,7 @@ module.exports = {
 
         for (let file of readdirSync(`./commands/`).filter((file) => file.endsWith(".js"))) {
             let pull = require(`../commands/${file}`);
-            text += `|${pull.name} (${pull.description || "This command has no description."})\n`;
+            text += `${pull.name} (${pull.description || "This command has no description."})\n`;
         }
 
         const { key } = await got
