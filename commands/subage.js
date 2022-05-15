@@ -2,7 +2,7 @@ const got = require("got");
 const humanizeDuration = require("../humanizeDuration");
 
 module.exports = {
-    name: "test",
+    name: "subage",
     aliases: ["sa"],
     cooldown: 3000,
     description:"Checks a subcribed age of a user",
