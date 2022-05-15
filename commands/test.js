@@ -4,10 +4,20 @@ module.exports = {
     cooldown: 3000,
     description: "lol",
     execute: async (message, args) => {
-        await bot.Redis.set("test", message.senderUsername);
+        const lastUsage = await bot.Redis.get(`test:${message.senderUsername}`);
+
+        if (lastUsage) {
+            if (Date.now() - new Date(lastUsage).getTime() > 1000 * 60 * 5) {
+                return {
+                    text: `This command can only be used every 5 minutes. Please wait ${Date.now() - new Date(lastUsage).getTime() * 1000}s before trying to use it again.`,
+                };
+            }
+        }
+
+        await bot.Redis.set(`test:${message.senderUsername}`, Date.now());
 
         return {
-            text: `${await bot.Redis.get("test")}`,
+            text: `Lol this worked`,
         };
     },
 };
