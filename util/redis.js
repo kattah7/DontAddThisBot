@@ -1,12 +1,12 @@
-const Redis = require('ioredis');
-const redis = new Redis({db: 3});
+const Redis = require("ioredis");
+const redis = new Redis({});
 
-redis.on('error', (err) => {
+redis.on("error", (err) => {
     console.log(`Redis Error: ${err}`);
 });
 
-redis.on('ready', () => {
-    console.log('Redis Connected');
+redis.on("ready", () => {
+    console.log("Redis Connected");
 });
 
 module.exports.redis = redis;
@@ -15,7 +15,7 @@ module.exports.set = async (key, data, expiry = 120) => {
     if (expiry === 0) {
         await redis.set(key, JSON.stringify(data));
     } else {
-        await redis.set(key, JSON.stringify(data), 'EX', expiry);
+        await redis.set(key, JSON.stringify(data), "EX", expiry);
     }
 };
 
@@ -23,7 +23,7 @@ module.exports.setpx = async (key, data, expiry = 120) => {
     if (expiry === 0) {
         await redis.set(key, JSON.stringify(data));
     } else {
-        await redis.set(key, JSON.stringify(data), 'PX', expiry);
+        await redis.set(key, JSON.stringify(data), "PX", expiry);
     }
 };
 
@@ -44,9 +44,9 @@ module.exports.getBase64 = async (name) => {
     if (!data) {
         return null;
     }
-    return JSON.parse(Buffer.from(data, 'base64'));
+    return JSON.parse(Buffer.from(data, "base64"));
 };
 
 module.exports.setBase64 = async (name, data, expiry = 120) => {
-    await redis.set(name, Buffer.from(JSON.stringify(data)).toString('base64'), 'EX', expiry);
+    await redis.set(name, Buffer.from(JSON.stringify(data)).toString("base64"), "EX", expiry);
 };

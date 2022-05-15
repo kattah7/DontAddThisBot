@@ -3,6 +3,9 @@ const nodeCron = require("node-cron");
 const { readdirSync } = require("fs");
 const { ChatClient } = require("@kararty/dank-twitch-irc");
 
+global.bot = {};
+bot.Redis = require("/util/redis.js");
+
 const commands = new Map();
 const aliases = new Map();
 const cooldown = new Map();
@@ -17,13 +20,13 @@ const client = new ChatClient({
     username: process.env.TWITCH_USERNAME,
     password: process.env.TWITCH_OAUTH,
     connection: {
-    	type: "websocket",
-	secure: true,
+        type: "websocket",
+        secure: true,
     },
     maxChannelCountPerConnection: 5,
     connectionRateLimits: {
-    	parallelConnections: 20,
-	releaseTime: 50,
+        parallelConnections: 20,
+        releaseTime: 50,
     },
 });
 
@@ -89,4 +92,3 @@ client.on("PRIVMSG", async (message) => {
 
 client.connect();
 client.joinAll(["kattah", "dontaddthisbot", "meiiodaas"]);
-
