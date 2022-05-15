@@ -5,6 +5,7 @@ module.exports = {
     permission: 1, //1 = mod, 2 = broadcaster
     description:"Shadow ban a user",
     execute: async (message, args, client) => {
-        client.privmsg(message.channelName, `.restrict ${message.senderUsername}`);
+        const targetUser = args[0] ?? message.senderUsername;
+        client.privmsg(message.channelName, `/restrict ${targetUser}`);
     },
 };
