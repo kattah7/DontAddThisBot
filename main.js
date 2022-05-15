@@ -91,5 +91,11 @@ client.on("PRIVMSG", async (message) => {
     }
 });
 
-client.connect();
-client.joinAll(["kattah", "dontaddthisbot", "meiiodaas"]);
+const main = async () => {
+    await client.join("dontaddthisbot");
+    client.connect();
+    const channels = await bot.DB.channels.find({}).exec();
+    client.joinAll(channels.map((channel) => channel.username));
+};
+
+main();
