@@ -25,7 +25,7 @@ module.exports = {
                 text: `${targetUser} is currently not live.`
             }
         } else {
-            const ms = new Date().getTime() - Date.parse(data2[0].started_at.split("T")[0]);
+            const ms = new Date().getTime() - Date.parse(data2[0].started_at);
         return {
             text: `${data2[0].user_name} went live ${humanizeDuration(ms)} ago, Playing ${data2[0].game_name} with ${data2[0].viewer_count} viewers. Title: ${data2[0].title}`
         }
