@@ -18,7 +18,7 @@ module.exports = {
                 };
             }
         }
-        await bot.Redis.set(`test:${message.senderUsername}`, Date.now());
+        await bot.Redis.set(`test:${message.senderUsername}`, Date.now(), 0);
         return {
             text: `${targetUser}, ${userData.activity} `
         }
