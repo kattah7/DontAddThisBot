@@ -46,6 +46,10 @@ client.on("close", (err) => {
     process.exit(1);
 });
 
+client.on("JOIN", async ({ channelName }) => {
+    console.log(`Joined channel ${channelName}`);
+});
+
 client.on("PRIVMSG", async (message) => {
     const prefix = "|";
     if (!message.messageText.startsWith(prefix)) return;
