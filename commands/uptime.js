@@ -2,10 +2,10 @@ const got = require("got");
 const humanizeDuration = require("../humanizeDuration");
 
 module.exports = {
-    name: "test2",
+    name: "uptime",
     aliases: [],
     cooldown: 3000,
-    description:"Gets the top clip of the channel",
+    description:"Uptime of channel",
     execute: async (message, args) => {
         const targetUser = args[0] ?? message.senderUsername;
         let { body: data, statusCode } = await got(`https://api.ivr.fi/twitch/resolve/${targetUser}`, { timeout: 10000, throwHttpErrors: false, responseType: "json" });

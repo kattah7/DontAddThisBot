@@ -1,7 +1,7 @@
 const got = require("got");
 
 module.exports = {
-    name: "log",
+    name: "verifytest",
     aliases: [],
     cooldown: 3000,
     execute: async (message, args) => {

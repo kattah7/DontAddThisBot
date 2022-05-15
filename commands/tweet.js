@@ -1,28 +1,26 @@
+const rwClient = require("../twitterClient");
 const got = require("got");
-const humanizeDuration = require("../humanizeDuration");
 
 module.exports = {
-    name: "recenttweet",
-    aliases: ["rt"],
-    cooldown: 1000,
-    description: "Gets recent tweet of user (Usage: |rt or |recenttweet)",
+    name: "tweet",
+    aliases: [],
+    cooldown: 5000,
+    description:"Tweet anything :) Check out your tweet twitter.com/twitchsayschat ",
     execute: async (message, args) => {
-        const targetUser = args[0] ?? message.senderUsername;
-        const { data } = await got(`https://api.twitter.com/2/users/by/username/${targetUser}?user.fields=location`, {
-            headers: {
-                Authorization: `Bearer ${process.env.TWITTER_BEARER}`,
-            },
-        }).json();
-
-        const { data: data2 } = await got(`https://api.twitter.com/2/users/${data.id}/tweets?tweet.fields=created_at`, {
-            headers: {
-                Authorization: `Bearer ${process.env.TWITTER_BEARER}`,
-            },
-        }).json();
-        console.log(data2);
-        const ms = new Date().getTime() - Date.parse(data2[0].created_at);
-        return {
-            text: `Recent Tweet: ${data2[0].text} (Posted ${humanizeDuration(ms)} ago)`
-        }
+            const targetUser = message.senderUsername;
+            let { body: userData, statusCode } = await got(`https://api.ivr.fi/twitch/resolve/${targetUser}`, { timeout: 10000, throwHttpErrors: false, responseType: "json" });
+            console.log(userData)
+            const name = userData.displayName;
+            const tweet = async () => {
+                try {
+                    await rwClient.v1.tweet(`${name}: ${args.join(" ")}`)
+                } catch (e) {
+                    console.error(e)
+                }
+            }
+            tweet()
+            return {
+                text: `${name} Successfully tweeted :) Check out twitter.com/twitchsayschat to see your tweet`
+            }
     },
 };
