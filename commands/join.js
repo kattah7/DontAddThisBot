@@ -19,7 +19,6 @@ module.exports = {
         // attempt to join the channel
         try {
             await client.join(message.senderUsername);
-            await client.say(message.senderUsername, "Yo");
         } catch (err) {
             console.log(err);
             return {
