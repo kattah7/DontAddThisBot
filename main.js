@@ -5,6 +5,7 @@ const { ChatClient } = require("@kararty/dank-twitch-irc");
 
 global.bot = {};
 bot.Redis = require("./util/redis.js");
+bot.DB = require("./util/db.js");
 
 const commands = new Map();
 const aliases = new Map();
