@@ -14,7 +14,7 @@ module.exports = {
 
         if (lastUsage) {
             if (new Date().getTime()  - new Date(lastUsage).getTime() < 1000 * 60 * 60 * 12) {
-                const ms = 43200 - ((Math.round(new Date().getTime() - new Date(lastUsage).getTime()) / 1000))
+                const ms = (43200 - ((Math.round(new Date().getTime() - new Date(lastUsage).getTime()) / 1000)))
                 return {
                     text: `This command can only be used every 12hours. Please wait ${humanizeDuration(ms)}s.`,
                 };
