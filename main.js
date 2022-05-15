@@ -4,7 +4,7 @@ const { readdirSync } = require("fs");
 const { ChatClient } = require("@kararty/dank-twitch-irc");
 
 global.bot = {};
-bot.Redis = require("/util/redis.js");
+bot.Redis = require("./util/redis.js");
 
 const commands = new Map();
 const aliases = new Map();

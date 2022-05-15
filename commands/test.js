@@ -1,5 +1,3 @@
-const got = require("got");
-
 module.exports = {
     name: "test",
     aliases: [],
