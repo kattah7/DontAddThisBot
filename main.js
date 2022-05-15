@@ -88,5 +88,5 @@ client.on("PRIVMSG", async (message) => {
 });
 
 client.connect();
-client.joinAll(["kattah"]);
+client.joinAll(["kattah", "dontaddthisbot"]);
 
