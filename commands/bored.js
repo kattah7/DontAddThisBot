@@ -12,7 +12,7 @@ module.exports = {
         console.log(userData)
 
         if (lastUsage) {
-            if (Date.now() - new Date(lastUsage).getTime() < 1000 * 60 * 60 * 12) {
+            if (new Date.now() - new Date(lastUsage).getTime() < 1000 * 60 * 60 * 12) {
                 return {
                     text: `This command can only be used every 12hours. Please wait ${43200 - ((Math.round(new Date().getTime() - new Date(lastUsage).getTime()) / 1000))}s.`,
                 };
