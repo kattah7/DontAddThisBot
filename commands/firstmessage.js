@@ -2,7 +2,7 @@ const got = require("got");
 
 module.exports = {  
     name: "firstline",
-    aliases: [],
+    aliases: ["fl"],
     cooldown: 3000,
     description:"Gets first message of a user in any channel that is logged on logs.ivr.fi",
     execute: async (message, args) => {
