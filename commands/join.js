@@ -4,17 +4,15 @@ module.exports = {
     cooldown: 3000,
     description: "lol",
     execute: async (message, args, client) => {
-        // return if its not in the bots channel
-        if (message.channelName !== "dontaddthisbot") return;
-
-        //for testing
-        if (message.senderUsername !== "fookstee") return;
-
         // try to get the channel from the database
         const channelData = await bot.DB.channels.findOne({ username: message.senderUsername }).exec();
 
         // if the channel already exists, return
-        if (channelData) return;
+        if (channelData) {
+            return {
+                text: `Already in channel ${channelData.id}`,
+            };
+        }
 
         // attempt to join the channel
         try {
@@ -38,7 +36,7 @@ module.exports = {
 
         // return the response
         return {
-            text: "ok",
+            text: "Joined channel :)",
         };
     },
 };
