@@ -4,7 +4,7 @@ module.exports = {
     name: "massping",
     aliases: [],
     cooldown: 3000,
-    permission: 1,
+    permission: 2,
     description:":tf:",
     execute: async (message, args, client) => {
         if (message.senderUsername !== "kattah") return;
