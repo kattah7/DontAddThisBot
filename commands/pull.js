@@ -7,9 +7,9 @@ module.exports = {
     description: "Pulls the latest commit from github. (Kattah only)",
     execute: async (message, args, client) => {
         if (!["kattah", "fookstee"].includes(message.senderUsername)) return;
-        exec("cd /home/DontAddThisBot && git reset --hard && git pull && npm i", (err) => {
+        await exec("cd /home/DontAddThisBot && git reset --hard && git pull && npm i", (err) => {
             if (err) {
-                console.error(error);
+                console.error(err);
                 return {
                     text: `FeelsDankMan !!! failed to pull commit`,
                 };
