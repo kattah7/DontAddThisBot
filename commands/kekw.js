@@ -7,14 +7,14 @@ module.exports = {
     description: "lol",
     execute: async (message, args) => {
         const subArray = [];
-        const { chatters } = await got(`https://tmi.twitch.tv/group/user/${message.channelName}/chatters`).json();
+        const { chatters } = await (await got(`https://tmi.twitch.tv/group/user/${message.channelName}/chatters`)).json(); 
         console.log(chatters)
         for (const user of [...chatters.broadcaster, ...chatters.moderators, ...chatters.vips, ...chatters.viewers]) {
-            const { hidden, subscribed } = await got(`https://api.ivr.fi/twitch/subage/${encodeURIComponent(user)}/${message.channelName}}`, { throwHttpErrors: false, timeout: 3000 }).json();
+            const { hidden, subscribed } = await got(`https://api.ivr.fi/twitch/subage/${encodeURIComponent(user)}/xqcow}`, { throwHttpErrors: false, timeout: 3000 }).json();
             if (!hidden && subscribed) subArray.push(user);
             console.log(subscribed)
         }
 
-        return { text: `Out of ${[...chatters.broadcaster, ...chatters.moderators, ...chatters.vips, ...chatters.viewers].length} users, ${subArray.length} are subscribed to ${message.channelName}` };
+        return { text: `Out of ${[...chatters.broadcaster, ...chatters.moderators, ...chatters.vips, ...chatters.viewers].length} users, ${subArray.length} are subscribed to ${message.channelName}`};
     },
 };

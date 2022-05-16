@@ -10,7 +10,7 @@ module.exports = {
        
 
         return {
-            text: `${message.senderUsername}, PONG! PotFriend BOT UPTIME: ${humanizeDuration(process.uptime() * 1000 )}`,
+            text: `${message.senderUsername}, TriHard 🏓 BOT UPTIME: ${humanizeDuration(process.uptime() * 1000 )}`,
         };
     },
 };
