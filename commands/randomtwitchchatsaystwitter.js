@@ -2,7 +2,7 @@ const got = require("got");
 const humanizeDuration = require("../humanizeDuration");
 
 module.exports = {
-    name: "test123",
+    name: "sillychamp",
     aliases: [],
     cooldown: 1000,
     description: "Gets recent tweet of user (Usage: |rt or |recenttweet)",
@@ -20,5 +20,10 @@ module.exports = {
             },
         }).json();
         console.log(data2);
+
+        const random = Math.floor(Math.random() * 10) + 0;
+        return {
+            text: `https://twitter.com/TwitchGibberish/status/${data2[random].id}/photo/1`
+        }
     }
 }
