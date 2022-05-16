@@ -36,7 +36,7 @@ module.exports = {
 
         // return the response
         return {
-            text: "Joined channel :)",
+            text: "Joined channel, make sure to vip/mod. (Bot isn't verified by twitch yet) :)",
         };
     },
 };
