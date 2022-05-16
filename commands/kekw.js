@@ -15,6 +15,6 @@ module.exports = {
             console.log(subscribed)
         }
 
-        return { text: `Out of ${[...chatters.broadcaster, ...chatters.moderators, ...chatters.vips, ...chatters.viewers].length} users, ${subArray.length} are subscribed to ${message.channelName} 😴 (${subArray.join(", ")})` };
+        return { text: `Out of ${[...chatters.broadcaster, ...chatters.moderators, ...chatters.vips, ...chatters.viewers].length} users, ${subArray.length} are subscribed to ${message.channelName} 
     },
 };
