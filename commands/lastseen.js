@@ -13,7 +13,7 @@ module.exports = {
 
         const lastseen = (userData.time) 
         return {
-            text: `${targetUser} was last seen ${lastseen} ago.`
+            text: `${targetUser} was last seen ${lastseen} ago in ${targetChannel}.`
         }
 
     }
