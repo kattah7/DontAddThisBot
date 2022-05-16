@@ -9,7 +9,6 @@ module.exports = {
     execute: async (message, args) => {
         const targetUser = args[0] ?? message.senderUsername;
         let { body: data, statusCode } = await got(`https://api.ivr.fi/twitch/resolve/${targetUser}`, { timeout: 10000, throwHttpErrors: false, responseType: "json" });
-        console.log(data)
         
         const uid = data.login;
         const { data: data2, statusCode2 } = await got(`https://api.twitch.tv/helix/streams?user_login=${uid}`, {
@@ -19,10 +18,13 @@ module.exports = {
             },
         }).json();
 
-        console.log(data2)
+        let { body: userData, statusCode3 } = await got(`https://api.ivr.fi/v2/twitch/user?login=${targetUser}`, { timeout: 10000, throwHttpErrors: false, responseType: "json" });
+        console.log(userData)
+
         if (data2[0] == null) {
+            const ms2 = new Date().getTime() - Date.parse(userData[0].lastBroadcast.startedAt)
             return {
-                text: `${targetUser} is currently not live.`
+                text: `${targetUser} has been offline for ${humanizeDuration(ms2)}, Title: ${userData[0].lastBroadcast.title}`
             }
         } else {
             const ms = new Date().getTime() - Date.parse(data2[0].started_at);
