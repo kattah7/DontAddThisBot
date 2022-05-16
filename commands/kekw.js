@@ -1,7 +1,7 @@
 const got = require("got");
 
 module.exports = {
-    name: "kekw",
+    name: "bruh123",
     aliases: [],
     cooldown: 3000,
     description: "lol",
