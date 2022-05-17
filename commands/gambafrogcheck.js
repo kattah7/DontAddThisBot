@@ -36,9 +36,9 @@ module.exports = {
                         text: `${data.username} was previously subbed to domey for ${data.cumulative.months} months & following for ${humanizeDuration(followAge)} 🦍`
                     }
                 } else if (data.subscribed == true) {
-                    if (data.cumulative.months == 1) {
+                    if (data.cumulative.months <= 2) {
                         return {
-                            text: `WutFace GAMBA FROG`
+                            text: `${data.username} IS A ${data.cumulative.months} MONTH SUB, GAMBA FROG WutFace `
                         }
                     }
                     return {
