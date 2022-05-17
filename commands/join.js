@@ -2,7 +2,7 @@ module.exports = {
     name: "join",
     aliases: [],
     cooldown: 3000,
-    description: "lol",
+    description: "Join channel command",
     execute: async (message, args, client) => {
         // try to get the channel from the database
         const channelData = await bot.DB.channels.findOne({ username: message.senderUsername }).exec();
