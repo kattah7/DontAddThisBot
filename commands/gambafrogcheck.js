@@ -22,13 +22,13 @@ module.exports = {
                     }
                 } else  {
                     return {
-                        text: `${data.username} is subbed to domey for ${data.cumulative.months} months & not following 🦍`
+                        text: `${data.username} is subbed to trainwreckstv for ${data.cumulative.months} months & not following 🦍`
                     }
                 }
             } else if (data.cumulative.months == 0) {
                 if (data.cumulative.months == 0) {
                     return {
-                        text: `${data.username} was never subbed to domey & following for ${humanizeDuration(followAge)} 🦍`
+                        text: `${data.username} was never subbed to trainwreckstv & following for ${humanizeDuration(followAge)} 🦍`
                     } 
                 } 
             } else if (data.cumulative.months > 0) {
@@ -40,11 +40,11 @@ module.exports = {
                     console.log(diffDays)
                     if (diffDays < 365) {
                         return {
-                            text: `${data.username} was previously subbed to domey for ${data.cumulative.months} months & following for ${humanizeDuration(followAge)} WutFace GAMBA FROG`
+                            text: `${data.username} was previously subbed to trainwreckstv for ${data.cumulative.months} months & following for ${humanizeDuration(followAge)} WutFace GAMBA FROG`
                         }
                     } else if (diffDays > 365) {
                         return {
-                            text: `${data.username} was previously subbed to domey for ${data.cumulative.months} months & following for ${humanizeDuration(followAge)} 🦍`
+                            text: `${data.username} was previously subbed to trainwreckstv for ${data.cumulative.months} months & following for ${humanizeDuration(followAge)} 🦍`
                         }
                     }
                 } else if (data.subscribed == true) {
@@ -61,12 +61,12 @@ module.exports = {
                             }
                         } else if (data.cumulative.months > 5) {
                             return {
-                                text: `${data.username} is subbed to domey for ${data.cumulative.months} months & following for ${humanizeDuration(followAge)} 🦍`
+                                text: `${data.username} is subbed to trainwreckstv for ${data.cumulative.months} months & following for ${humanizeDuration(followAge)} 🦍`
                             } 
                         }
                     } else {
                         return {
-                            text: `${data.username} is subbed to domey for ${data.cumulative.months} months & following for ${humanizeDuration(followAge)} 🦍`
+                            text: `${data.username} is subbed to trainwreckstv for ${data.cumulative.months} months & following for ${humanizeDuration(followAge)} 🦍`
                         }
                     }
                 }

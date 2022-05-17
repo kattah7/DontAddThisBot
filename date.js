@@ -1,6 +1,13 @@
-const date1 = new Date('7/13/2010');
-const date2 = new Date('12/15/2010');
-const diffTime = Math.abs(date2 - date1);
-const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
-console.log(diffTime + " milliseconds");
-console.log(diffDays + " days");
+const got = require("got");
+
+module.exports = {
+    name: "test123",
+    aliases: [],
+    cooldown: 3000,
+    description:"test123",
+    execute: async (message, args) => {
+        const targetUser = args[0] ?? message.senderUsername;
+        let { body: userData, statusCode } = await got(`https://api.ivr.fi/twitch/resolve/${targetUser}`, { timeout: 10000, throwHttpErrors: false, responseType: "json" });
+        console.log(userData)
+    }
+}
