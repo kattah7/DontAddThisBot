@@ -13,7 +13,7 @@ module.exports = {
 
         if (color == null) {
             return {
-                text: `${message.senderUsername}, ${targetUser} Has never changed their name color WutFace.`
+                text: `${message.senderUsername}, ${targetUser} has never changed their name color WutFace`
             }
         } else {
             return {
