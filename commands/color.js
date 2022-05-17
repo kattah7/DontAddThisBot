@@ -12,14 +12,19 @@ module.exports = {
         const color = userData.chatColor;
         const colorName = await got(`https://www.thecolorapi.com/id?hex=${color.replace('#', '')}`).json();
         console.log(colorName)
+
         
-         await client.privmsg(message.channelName,`.color ${color}`)
-         client.privmsg(message.channelName,`.me ${message.senderUsername}, ${color} (${colorName.name.value}) KappaPride`)
-        await client.privmsg(message.channelName,`.color #233445`)
+
         if (color == null) {
             return {
                 text: `${message.senderUsername}, ${targetUser} has never changed their name color WutFace`
             }
         } 
+        return {
+            text: `${message.senderUsername}, ${color} (${colorName.name.value}) KappaPride`
+        
+        
+        }
+        
     },
 };
