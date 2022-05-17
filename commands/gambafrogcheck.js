@@ -43,7 +43,7 @@ module.exports = {
                     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
                     console.log(diffDays)
                    
-                    if (diffDays < 365 || data.cumulative.months > 2) {
+                    if (diffDays < 365 || data.cumulative.months <= 2) {
                         return {
                             text: `${data.username} IS A ${data.cumulative.months} MONTH SUB FOLLOWING ${humanizeDuration(followAge)} AGO, GAMBA FROG WutFace `
                         }
