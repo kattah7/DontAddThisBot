@@ -43,9 +43,15 @@ module.exports = {
                     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
                     console.log(diffDays)
                    
-                    if (diffDays < 365 || data.cumulative.months <= 2) {
-                        return {
-                            text: `${data.username} IS A ${data.cumulative.months} MONTH SUB FOLLOWING ${humanizeDuration(followAge)} AGO, GAMBA FROG WutFace `
+                    if (diffDays < 365) {
+                        if (data.cumulative.months <= 5) {
+                            return {
+                                text: `${data.username} IS A ${data.cumulative.months} MONTH SUB FOLLOWING ${humanizeDuration(followAge)} AGO, GAMBA FROG WutFace `
+                            }
+                        } else if (data.cumulative.months > 5) {
+                            return {
+                                text: `${data.username} is subbed to domey for ${data.cumulative.months} months & following for ${humanizeDuration(followAge)} 🦍`
+                            } 
                         }
                     } else {
                         return {
