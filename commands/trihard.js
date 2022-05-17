@@ -6,7 +6,7 @@ module.exports = {
     execute: async (message, args) => {
         const targetUser = args[0] ?? message.senderUsername;
             return {
-                text: `${targetUser} TriHard 7`
+                text: `${targetUser} TriHard`
             }
         
     },
