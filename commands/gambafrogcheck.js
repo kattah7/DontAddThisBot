@@ -33,8 +33,19 @@ module.exports = {
                 } 
             } else if (data.cumulative.months > 0) {
                 if (data.subscribed == false) {
-                    return {
-                        text: `${data.username} was previously subbed to domey for ${data.cumulative.months} months & following for ${humanizeDuration(followAge)} 🦍`
+                    var date1 = new Date()
+                    const date2 = new Date(data.followedAt); // 2022/1/19
+                    const diffTime = Math.abs(date2 - date1);
+                    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+                    console.log(diffDays)
+                    if (diffDays < 365) {
+                        return {
+                            text: `${data.username} was previously subbed to domey for ${data.cumulative.months} months & following for ${humanizeDuration(followAge)} WutFace GAMBA FROG`
+                        }
+                    } else if (diffDays > 365) {
+                        return {
+                            text: `${data.username} was previously subbed to domey for ${data.cumulative.months} months & following for ${humanizeDuration(followAge)} 🦍`
+                        }
                     }
                 } else if (data.subscribed == true) {
                     var date1 = new Date()
