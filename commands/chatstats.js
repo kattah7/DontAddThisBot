@@ -5,7 +5,7 @@ module.exports = {
     name: "chatstats",
     aliases: [],
     cooldown: 3000,
-    description:"",
+    description:"Get channel emote, top chatter, top hastags and top command stats",
     execute: async (message, args) => {
         const targetUser = args[0] ?? message.senderUsername;
         let { body: userData, statusCode } = await got(`https://api.streamelements.com/kappa/v2/chatstats/${targetUser}/stats`, { timeout: 10000, throwHttpErrors: false, responseType: "json" });

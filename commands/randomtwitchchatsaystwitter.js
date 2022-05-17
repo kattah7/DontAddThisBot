@@ -5,7 +5,7 @@ module.exports = {
     name: "sillychamp",
     aliases: [],
     cooldown: 1000,
-    description: "Gets recent tweet of user (Usage: |rt or |recenttweet)",
+    description: "Gets recent tweet from TwitchGibberish",
     execute: async (message, args) => {
         const targetUser = args[0] ?? message.senderUsername;
         const { data } = await got(`https://api.twitter.com/2/users/by/username/TwitchGibberish?user.fields=location`, {
