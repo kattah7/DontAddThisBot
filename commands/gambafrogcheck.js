@@ -38,13 +38,12 @@ module.exports = {
                     }
                 } else if (data.subscribed == true) {
                     var date1 = new Date()
-                    date1.setMonth(date1.getMonth() - 12) // 2021/5/17
                     const date2 = new Date(data.followedAt); // 2022/1/19
                     const diffTime = Math.abs(date2 - date1);
                     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
                     console.log(diffDays)
                    
-                    if (diffDays <= 365 || data.cumulative.months < 2) {
+                    if (diffDays < 365) {
                         return {
                             text: `${data.username} IS A ${data.cumulative.months} MONTH SUB FOLLOWING ${humanizeDuration(followAge)} AGO, GAMBA FROG WutFace `
                         }
