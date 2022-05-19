@@ -29,7 +29,7 @@ module.exports = {
   } 
   console.log(users.length)
   return {
-      text: `${targetUser} currently has ${users.length} users chatting, ${BRUH} users in viewerlist.`
+      text: `${targetUser} currently has ${users.length} users chatted, ${BRUH} users in viewerlist.`
   }
 
 
