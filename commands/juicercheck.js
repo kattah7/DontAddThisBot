@@ -15,11 +15,11 @@ module.exports = {
         
         if (data) {
             if (data.followedAt == null) {
-                if (data.streak.months == 0) {
+                if (data.cumulative.months == 0) {
                     return {
                         text: `${data.username} WAS NEVER SUBBED & FOLLOWING EZ`
                     }
-                } else if (data.streak.months >0) {
+                } else {
                     return {
                         text: `${data.username} is subbed to xQc for ${data.cumulative.months} months & not following. xqcL`
                     }
