@@ -44,6 +44,12 @@ module.exports = {
                         text: `${data.username} is subbed to forsen for ${data.cumulative.months} months & following for ${humanizeDuration(followAge)} forsenE`
                     }
                 } 
+            }  else if (data.hidden == true) {
+                
+                return {
+                    text: `${data.username}'s subscription is hidden, Try hovering over their sub badge. Following for ${humanizeDuration(followAge)} forsenE`
+                }
+            
             }
         }
     }
