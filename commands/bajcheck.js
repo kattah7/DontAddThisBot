@@ -15,31 +15,35 @@ module.exports = {
         
         if (data) {
             if (data.followedAt == null) {
-                if (data.streak.months == 0) {
+                if (data.cumulative.months == 0) {
                     return {
-                        text: `${data.username} WAS NEVER SUBBED & FOLLOWING forsenX WutFace`
+                        text: `${data.username} WAS NEVER SUBBED & FOLLOWING forsenBased`
                     }
-                } else  {
+                } else if (data.subscribed == true) {
                     return {
                         text: `${data.username} is subbed to forsen for ${data.cumulative.months} months & not following. forsenE`
+                    }
+                } else if (data.cumulative.months > 0) {
+                    return {
+                        text: `${data.username} is previously subbed to forsen for ${data.cumulative.months} months & not following. forsenWhat`
                     }
                 }
             } else if (data.cumulative.months == 0) {
                 if (data.cumulative.months == 0) {
                     return {
-                        text: `${data.username} was never subbed to forsen & following for ${humanizeDuration(followAge)} forsenE`
+                        text: `${data.username} was never subbed to forsen & following for ${humanizeDuration(followAge)} forsenWhat`
                     } 
                 }
             } else if (data.cumulative.months > 0) {
                 if (data.subscribed == false) {
                     return {
-                        text: `${data.username} was previously subbed to forsen for ${data.cumulative.months} months & following for ${humanizeDuration(followAge)} forsenE`
+                        text: `${data.username} was previously subbed to forsen for ${data.cumulative.months} months & following for ${humanizeDuration(followAge)} forsenWhat`
                     }
                 } else if (data.subscribed == true) {
                     return {
                         text: `${data.username} is subbed to forsen for ${data.cumulative.months} months & following for ${humanizeDuration(followAge)} forsenE`
                     }
-                }
+                } 
             }
         }
     }
