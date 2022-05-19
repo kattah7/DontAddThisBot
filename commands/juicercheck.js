@@ -19,8 +19,12 @@ module.exports = {
                     return {
                         text: `${data.username} WAS NEVER SUBBED & FOLLOWING EZ`
                     }
-                } else {
+                } else if (data.cumulative.months > 0) {
                     return {
+                        text: `${data.username} was previously subbed to xQc for ${data.cumulative.months} months & not following. xqcL`
+                    }
+                } else {
+                    return{
                         text: `${data.username} is subbed to xQc for ${data.cumulative.months} months & not following. xqcL`
                     }
                 }
