@@ -19,13 +19,13 @@ module.exports = {
                     return {
                         text: `${data.username} WAS NEVER SUBBED & FOLLOWING EZ`
                     }
+                } else if (data.subscribed == true) {
+                    return {
+                        text: `${data.username} is subbed to xQc for ${data.cumulative.months} months & not following. xqcL`
+                    }
                 } else if (data.cumulative.months > 0) {
                     return {
-                        text: `${data.username} was previously subbed to xQc for ${data.cumulative.months} months & not following. xqcL`
-                    }
-                } else {
-                    return{
-                        text: `${data.username} is subbed to xQc for ${data.cumulative.months} months & not following. xqcL`
+                        text: `${data.username} is previously subbed to xQc for ${data.cumulative.months} months & not following. xqcL`
                     }
                 }
             } else if (data.cumulative.months == 0) {
@@ -43,7 +43,7 @@ module.exports = {
                     return {
                         text: `${data.username} is subbed to xQc for ${data.cumulative.months} months & following for ${humanizeDuration(followAge)} xqcL`
                     }
-                }
+                } 
             }
         }
     }
