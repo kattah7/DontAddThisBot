@@ -1,3 +1,4 @@
+const got = require("got");
 
 module.exports = {
     name: "chatters",
@@ -28,7 +29,7 @@ module.exports = {
   } 
   console.log(users.length)
   return {
-      text: `${targetUser} currently has ${users.length} chatting, ${BRUH} in viewerlist.`
+      text: `${targetUser} currently has ${users.length} users chatting, ${BRUH} users in viewerlist.`
   }
 
 
