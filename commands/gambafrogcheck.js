@@ -20,16 +20,28 @@ module.exports = {
                     return {
                         text: `${data.username} WAS NEVER SUBBED & FOLLOWING 🦍`
                     }
-                } else  {
+                } else if (data.subscribed == true) {
                     return {
                         text: `${data.username} is subbed to trainwreckstv for ${data.cumulative.months} months & not following 🦍`
                     }
+                } else if (data.cumulative.months > 0) {
+                    return {
+                        text: `${data.username} is previously subbed to trainwreckstv for ${data.cumulative.months} months & not following. 🦍`
+                    }
                 }
             } else if (data.cumulative.months == 0) {
+                var date1 = new Date()
+                    const date2 = new Date(data.followedAt); // 2022/1/19
+                    const diffTime = Math.abs(date2 - date1);
+                    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+                    console.log(diffDays)
                 if (data.cumulative.months == 0) {
-                    return {
-                        text: `${data.username} was never subbed to trainwreckstv & following for ${humanizeDuration(followAge)} 🦍`
-                    } 
+                    if (diffDays < 365) {
+                        return {
+                            text: `${data.username} was never subbed to trainwreckstv & following for ${humanizeDuration(followAge)} WutFace` 
+                        }
+                } return {
+                    text: `${data.username} was never subbed to trainwreckstv & following for ${humanizeDuration(followAge)} 🦍`
                 } 
             } else if (data.cumulative.months > 0) {
                 if (data.subscribed == false) {
@@ -69,9 +81,15 @@ module.exports = {
                             text: `${data.username} is subbed to trainwreckstv for ${data.cumulative.months} months & following for ${humanizeDuration(followAge)} 🦍`
                         }
                     }
-                }
+                }   
+                
+                } else if (data.hidden == true) {
+                
+                    return {
+                        text: `${data.username}'s subscription is hidden, Try hovering over their sub badge. Following for ${humanizeDuration(followAge)} 🦍`
+                    }
             } 
         } 
     } 
-
+}
 }
