@@ -15,7 +15,7 @@ module.exports = {
         const randomline = (userData.message)
         if (userData.status == 404) {
             return {
-                text: `User is either Not found or Invalid.`
+                text: `${userData.error} FeelsDankMan or channel not logged.`
             }
         }
         return {

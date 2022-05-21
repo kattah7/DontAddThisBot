@@ -13,13 +13,13 @@ module.exports = {
 
         if (userData.status == 404) {
             return {
-                text: 'Invalid Channel PoroSad or opted out cmonBruh'
+                text: `${userData.error} FeelsDankMan or channel not logged.`
             }
         } else {
             const message = userData.message
             const time = userData.time
             return {
-                text: `Your first message in ${targetChannel} is "${message}" ${time} ago BatChest`
+                text: `${targetUser} first message in ${targetChannel} is "${message}" ${time} ago BatChest`
             }
         }
     },
