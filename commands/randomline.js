@@ -13,9 +13,15 @@ module.exports = {
 
         const date = (userData.time)
         const randomline = (userData.message)
-        return {
-            text: `${targetUser} said " ${randomline} " ${date} ago in ${targetChannel}`
+        if (userData.status == 404) {
+            return {
+                text: `User is either Not found or Invalid.`
+            }
         }
+        return {
+            text: `${targetUser} first logged message " ${randomline} " ${date} ago in ${targetChannel}`
+        }
+        
 
     }
 };

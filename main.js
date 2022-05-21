@@ -75,7 +75,7 @@ client.on("PRIVMSG", async (message) => {
                     return client.say(message.channelName, "This command is mod only.");
                 } else if (command.permission == 2 && message.channelName !== message.senderUsername) {
                     return client.say(message.channelName, "This command is broadcaster only.");
-                }
+                } 
             }
 
             const response = await command.execute(message, args, client);
