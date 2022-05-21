@@ -9,7 +9,7 @@ module.exports = {
 
         if (args.length < 2) return { text: "you need to include at least 2 args" }
         if (isNaN(size)) return { text: `size should be a number` }
-        if (size > 40) return { text: `the maximum size is 40` }
+        if (size > 15) return { text: `the maximum size is 15` }
         if (size < 2) return { text: `the minimum size is 2` }
 
         for (let i = 1; i <= size; i++) {
