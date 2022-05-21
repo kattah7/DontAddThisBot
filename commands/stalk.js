@@ -5,7 +5,8 @@ module.exports = {
     aliases: [],
     cooldown: 3000,
     description: "stalk someone",
-    execute: async (message, args) => {
+    execute: async (message, args, client) => {
+        client.say(message.channelName, "This might take a bit ppBounce")
         
         const targetUser =  args[1] ?? message.senderUsername
         const { chatters } = await got(`https://tmi.twitch.tv/group/user/${(targetUser.toLowerCase())}/chatters`).json();
