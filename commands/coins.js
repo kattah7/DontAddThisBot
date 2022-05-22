@@ -29,7 +29,7 @@ module.exports = {
             if (new Date().getTime() - new Date(lastUsage).getTime() < 1000 * 60 * 60 * 1) {
                 const ms = new Date(lastUsage).getTime() - new Date().getTime() + 1000 * 60 * 60 *1;
                 return {
-                    text: `Come back in 1 hour PoroSad Please wait ${humanizeDuration(ms)}. PoroSad ${channelData.poroCount} meat total!`,
+                    text: `Come back in 1 hour PoroRoast Please wait ${humanizeDuration(ms)}. PoroMeat ${channelData.poroCount} meat total!`,
                 };
             }
         }
