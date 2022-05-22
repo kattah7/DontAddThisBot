@@ -21,7 +21,7 @@ module.exports = {
             await bot.Redis.set(`poro:${message.senderUsername}`, Date.now(), 0);
 
             return {
-                text: "New user! PoroSad here is free 10 poro meat"
+                text: "New user! PoroSad here is free 10 poro meat 🥩"
             }
         }
 
