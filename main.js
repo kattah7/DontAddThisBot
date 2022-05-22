@@ -75,7 +75,7 @@ client.on("PRIVMSG", async (message) => {
                     return client.say(message.channelName, "This command is mod only.");
                 } else if (command.permission == 2 && message.channelName !== message.senderUsername) {
                     return client.say(message.channelName, "This command is broadcaster only.");
-                } 
+                }
             }
 
             const response = await command.execute(message, args, client);
@@ -99,7 +99,14 @@ const main = async () => {
     await client.join("dontaddthisbot");
     client.connect();
     const channels = await bot.DB.channels.find({}).exec();
-    client.joinAll(channels.map((channel) => channel.username));
+    for (const channel of channels) {
+        try {
+            await client.join(channel.username);
+        } catch (err) {
+            console.error(`Failed to join channel ${channel.username}`, err);
+        }
+        await new Promise((r) => setTimeout(r, 1000));
+    }
 };
 
 main();
