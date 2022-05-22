@@ -29,7 +29,7 @@ module.exports = {
             if (new Date().getTime() - new Date(lastUsage).getTime() < 1000 * 60 * 60 * 1) {
                 const ms = new Date(lastUsage).getTime() - new Date().getTime() + 1000 * 60 * 60 * 1;
                 return {
-                    text: `No poros found... 🌉 PoroSad ${message.senderUsername} | ${channelData.poroCount} meat total! 🥩  | Come back later in ${humanizeDuration(ms)}.`,
+                    text: `No poros found... 🌉 kattahHappy ${message.senderUsername} | ${channelData.poroCount} meat total! 🥩  | Come back later in ${humanizeDuration(ms)}.`,
                 };
             }
         }
