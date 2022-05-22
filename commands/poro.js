@@ -26,8 +26,8 @@ module.exports = {
         }
 
         if (lastUsage || channelData) {
-            if (new Date().getTime() - new Date(lastUsage).getTime() < 1000 * 60 * 60 * 1) {
-                const ms = new Date(lastUsage).getTime() - new Date().getTime() + 1000 * 60 * 60 * 1;
+            if (new Date().getTime() - new Date(lastUsage).getTime() < 1000 * 60 * 60 * 2) {
+                const ms = new Date(lastUsage).getTime() - new Date().getTime() + 1000 * 60 * 60 * 2;
                 return {
                     text: `No poros found... 🌉 kattahHappy ${message.senderUsername} | ${channelData.poroCount} meat total! 🥩  | Come back later in ${humanizeDuration(ms)}.`,
                 };
