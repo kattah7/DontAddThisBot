@@ -96,7 +96,7 @@ client.on("PRIVMSG", async (message) => {
 });
 
 const main = async () => {
-    await client.join("dontaddthisbot");
+    await client.join("checkingstreamers");
     client.connect();
     const channels = await bot.DB.channels.find({}).exec();
     client.joinAll(channels.map((channel) => channel.username));
