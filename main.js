@@ -105,7 +105,7 @@ const main = async () => {
         } catch (err) {
             console.error(`Failed to join channel ${channel.username}`, err);
         }
-        await new Promise((r) => setTimeout(r, 1000));
+        await new Promise((r) => setTimeout(r, 500));
     }
 };
 
