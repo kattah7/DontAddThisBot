@@ -14,12 +14,12 @@ module.exports = {
 
         for (let i = 1; i <= size; i++) {
             client.say(message.channelName, emote.repeat(i))
-             await new Promise((r) => setTimeout(r, 50));
+             await new Promise((r) => setTimeout(r, 70));
         }
 
         for (let i = (size - 1); i > 0; i--) {
             client.say(message.channelName, emote.repeat(i));
-await new Promise((r) => setTimeout(r, 50));
+            await new Promise((r) => setTimeout(r, 70));
         }
     },
 };
