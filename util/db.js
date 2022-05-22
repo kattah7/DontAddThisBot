@@ -17,4 +17,15 @@ const ChannelsSchema = new DB.Schema({
     joinedAt: Date,
 });
 
+const PoroSchema = new DB.Schema({
+    username: String,
+    id: String,
+    joinedAt: Date,
+    poroCount: Number,
+});
+
+exports.poroCount = DB.model("poroCount", PoroSchema)
+
+
+
 exports.channels = DB.model("channels", ChannelsSchema);
