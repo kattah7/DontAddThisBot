@@ -21,7 +21,7 @@ module.exports = {
             await bot.Redis.set(`poro:${message.senderUsername}`, Date.now(), 0);
 
             return {
-                text: "New user! PoroSad here is free 10 poro meat 🥩"
+                text: `New user! ${message.senderUsername} PoroSad here is free 10 poro meat 🥩`
             }
         }
 
@@ -29,7 +29,7 @@ module.exports = {
             if (new Date().getTime() - new Date(lastUsage).getTime() < 1000 * 60 * 60 * 1) {
                 const ms = new Date(lastUsage).getTime() - new Date().getTime() + 1000 * 60 * 60 * 1;
                 return {
-                    text: `No poros found... 🌉 PoroSad | ${channelData.poroCount} meat total! 🥩  | Come back later in ${humanizeDuration(ms)}.`,
+                    text: `No poros found... 🌉 PoroSad ${message.senderUsername}| ${channelData.poroCount} meat total! 🥩  | Come back later in ${humanizeDuration(ms)}.`,
                 };
             }
         }
@@ -40,27 +40,27 @@ module.exports = {
         console.log(random)
         if (random == 5 || random == 6 || random == 7 || random == 8 || random == 9) {
             return {
-                text: `Poro slaughtered! --> Tenderloin Poro FBChallenge (+${random}) PoroSad ${channelData.poroCount + random} meat total!`,
+                text: `Poro slaughtered! ${message.senderUsername} --> Tenderloin Poro FBChallenge (+${random}) PoroSad ${channelData.poroCount + random} meat total!`,
             };
         } else if (random == 10 || random == 11 || random == 12 || random == 13 || random == 14 || random == 15) {
             return {
-                text: `Poro slaughtered! --> Wagyu Poro 🤤 (+${random}) PoroSad ${channelData.poroCount + random} meat total!`
+                text: `Poro slaughtered! ${message.senderUsername} --> Wagyu Poro 🤤 (+${random}) PoroSad ${channelData.poroCount + random} meat total!`
             }
         } else if (random == -1 || random == -2 || random == -3 || random == -4 || random == -5) {
             return {
-                text: `Poro slaughtered! --> Rotten Poro DansGame (${random}) PoroSad ${channelData.poroCount + random} meat total!`
+                text: `Poro slaughtered! ${message.senderUsername} --> Rotten Poro DansGame (${random}) PoroSad ${channelData.poroCount + random} meat total!`
             }
         } else if (random == 1 || random == 2 || random == 3 || random == 4) {
             return {
-                text: `Poro slaughtered! --> Sirloin Poro OpieOP (+${random}) PoroSad ${channelData.poroCount + random} meat total!`
+                text: `Poro slaughtered! ${message.senderUsername} --> Sirloin Poro OpieOP (+${random}) PoroSad ${channelData.poroCount + random} meat total!`
             }
         } else if (random == 0) {
             return {
-                text: `Poro slaughtered! --> Poro ran away haHAA (±${random}) PoroSad ${channelData.poroCount + random} meat total!`
+                text: `Poro slaughtered! ${message.senderUsername} --> Poro ran away haHAA (±${random}) PoroSad ${channelData.poroCount + random} meat total!`
             }
         } else if (random >= 16) {
             return {
-                text: `Poro slaughtered! --> LEGENDARY PORO VisLaud (+${random}) PoroSad ${channelData.poroCount + random} meat total!`
+                text: `Poro slaughtered! ${message.senderUsername} --> LEGENDARY PORO VisLaud (+${random}) PoroSad ${channelData.poroCount + random} meat total!`
             }
         }
     }
