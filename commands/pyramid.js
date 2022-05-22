@@ -13,7 +13,7 @@ module.exports = {
         if (size < 2) return { text: `the minimum size is 2` }
 
         for (let i = 1; i <= size; i++) {
-            client.say(message.channelName, emote.repeat(i));
+            client.say(message.channelName, emote.repeat(i))
         }
 
         for (let i = (size - 1); i > 0; i--) {

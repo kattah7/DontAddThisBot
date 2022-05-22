@@ -44,11 +44,11 @@ module.exports = {
             };
         } else if (random == 10 || random == 11 || random == 12 || random == 13 || random == 14 || random == 15) {
             return {
-                text: `Poro slaughtered! ${message.senderUsername} --> Wagyu Poro 🤤 (+${random}) PoroSad ${channelData.poroCount + random} meat total!`
+                text: `Poro slaughtered! ${message.senderUsername} --> Wagyu Poro 🤤 (+${random}) kattahHappy ${channelData.poroCount + random} meat total!`
             }
         } else if (random == -1 || random == -2 || random == -3 || random == -4 || random == -5) {
             return {
-                text: `Poro slaughtered! ${message.senderUsername} --> Rotten Poro DansGame (${random}) PoroSad ${channelData.poroCount + random} meat total!`
+                text: `Poro slaughtered! ${message.senderUsername} --> Rotten Poro DansGame (${random}) kattahBAT ${channelData.poroCount + random} meat total!`
             }
         } else if (random == 1 || random == 2 || random == 3 || random == 4) {
             return {
@@ -56,7 +56,7 @@ module.exports = {
             }
         } else if (random == 0) {
             return {
-                text: `Poro slaughtered! ${message.senderUsername} --> Poro ran away haHAA (±${random}) PoroSad ${channelData.poroCount + random} meat total!`
+                text: `Poro slaughtered! ${message.senderUsername} --> Poro ran away haHAA (±${random}) kattahHappy ${channelData.poroCount + random} meat total!`
             }
         } else if (random >= 16) {
             return {
