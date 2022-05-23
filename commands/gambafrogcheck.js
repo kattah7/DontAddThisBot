@@ -38,7 +38,7 @@ module.exports = {
                 if (data.cumulative.months == 0) {
                     if (diffDays < 365) {
                         return {
-                            text: `${data.username} was never subbed to trainwreckstv & following for ${humanizeDuration(followAge)} WutFace` 
+                            text: `${data.username} was never subbed to trainwreckstv & following for ${humanizeDuration(followAge)} WutFace gamba frog` 
                         }
                 } return {
                     text: `${data.username} was never subbed to trainwreckstv & following for ${humanizeDuration(followAge)} 🦍`
