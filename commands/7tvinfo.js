@@ -1,14 +1,15 @@
 const got = require("got")
 
 module.exports = {
-  name: "kekpoggers",
+  name: "7tvpfp",
   cooldown: 1000,
-  execute: async(message, args, client) => {
+  execute: async(message, args) => {
+
     const targetUser = args[0] ?? message.senderUsername
     let { body: userData, statusCode } = await got(`https://api.7tv.app/v2/users/${targetUser.toLowerCase()}`, { timeout: 10000, throwHttpErrors: false, responseType: "json" });
         console.log(userData)
 
-    const { body: kekwxd } = await got.post(`https://api.7tv.app/v2/gql`, {
+    const { body: stv } = await got.post(`https://api.7tv.app/v2/gql`, {
             throwHttpErrors: false,
             responseType: 'json',
             json: {
@@ -18,9 +19,9 @@ module.exports = {
                 }
             }
         })
-        console.log(kekwxd)
+        console.log(stv)
         
 
-        return { text: `${kekwxd.data.user.created_at} & ${kekwxd.data.user.profile_image_url}`}
+        return { text: `${stv.data.user.profile_image_url}`}
   }
 }
