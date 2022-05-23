@@ -6,6 +6,7 @@ const api = SevenTV()
 module.exports = {
   name: "7tv",
   cooldown: 1000,
+  description: "Check user's 7tv info YEAHBUT7TV",
   execute: async(message, args) => {
 
     const targetUser = args[0] ?? message.senderUsername

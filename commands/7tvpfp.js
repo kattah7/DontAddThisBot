@@ -2,6 +2,7 @@ const got = require("got")
 
 module.exports = {
   name: "7tvpfp",
+  description: "Get user's 7tv profile picture",
   cooldown: 1000,
   execute: async(message, args) => {
 

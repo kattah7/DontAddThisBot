@@ -4,7 +4,7 @@ module.exports = {
     name: "stalk",
     aliases: [],
     cooldown: 3000,
-    description: "stalk someone",
+    description: "stalk someone ImInYourWalls",
     execute: async (message, args, client) => {
         client.say(message.channelName, "This might take a bit ppBounce")
         

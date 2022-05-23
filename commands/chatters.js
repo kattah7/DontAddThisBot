@@ -3,6 +3,7 @@ const got = require("got");
 module.exports = {
     name: "chatters",
     cooldown: 3000,
+    description: "Check active/viewerlist count",
     execute: async(message, args) => {
         const targetUser = args[0] ?? message.senderUsername;
 
