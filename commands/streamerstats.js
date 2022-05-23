@@ -1,5 +1,4 @@
 const got = require("got");
-const humanizeDuration = require("../humanizeDuration");
 
 module.exports = {
     name: "stats",
@@ -16,4 +15,3 @@ module.exports = {
        }
     },
 };
-
