@@ -1,10 +1,17 @@
-const cloudflareScraper = require('cloudflare-scraper');
+const puppeteer = require('puppeteer');
 
-(async () => {
-  try {
-    const response = await cloudflareScraper.get('https://twitchtracker.com/api/channels/summary/xqc');
-    console.log(response);
-  } catch (error) {
-    console.log(error);
-  }
+(async function main() {
+    try {
+        const browser = await puppeteer.launch();
+        const [page] = await browser.pages();
+
+        await page.goto('https://twitchtracker.com/api/channels/summary/xqc', { waitUntil: 'networkidle0' });
+        const bodyHTML = await page.evaluate(() => document.body.innerHTML);
+
+        console.log(bodyHTML);
+
+        await browser.close();
+    } catch (err) {
+        console.error(err);
+    }
 })();
