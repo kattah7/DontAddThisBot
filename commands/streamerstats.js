@@ -7,7 +7,7 @@ module.exports = {
     description:"check streamer rank in the past 30 days",
     execute: async (message, args) => {
         const targetChannel = args[0] ?? message.channelName
-        let { body: userData, statusCode } = await got(`https://twitchtracker.com/api/channels/summary/${targetChannel.toLowerCase()}`, { timeout: 10000, throwHttpErrors: false, responseType: "json" });
+        const { body: userData, statusCode } = await got(`https://twitchtracker.com/api/channels/summary/${targetChannel.toLowerCase()}`, { timeout: 10000, throwHttpErrors: true, responseType: "json" });
         console.log(userData)
 
        return {
