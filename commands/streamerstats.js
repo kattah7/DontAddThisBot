@@ -1,4 +1,4 @@
-const fetch = require("../node_modules/node-fetch")
+const got = require("got")
 
 module.exports = {
     name: "stats",
@@ -7,14 +7,13 @@ module.exports = {
     description:"check streamer rank in the past 30 days",
     execute: async (message, args) => {
         const targetChannel = args[0] ?? message.channelName
-        const response = await fetch('https://twitchtracker.com/api/channels/summary/xqc');
-        const body = await response.json();
+        let { body: userData, statusCode } = await got(`https://twitchtracker.com/api/channels/summary/xqc`, { timeout: 10000, throwHttpErrors: false, responseType: "json" });
+        const myArr = JSON.parse(JSON.stringify(userData))
 
-        console.log(body); 
-        return {
-            text: `${body.rank}`
-        }
+        console.log(myArr)
 
-       
+       return {
+           text: `${myArr.rank}`
+       }
     },
 };
