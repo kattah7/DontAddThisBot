@@ -33,6 +33,7 @@
     "node-cron": "^3.0.0",
     "node-fetch": "^3.2.4",
     "perf_hooks": "0.0.1",
+    "prettyjson": "^1.2.5",
     "twitter-api-v2": "^1.12.0"
   }
 }

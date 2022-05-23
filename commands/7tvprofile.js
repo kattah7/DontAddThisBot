@@ -1,4 +1,7 @@
 const got = require("got")
+const prettyjson = require('prettyjson')
+const SevenTV = require("../node_modules/7tv/lib");
+const api = SevenTV()
 
 module.exports = {
   name: "7tv",
@@ -7,9 +10,9 @@ module.exports = {
 
     const targetUser = args[0] ?? message.senderUsername
     let { body: userData, statusCode } = await got(`https://api.7tv.app/v2/users/${targetUser.toLowerCase()}`, { timeout: 10000, throwHttpErrors: false, responseType: "json" });
-        console.log(userData)
+    console.log(userData)
 
-    const { body: pogger } = await got.post(`https://api.7tv.app/v2/gql`, {
+    const { body: pogger, statusCode2 } = await got.post(`https://api.7tv.app/v2/gql`, {
             throwHttpErrors: false,
             responseType: 'json',
             json: {
@@ -19,9 +22,21 @@ module.exports = {
                 }
             }
         })
-        console.log(pogger)
-        return {
-            text: `YEAHBUT7TV 7tvM ${pogger.data.user.display_name}'s Emote Slots ${pogger.data.user.emote_slots}, Created: ${pogger.data.user.created_at.split("T")[0]}, 7tv.app/users/${pogger.data.user.display_name}`
+        const emotes = await api.fetchUser(`${targetUser.toLowerCase()}`);
+        console.log(emotes.role);
+        
+        if (statusCode == 404) {
+            return {
+                text: `${targetUser} has no data on 7tv. YEAHBUT7TV 7tvM`
+            }
+        } else if (emotes.role.name == '') {
+            return {
+                text: `YEAHBUT7TV 7tvM ${pogger.data.user.display_name}'s Emote Slots ${pogger.data.user.emote_ids.length}/${pogger.data.user.emote_slots}, Created: ${pogger.data.user.created_at.split("T")[0]}, Editors: ${pogger.data.user.editor_ids.length}, Rank: None 7tv.app/users/${pogger.data.user.display_name}`
+            }
+        } else {
+            return {
+                text: `YEAHBUT7TV 7tvM ${pogger.data.user.display_name}'s Emote Slots ${pogger.data.user.emote_ids.length}/${pogger.data.user.emote_slots}, Created: ${pogger.data.user.created_at.split("T")[0]}, Editors: ${pogger.data.user.editor_ids.length}, Rank: ${emotes.role.name} 7tv.app/users/${pogger.data.user.display_name}`
+            }
         }
   }
 }
