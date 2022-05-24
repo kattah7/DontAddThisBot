@@ -22,7 +22,7 @@ module.exports = {
         console.log(data2);
         const ms = new Date().getTime() - Date.parse(data2[0].created_at);
         return {
-            text: `Recent Tweet: ${data2[0].text} (Posted ${humanizeDuration(ms)} ago)`
+            text: `Recent Tweet: ${data2[0].text} (Posted ${humanizeDuration(ms)} ago) | twitter.com/${targetUser}/status/${data2[0].id}`
         }
     },
 };
