@@ -4,6 +4,7 @@ module.exports = {
     name: 'announce',
     description: 'annoucement in chat',
     cooldown: 1500,
+    permission: 1,
     aliases: ['ann'],
     async execute(message, args) {
         const query = []
