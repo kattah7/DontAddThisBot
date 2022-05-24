@@ -6,14 +6,13 @@ module.exports = {
     cooldown: 1500,
     aliases: ['ann'],
     async execute(message, args) {
-        const MESSAGE = args[0] ?? message.senderUsername
         const query = []
             query.push({
                 "operationName": "SendAnnouncementMessage",
                 "variables": {
                     "input": {
                         "channelID": `${message.channelID}`,
-                        "message": `${MESSAGE}`,
+                        "message": `${args.join(" ")}`,
                         "color": "PRIMARY",
                     }
                 },
