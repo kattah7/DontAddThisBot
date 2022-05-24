@@ -1,26 +1,30 @@
 const got = require('got')
 
 module.exports = {
-    name: 'announce',
-    description: 'annoucement in chat (Requires Mod)',
+    name: 'shadowban',
+    description: 'Shadowban a user (Requires Mod)',
     cooldown: 1500,
     permission: 1,
-    aliases: ['ann'],
+    aliases: [],
     async execute(message, args) {
+        const targetUser = args[0] ?? message.senderUsername;
+        let { body: userData, statusCode } = await got(`https://api.ivr.fi/v2/twitch/user?login=${targetUser}`, { timeout: 10000, throwHttpErrors: false, responseType: "json" });
+        console.log(userData) 
+
         const query = []
             query.push({
-                "operationName": "SendAnnouncementMessage",
+                "operationName": "UpdateLowTrustUserTreatment",
                 "variables": {
                     "input": {
                         "channelID": `${message.channelID}`,
-                        "message": `${args.join(" ")}`,
-                        "color": "PRIMARY",
+                        "targetID": `${userData[0].id}`,
+                        "treatment": "RESTRICTED",
                     }
                 },
                 "extensions": {
                     "persistedQuery": {
                         "version": 1,
-                        "sha256Hash": "f9e37b572ceaca1475d8d50805ae64d6eb388faf758556b2719f44d64e5ba791"
+                        "sha256Hash": "5ff4591da4a7b5c39344b551f32ceeca45f480f1d034510d430a29f760d57dec"
                     }
                 }
             })
@@ -34,5 +38,8 @@ module.exports = {
             },
             json: query
         })
+        return {
+            text: `Success`
+        }
     },
 };
