@@ -1,8 +1,8 @@
 const got = require('got')
 
 module.exports = {
-    name: 'shadowban',
-    description: 'Shadowban a user (Requires Mod)',
+    name: 'unshadowban',
+    description: 'Unshadowban a user (Requires Mod)',
     cooldown: 1500,
     permission: 1,
     aliases: [],
@@ -18,7 +18,7 @@ module.exports = {
                     "input": {
                         "channelID": `${message.channelID}`,
                         "targetID": `${userData[0].id}`,
-                        "treatment": "RESTRICTED",
+                        "treatment": "NONE",
                     }
                 },
                 "extensions": {
@@ -39,7 +39,7 @@ module.exports = {
             json: query
         })
         return {
-            text: `Shadowbanned ${targetUser}`
+            text: `Unshadowbanned ${targetUser}`
         }
     },
 };
