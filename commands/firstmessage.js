@@ -19,7 +19,7 @@ module.exports = {
             const message = userData.message
             const time = userData.time
             return {
-                text: `${targetUser} first message in ${targetChannel} is "${message}" ${time} ago BatChest`
+                text: `${targetUser} first logged message in ${targetChannel} is "${message}" ${time} ago BatChest`
             }
         }
     },

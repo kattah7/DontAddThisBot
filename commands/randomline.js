@@ -19,7 +19,7 @@ module.exports = {
             }
         }
         return {
-            text: `${targetUser} first logged message " ${randomline} " ${date} ago in ${targetChannel}`
+            text: `${targetUser} random logged message " ${randomline} " ${date} ago in ${targetChannel}`
         }
         
 
