@@ -51,6 +51,24 @@ client.on("JOIN", async ({ channelName }) => {
 });
 
 client.on("PRIVMSG", async (message) => {
+    const userdata = await getUser(message.senderUserID);
+
+    if (!userdata) {
+        userdata = new bot.DB.users({
+            id: message.senderUserID,
+            username: message.senderUsername,
+            firstSeen: new Date(),
+            level: 1,
+        });
+
+        await userdata.save();
+    }
+
+    if (userdata.level < 1) {
+        client.say(message.channelName, `${message.senderUsername}, you are not allowed to use this bot.`);
+        return;
+    }
+
     const prefix = "|";
     if (!message.messageText.startsWith(prefix)) return;
     const args = message.messageText.slice(prefix.length).trim().split(/ +/g);
@@ -78,7 +96,7 @@ client.on("PRIVMSG", async (message) => {
                 }
             }
 
-            const response = await command.execute(message, args, client);
+            const response = await command.execute(message, args, client, userdata);
 
             if (response) {
                 if (response.error) {
@@ -94,6 +112,10 @@ client.on("PRIVMSG", async (message) => {
         console.error("Error during command execution:", err);
     }
 });
+
+const getUser = async function (id) {
+    return await bot.DB.users.findOne({ id: id }).catch((err) => console.log(err));
+};
 
 const main = async () => {
     await client.join("dontaddthisbot");

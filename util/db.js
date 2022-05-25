@@ -24,8 +24,15 @@ const PoroSchema = new DB.Schema({
     poroCount: Number,
 });
 
-exports.poroCount = DB.model("poroCount", PoroSchema)
+const UserSchema = new DB.Schema({
+    id: String,
+    username: String,
+    firstSeen: Date,
+    level: Number,
+});
 
+exports.users = DB.model("users", UserSchema);
 
+exports.poroCount = DB.model("poroCount", PoroSchema);
 
 exports.channels = DB.model("channels", ChannelsSchema);
