@@ -51,18 +51,16 @@ client.on("JOIN", async ({ channelName }) => {
 });
 
 client.on("PRIVMSG", async (message) => {
-    const userdata = await getUser(message.senderUserID);
-
-    if (!userdata) {
-        userdata = new bot.DB.users({
+    const userdata =
+        (await getUser(message.senderUserID)) ||
+        new bot.DB.users({
             id: message.senderUserID,
             username: message.senderUsername,
             firstSeen: new Date(),
             level: 1,
         });
 
-        await userdata.save();
-    }
+    await userdata.save();
 
     if (userdata.level < 1) {
         client.say(message.channelName, `${message.senderUsername}, you are not allowed to use this bot.`);
