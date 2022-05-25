@@ -1,10 +1,9 @@
 module.exports = {
     name: "setlevel",
     description: "Sets the user's level.",
+    level: 3,
     cooldown: 5000,
     async execute(message, args, client, userdata) {
-        if (message.senderUsername !== "fookstee") return;
-
         if (!args[0]) {
             return {
                 text: `Please provide a user.`,
