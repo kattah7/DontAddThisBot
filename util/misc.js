@@ -1,1 +1,1 @@
-exports.levels = ["Blacklisted", "User", "Mod", "Owner"];
+exports.levels = ["Blacklisted", "User", "Mod", "Dev"];
