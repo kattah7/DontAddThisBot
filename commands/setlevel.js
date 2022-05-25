@@ -26,7 +26,7 @@ module.exports = {
 
         const level = parseInt(args[1]);
 
-        if (isNaN(level) || level < 0 || level > bot.Utils.misc.levels.length) {
+        if (isNaN(level) || level < 0 || level > bot.Utils.misc.levels.length - 1) {
             return {
                 text: `Please provide a valid level.`,
             };
