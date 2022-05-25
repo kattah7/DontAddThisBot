@@ -4,9 +4,9 @@ module.exports = {
     name: "pull",
     aliases: [],
     cooldown: 3000,
+    level: 3,
     description: "Pulls the latest commit from github. (Kattah only)",
     execute: async (message, args, client) => {
-        if (!["kattah", "fookstee"].includes(message.senderUsername)) return;
         await exec("cd /home/DontAddThisBot && git reset --hard && git pull && npm i", (err) => {
             if (err) {
                 console.error(err);
