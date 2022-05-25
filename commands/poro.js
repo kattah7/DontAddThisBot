@@ -40,7 +40,7 @@ module.exports = {
         console.log(random)
         if (random == 5 || random == 6 || random == 7 || random == 8 || random == 9) {
             return {
-                text: `Poro slaughtered! ${message.senderUsername} --> Tenderloin Poro FBChallenge (+${random}) PoroSad ${channelData.poroCount + random} meat total!`,
+                text: `Poro slaughtered! ${message.senderUsername} --> Tenderloin Poro kattahStare (+${random}) PoroSad ${channelData.poroCount + random} meat total!`,
             };
         } else if (random == 10 || random == 11 || random == 12 || random == 13 || random == 14 || random == 15) {
             return {
