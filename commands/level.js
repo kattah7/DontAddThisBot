@@ -3,7 +3,7 @@ module.exports = {
     description: "Shows the user's level.",
     cooldown: 5000,
     async execute(message, args, client, userdata) {
-        const user = args[0] || message.senderUsername;
+        const user = args[0].toLowerCase() ?? message.senderUsername;
 
         const { level } = await bot.DB.users.findOne({ username: user }).exec();
 
