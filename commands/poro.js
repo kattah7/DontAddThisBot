@@ -3,7 +3,7 @@ const humanizeDuration = require("../humanizeDuration");
 module.exports = {
     name: "poro",
     cooldown: 3000,
-    description: "Get poro meat every 1 hour",
+    description: "Get poro meat every 2 hour",
     execute: async(message, args) => {
         const lastUsage = await bot.Redis.get(`poro:${message.senderUsername}`);
         const channelData = await bot.DB.poroCount.findOne({ username: message.senderUsername }).exec();
