@@ -6,6 +6,7 @@ const { ChatClient } = require("@kararty/dank-twitch-irc");
 global.bot = {};
 bot.Redis = require("./util/redis.js");
 bot.DB = require("./util/db.js");
+bot.Utils = require("./util");
 
 const commands = new Map();
 const aliases = new Map();
@@ -91,6 +92,12 @@ client.on("PRIVMSG", async (message) => {
                     return client.say(message.channelName, "This command is mod only.");
                 } else if (command.permission == 2 && message.channelName !== message.senderUsername) {
                     return client.say(message.channelName, "This command is broadcaster only.");
+                }
+            }
+
+            if (command.level) {
+                if (userdata.level < command.level) {
+                    return client.say(message.channelName, `${message.senderUsername}, you don't have permission to use this command. (${bot.Utils.misc.levels[command.level]})`);
                 }
             }
 
