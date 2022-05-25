@@ -4,7 +4,7 @@ module.exports = {
     description: "poro shop information to use poro meat",
     execute: async(message, args) => {
         return {
-            text: `${message.senderUsername}, kattahDance Change bot color (100 poro 🥩)`
+            text: `${message.senderUsername}, kattahDance Change bot color (100 poro 🥩) | cdr in chat to reset timer (5 poro 🥩)`
         }
     }
 }

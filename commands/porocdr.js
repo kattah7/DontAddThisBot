@@ -20,7 +20,7 @@ module.exports = {
         }
         await bot.DB.poroCount.updateOne({ username: message.senderUsername }, { $set: { poroCount: channelData.poroCount - 5 } } ).exec();
         await bot.Redis.set(`porocdr:${message.senderUsername}`, Date.now(), 0);
-        await client.say(message.channelName, `Timer Reset! (-5) kattahDance total ${channelData.poroCount -5} meat`)
+        await client.say(message.channelName, `Timer Reset! ${message.senderUsername} (-5) kattahDance total ${channelData.poroCount -5} meat`)
 
 
         await bot.DB.poroCount.updateOne({ username: message.senderUsername }, { $set: { poroCount: channelData.poroCount -5 + random } } ).exec();
@@ -45,7 +45,7 @@ module.exports = {
             }
         } else if (random == 0) {
             return {
-                text: `Poro slaughtered! ${message.senderUsername} --> Poro ran away haHAA (±${random}) kattahHappy ${channelData.poroCount -5 + random} meat total!`
+                text: `Poro gone! ${message.senderUsername} --> Poro ran away haHAA (±${random}) kattahHappy ${channelData.poroCount -5 + random} meat total!`
             }
         } else if (random >= 16) {
             return {
