@@ -64,7 +64,6 @@ client.on("PRIVMSG", async (message) => {
     await userdata.save();
 
     if (userdata.level < 1) {
-        client.say(message.channelName, `${message.senderUsername}, you are not allowed to use this bot.`);
         return;
     }
 
