@@ -3,17 +3,17 @@ module.exports = {
     description: "Shows the user's level.",
     cooldown: 5000,
     async execute(message, args, client, userdata) {
-        const user = args[0].toLowerCase() ?? message.senderUsername;
+        const user = args[0] ? args[0].toLowerCase() : message.senderUsername;
 
-        const { level } = await bot.DB.users.findOne({ username: user }).exec();
+        const data = await bot.DB.users.findOne({ username: user }).exec();
 
-        if (!level) {
+        if (!data) {
             return {
                 text: `${user} has not been seen before.`,
             };
         } else {
             return {
-                text: `${user} is level ${level}`,
+                text: `${user} is level ${data.level} (${bot.Utils.misc.levels[data.level]})`,
             };
         }
     },
