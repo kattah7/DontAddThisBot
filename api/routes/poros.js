@@ -2,7 +2,7 @@ const express = require("express");
 
 const router = express.Router();
 
-router.get("/lookup/:user", (req, res) => {
+router.get("/lookup/:user", async (req, res) => {
     if (!req.params.user) {
         return res.status(400).send("No user specified");
     }
@@ -17,7 +17,7 @@ router.get("/lookup/:user", (req, res) => {
         res.json({
             cooldown: true,
             lastUsage: lastUsage,
-        })
+        });
     }
 });
 
