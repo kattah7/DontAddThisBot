@@ -7,7 +7,7 @@ router.get("/lookup/:user", async (req, res) => {
         return res.status(400).send("No user specified");
     }
 
-    const lastUsage = await bot.Redis.get(`poro:${message.senderUsername}`);
+    const lastUsage = await bot.Redis.get(`poro:${req.params.user}`);
 
     if (!lastUsage) {
         res.json({
