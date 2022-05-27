@@ -8,6 +8,8 @@ bot.Redis = require("./util/redis.js");
 bot.DB = require("./util/db.js");
 bot.Utils = require("./util");
 
+require("./api/server");
+
 const commands = new Map();
 const aliases = new Map();
 const cooldown = new Map();
