@@ -1,12 +1,12 @@
 module.exports = {
-    name: "trihard",
-    aliases: ["TriHard"],
+    name: "whispers",
+    aliases: [],
     cooldown: 3000,
-    description:"TriHard",
+    description:"whisper popout",
     execute: async (message, args) => {
         const targetUser = args[0] ?? message.senderUsername;
             return {
-                text: `${targetUser} TriHard 7`
+                text: `https://www.twitch.tv/popout/moderator/${targetUser}/whispers `
             }
         
     },

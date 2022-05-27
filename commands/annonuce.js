@@ -3,7 +3,7 @@ const got = require('got')
 module.exports = {
     name: 'announce',
     description: 'annoucement in chat (Requires Mod)',
-    cooldown: 1500,
+    cooldown: 3000,
     permission: 1,
     aliases: ['ann'],
     async execute(message, args) {

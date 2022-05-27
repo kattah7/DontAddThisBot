@@ -3,7 +3,7 @@ const humanizeDuration = require("../humanizeDuration");
 module.exports = {
     name: "poro",
     cooldown: 3000,
-    description: "Get poro meat every 1 hour",
+    description: "Get poro meat every 2 hour",
     execute: async(message, args) => {
         const lastUsage = await bot.Redis.get(`poro:${message.senderUsername}`);
         const channelData = await bot.DB.poroCount.findOne({ username: message.senderUsername }).exec();
@@ -29,7 +29,7 @@ module.exports = {
             if (new Date().getTime() - new Date(lastUsage).getTime() < 1000 * 60 * 60 * 2) {
                 const ms = new Date(lastUsage).getTime() - new Date().getTime() + 1000 * 60 * 60 * 2;
                 return {
-                    text: `No poros found... 🌉 kattahHappy ${message.senderUsername} | ${channelData.poroCount} meat total! 🥩  | Come back later in ${humanizeDuration(ms)}.`,
+                    text: `No poros found... 🌉 kattahBoom ${message.senderUsername} | ${channelData.poroCount} meat total! 🥩  | Come back later in ${humanizeDuration(ms)}. kattahDance`,
                 };
             }
         }
@@ -40,7 +40,7 @@ module.exports = {
         console.log(random)
         if (random == 5 || random == 6 || random == 7 || random == 8 || random == 9) {
             return {
-                text: `Poro slaughtered! ${message.senderUsername} --> Tenderloin Poro FBChallenge (+${random}) PoroSad ${channelData.poroCount + random} meat total!`,
+                text: `Poro slaughtered! ${message.senderUsername} --> Tenderloin Poro kattahStare (+${random}) PoroSad ${channelData.poroCount + random} meat total!`,
             };
         } else if (random == 10 || random == 11 || random == 12 || random == 13 || random == 14 || random == 15) {
             return {
@@ -56,7 +56,7 @@ module.exports = {
             }
         } else if (random == 0) {
             return {
-                text: `Poro slaughtered! ${message.senderUsername} --> Poro ran away haHAA (±${random}) kattahHappy ${channelData.poroCount + random} meat total!`
+                text: `Poro gone! ${message.senderUsername} --> Poro ran away haHAA (±${random}) kattahHappy ${channelData.poroCount + random} meat total!`
             }
         } else if (random >= 16) {
             return {
