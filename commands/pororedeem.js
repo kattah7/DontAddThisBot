@@ -3,7 +3,7 @@ const got = require("got")
 module.exports = {
     name: "redeem",
     cooldown: 3000,
-    execute: async(message, args) => {
+    execute: async(message, args, client) => {
         const lastUsage = await bot.Redis.get(`pororedeem:${message.senderUsername}`);
         const channelData = await bot.DB.poroCount.findOne({ username: message.senderUsername }).exec();
         const input = args[0]
