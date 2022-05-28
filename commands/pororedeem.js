@@ -20,8 +20,12 @@ module.exports = {
             return {
                 text: `Wrong code :p`
             }
+        } else {
+            await bot.DB.poroCount.updateOne({ username: message.senderUsername }, { $set: { poroCount: channelData.poroCount + 100 } } ).exec();
+            return {
+                text: `Code Redeemed! ${message.senderUsername} (+100) kattahDance2 total ${channelData.poroCount + 100} meat`
+            }
         }
-        await bot.DB.poroCount.updateOne({ username: message.senderUsername }, { $set: { poroCount: channelData.poroCount - 5 } } ).exec();
-        await client.say(message.channelName, `Code Redeemed! ${message.senderUsername} (+100) kattahDance2 total ${channelData.poroCount + 100} meat`)
+        
     }
 }
