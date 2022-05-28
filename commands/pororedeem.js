@@ -9,23 +9,22 @@ module.exports = {
         const input = args[0]
         const availableBadges = ["kattah", "pokimane", "forsen"];
 
-        if (lastUsage) {
+        if (lastUsage && channelData) {
             if (new Date().getTime() - new Date(lastUsage).getTime() < 1000 * 60 * 60 * 3) {
                 const ms = new Date(lastUsage).getTime() - new Date().getTime() + 1000 * 60 * 60 * 3;
                 return {
-                    text: `You have already redeemed the code!`,
+                    text: `You have already redeemed the code! ${humanizeDuration(ms)}`,
                 };
             }
         } else if (!availableBadges.includes(input.toLowerCase())) {
             return {
                 text: `Wrong code :p`
             }
-        } else {
-            await bot.DB.poroCount.updateOne({ username: message.senderUsername }, { $set: { poroCount: channelData.poroCount + 100 } } ).exec();
-            return {
-                text: `Code Redeemed! ${message.senderUsername} (+100) kattahDance2 total ${channelData.poroCount + 100} meat`
-            }
         }
+
+        await bot.DB.poroCount.updateOne({ username: message.senderUsername }, { $set: { poroCount: channelData.poroCount + 100 } } ).exec();
+        await bot.Redis.set(`pororedeem:${message.senderUsername}`, Date.now(), 0);
+        await client.say(message.channelName, `Code Redeemed! ${message.senderUsername} (+100) kattahDance2 total ${channelData.poroCount + 100} meat`)
         
     }
 }
