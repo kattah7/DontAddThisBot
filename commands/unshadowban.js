@@ -39,7 +39,7 @@ module.exports = {
             json: query
         })
         return {
-            text: `Unshadowbanned ${targetUser}`
+            text: `Un-restricted ${targetUser}`
         }
     },
 };
