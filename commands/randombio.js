@@ -17,8 +17,14 @@ module.exports = {
            }
        }).json();
        
-       return {
-           text: `${bio.data[0].description}`
-       }
+       if (bio.data[0].description == '') {
+        return {
+            text: `Unlucky! user doesn't have a bio FeelsDankMan`
+        }
+    } else {
+     return {
+         text: `${bio.data[0].description}`
+     } 
+    }
    }
 }

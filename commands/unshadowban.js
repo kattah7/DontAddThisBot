@@ -1,7 +1,7 @@
 const got = require('got')
 
 module.exports = {
-    name: 'unshadowban',
+    name: 'unrestrict',
     description: 'Unshadowban a user (Requires Mod)',
     cooldown: 1500,
     permission: 1,
