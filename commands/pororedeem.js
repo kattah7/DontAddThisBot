@@ -13,12 +13,12 @@ module.exports = {
             if (new Date().getTime() - new Date(lastUsage).getTime() < 1000 * 60 * 60 * 999999999999999) {
                 const ms = new Date(lastUsage).getTime() - new Date().getTime() + 1000 * 60 * 60 * 999999999999999;
                 return {
-                    text: `You have already redeemed the code! ${humanizeDuration(ms)}`,
+                    text: `${message.senderUsername}, You have already redeemed the code!`,
                 };
             }
         } else if (!availableBadges.includes(input.toLowerCase())) {
             return {
-                text: `Wrong code :p`
+                text: `${message.senderUsername}, Wrong code :p`
             }
         }
 
