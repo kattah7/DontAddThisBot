@@ -16,7 +16,7 @@ module.exports = {
                     text: `You have already redeemed the code!`,
                 };
             }
-        } else if (availableBadges.includes(input.toLowerCase())) {
+        } else if (!availableBadges.includes(input.toLowerCase())) {
             return {
                 text: `Wrong code :p`
             }
