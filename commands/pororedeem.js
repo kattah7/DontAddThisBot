@@ -10,8 +10,8 @@ module.exports = {
         const availableBadges = ["kattah", "pokimane", "forsen"];
 
         if (lastUsage && channelData) {
-            if (new Date().getTime() - new Date(lastUsage).getTime() < 1000 * 60 * 60 * 3) {
-                const ms = new Date(lastUsage).getTime() - new Date().getTime() + 1000 * 60 * 60 * 3;
+            if (new Date().getTime() - new Date(lastUsage).getTime() < 1000 * 60 * 60 * 999999999999999) {
+                const ms = new Date(lastUsage).getTime() - new Date().getTime() + 1000 * 60 * 60 * 999999999999999;
                 return {
                     text: `You have already redeemed the code! ${humanizeDuration(ms)}`,
                 };
