@@ -28,13 +28,12 @@ module.exports = {
                 headers: {
                     Accept: "*/*",
                     "Accept-Language": "en-GB",
-                    Authorization: `OAuth ignekhb97ginmr5t551093z72usw6x`,
-                    'Client-Id': `kimne78kx3ncx6brgo4mv6wki5h1ko`,
-                    'Client-Version': '9318b809-f01c-4431-a8d1-322b76e2f93a',
+                    Authorization: `OAuth ${process.env.TWITCH_GQL_OAUTH_KEKW}`,
+                    'Client-Id': `${process.env.CLIENT_ID_FOR_GQL}`,
+                    'Client-Version': `${process.env.CLIENT_VERSION}`,
                     "Content-Type": "text/plain;charset=UTF-8",
                     Referer: `https://dashboard.twitch.tv/`,
-                    'X-Device-Id': `6GMipFLR0IiymSrHsMi7W3ADq2oko6EV`,
-                    'Connection': 'keep-alive',
+                    'X-Device-Id': `${process.env.DEVICE_ID}`,
                    
                          },
                 json: query
