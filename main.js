@@ -1,7 +1,7 @@
 require("dotenv").config();
 const nodeCron = require("node-cron");
 const { readdirSync } = require("fs");
-const { ChatClient } = require("@kararty/dank-twitch-irc");
+const { ChatClient, AlternateMessageModifier, SlowModeRateLimiter } = require("@kararty/dank-twitch-irc");
 
 global.bot = {};
 bot.Redis = require("./util/redis.js");
@@ -33,6 +33,9 @@ const client = new ChatClient({
         releaseTime: 50,
     },
 });
+
+client.use(new AlternateMessageModifier(client));
+client.use(new SlowModeRateLimiter(client, 10));
 
 client.on("ready", () => {
     console.log("Connected to chat!");
