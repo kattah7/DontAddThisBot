@@ -60,7 +60,7 @@ module.exports = {
             }
         } else if (random >= 16) {
             return {
-                text: `Poro slaughtered! ${message.senderUsername} --> LEGENDARY PORO VisLaud (+${random}) PoroSad ${channelData.poroCount + random} meat total!`
+                text: `Poro slaughtered! ${message.senderUsername} --> LEGENDARY PORO VisLaud (+${random}) kattahXd ${channelData.poroCount + random} meat total!`
             }
         }
     }
