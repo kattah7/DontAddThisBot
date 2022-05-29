@@ -26,7 +26,7 @@ module.exports = {
     console.log(pogger.data.search_emotes)
     if (pogger.data.search_emotes == '') {
         return {
-            text: `yo`
+            text: `${args[0]} Emote not found :p`
         }
     }
     const { body: pogger2, statusCode3 } = await got.post(`https://api.7tv.app/v2/gql`, {
