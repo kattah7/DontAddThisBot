@@ -7,13 +7,13 @@ module.exports = {
         const lastUsage = await bot.Redis.get(`pororedeem:${message.senderUsername}`);
         const channelData = await bot.DB.poroCount.findOne({ username: message.senderUsername }).exec();
         const input = args[0]
-        const availableBadges = ["kattah", "pokimane", "forsen"];
+        const availableBadges = ["turtoise", "apu"];
 
         if (lastUsage && channelData) {
-            if (new Date().getTime() - new Date(lastUsage).getTime() < 1000 * 60 * 60 * 999999999999999) {
-                const ms = new Date(lastUsage).getTime() - new Date().getTime() + 1000 * 60 * 60 * 999999999999999;
+            if (new Date().getTime() - new Date(lastUsage).getTime() < 1000 * 60 * 60 * 24) {
+                const ms = new Date(lastUsage).getTime() - new Date().getTime() + 1000 * 60 * 60 * 24;
                 return {
-                    text: `${message.senderUsername}, You have already redeemed the code!`,
+                    text: `${message.senderUsername}, You have already redeemed the code! Come back in ${humanizeDuration(ms)} for daily codes`,
                 };
             }
         } else if (!availableBadges.includes(input.toLowerCase())) {
