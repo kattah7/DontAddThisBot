@@ -9,7 +9,7 @@ module.exports = {
         const input = args[0]
         const availableBadges = ["turtoise", "apu"];
 
-        if (lastUsage && channelData) {
+        if (lastUsage) {
             if (new Date().getTime() - new Date(lastUsage).getTime() < 1000 * 60 * 60 * 24) {
                 const ms = new Date(lastUsage).getTime() - new Date().getTime() + 1000 * 60 * 60 * 24;
                 return {
