@@ -7,7 +7,7 @@ module.exports = {
         const channelData2 = await bot.DB.joinedAt.findOne({ username: message.senderUsername }).exec();
         
         return {
-            text: `You have total of ${channelData.poroCount} | ${channelData.joinedAt}`
+            text: `You have total of ${channelData.poroCount} | ${channelData2.joinedAt}`
         }
     }
 }
