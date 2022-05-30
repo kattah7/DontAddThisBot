@@ -8,7 +8,7 @@ module.exports = {
         
         if (!channelData) {
             return {
-                text: `doesnt exist lol`
+                text: `${targetUser} isnt registered lol`
             }
         } else {
             return {
