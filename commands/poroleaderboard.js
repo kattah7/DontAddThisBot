@@ -12,7 +12,7 @@ module.exports = {
         const top5String = top5.map((user) => `${user.username} - ${user.poroCount}`).join(" | ");
 
         return {
-            text: `Poro leaderboard: ${top5String}`,
+            text: `kattahXd Poro leaderboard: ${top5String}`,
         };
     },
 };
