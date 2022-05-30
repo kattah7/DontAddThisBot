@@ -9,6 +9,6 @@ app.use(morgan("dev"));
 app.use(cors());
 app.use(poros);
 
-app.listen(1, () => {
+app.listen(process.env.PORT, () => {
     console.log("Server is running on port 1337");
 });
