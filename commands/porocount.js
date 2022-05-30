@@ -6,7 +6,7 @@ module.exports = {
         const targetUser = args[0] ?? message.senderUsername
         const channelData = await bot.DB.poroCount.findOne({ username: targetUser }).exec();
         
-        if (channelData.poroCount == null) {
+        if (channelData.poroCount) {
             return {
                 text: `doesnt exist lol`
             }
