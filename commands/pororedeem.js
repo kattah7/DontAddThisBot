@@ -3,6 +3,7 @@ const humanizeDuration = require("../humanizeDuration");
 module.exports = {
     name: "redeem",
     cooldown: 3000,
+    description: "Redeem poro meat with speical codes",
     execute: async(message, args, client) => {
         const lastUsage = await bot.Redis.get(`pororedeem:${message.senderUsername}`);
         const channelData = await bot.DB.poroCount.findOne({ username: message.senderUsername }).exec();
@@ -22,9 +23,9 @@ module.exports = {
             }
         }
 
-        await bot.DB.poroCount.updateOne({ username: message.senderUsername }, { $set: { poroCount: channelData.poroCount + 100 } } ).exec();
+        await bot.DB.poroCount.updateOne({ username: message.senderUsername }, { $set: { poroCount: channelData.poroCount + 50 } } ).exec();
         await bot.Redis.set(`pororedeem:${message.senderUsername}`, Date.now(), 0);
-        await client.say(message.channelName, `Code Redeemed! ${message.senderUsername} (+100) kattahDance2 total ${channelData.poroCount + 100} meat`)
+        await client.say(message.channelName, `Code Redeemed! ${message.senderUsername} (+50) kattahDance2 total ${channelData.poroCount + 50} meat`)
         
     }
 }

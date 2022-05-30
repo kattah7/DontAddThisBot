@@ -34,5 +34,6 @@ const UserSchema = new DB.Schema({
 exports.users = DB.model("users", UserSchema);
 
 exports.poroCount = DB.model("poroCount", PoroSchema);
+exports.joinedAt = DB.model("joinedAt", PoroSchema);
 
 exports.channels = DB.model("channels", ChannelsSchema);
