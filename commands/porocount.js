@@ -6,8 +6,14 @@ module.exports = {
         const targetUser = args[0] ?? message.senderUsername
         const channelData = await bot.DB.poroCount.findOne({ username: targetUser }).exec();
         
-        return {
-            text: `${targetUser} has total of ${channelData.poroCount} | ${channelData.joinedAt}`
+        if (channelData.poroCount == null) {
+            return {
+                text: `doesnt exist lol`
+            }
+        } else {
+            return {
+                text: `${targetUser} has total of ${channelData.poroCount} meat kattahXd | Registered: ${channelData.joinedAt}`
+            }
         }
     }
 }
