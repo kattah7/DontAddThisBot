@@ -26,7 +26,7 @@ module.exports = {
             const random = Math.floor(Math.random() * 100) + 0;
             const ms = new Date().getTime() - Date.parse(data2[random].started_at);
         return {
-            text: `${data2[random].user_name} been live for ${humanizeDuration(ms)} playing ${data2[random].game_name} with ${data2[random].viewer_count} viewers. Title: ${data2[random].title}. twitch.tv/${data2[random].user_name}`
+            text: `${data2[random].user_name} been live for ${humanizeDuration(ms)} playing ${data2[random].game_name} with ${data2[random].viewer_count} viewers. Title: ${data2[random].title}. twitch.tv/${data2[random].user_login}`
         }
 
     },

@@ -9,6 +9,6 @@ app.use(morgan("dev"));
 app.use(cors());
 app.use(poros);
 
-app.listen(1337, () => {
+app.listen(5000, () => {
     console.log("Server is running on port 1337");
 });
