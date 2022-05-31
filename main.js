@@ -74,7 +74,6 @@ client.on("PRIVMSG", async (message) => {
         return;
     }
     const channelData = await getChannel(message.channelName);
-    console.log(channelData);
     const prefix = channelData.prefix ?? "|";
     if (!message.messageText.startsWith(prefix)) return;
     const args = message.messageText.slice(prefix.length).trim().split(/ +/g);
