@@ -74,7 +74,8 @@ client.on("PRIVMSG", async (message) => {
         return;
     }
     const channelData = await getChannel(message.channelName);
-    const prefix = channelData.prefix || "|";
+    console.log(channelData);
+    const prefix = channelData.prefix ?? "|";
     if (!message.messageText.startsWith(prefix)) return;
     const args = message.messageText.slice(prefix.length).trim().split(/ +/g);
     const cmd = args.length > 0 ? args.shift().toLowerCase() : "";
@@ -129,7 +130,7 @@ const getUser = async function (id) {
 };
 
 const getChannel = async function (channel) {
-    return await bot.DB.channels.findOne({ username: channel });
+    return await bot.DB.channels.findOne({ username: channel }).catch((err) => console.log(err));
 };
 
 const main = async () => {
