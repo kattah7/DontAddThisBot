@@ -2,6 +2,7 @@ require("dotenv").config();
 const nodeCron = require("node-cron");
 const { readdirSync } = require("fs");
 const { ChatClient, AlternateMessageModifier, SlowModeRateLimiter } = require("@kararty/dank-twitch-irc");
+const { channel } = require("diagnostics_channel");
 
 global.bot = {};
 bot.Redis = require("./util/redis.js");
@@ -63,6 +64,7 @@ client.on("PRIVMSG", async (message) => {
             id: message.senderUserID,
             username: message.senderUsername,
             firstSeen: new Date(),
+            prefix: "|",
             level: 1,
         });
 
@@ -71,8 +73,8 @@ client.on("PRIVMSG", async (message) => {
     if (userdata.level < 1) {
         return;
     }
-
-    const prefix = "|";
+    const channelData = await getChannel(message.channelName);
+    const prefix = channelData.prefix;
     if (!message.messageText.startsWith(prefix)) return;
     const args = message.messageText.slice(prefix.length).trim().split(/ +/g);
     const cmd = args.length > 0 ? args.shift().toLowerCase() : "";
@@ -124,6 +126,10 @@ client.on("PRIVMSG", async (message) => {
 
 const getUser = async function (id) {
     return await bot.DB.users.findOne({ id: id }).catch((err) => console.log(err));
+};
+
+const getChannel = async function (channel) {
+    return await bot.DB.channels.findOne({ username: channel })
 };
 
 const main = async () => {
