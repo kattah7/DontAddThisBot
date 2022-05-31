@@ -9,7 +9,7 @@ module.exports = {
     execute: async (message, args) => {
         const lastUsage = await bot.Redis.get(`test:${message.senderUsername}`);
         const targetUser = args[0] ?? message.senderUsername;
-        let { body: userData, statusCode } = await got(`https://www.boredapi.com/api/activity?participants=1`, { timeout: 10000, throwHttpErrors: false, responseType: "json" });
+        let { body: userData, statusCode } = await got(`http://www.boredapi.com/api/activity?participants=1`, { timeout: 10000, throwHttpErrors: false, responseType: "json" });
         console.log(userData);
 
         if (lastUsage) {
