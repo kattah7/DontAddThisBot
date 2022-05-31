@@ -3,6 +3,7 @@ module.exports = {
     description: 'changes the bot prefix for your channel (default is "|")',
     aliases: [],
     cooldown: 3000,
+    permission: 2,
     usage: "<prefix>",
     async execute(message, args, client) {
         if (!args.length) return { text: `you need to specify the prefix`}
