@@ -36,7 +36,7 @@ module.exports = {
 
         // return the response
         return {
-            text: `Joined channel, ${message.senderUsername}`,
+            text: `Joined channel, ${message.senderUsername} :)`,
         };
     },
 };
