@@ -4,6 +4,7 @@ module.exports = {
     name: "cdr",
     cooldown: 3000,
     description: "Reset poro timer every 3 hours",
+    poro: true,
     execute: async(message, args, client) => {
         const lastUsage = await bot.Redis.get(`porocdr:${message.senderUsername}`);
         const channelData = await bot.DB.poroCount.findOne({ username: message.senderUsername }).exec();

@@ -106,6 +106,9 @@ client.on("PRIVMSG", async (message) => {
                     return client.say(message.channelName, `${message.senderUsername}, you don't have permission to use this command. (${bot.Utils.misc.levels[command.level]})`);
                 }
             }
+            if (channelData.poroOnly && !command.poro) {
+                return
+            }
 
             const response = await command.execute(message, args, client, userdata);
 
@@ -131,6 +134,7 @@ const getUser = async function (id) {
 const getChannel = async function (channel) {
     return await bot.DB.channels.findOne({ username: channel }).catch((err) => console.log(err));
 };
+
 
 const main = async () => {
     await client.join("dontaddthisbot");

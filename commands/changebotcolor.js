@@ -5,6 +5,7 @@ module.exports = {
     cooldown: 3000,
     aliases: ["changecolour", "setcolor", "setcolour"],
     description: 'Change the bot color with 50 poro meat',
+    poro: true,
     execute: async(message, args, client) => {
         var reg=/^#[0-9A-F]{6}$/i;
         const channelData = await bot.DB.poroCount.findOne({ username: message.senderUsername }).exec();

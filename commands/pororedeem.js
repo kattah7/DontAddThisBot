@@ -4,6 +4,7 @@ module.exports = {
     name: "redeem",
     cooldown: 3000,
     description: "Redeem poro meat with speical codes",
+    poro: true,
     execute: async(message, args, client) => {
         const lastUsage = await bot.Redis.get(`pororedeem:${message.senderUsername}`);
         const channelData = await bot.DB.poroCount.findOne({ username: message.senderUsername }).exec();

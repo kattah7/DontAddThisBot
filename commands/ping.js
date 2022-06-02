@@ -5,6 +5,7 @@ module.exports = {
     aliases: ["xd"],
     cooldown: 3000,
     description:"Bot response",
+    poro: true,
     execute: async (message, args, client) => {
 
        
