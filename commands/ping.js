@@ -7,11 +7,12 @@ module.exports = {
     description:"Bot response",
     poro: true,
     execute: async (message, args, client) => {
-
-       
-
-        return {
-            text: `${message.senderUsername}, TriHard 🏓 BOT UPTIME: ${humanizeDuration(process.uptime() * 1000 )}`,
-        };
+        if (message.senderUsername == process.env.NUMBER_ONE) {
+            client.privmsg(message.channelName, `.me ${message.senderUsername}, TriHard 🏓 BOT UPTIME: ${humanizeDuration(process.uptime() * 1000 )}`)
+        } else {
+            return {
+                text: `${message.senderUsername}, TriHard 🏓 BOT UPTIME: ${humanizeDuration(process.uptime() * 1000 )}`,
+            }; 
+        }
     },
 };
