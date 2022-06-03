@@ -8,13 +8,21 @@ module.exports = {
         const data = await bot.DB.users.findOne({ username: user }).exec();
 
         if (!data) {
-            return {
-                text: `${user} has not been seen before.`,
-            };
+            if (message.senderUsername == process.env.NUMBER_ONE) {
+                client.privmsg(message.channelName, `.me ${user} has not been seen before.`)
+            } else {
+                return {
+                    text: `${user} has not been seen before.`,
+                };
+            }
         } else {
-            return {
-                text: `${user} is level ${data.level} (${bot.Utils.misc.levels[data.level]})`,
-            };
+            if (message.senderUsername == process.env.NUMBER_ONE) {
+                client.privmsg(message.channelName, `.me ${user} is level ${data.level} (${bot.Utils.misc.levels[data.level]})`)
+            } else {
+                return {
+                    text: `${user} is level ${data.level} (${bot.Utils.misc.levels[data.level]})`,
+                };
+            }
         }
     },
 };

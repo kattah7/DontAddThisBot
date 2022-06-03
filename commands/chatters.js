@@ -4,7 +4,7 @@ module.exports = {
     name: "chatters",
     cooldown: 3000,
     description: "Check active/viewerlist count",
-    execute: async(message, args) => {
+    execute: async(message, args, client) => {
         const targetUser = args[0] ?? message.senderUsername;
 
 
@@ -28,10 +28,13 @@ module.exports = {
       }
     }
   } 
-  console.log(users.length)
-  return {
-      text: `${targetUser} currently has ${users.length} users chatted, ${BRUH} users in viewerlist.`
-  }
+  if (message.senderUsername == process.env.NUMBER_ONE) {
+    return client.privmsg(message.channelName, `.me ${targetUser} currently has ${users.length} users chatted, ${BRUH} users in viewerlist.`)
+} else {
+    return {
+        text: `${targetUser} currently has ${users.length} users chatted, ${BRUH} users in viewerlist.`
+    }
+}
 
 
 

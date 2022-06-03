@@ -6,7 +6,7 @@ module.exports = {
     aliases: [],
     cooldown: 1000,
     description: "Gets info of user's twitter",
-    execute: async (message, args) => {
+    execute: async (message, args, client) => {
         const targetUser = args[0] ?? message.senderUsername;
         const { data } = await got(`https://api.twitter.com/2/users/by/username/${targetUser}?user.fields=created_at,location,description`, {
             headers: {
@@ -29,8 +29,12 @@ module.exports = {
         const accountAge = data.created_at
         const PUBLICMETRICS = data2.public_metrics;
         
-        return {
-            text: `${targetUser} (${name})'s twitter account created at ${accountAge.split("T")[0]}, ID: ${id}, Location: ${location}, Description: ${desc} [Followers: ${PUBLICMETRICS.followers_count} Following: ${PUBLICMETRICS.following_count} ]`
+        if (message.senderUsername == process.env.NUMBER_ONE) {
+            client.privmsg(message.channelName, `.me ${targetUser} (${name})'s twitter account created at ${accountAge.split("T")[0]}, ID: ${id}, Location: ${location}, Description: ${desc} [Followers: ${PUBLICMETRICS.followers_count} Following: ${PUBLICMETRICS.following_count} ]`)
+        } else {
+            return {
+                text: `${targetUser} (${name})'s twitter account created at ${accountAge.split("T")[0]}, ID: ${id}, Location: ${location}, Description: ${desc} [Followers: ${PUBLICMETRICS.followers_count} Following: ${PUBLICMETRICS.following_count} ]`
+            }
         }
     },
 };

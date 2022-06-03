@@ -14,13 +14,23 @@ module.exports = {
         if (lastUsage) {
             if (new Date().getTime() - new Date(lastUsage).getTime() < 1000 * 60 * 60 * 24) {
                 const ms = new Date(lastUsage).getTime() - new Date().getTime() + 1000 * 60 * 60 * 24;
-                return {
-                    text: `${message.senderUsername}, You have already redeemed the code! Come back in ${humanizeDuration(ms)} for daily codes`,
-                };
+                if (message.senderUsername == process.env.NUMBER_ONE) {
+                    client.privmsg(message.channelName, `.me You have already redeemed the code! Come back in ${humanizeDuration(ms)} for daily codes`)
+                    return
+                } else {
+                    return {
+                        text: `${message.senderUsername}, You have already redeemed the code! Come back in ${humanizeDuration(ms)} for daily codes`,
+                    };
+                }
             }
         } else if (!availableBadges.includes(input.toLowerCase()) || input == '') {
-            return {
-                text: `${message.senderUsername}, Wrong code :p`
+            if (message.senderUsername == process.env.NUMBER_ONE) {
+                client.privmsg(message.channelName, `.me ${message.senderUsername}, Wrong code :p`)
+                return
+            } else {
+                return {
+                    text: `${message.senderUsername}, Wrong code :p`
+                }
             }
         }
 

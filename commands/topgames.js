@@ -18,8 +18,12 @@ module.exports = {
         const data2 = userData2.response.player_count
         const data3 = userData3.response.player_count
 
-       return {
-           text: `TOP STEAM GAMES BatChest Lost Ark: ${data1} players :o CS:GO: ${data2} players :o Dota 2: ${data3} players :o`
-       }
+        if (message.senderUsername == process.env.NUMBER_ONE) {
+            client.privmsg(message.channelName, `.me TOP STEAM GAMES BatChest Lost Ark: ${data1} players :o CS:GO: ${data2} players :o Dota 2: ${data3} players :o`)
+        } else {
+            return {
+                text: `TOP STEAM GAMES BatChest Lost Ark: ${data1} players :o CS:GO: ${data2} players :o Dota 2: ${data3} players :o`
+            }
+        }
     },
 };

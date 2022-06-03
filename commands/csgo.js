@@ -6,7 +6,7 @@ module.exports = {
     aliases: [],
     cooldown: 1000,
     description: "check your csgo stats Pepege forsenPls",
-    execute: async (message, args) => {
+    execute: async (message, args, client) => {
         var myHeaders = new Headers();
         myHeaders.append("TRN-Api-Key", `${process.env.TRN_Api_Key}`);
 
@@ -23,10 +23,16 @@ module.exports = {
 
         if (user.errors) {
             if (user.errors[0].code == "CollectorResultStatus::NotFound") {
+                if (message.senderUsername == process.env.NUMBER_ONE) {
+                    return client.privmsg(message.channelName, `.me ${args.join(" ")} Not found :( , Please use Steam ID, Steam Community URL, Steam Vanity Username, etc.`)
+                }
                 return {
                     text: `${args.join(" ")} Not found :( , Please use Steam ID, Steam Community URL, Steam Vanity Username, etc.`,
                 };
             } else if (user.errors[0].code == "CollectorResultStatus::Private") {
+                if (message.senderUsername == process.env.NUMBER_ONE) {
+                    return client.privmsg(message.channelName, `.me ${args.join(" ")} Profile is private :p , Please enable game settings under privacy settings`)
+                }
                 return {
                     text: `${args.join(" ")} Profile is private :p , Please enable game settings under privacy settings`,
                 };
@@ -40,9 +46,13 @@ module.exports = {
             const deaths = user.data.segments[0].stats.deaths.displayValue;
             const kd = user.data.segments[0].stats.kd.displayValue;
 
-            return {
-                text: `${args.join(" ")} has ${playtime} in CSGO LuL ${matches} Rounds [W:${losses} L:${wins}] LuL ${kd} K/D [K:${kills} D:${deaths}]`,
-            };
+            if (message.senderUsername == process.env.NUMBER_ONE) {
+                return client.privmsg(message.channelName, `.me ${args.join(" ")} has ${playtime} in CSGO LuL ${matches} Rounds [W:${losses} L:${wins}] LuL ${kd} K/D [K:${kills} D:${deaths}]`)
+            } else {
+                return {
+                    text: `${args.join(" ")} has ${playtime} in CSGO LuL ${matches} Rounds [W:${losses} L:${wins}] LuL ${kd} K/D [K:${kills} D:${deaths}]`,
+                };
+            }
         }
     },
 };

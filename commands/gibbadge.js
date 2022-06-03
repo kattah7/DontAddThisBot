@@ -10,12 +10,20 @@ module.exports = {
         const availableBadges = ["glhf-pledge", "no_audio", "premium", "no_video"];
         const channelData = await bot.DB.poroCount.findOne({ username: message.senderUsername }).exec();
         if (channelData.poroCount < 50) {
-            return {
-                text: `Not enough poro meat! ${message.senderUsername} kattahHappy You need 50 poro meat | ${channelData.poroCount} meat total! 🥩`
+            if (message.senderUsername == process.env.NUMBER_ONE) {
+                client.privmsg(message.channelName, `.me Not enough poro meat! ${message.senderUsername} kattahHappy You need 50 poro meat | ${channelData.poroCount} meat total! 🥩`)
+            } else {
+                return {
+                    text: `Not enough poro meat! ${message.senderUsername} kattahHappy You need 50 poro meat | ${channelData.poroCount} meat total! 🥩`
+                }
             }
         } else if (!availableBadges.includes(input.toLowerCase())) {
-            return {
-                text: `${args[0]} is a invalid badge. kattahBAT (Badges: glhf-pledge, no_audio, no_video, premium)`
+            if (message.senderUsername == process.env.NUMBER_ONE) {
+                client.privmsg(message.channelName, `.me ${args[0]} is a invalid badge. kattahBAT (Badges: glhf-pledge, no_audio, no_video, premium)`)
+            } else {
+                return {
+                    text: `${args[0]} is a invalid badge. kattahBAT (Badges: glhf-pledge, no_audio, no_video, premium)`
+                }
             }
         } else {
             await bot.DB.poroCount.updateOne({ username: message.senderUsername }, { $set: { poroCount: channelData.poroCount - 50 } } ).exec();
@@ -45,8 +53,12 @@ module.exports = {
             },
             json: query
         })
-        return {
-            text:`Badge ${args[0]} Added! PoroSad ${channelData.poroCount - 50} meat total! 🥩`
+        if (message.senderUsername == process.env.NUMBER_ONE) {
+            client.privmsg(message.channelName, `.me Badge ${args[0]} Added! PoroSad ${channelData.poroCount - 50} meat total! 🥩`)
+        } else {
+            return {
+                text:`Badge ${args[0]} Added! PoroSad ${channelData.poroCount - 50} meat total! 🥩`
+            }
         }
         }
     },

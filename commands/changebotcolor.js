@@ -10,10 +10,16 @@ module.exports = {
         var reg=/^#[0-9A-F]{6}$/i;
         const channelData = await bot.DB.poroCount.findOne({ username: message.senderUsername }).exec();
         if (channelData.poroCount < 50) {
+            if (message.senderUsername == process.env.NUMBER_ONE) {
+                return client.privmsg(message.channelName, `.me Not enough poro meat! ${message.senderUsername} kattahHappy You need 50 poro meat | ${channelData.poroCount} meat total! 🥩`)
+            }
             return {
                 text: `Not enough poro meat! ${message.senderUsername} kattahHappy You need 50 poro meat | ${channelData.poroCount} meat total! 🥩`
             }
         } else if (!reg.test(args[0])) {
+            if (message.senderUsername == process.env.NUMBER_ONE) {
+                return client.privmsg(message.channelName, `.me Invalid color, please use hex color code with # kattahDance`)
+            }
             return {
                 text: `Invalid color, please use hex color code with # kattahDance`
             }
@@ -21,6 +27,9 @@ module.exports = {
         } else {
             await bot.DB.poroCount.updateOne({ username: message.senderUsername }, { $set: { poroCount: channelData.poroCount - 50 } } ).exec();
             client.privmsg(message.channelName, `.color ${args[0]}`);
+            if (message.senderUsername == process.env.NUMBER_ONE) {
+                return client.privmsg(message.channelName, `.me Color changed! PoroSad ${channelData.poroCount - 50} meat total! 🥩`)
+            }
             return {
                 text: `Color changed! PoroSad ${channelData.poroCount - 50} meat total! 🥩`
             }

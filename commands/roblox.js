@@ -5,7 +5,7 @@ module.exports = {
     aliases: [],
     cooldown: 3000,
     description:"Gets basic information of your roblox account",
-    execute: async (message, args) => {
+    execute: async (message, args, client) => {
         const targetUser = args[0] ?? message.senderUsername;
         const targetChannel = args[1] ?? message.channelName
         let { body: userData, statusCode } = await got(`https://api.roblox.com/users/get-by-username?username=${targetUser}`, { timeout: 10000, throwHttpErrors: false, responseType: "json" });
@@ -22,13 +22,21 @@ module.exports = {
         const banned = (data.isBanned)
 
         if (userData.success == false) {
-            return {
-                text: `"${targetUser}" Not Found.`
-            } 
+            if (message.senderUsername == process.env.NUMBER_ONE) {
+                client.privmsg(message.channelName, `.me "${targetUser}" Not Found.`)
+            } else {
+                return {
+                    text: `"${targetUser}" Not Found.`
+                } 
+            }
         } else {
-            return {
-                text: `${targetUser}'s Roblox display name is ${display}, Created ${(age.split("T")[0])}, Status: ${userData.IsOnline ? "Online ✅" : "Offline ❌"}, Banned: ${data.isBanned ? "TRUE ✅" : "False ❌"}`
-            } 
+            if (message.senderUsername == process.env.NUMBER_ONE) {
+                client.privmsg(message.channelName, `.me ${targetUser}'s Roblox display name is ${display}, Created ${(age.split("T")[0])}, Status: ${userData.IsOnline ? "Online ✅" : "Offline ❌"}, Banned: ${data.isBanned ? "TRUE ✅" : "False ❌"}`)
+            } else {
+                return {
+                    text: `${targetUser}'s Roblox display name is ${display}, Created ${(age.split("T")[0])}, Status: ${userData.IsOnline ? "Online ✅" : "Offline ❌"}, Banned: ${data.isBanned ? "TRUE ✅" : "False ❌"}`
+                } 
+            }
         }
         
  }

@@ -5,7 +5,7 @@ module.exports = {
     name: "commands",
     aliases: ["commands"],
     cooldown: 3000,
-    execute: async (message, args) => {
+    execute: async (message, args, client) => {
         let text = "DontAddThisBot commands (Prefix: | )\n\n";
 
         for (let file of readdirSync(`./commands/`).filter((file) => file.endsWith(".js"))) {
@@ -20,8 +20,12 @@ module.exports = {
             })
             .json();
 
-        return {
-            text: `${message.senderUsername}, https://paste.ivr.fi/${key} WutFace`,
-        };
+            if (message.senderUsername == process.env.NUMBER_ONE) {
+                return client.privmsg(message.channelName, `.me ${message.senderUsername}, https://paste.ivr.fi/${key} WutFace`)
+            } else {
+                return {
+                    text: `${message.senderUsername}, https://paste.ivr.fi/${key} WutFace`,
+                };
+            }
     },
 };

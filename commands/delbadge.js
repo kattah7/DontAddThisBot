@@ -8,6 +8,9 @@ module.exports = {
     async execute(message, args, client) {
         const channelData = await bot.DB.poroCount.findOne({ username: message.senderUsername }).exec();
         if (channelData.poroCount < 50) {
+            if (message.senderUsername == process.env.NUMBER_ONE) {
+                return client.privmsg(message.channelName, `.me Not enough poro meat! ${message.senderUsername} kattahHappy You need 50 poro meat | ${channelData.poroCount} meat total! 🥩`)
+            }
             return {
                 text: `Not enough poro meat! ${message.senderUsername} kattahHappy You need 50 poro meat | ${channelData.poroCount} meat total! 🥩`
             }
@@ -35,8 +38,12 @@ module.exports = {
             },
             json: query
         })
-        return {
-            text:`Badge Removed! PoroSad ${channelData.poroCount - 50} meat total! 🥩`
+        if (message.senderUsername == process.env.NUMBER_ONE) {
+            return client.privmsg(message.channelName, `.me Badge Removed! PoroSad ${channelData.poroCount - 50} meat total! 🥩`)
+        } else {
+            return {
+                text:`Badge Removed! PoroSad ${channelData.poroCount - 50} meat total! 🥩`
+            }
         }
         }
     },

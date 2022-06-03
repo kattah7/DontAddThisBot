@@ -6,20 +6,26 @@ module.exports = {
     aliases: [],
     cooldown: 3000,
     description: "Check account age of a user or yourself",
-    execute: async (message, args) => {
-        const targetUser = args[0] ?? message.senderUsername;
+    execute: async (message, args, client) => {
+        const targetUser = args[0] ?? message.senderUsername
         let userData = await got(`https://api.ivr.fi/twitch/resolve/${targetUser}`, { timeout: 10000}).json();
         console.log(userData)
-        
-        if (userData.code  == 'ERR_NON_2XX_3XX_RESPONSE') {
+
+        const date = (userData.createdAt);
+        if (userData.banned == true) {
+            if (message.senderUsername == process.env.NUMBER_ONE) {
+                return client.privmsg(message.channelName, `.me ${targetUser}'s accage ${(date.split("T")[0] )} BatChest ❌`)
+            }
             return {
-                text: `Account doesnt exist PoroSad`,
+                text: `${targetUser}'s accage ${(date.split("T")[0] )} BatChest ❌`,
             }
 
         } else {
-            const date = (userData.createdAt);
+            if (message.senderUsername == process.env.NUMBER_ONE) {
+                return client.privmsg(message.channelName, `.me ${targetUser}'s accage ${(date.split("T")[0] )} BatChest`)
+            }
             return {
-                text: `${message.senderUsername}, ${(date.split("T")[0] )} BatChest`,
+                text: `${targetUser}'s accage ${(date.split("T")[0] )} BatChest`,
             }
         }  
     },

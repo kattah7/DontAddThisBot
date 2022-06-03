@@ -6,7 +6,7 @@ module.exports = {
     aliases: ["fn"],
     cooldown: 1000,
     description:"check your fortnite stats zzoomerPls",
-    execute: async (message, args) => {
+    execute: async (message, args, client) => {
         var myHeaders = new Headers();
         myHeaders.append("TRN-Api-Key", `${process.env.TRN_Api_Key}`);
 
@@ -24,10 +24,16 @@ module.exports = {
        const ERROR = user.error
 
       if (ERROR == 'Player Not Found') {
+        if (message.senderUsername == process.env.NUMBER_ONE) {
+          return client.privmsg(message.channelName, `.me ${args.join(" ")} Not Found monkaS`)
+      }
         return {
             text: `${args.join(" ")} Not Found monkaS`
         }
       } else if (ERROR == 'Profile is private. Make it public please.  Check your fortnite settings.') {
+        if (message.senderUsername == process.env.NUMBER_ONE) {
+          return client.privmsg(message.channelName, `.me ${args.join(" ")}'s profile is private DansGame`)
+      }
         return {
             text: `${args.join(" ")}'s profile is private DansGame`
         }
@@ -38,9 +44,13 @@ module.exports = {
         const totalKD = user.lifeTimeStats[11].value;
         const winRate = user.lifeTimeStats[9].value;
 
-          return {
-              text: `${args.join(" ")}'s All time Fortnite matches played ${matchesPlayed}, WINS: ${totalWins} with ${winRate} win rate, KILLS: ${totalKills} with ${totalKD} K/D PogBones`
-          }
+        if (message.senderUsername == process.env.NUMBER_ONE) {
+          return client.privmsg(message.channelName, `.me ${args.join(" ")}'s All time Fortnite matches played ${matchesPlayed}, WINS: ${totalWins} with ${winRate} win rate, KILLS: ${totalKills} with ${totalKD} K/D PogBones`)
+      } else {
+        return {
+          text: `${args.join(" ")}'s All time Fortnite matches played ${matchesPlayed}, WINS: ${totalWins} with ${winRate} win rate, KILLS: ${totalKills} with ${totalKD} K/D PogBones`
+      }
+      }
       }
     }
 };

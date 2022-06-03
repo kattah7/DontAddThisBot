@@ -5,7 +5,7 @@ module.exports = {
     aliases: [],
     cooldown: 3000,
     description:"Gets information of a roblox game, please use Place ID",
-    execute: async (message, args) => {
+    execute: async (message, args, client) => {
         const targetUser = args[0] ?? message.senderUsername;
         const targetChannel = args[1] ?? message.channelName
         let { body: userData, statusCode } = await got(`https://api.roblox.com/universes/get-universe-containing-place?placeid=${targetUser}`, { timeout: 10000, throwHttpErrors: false, responseType: "json" });
@@ -18,10 +18,13 @@ module.exports = {
         const playing = (data1.data[0].playing)
         const visit = (data1.data[0].visits)
         const favorite = (data1.data[0].favoritedCount)
-
-         return {
+        if (message.senderUsername == process.env.NUMBER_ONE) {
+            client.privmsg(message.channelName, `.me ${name} currently has ${playing} PLAYERS, ${visit} total visits and favorited by ${favorite} Players. CREATED: ${(data1.data[0].created.split("T")[0])}, LAST UPDATED: ${(data1.data[0].updated.split("T")[0])} LuL`)
+        } else {
+            return {
                 text: `${name} currently has ${playing} PLAYERS, ${visit} total visits and favorited by ${favorite} Players. CREATED: ${(data1.data[0].created.split("T")[0])}, LAST UPDATED: ${(data1.data[0].updated.split("T")[0])} LuL`
             }
+        }
         
     }   
 }

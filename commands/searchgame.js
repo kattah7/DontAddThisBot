@@ -14,12 +14,20 @@ module.exports = {
         const result = userData.response.result
 
         if (result == 42) {
-            return {
-                text: `Game doesnt not exist :) Please use |search "Game" App ID`
-            } 
+            if (message.senderUsername == process.env.NUMBER_ONE) {
+                client.privmsg(message.channelName, `.me Game doesnt not exist :) Please use |search "Game" App ID`)
+            } else {
+                return {
+                    text: `Game doesnt not exist :) Please use |search "Game" App ID`
+                } 
+            }
         } else {
-            return {
-                text: `Currently has ${data} players :O`
+            if (message.senderUsername == process.env.NUMBER_ONE) {
+                client.privmsg(message.channelName, `.me Currently has ${data} players :O`)
+            } else {
+                return {
+                    text: `Currently has ${data} players :O`
+                }
             }
         }
     },

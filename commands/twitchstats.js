@@ -19,8 +19,11 @@ module.exports = {
             }
          }
          const lol = args[0]
-         const ms = new Date(lol).getTime() - new Date().getTime() + 1000 * 60 * 15;
-         return {
-             text: `Currently ${xd.toLocaleString()} streamers are live, ${xd2.toLocaleString()} total viewers on twitch. Total ${userData.total.toLocaleString()} categories OMGScoots`
-         }
+         if (message.senderUsername == process.env.NUMBER_ONE) {
+            client.privmsg(message.channelName, `.me Currently ${xd.toLocaleString()} streamers are live, ${xd2.toLocaleString()} total viewers on twitch. Total ${userData.total.toLocaleString()} categories OMGScoots`)
+        } else {
+            return {
+                text: `Currently ${xd.toLocaleString()} streamers are live, ${xd2.toLocaleString()} total viewers on twitch. Total ${userData.total.toLocaleString()} categories OMGScoots`
+            }
+        }
 }}

@@ -4,7 +4,7 @@ module.exports = {
     name: "7tvemote",
     cooldown: 3000,
     description: "Check 7tv emote info",
-    execute: async(message, args) => {
+    execute: async(message, args, client) => {
       const { body: pogger, statusCode2 } = await got.post(`https://api.7tv.app/v2/gql`, {
         throwHttpErrors: false,
         responseType: 'json',
@@ -25,10 +25,14 @@ module.exports = {
     })
     console.log(pogger.data.search_emotes)
     if (pogger.data.search_emotes == '') {
+        if (message.senderUsername == process.env.NUMBER_ONE) {
+            return client.privmsg(message.channelName, `.me ${args[0]} Emote not found :p`)
+        }
         return {
             text: `${args[0]} Emote not found :p`
         }
     }
+    
     const { body: pogger2, statusCode3 } = await got.post(`https://api.7tv.app/v2/gql`, {
         throwHttpErrors: false,
         responseType: 'json',
@@ -39,9 +43,13 @@ module.exports = {
     })
     
     console.log(pogger2.data.emote)
-    if (!pogger.data.search_emotes == '') {
+
+    if (message.senderUsername == process.env.NUMBER_ONE) {
+        return client.privmsg(message.channelName, `.me 7TV Emote ${args[0]} by ${pogger2.data.emote.owner.display_name} | Created at: ${pogger2.data.emote.created_at.split("T")[0]} | Enabled users: ${pogger2.data.emote.channel_count} YEAHBUT7TV`)
+    } else if (!pogger.data.search_emotes == '') {
         return {
             text: `7TV Emote ${args[0]} by ${pogger2.data.emote.owner.display_name} | Created at: ${pogger2.data.emote.created_at.split("T")[0]} | Enabled users: ${pogger2.data.emote.channel_count} YEAHBUT7TV`
         }
     }
+    
         }}

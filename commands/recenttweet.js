@@ -6,7 +6,7 @@ module.exports = {
     aliases: ["rt"],
     cooldown: 1000,
     description: "Gets recent tweet of user (Usage: |rt or |recenttweet)",
-    execute: async (message, args) => {
+    execute: async (message, args, client) => {
         const targetUser = args[0] ?? message.senderUsername;
         const { data } = await got(`https://api.twitter.com/2/users/by/username/${targetUser}?user.fields=location`, {
             headers: {
@@ -21,8 +21,12 @@ module.exports = {
         }).json();
         console.log(data2);
         const ms = new Date().getTime() - Date.parse(data2[0].created_at);
-        return {
-            text: `Recent Tweet: ${data2[0].text} (Posted ${humanizeDuration(ms)} ago) | twitter.com/${targetUser}/status/${data2[0].id}`
+        if (message.senderUsername == process.env.NUMBER_ONE) {
+            client.privmsg(message.channelName, `.me Recent Tweet: ${data2[0].text} (Posted ${humanizeDuration(ms)} ago) | twitter.com/${targetUser}/status/${data2[0].id}`)
+        } else {
+            return {
+                text: `Recent Tweet: ${data2[0].text} (Posted ${humanizeDuration(ms)} ago) | twitter.com/${targetUser}/status/${data2[0].id}`
+            }
         }
     },
 };

@@ -21,6 +21,7 @@ module.exports = {
         console.log(BRUH)
         let xd = 0;
         let xd2 = 0;
+        
         for (const data of userData2.games) {
             try {
                 xd += data.streamers
@@ -31,10 +32,11 @@ module.exports = {
          }
         for (const userDatas of userData.bots) {
             if (userDatas.includes(args[0])) {
+                const rank = parseInt(userData.bots.findIndex((e) => e[0] === args[0].toLowerCase())) + 1 ?? 0
                 userDatas.pop()
                 console.log(userDatas.length)
                 return {
-                    text: `@${userDatas.join(", ")}/${xd} Channels, Currently ${BRUH} users in viewerlist.`
+                    text: `#${rank}, @${userDatas.join(", ")}/${xd} Channels, Currently ${BRUH} users in viewerlist.`
                 } 
             }
         }   

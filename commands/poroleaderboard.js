@@ -12,8 +12,12 @@ module.exports = {
         const top5 = sorted.slice(0, 5);
         const top5String = top5.map((user) => `ㅤ${user.username} - ${user.poroCount} `).join(" | ");
 
-        return {
-            text: `kattahXd Poro leaderboard: ${top5String}`,
-        };
+        if (message.senderUsername == process.env.NUMBER_ONE) {
+            client.privmsg(message.channelName, `.me kattahXd Poro leaderboard: ${top5String}`)
+        } else {
+            return {
+                text: `kattahXd Poro leaderboard: ${top5String}`,
+            };
+        }
     },
 };

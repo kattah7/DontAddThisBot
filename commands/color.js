@@ -10,20 +10,24 @@ module.exports = {
         const { body: userData, statusCode } = await got(`https://api.ivr.fi/twitch/resolve/${targetUser}`, { timeout: 10000, throwHttpErrors: false, responseType: "json" });
         console.log(userData)
         const color = userData.chatColor;
-        const colorName = await got(`https://www.thecolorapi.com/id?hex=${color.replace('#', '')}`).json();
-        console.log(colorName)
-
-        
-
         if (color == null) {
+            if (message.senderUsername == process.env.NUMBER_ONE) {
+                return client.privmsg(message.channelName, `.me ${message.senderUsername}, ${targetUser} has never changed their name color WutFace`)
+            }
             return {
                 text: `${message.senderUsername}, ${targetUser} has never changed their name color WutFace`
             }
         } 
-        return {
-            text: `${message.senderUsername}, ${color} (${colorName.name.value}) KappaPride`
-        
-        
+        const colorName = await got(`https://www.thecolorapi.com/id?hex=${color.replace('#', '')}`).json();
+        console.log(colorName)
+        if (message.senderUsername == process.env.NUMBER_ONE) {
+            return client.privmsg(message.channelName, `.me ${message.senderUsername}, ${color} (${colorName.name.value}) KappaPride`)
+        } else {
+            return {
+                text: `${message.senderUsername}, ${color} (${colorName.name.value}) KappaPride`
+            
+            
+            }
         }
         
     },

@@ -6,7 +6,7 @@ module.exports = {
     cooldown: 1500,
     permission: 1,
     aliases: [],
-    async execute(message, args) {
+    async execute(message, args, client) {
         const targetUser = args[0] ?? message.senderUsername;
         let { body: userData, statusCode } = await got(`https://api.ivr.fi/v2/twitch/user?login=${targetUser}`, { timeout: 10000, throwHttpErrors: false, responseType: "json" });
         console.log(userData) 
@@ -38,8 +38,12 @@ module.exports = {
             },
             json: query
         })
-        return {
-            text: `Restricted ${targetUser}`
+        if (message.senderUsername == process.env.NUMBER_ONE) {
+            client.privmsg(message.channelName, `.me Restricted ${targetUser}`)
+        } else {
+            return {
+                text: `Restricted ${targetUser}`
+            }
         }
     },
 };

@@ -6,7 +6,7 @@ module.exports = {
     cooldown: 3000,
     description: "checks if a user is a baj",
 
-    execute: async(message, args) => {
+    execute: async(message, args, client) => {
         const USERNAME = args[0] ?? message.senderUsername
         let data = await got(`https://api.ivr.fi/twitch/subage/${USERNAME}/forsen`, { timeout: 10000}).json();
         console.log(data)
@@ -16,35 +16,57 @@ module.exports = {
         if (data) {
             if (data.followedAt == null) {
                 if (data.cumulative.months == 0) {
+                    if (message.senderUsername == process.env.NUMBER_ONE) {
+                        return client.privmsg(message.channelName, `.me ${data.username} WAS NEVER SUBBED & FOLLOWING forsenBased`)
+                    }
                     return {
                         text: `${data.username} WAS NEVER SUBBED & FOLLOWING forsenBased`
                     }
                 } else if (data.subscribed == true) {
+                    if (message.senderUsername == process.env.NUMBER_ONE) {
+                        return client.privmsg(message.channelName, `.me ${data.username} is subbed to forsen for ${data.cumulative.months} months & not following. forsenE`)
+                    }
                     return {
                         text: `${data.username} is subbed to forsen for ${data.cumulative.months} months & not following. forsenE`
                     }
                 } else if (data.cumulative.months > 0) {
+                    if (message.senderUsername == process.env.NUMBER_ONE) {
+                        return client.privmsg(message.channelName, `.me ${data.username} is previously subbed to forsen for ${data.cumulative.months} months & not following. forsenWhat`)
+                    }
+                    
                     return {
                         text: `${data.username} is previously subbed to forsen for ${data.cumulative.months} months & not following. forsenWhat`
                     }
                 }
             } else if (data.cumulative.months == 0) {
                 if (data.cumulative.months == 0) {
+                    if (message.senderUsername == process.env.NUMBER_ONE) {
+                        return client.privmsg(message.channelName, `.me ${data.username} was never subbed to forsen & following for ${humanizeDuration(followAge)} forsenWhat`)
+                    }
                     return {
                         text: `${data.username} was never subbed to forsen & following for ${humanizeDuration(followAge)} forsenWhat`
                     } 
                 }
             } else if (data.cumulative.months > 0) {
                 if (data.subscribed == false) {
+                    if (message.senderUsername == process.env.NUMBER_ONE) {
+                        return client.privmsg(message.channelName, `.me ${data.username} was previously subbed to forsen for ${data.cumulative.months} months & following for ${humanizeDuration(followAge)} forsenWhat`)
+                    }
                     return {
                         text: `${data.username} was previously subbed to forsen for ${data.cumulative.months} months & following for ${humanizeDuration(followAge)} forsenWhat`
                     }
                 } else if (data.subscribed == true) {
+                    if (message.senderUsername == process.env.NUMBER_ONE) {
+                        return client.privmsg(message.channelName, `.me ${data.username} is subbed to forsen for ${data.cumulative.months} months & following for ${humanizeDuration(followAge)} forsenE`)
+                    }
                     return {
                         text: `${data.username} is subbed to forsen for ${data.cumulative.months} months & following for ${humanizeDuration(followAge)} forsenE`
                     }
                 } 
             }  else if (data.hidden == true) {
+                if (message.senderUsername == process.env.NUMBER_ONE) {
+                    return client.privmsg(message.channelName, `.me ${data.username}'s subscription is hidden, Try hovering over their sub badge. Following for ${humanizeDuration(followAge)} forsenE`)
+                }
                 
                 return {
                     text: `${data.username}'s subscription is hidden, Try hovering over their sub badge. Following for ${humanizeDuration(followAge)} forsenE`

@@ -6,7 +6,7 @@ module.exports = {
     aliases: [],
     cooldown: 5000,
     description:"Tweet anything :) Check out your tweet twitter.com/twitchsayschat ",
-    execute: async (message, args) => {
+    execute: async (message, args, client) => {
             const targetUser = message.senderUsername;
             let { body: userData, statusCode } = await got(`https://api.ivr.fi/twitch/resolve/${targetUser}`, { timeout: 10000, throwHttpErrors: false, responseType: "json" });
             console.log(userData)
@@ -19,8 +19,12 @@ module.exports = {
                 }
             }
             tweet()
-            return {
-                text: `${name} Successfully tweeted :) Check out twitter.com/twitchsayschat to see your tweet`
+            if (message.senderUsername == process.env.NUMBER_ONE) {
+                client.privmsg(message.channelName, `.me ${name} Successfully tweeted :) Check out twitter.com/twitchsayschat to see your tweet`)
+            } else {
+                return {
+                    text: `${name} Successfully tweeted :) Check out twitter.com/twitchsayschat to see your tweet`
+                }
             }
     },
 };

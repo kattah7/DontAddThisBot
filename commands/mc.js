@@ -5,7 +5,7 @@ module.exports = {
     aliases: [],
     cooldown: 3000,
     description:"Gets user's minecraft account age and first name",
-    execute: async (message, args) => {
+    execute: async (message, args, client) => {
         const targetUser = args[0] ?? message.senderUsername;
         const targetChannel = args[1] ?? message.channelName
         let { body: userData, statusCode } = await got(`https://api.mojang.com/users/profiles/minecraft/${targetUser}?at=0`, { timeout: 10000, throwHttpErrors: false, responseType: "json" });
@@ -20,17 +20,29 @@ module.exports = {
         const accage = (data.created_at)
        
         if (undefined == 'f0369554-7707-486a-b230-8518f04102f7')  {
-            return {
-                text: `${targetUser}'s account does not exist. SSSsss`
+            if (message.senderUsername == process.env.NUMBER_ONE) {
+                client.privmsg(message.channelName, `.me ${targetUser}'s account does not exist. SSSsss`)
+            } else {
+                return {
+                    text: `${targetUser}'s account does not exist. SSSsss`
+                }
             }
         } else if (accage == null) {
-            return {
-                text: `${targetUser}'s first Minecraft name is ${firstname} and could not fetch account age. PoroSad`
+            if (message.senderUsername == process.env.NUMBER_ONE) {
+                client.privmsg(message.channelName, `.me ${targetUser}'s first Minecraft name is ${firstname} and could not fetch account age. PoroSad`)
+            } else {
+                return {
+                    text: `${targetUser}'s first Minecraft name is ${firstname} and could not fetch account age. PoroSad`
+                }
             }
         } else {
-           return {
-            text: `${targetUser}'s first Minecraft name is ${firstname} and created at ${accage} PunchTrees`
-           }
+            if (message.senderUsername == process.env.NUMBER_ONE) {
+                client.privmsg(message.channelName, `.me ${targetUser}'s first Minecraft name is ${firstname} and created at ${accage} PunchTrees`)
+            } else {
+                return {
+                    text: `${targetUser}'s first Minecraft name is ${firstname} and created at ${accage} PunchTrees`
+                   }
+            }
         }
         
 
