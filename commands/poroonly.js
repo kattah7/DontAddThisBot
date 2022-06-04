@@ -4,6 +4,7 @@ module.exports = {
     description: "Make the bot only allow poro commands",
     level: 3,
     poro: true,
+    offline: true,
     execute: async(message, args, client) => {
         if (args[0] == 'enable') {
             await bot.DB.channels.updateOne({ username: message.channelName }, { $set: { poroOnly: true } }).exec(); 

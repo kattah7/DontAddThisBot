@@ -3,6 +3,7 @@ const nodeCron = require("node-cron");
 const { readdirSync } = require("fs");
 const { ChatClient, AlternateMessageModifier, SlowModeRateLimiter } = require("@kararty/dank-twitch-irc");
 const { channel } = require("diagnostics_channel");
+const got = require("got");
 
 global.bot = {};
 bot.Redis = require("./util/redis.js");
@@ -108,6 +109,22 @@ client.on("PRIVMSG", async (message) => {
             }
             if (channelData.poroOnly && !command.poro) {
                 return
+            }
+    
+            if (channelData.offlineOnly && !command.offline) {
+                const { data } = await got(`https://api.twitch.tv/helix/streams?user_login=${message.channelName}`, {
+                headers: {
+                "Client-ID": process.env.CLIENT_ID,
+                Authorization: `Bearer ${process.env.ACCESS_TOKEN}`,
+                },
+                }).json();
+                console.log(data)
+                var xd = true
+                if (data[0]==undefined){
+                    
+                } else if (data[0].type == 'live') {
+                    return
+                }
             }
 
             if (command.numberone) {

@@ -17,6 +17,7 @@ const ChannelsSchema = new DB.Schema({
     joinedAt: Date,
     prefix: String,
     poroOnly: false,
+    offlineOnly: false,
 });
 
 const PoroSchema = new DB.Schema({
