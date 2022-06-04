@@ -41,7 +41,7 @@ module.exports = {
                         
                     } else {
                         return {
-                            text: `No poros found... 🌉 kattahBoom ${message.senderUsername} | ${channelData.poroCount} meat total! 🥩  | Come back later in ${humanizeDuration(ms)}. kattahDance`
+                            text: `No poros found... 🎇 kattahBoom ${message.senderUsername} | ${channelData.poroCount} meat total! 🥩  | Come back later in ${humanizeDuration(ms)}. kattahDance`
                         } 
                     }
                     
