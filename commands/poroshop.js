@@ -9,7 +9,7 @@ module.exports = {
             client.privmsg(message.channelName, `.me ${message.senderUsername}, kattahDance setcolor Change bot color (50 poro 🥩) | cdr to reset timer (5 poro 🥩) | addbadge to bot ["glhf-pledge", "no_audio", "premium", "no_video"] (50 poro 🥩) | delbadge to remove all badges (50 poro 🥩)`)
         } else {
             return {
-                text: `${message.senderUsername}, kattahDance setcolor Change bot color (50 poro 🥩) | cdr to reset timer (5 poro 🥩) | addbadge to bot ["glhf-pledge", "no_audio", "premium", "no_video"] (50 poro 🥩) | delbadge to remove all badges (50 poro 🥩)`
+                text: `${message.senderUsername}, kattahDance setcolor Change bot color (50 poro 🥩) | cdr to reset timer (5 poro 🥩) `
             } 
         }
     }
