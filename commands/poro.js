@@ -35,7 +35,7 @@ module.exports = {
                     if (message.senderUsername == process.env.NUMBER_ONE) {
                         
                            
-                               client.privmsg(message.channelName, `.me No poros found... 🌉 kattahBoom ${message.senderUsername} | ${channelData.poroCount} meat total! 🥩  | Come back later in ${humanizeDuration(ms)}. kattahDance`)
+                               client.privmsg(message.channelName, `.me No poros found... 🎇 kattahBoom ${message.senderUsername} | ${channelData.poroCount} meat total! 🥩  | Come back later in ${humanizeDuration(ms)}. kattahDance`)
                                return
                            
                         
