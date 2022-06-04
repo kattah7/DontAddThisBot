@@ -2,7 +2,7 @@ const humanizeDuration = require("../humanizeDuration");
 
 module.exports = {
     name: "cdr",
-    cooldown: 3000,
+    cooldown: 10000,
     description: "Reset poro timer every 3 hours",
     poro: true,
     execute: async(message, args, client) => {

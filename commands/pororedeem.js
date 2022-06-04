@@ -2,7 +2,7 @@ const humanizeDuration = require("../humanizeDuration");
 
 module.exports = {
     name: "redeem",
-    cooldown: 3000,
+    cooldown: 10000,
     description: "Redeem poro meat with speical codes",
     poro: true,
     execute: async(message, args, client) => {

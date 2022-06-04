@@ -1,6 +1,6 @@
 module.exports = {
     name: "poroshop",
-    cooldown: 3000,
+    cooldown: 10000,
     description: "poro shop information to use poro meat",
     aliases: ["shop"],
     poro: true,

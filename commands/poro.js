@@ -3,7 +3,7 @@ const humanizeDuration = require("../humanizeDuration");
 
 module.exports = {
     name: "poro",
-    cooldown: 3000,
+    cooldown: 10000,
     description: "Get poro meat every 2 hour",
     poro: true,
     execute: async(message, args, client) => {

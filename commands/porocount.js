@@ -1,6 +1,6 @@
 module.exports = {
     name: "porocount",
-    cooldown: 3000,
+    cooldown: 10000,
     description: "check poro count of user",
     poro: true,
     execute: async(message, args, client) => {
