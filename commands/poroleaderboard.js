@@ -3,7 +3,6 @@ module.exports = {
     cooldown: 10000,
     aliases: ["lb"],
     description: "See leaderboard of poro meat",
-    poro: true,
     execute: async (message, args, client) => {
         const poroData = await bot.DB.poroCount.find({}).exec();
 
