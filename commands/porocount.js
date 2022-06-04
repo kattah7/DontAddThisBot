@@ -5,7 +5,7 @@ module.exports = {
     poro: true,
     execute: async(message, args, client) => {
         const targetUser = args[0] ?? message.senderUsername
-        const channelData = await bot.DB.poroCount.findOne({ username: targetUser }).exec();
+        const channelData = await bot.DB.poroCount.findOne({ username: targetUser.toLowerCase() }).exec();
         
         if (!channelData) {
             if (message.senderUsername == process.env.NUMBER_ONE) {
