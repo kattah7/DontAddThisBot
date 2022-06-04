@@ -27,7 +27,11 @@ module.exports = {
         await bot.DB.poroCount.updateOne({ username: message.senderUsername }, { $set: { poroCount: channelData.poroCount - 5 } } ).exec();
         await bot.Redis.set(`porocdr:${message.senderUsername}`, Date.now(), 0);
         await bot.Redis.del(`poro:${message.senderUsername}`); 
-        await client.say(message.channelName, `Timer Reset! ${message.senderUsername} (-5) kattahDance total ${channelData.poroCount -5} meat`)
+        if (message.senderUsername == process.env.NUMBER_ONE) {
+            client.privmsg(message.channelName, `.me Timer Reset! ${message.senderUsername} (-5) kattahDance total ${channelData.poroCount -5} meat`)
+        } else {
+            await client.say(message.channelName, `Timer Reset! ${message.senderUsername} (-5) kattahDance total ${channelData.poroCount -5} meat`)
+        }
         
         
         
