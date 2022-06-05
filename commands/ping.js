@@ -2,7 +2,7 @@ const humanizeDuration = require("../humanizeDuration");
 const got = require("got");
 
 module.exports = {
-    name: "xdping",
+    name: "ping",
     aliases: ["xd"],
     cooldown: 3000,
     description:"Bot response",
