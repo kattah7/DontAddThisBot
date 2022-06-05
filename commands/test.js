@@ -1,29 +1,25 @@
 const got = require("got");
 
 module.exports = {
-    name: "test",
+    name: "forsentest",
     aliases: ["test"],
     cooldown: 3000,
     description:"Gets the top clip of the channel",
     execute: async (message, args, client) => {
         const targetUser = args[0] ?? message.senderUsername
-        const { data } = await got(`https://api.twitch.tv/helix/streams?user_login=${targetUser}`, {
-            headers: {
-                "Client-ID": process.env.CLIENT_ID,
-                Authorization: `Bearer ${process.env.ACCESS_TOKEN}`,
-            },
-        }).json();
-        console.log(data[0])
-        if (data[0] == undefined) {
+        const {banned, banphrase_data} = await got.post(`https://forsen.tv/api/v1/banphrases/test `, {json: {'message': args[0]}}).json();
+        console.log(banned, banphrase_data)
+        if (banned == true) {
             return {
-                text: `offline lol`
+                text: `banned xd`
+            }
+
+        } else if (banned == false) {
+            return {
+                text:`lol`
             }
         }
-        if (data[0].type == 'live') {
-            return {
-                text: `online lol`
-            }
-        }
+        
 
     },
 };
