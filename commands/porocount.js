@@ -4,6 +4,7 @@ module.exports = {
     name: "porocount",
     cooldown: 10000,
     description: "check poro count of user",
+    poro: true,
     execute: async(message, args, client) => {
         const targetUser = args[0] ?? message.senderUsername
         const {banned, banphrase_data} = await got.post(`https://forsen.tv/api/v1/banphrases/test `, {json: {'message': targetUser}}).json();
