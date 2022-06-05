@@ -2,7 +2,7 @@ const got = require("got");
 const humanizeDuration = require("../humanizeDuration");
 
 module.exports = {
-    name: "testxd",
+    name: "randomstream",
     aliases: ["rs"],
     cooldown: 3000,
     description:"Fetches a random streamer from any game category",
