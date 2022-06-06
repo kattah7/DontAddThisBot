@@ -4,7 +4,7 @@ const humanizeDuration = require("../humanizeDuration");
 module.exports = {
     name: "gambafrog",
     cooldown: 3000,
-    description: "checks if a user is a juicer",
+    description: "checks if a user is a gamba frog in trainwreckstv",
 
     execute: async(message, args, client) => {
         const USERNAME = args[0] ?? message.senderUsername
