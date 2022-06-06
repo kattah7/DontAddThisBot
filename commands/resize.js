@@ -16,7 +16,7 @@ module.exports = {
                 text: `um you gotta do either put '7tv' or 'twitch' after the emote`
             }
         }
-        await client.say(message.channelName, "fetching emotes xd (LOCAL)")
+        await client.say(message.channelName, "fetching emotes xd")
         let { body: userData, statusCode } = await got(`https://api.ivr.fi/v2/twitch/emotes/${args[0]}`, { timeout: 10000, throwHttpErrors: false, responseType: "json" });
         console.log(userData)
         
