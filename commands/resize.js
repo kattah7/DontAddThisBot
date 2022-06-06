@@ -6,7 +6,6 @@ module.exports = {
     cooldown: 5000,
     description: "resize twitch, 7tv, bttv, ffz emotes",
     execute: async(message, args, client) => {
-        await client.say(message.channelName, "fetching emotes xd")
         if (!args[0]) {
             return {
                 text: `insert an emote lol`
@@ -17,6 +16,7 @@ module.exports = {
                 text: `um you gotta do either put '7tv' or 'twitch' after the emote`
             }
         }
+        await client.say(message.channelName, "fetching emotes xd (LOCAL)")
         let { body: userData, statusCode } = await got(`https://api.ivr.fi/v2/twitch/emotes/${args[0]}`, { timeout: 10000, throwHttpErrors: false, responseType: "json" });
         console.log(userData)
         
