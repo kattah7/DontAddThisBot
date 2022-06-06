@@ -6,6 +6,7 @@ module.exports = {
     cooldown: 5000,
     description: "resize twitch, 7tv, bttv, ffz emotes",
     execute: async(message, args, client) => {
+        await client.say(message,channelName, "fetching emotes xd")
         if (!args[0]) {
             return {
                 text: `insert an emote lol`
@@ -57,14 +58,14 @@ module.exports = {
             for (const stvs of stv.data.user.emotes) {
                 if (stvs.name.includes(args[0])) {
                     return {
-                        text: `https://ezgif.com/webp-to-png?url=https://cdn.7tv.app/emote/${stvs.id}/4x (LOCAL)`
+                        text: `https://ezgif.com/webp-to-png?url=https://cdn.7tv.app/emote/${stvs.id}/4x`
                     }
                 } 
                 }
                 for (const stvs of stv.data.user.emotes) {
             if (!stvs.name.includes(args[0])) {
                 return {
-                    text: `https://ezgif.com/webp-to-png?url=https://cdn.7tv.app/emote/${pogger.data.search_emotes[0].id}/4x (LOCAL)`
+                    text: `https://ezgif.com/webp-to-png?url=https://cdn.7tv.app/emote/${pogger.data.search_emotes[0].id}/4x`
                 }
             } 
         }
