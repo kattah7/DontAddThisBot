@@ -2,9 +2,23 @@ const got = require("got")
 
 module.exports = {
     name: "resize",
+    aliases: ["convert"],
     cooldown: 5000,
     description: "resize twitch, 7tv, bttv, ffz emotes",
     execute: async(message, args, client) => {
+        if (!args[0]) {
+            return {
+                text: `insert an emote lol`
+            }
+        }
+        if (!args[1]) {
+            return{
+                text: `um you gotta do either put '7tv' or 'twitch' after the emote`
+            }
+        }
+        let { body: userData, statusCode } = await got(`https://api.ivr.fi/v2/twitch/emotes/${args[0]}`, { timeout: 10000, throwHttpErrors: false, responseType: "json" });
+        console.log(userData)
+        
         const { body: stv } = await got.post(`https://api.7tv.app/v2/gql`, {
             throwHttpErrors: false,
             responseType: 'json',
@@ -15,13 +29,56 @@ module.exports = {
                 }
             }
         })
-        console.log(stv.data.user.emotes)
-        for (const stvs of stv.data.user.emotes) {
-            if (stvs.name.includes(args[0])) {
-                return {
-                    text: `https://ezgif.com/webp-to-png?url=https://cdn.7tv.app/emote/${stvs.id}/4x`
+        const { body: pogger, statusCode2 } = await got.post(`https://api.7tv.app/v2/gql`, {
+                throwHttpErrors: false,
+                responseType: 'json',
+                json: {
+                    "query": "query($query: String!,$page: Int,$pageSize: Int,$globalState: String,$sortBy: String,$sortOrder: Int,$channel: String,$submitted_by: String,$filter: EmoteFilter) {search_emotes(query: $query,limit: $pageSize,page: $page,pageSize: $pageSize,globalState: $globalState,sortBy: $sortBy,sortOrder: $sortOrder,channel: $channel,submitted_by: $submitted_by,filter: $filter) {id,visibility,owner {id,display_name,role {id,name,color},banned}name,tags}}",
+                    "variables": {
+                channel: null,
+                globalState: null,
+                limit: 16,
+                page: 1,
+                pageSize: 16,
+                query: `${args[0]}`,
+                sortBy: "popularity",
+                sortOrder: 0,
+                submitted_by: null
+                    }
                 }
+                
+            })
+            
+
+        
+        console.log(stv.data.user.emotes)
+
+        if (args[1] == '7tv') {
+            for (const stvs of stv.data.user.emotes) {
+                if (stvs.name.includes(args[0])) {
+                    return {
+                        text: `https://ezgif.com/webp-to-png?url=https://cdn.7tv.app/emote/${stvs.id}/4x (LOCAL)`
+                    }
+                } 
+                }
+                for (const stvs of stv.data.user.emotes) {
+            if (!stvs.name.includes(args[0])) {
+                return {
+                    text: `https://ezgif.com/webp-to-png?url=https://cdn.7tv.app/emote/${pogger.data.search_emotes[0].id}/4x (LOCAL)`
+                }
+            } 
+        }
+    }
+    if (args[1] == 'twitch') {
+        if (userData.statusCode == 404) {
+            return {
+                text: `${userData.message} lol`
+            }
+        } else {
+            return {
+                text: `https://ezgif.com/webp-to-png?url=${userData.emoteURL.replace('1.0', '4.0')}`
             }
         }
     }
-}
+        }
+    }
