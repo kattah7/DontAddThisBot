@@ -1,8 +1,7 @@
 const got = require("got")
 
 module.exports = {
-    name: "resize",
-    aliases: ["convert"],
+    name: "ezgif",
     cooldown: 5000,
     description: "resize twitch, 7tv, bttv, ffz emotes",
     execute: async(message, args, client) => {
