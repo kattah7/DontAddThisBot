@@ -3,7 +3,7 @@ const humanizeDuration = require("../humanizeDuration");
 
 module.exports = {
     name: "juicercheck",
-    cooldown: 3000,
+    cooldown: 10000,
     description: "checks if a user is a juicer",
     poro: true,
 
