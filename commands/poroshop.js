@@ -11,10 +11,10 @@ module.exports = {
         console.log(banned, banphrase_data)
         if (banned == false) {
             if (message.senderUsername == process.env.NUMBER_ONE) {
-                client.privmsg(message.channelName, `.me ${message.senderUsername}, kattahDance setcolor Change bot color (50 poro 🥩) | cdr to reset timer (5 poro 🥩) | addbadge to bot ["glhf-pledge", "no_audio", "premium", "no_video"] (50 poro 🥩) | delbadge to remove all badges (50 poro 🥩)`)
+                client.privmsg(message.channelName, `.me ${message.senderUsername}, kattahDance setcolor (50 🥩) | cdr (5 🥩) | change display name (50 🥩) | deactivate bot :tf: (1mill 🥩)`)
             } else {
                 return {
-                    text: `${message.senderUsername}, kattahDance setcolor Change bot color (50 poro 🥩) | cdr to reset timer (5 poro 🥩) `
+                    text: `${message.senderUsername}, kattahDance setcolor (50 🥩) | cdr (5 🥩) | change display name (50 🥩) | deactivate bot :tf: (1mill 🥩)`
                 } 
             }
         } else if (banned == true) {

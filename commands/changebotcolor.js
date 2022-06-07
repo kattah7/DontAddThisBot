@@ -3,7 +3,7 @@ const got = require("got");
 
 module.exports = {
     name: `changecolor`,
-    cooldown: 3000,
+    cooldown: 10000,
     aliases: ["changecolour", "setcolor", "setcolour"],
     description: 'Change the bot color with 50 poro meat',
     poro: true,

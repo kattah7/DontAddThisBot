@@ -6,12 +6,20 @@ module.exports = {
     description: "check poro count of user",
     poro: true,
     execute: async(message, args, client) => {
+        if (!args[0]) {
+            if (message.senderUsername == process.env.NUMBER_ONE) {
+                client.privmsg(message.channelName, `.me insert name lol`)
+            } else {
+                return {
+                    text: `insert name lol`
+                }
+            }
+        }
         const targetUser = args[0] ?? message.senderUsername
         const prefix = args[0].toLowerCase()
         const {banned, banphrase_data} = await got.post(`https://forsen.tv/api/v1/banphrases/test `, {json: {'message': targetUser}}).json();
         console.log(banned, banphrase_data)
         const channelData = await bot.DB.poroCount.findOne({ username: targetUser.toLowerCase() }).exec();
-        
         if (prefix.length < 25) {
             if (banned == false) {
                 if (!channelData) {
