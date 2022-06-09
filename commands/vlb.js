@@ -32,6 +32,22 @@ module.exports = {
                 text: `Currently in total of ${kek.toLocaleString()} Live Channels 🕵🏼‍♂`
             }
         }
+
+        if (args[0] == "supa") {
+            for (const userDatas of userData.bots) {
+                if (userDatas.includes("supa8") || userDatas.includes("0_supa") ) {
+                    userDatas.pop()
+                    userDatas.shift()
+                    const str1 = `${userDatas.join(", ")}`
+                    const result = Number(str1.replace(/,/g, ''));
+                    kek+=result
+                    
+                }
+            }
+            return {
+                text: `Currently in total of ${kek.toLocaleString()} Live Channels 👌`
+            }
+        }
         const { chatters } = await got(`https://tmi.twitch.tv/group/user/${(args[0].toLowerCase())}/chatters`).json();
         const BRUH = chatters.viewers.length
         console.log(BRUH)
