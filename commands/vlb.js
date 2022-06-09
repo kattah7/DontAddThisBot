@@ -16,6 +16,22 @@ module.exports = {
                 text: `#1 ${userData.bots[0].join(", ")} Channels | #2 ${userData.bots[1].join(", ")} Channels | #3 ${userData.bots[2].join(", ")} Channels | #4 ${userData.bots[3].join(", ")} Channels | #5 ${userData.bots[4].join(", ")} Channels | `
             }
         }
+        let kek =0
+        if (args[0] == "all") {
+            for (const userDatas of userData.bots) {
+                if (userDatas.includes("aliengathering") || userDatas.includes("0turt") || userDatas.includes("0liavanna")|| userDatas.includes("0masie")|| userDatas.includes("apumusic")|| userDatas.includes("0ax2")|| userDatas.includes("dankingaround")|| userDatas.includes("iizzybeth")|| userDatas.includes("alienconglomeration")) {
+                    userDatas.pop()
+                    userDatas.shift()
+                    const str1 = `${userDatas.join(", ")}`
+                    const result = Number(str1.replace(/,/g, ''));
+                    kek+=result
+                    
+                }
+            }
+            return {
+                text: `Currently in total of ${kek.toLocaleString()} Live Channels`
+            }
+        }
         const { chatters } = await got(`https://tmi.twitch.tv/group/user/${(args[0].toLowerCase())}/chatters`).json();
         const BRUH = chatters.viewers.length
         console.log(BRUH)
