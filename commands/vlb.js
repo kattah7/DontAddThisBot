@@ -17,9 +17,9 @@ module.exports = {
             }
         }
         let kek =0
-        if (args[0] == "all") {
+        if (args[0] == "cult") {
             for (const userDatas of userData.bots) {
-                if (userDatas.includes("aliengathering") || userDatas.includes("0turt") || userDatas.includes("0liavanna")|| userDatas.includes("0masie")|| userDatas.includes("apumusic")|| userDatas.includes("0ax2")|| userDatas.includes("dankingaround")|| userDatas.includes("iizzybeth")|| userDatas.includes("alienconglomeration")) {
+                if (userDatas.includes("aliengathering") || userDatas.includes("0turt") || userDatas.includes("0liavanna")|| userDatas.includes("0maisie")|| userDatas.includes("apumusic")|| userDatas.includes("0ax2")|| userDatas.includes("dankingaround")|| userDatas.includes("iizzybeth")|| userDatas.includes("alienconglomeration")) {
                     userDatas.pop()
                     userDatas.shift()
                     const str1 = `${userDatas.join(", ")}`
@@ -29,7 +29,7 @@ module.exports = {
                 }
             }
             return {
-                text: `Currently in total of ${kek.toLocaleString()} Live Channels`
+                text: `Currently in total of ${kek.toLocaleString()} Live Channels 🕵🏼‍♂`
             }
         }
         const { chatters } = await got(`https://tmi.twitch.tv/group/user/${(args[0].toLowerCase())}/chatters`).json();
