@@ -22,6 +22,10 @@ module.exports = {
         const channelData = await bot.DB.poroCount.findOne({ username: targetUser.toLowerCase() }).exec();
         if (prefix.length < 25) {
             if (banned == false) {
+                if (!channelData.poroPrestige) {
+                    const updateChannel = await bot.DB.poroCount.findOneAndUpdate({ username: message.senderUsername }, { $set: { poroPrestige: 0 } }, { new: true }).exec();
+                    await updateChannel.save();
+                }
                 if (!channelData) {
                     if (message.senderUsername == process.env.NUMBER_ONE) {
                         client.privmsg(message.channelName, `.me ${targetUser} isnt registered lol`)
@@ -32,10 +36,10 @@ module.exports = {
                     }
                 } else {
                     if (message.senderUsername == process.env.NUMBER_ONE) {
-                        client.privmsg(message.channelName, `.me ${targetUser} has total of ${channelData.poroCount} meat kattahXd | Registered: ${channelData.joinedAt}`)
+                        client.privmsg(message.channelName, `.me ${targetUser} has total of [P:${channelData.poroPrestige}] ${channelData.poroCount} meat kattahXd | Registered: ${channelData.joinedAt}`)
                     } else {
                         return {
-                            text: `${targetUser} has total of ${channelData.poroCount} meat kattahXd | Registered: ${channelData.joinedAt}`
+                            text: `${targetUser} has total of [P:${channelData.poroPrestige}] ${channelData.poroCount} meat kattahXd | Registered: ${channelData.joinedAt}`
                         }
                     }
                 } 

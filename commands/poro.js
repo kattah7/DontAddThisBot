@@ -20,6 +20,7 @@ module.exports = {
                     id: message.senderUserID,
                     joinedAt: new Date(),
                     poroCount: 10,
+                    poroPrestige: 0,
                 });
                 
                 await newChannel.save();
@@ -28,6 +29,10 @@ module.exports = {
                 return {
                     text: `New user! ${message.senderUsername} kattahDance2 here is free 10 poro meat 🥩`
                 }
+            }
+            if (!channelData.poroPrestige) {
+                const updateChannel = await bot.DB.poroCount.findOneAndUpdate({ username: message.senderUsername }, { $set: { poroPrestige: 0 } }, { new: true }).exec();
+                await updateChannel.save();
             }
             
     
@@ -38,13 +43,13 @@ module.exports = {
                         if (message.senderUsername == process.env.NUMBER_ONE) {
                             
                                
-                                   client.privmsg(message.channelName, `.me No poros found... 🎇 kattahBoom ${message.senderUsername} | ${channelData.poroCount} meat total! 🥩  | Come back later in ${humanizeDuration(ms)}. kattahDance`)
+                                   client.privmsg(message.channelName, `.me No poros found... 🎇 kattahBoom ${message.senderUsername} | [P:${channelData.poroPrestige}] ${channelData.poroCount} meat total! 🥩  | Come back later in ${humanizeDuration(ms)}. kattahDance`)
                                    return
                                
                             
                         } else {
                             return {
-                                text: `No poros found... 🎇 kattahBoom ${message.senderUsername} | ${channelData.poroCount} meat total! 🥩  | Come back later in ${humanizeDuration(ms)}. kattahDance`
+                                text: `No poros found... 🎇 kattahBoom ${message.senderUsername} | [P:${channelData.poroPrestige}] ${channelData.poroCount} meat total! 🥩  | Come back later in ${humanizeDuration(ms)}. kattahDance`
                             } 
                         }
                         
@@ -58,50 +63,50 @@ module.exports = {
             console.log(random)
             if (random == 5 || random == 6 || random == 7 || random == 8 || random == 9) {
                 if (message.senderUsername == process.env.NUMBER_ONE) {
-                    client.privmsg(message.channelName, `.me Poro slaughtered! ${message.senderUsername} --> Tenderloin Poro kattahStare (+${random}) PoroSad ${channelData.poroCount + random} meat total!`)
+                    client.privmsg(message.channelName, `.me Poro slaughtered! ${message.senderUsername} --> Tenderloin Poro kattahStare (+${random}) PoroSad [P:${channelData.poroPrestige}] ${channelData.poroCount + random} meat total!`)
                 } else {
                     return {
-                        text: `Poro slaughtered! ${message.senderUsername} --> Tenderloin Poro kattahStare (+${random}) PoroSad ${channelData.poroCount + random} meat total!`,
+                        text: `Poro slaughtered! ${message.senderUsername} --> Tenderloin Poro kattahStare (+${random}) PoroSad [P:${channelData.poroPrestige}] ${channelData.poroCount + random} meat total!`,
                     };
                 }
             } else if (random == 10 || random == 11 || random == 12 || random == 13 || random == 14 || random == 15) {
                 if (message.senderUsername == process.env.NUMBER_ONE) {
-                    client.privmsg(message.channelName, `.me Poro slaughtered! ${message.senderUsername} --> Wagyu Poro 🤤 (+${random}) kattahHappy ${channelData.poroCount + random} meat total!`)
+                    client.privmsg(message.channelName, `.me Poro slaughtered! ${message.senderUsername} --> Wagyu Poro 🤤 (+${random}) kattahHappy [P:${channelData.poroPrestige}] ${channelData.poroCount + random} meat total!`)
                 } else {
                     return {
-                        text: `Poro slaughtered! ${message.senderUsername} --> Wagyu Poro 🤤 (+${random}) kattahHappy ${channelData.poroCount + random} meat total!`
+                        text: `Poro slaughtered! ${message.senderUsername} --> Wagyu Poro 🤤 (+${random}) kattahHappy [P:${channelData.poroPrestige}] ${channelData.poroCount + random} meat total!`
                     }
                 }
             } else if (random == -1 || random == -2 || random == -3 || random == -4 || random == -5) {
                 if (message.senderUsername == process.env.NUMBER_ONE) {
-                    client.privmsg(message.channelName, `.me Poro slaughtered! ${message.senderUsername} --> Rotten Poro DansGame (${random}) kattahBAT ${channelData.poroCount + random} meat total!`)
+                    client.privmsg(message.channelName, `.me Poro slaughtered! ${message.senderUsername} --> Rotten Poro DansGame (${random}) kattahBAT [P:${channelData.poroPrestige}] ${channelData.poroCount + random} meat total!`)
                 } else {
                     return {
-                        text: `Poro slaughtered! ${message.senderUsername} --> Rotten Poro DansGame (${random}) kattahBAT ${channelData.poroCount + random} meat total!`
+                        text: `Poro slaughtered! ${message.senderUsername} --> Rotten Poro DansGame (${random}) kattahBAT [P:${channelData.poroPrestige}] ${channelData.poroCount + random} meat total!`
                     }
                 }
             } else if (random == 1 || random == 2 || random == 3 || random == 4) {
                 if (message.senderUsername == process.env.NUMBER_ONE) {
-                    client.privmsg(message.channelName, `.me Poro slaughtered! ${message.senderUsername} --> Sirloin Poro OpieOP (+${random}) PoroSad ${channelData.poroCount + random} meat total!`)
+                    client.privmsg(message.channelName, `.me Poro slaughtered! ${message.senderUsername} --> Sirloin Poro OpieOP (+${random}) PoroSad [P:${channelData.poroPrestige}] ${channelData.poroCount + random} meat total!`)
                 } else {
                     return {
-                        text: `Poro slaughtered! ${message.senderUsername} --> Sirloin Poro OpieOP (+${random}) PoroSad ${channelData.poroCount + random} meat total!`
+                        text: `Poro slaughtered! ${message.senderUsername} --> Sirloin Poro OpieOP (+${random}) PoroSad [P:${channelData.poroPrestige}] ${channelData.poroCount + random} meat total!`
                     }
                 }
             } else if (random == 0) {
                 if (message.senderUsername == process.env.NUMBER_ONE) {
-                    client.privmsg(message.channelName, `.me Poro gone! ${message.senderUsername} --> Poro ran away haHAA (±${random}) kattahHappy ${channelData.poroCount + random} meat total!`)
+                    client.privmsg(message.channelName, `.me Poro gone! ${message.senderUsername} --> Poro ran away haHAA (±${random}) kattahHappy [P:${channelData.poroPrestige}] ${channelData.poroCount + random} meat total!`)
                 } else {
                     return {
-                        text: `Poro gone! ${message.senderUsername} --> Poro ran away haHAA (±${random}) kattahHappy ${channelData.poroCount + random} meat total!`
+                        text: `Poro gone! ${message.senderUsername} --> Poro ran away haHAA (±${random}) kattahHappy [P:${channelData.poroPrestige}] ${channelData.poroCount + random} meat total!`
                     }
                 }
             } else if (random >= 16) {
                 if (message.senderUsername == process.env.NUMBER_ONE) {
-                    client.privmsg(message.channelName, `.me Poro slaughtered! ${message.senderUsername} --> LEGENDARY PORO VisLaud (+${random}) kattahXd ${channelData.poroCount + random} meat total!`)
+                    client.privmsg(message.channelName, `.me Poro slaughtered! ${message.senderUsername} --> LEGENDARY PORO VisLaud (+${random}) kattahXd [P:${channelData.poroPrestige}] ${channelData.poroCount + random} meat total!`)
                 } else {
                     return {
-                        text: `Poro slaughtered! ${message.senderUsername} --> LEGENDARY PORO VisLaud (+${random}) kattahXd ${channelData.poroCount + random} meat total!`
+                        text: `Poro slaughtered! ${message.senderUsername} --> LEGENDARY PORO VisLaud (+${random}) kattahXd [P:${channelData.poroPrestige}] ${channelData.poroCount + random} meat total!`
                     }
                 }
             } 

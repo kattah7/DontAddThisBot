@@ -14,9 +14,13 @@ module.exports = {
         const random = Math.floor(Math.random() * 27) + -5;
 
         if (banned == false) {
+            if (!channelData.poroPrestige) {
+                const updateChannel = await bot.DB.poroCount.findOneAndUpdate({ username: message.senderUsername }, { $set: { poroPrestige: 0 } }, { new: true }).exec();
+                await updateChannel.save();
+            }
             if (lastUsage && channelData) {
-                if (new Date().getTime() - new Date(lastUsage).getTime() < 1000 * 60 * 60 * 3) {
-                    const ms = new Date(lastUsage).getTime() - new Date().getTime() + 1000 * 60 * 60 * 3;
+                if (new Date().getTime() - new Date(lastUsage).getTime() < 1000 * 10) {
+                    const ms = new Date(lastUsage).getTime() - new Date().getTime() + 1000 * 10;
                     if (message.senderUsername == process.env.NUMBER_ONE) {
                         client.privmsg(message.channelName, `.me Please wait ${humanizeDuration(ms)} before doing another cooldown reset!`)
                         return
@@ -31,9 +35,9 @@ module.exports = {
             await bot.Redis.set(`porocdr:${message.senderUsername}`, Date.now(), 0);
             await bot.Redis.del(`poro:${message.senderUsername}`); 
             if (message.senderUsername == process.env.NUMBER_ONE) {
-                client.privmsg(message.channelName, `.me Timer Reset! ${message.senderUsername} (-5) kattahDance total ${channelData.poroCount -5} meat`)
+                client.privmsg(message.channelName, `.me Timer Reset! ${message.senderUsername} (-5) kattahDance total [P:${channelData.poroPrestige}] ${channelData.poroCount -5} meat`)
             } else {
-                await client.say(message.channelName, `Timer Reset! ${message.senderUsername} (-5) kattahDance total ${channelData.poroCount -5} meat`)
+                await client.say(message.channelName, `Timer Reset! ${message.senderUsername} (-5) kattahDance total [P:${channelData.poroPrestige}] ${channelData.poroCount -5} meat`)
             }  
         } else if (banned == true) {
             return {

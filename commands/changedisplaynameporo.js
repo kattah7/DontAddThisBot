@@ -35,7 +35,7 @@ module.exports = {
                     return client.privmsg(message.channelName, `.me Not enough poro meat! ${message.senderUsername} kattahHappy You need 50 poro meat | ${channelData.poroCount} meat total! 🥩`)
                 }
                 return {
-                    text: `Not enough poro meat! ${message.senderUsername} kattahHappy You need 50 poro meat | ${channelData.poroCount} meat total! 🥩`
+                    text: `Not enough poro meat! ${message.senderUsername} kattahHappy You need 50 poro meat | [P:${channelData.poroPrestige}] ${channelData.poroCount} meat total! 🥩`
                 }
             } else {
                 await bot.DB.poroCount.updateOne({ username: message.senderUsername }, { $set: { poroCount: channelData.poroCount - 50 } } ).exec();
@@ -67,10 +67,10 @@ module.exports = {
                 json: query
             })
             if (message.senderUsername == process.env.NUMBER_ONE) {
-                return client.privmsg(message.channelName, `.me Name Changed! PoroSad ${channelData.poroCount - 50} meat total! 🥩`)
+                return client.privmsg(message.channelName, `.me Name Changed! PoroSad [P:${channelData.poroPrestige}] ${channelData.poroCount - 50} meat total! 🥩`)
             } else {
                 return {
-                    text:`Name Changed! PoroSad ${channelData.poroCount - 50} meat total! 🥩`
+                    text:`Name Changed! PoroSad [P:${channelData.poroPrestige}] ${channelData.poroCount - 50} meat total! 🥩`
                 }
             }
             }

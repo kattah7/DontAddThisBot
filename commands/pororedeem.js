@@ -49,10 +49,10 @@ module.exports = {
                 await bot.DB.poroCount.updateOne({ username: message.senderUsername }, { $set: { poroCount: channelData.poroCount + 50 } } ).exec();
                 await bot.Redis.set(`pororedeem:${message.senderUsername}`, Date.now(), 0);
                 if (message.senderUsername == process.env.NUMBER_ONE) {
-                    await client.privmsg(message.channelName, `.me Code Redeemed! ${message.senderUsername} (+50) kattahDance2 total ${channelData.poroCount + 50} meat`)
+                    await client.privmsg(message.channelName, `.me Code Redeemed! ${message.senderUsername} (+50) kattahDance2 total [P:${channelData.poroPrestige}] ${channelData.poroCount + 50} meat`)
                     return
                 } else {
-                    await client.say(message.channelName, `Code Redeemed! ${message.senderUsername} (+50) kattahDance2 total ${channelData.poroCount + 50} meat`)
+                    await client.say(message.channelName, `Code Redeemed! ${message.senderUsername} (+50) kattahDance2 total [P:${channelData.poroPrestige}] ${channelData.poroCount + 50} meat`)
                 return
                 }
             
