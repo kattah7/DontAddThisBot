@@ -8,14 +8,17 @@ module.exports = {
     execute: async (message, args, client) => {
         const targetUser = args[0] ?? message.senderUsername;
         let { body: userData, statusCode } = await got(`https://api.ivr.fi/twitch/resolve/${targetUser}`, { timeout: 10000, throwHttpErrors: false, responseType: "json" });
-        console.log(userData)
-
-        const bot = userData.bot
-        if (message.senderUsername == process.env.NUMBER_ONE) {
-            return client.privmsg(message.channelName, `.me ${message.senderUsername}, BOT: ${bot} MrDestructoid`)
-        } else {
+        if (userData.bot == false) {
             return {
-                text: `${message.senderUsername}, BOT: ${bot} MrDestructoid`
+                text: `${targetUser}, BOT: false`
+            }
+        } else if (userData.bot == true) {
+            return {
+                text: `${targetUser}, BOT: true MrDestructoid`
+            }
+        } else if (statusCode == 404) {
+            return {
+                text: `${userData.error}`
             }
         }
     },
