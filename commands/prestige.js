@@ -25,7 +25,7 @@ module.exports = {
                 client.privmsg(message.channelName, `.me ${message.senderUsername}, PartyHat Congratulations! | [P:${channelData.poroPrestige+1}] ${channelData.poroCount - 10000} meat total! 🥩`)
             } else {
                 return {
-                    text: `${message.senderUsername}, PartyHat Congratulations! | [P:${channelData.poroPrestige}] ${channelData.poroCount-10000} meat total! 🥩`
+                    text: `${message.senderUsername}, PartyHat Congratulations! | [P:${channelData.poroPrestige+1}] ${channelData.poroCount-10000} meat total! 🥩`
                 } 
             }
         }
