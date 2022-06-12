@@ -15,7 +15,7 @@ module.exports = {
                 client.privmsg(message.channelName, `.me Not enough poro meat! ${message.senderUsername} kattahHappy You need 10,000 poro meat | [P:${channelData.poroPrestige}] ${channelData.poroCount} meat total! 🥩`)
             } else {
                 return {
-                    text: `Not enough poro meat! ${message.senderUsername} kattahHappy You need 10000 poro meat | [P:${channelData.poroPrestige}] ${channelData.poroCount} meat total! 🥩`
+                    text: `Not enough poro meat! ${message.senderUsername} kattahHappy You need 10,000 poro meat :tf: | [P:${channelData.poroPrestige}] ${channelData.poroCount} meat total! 🥩`
                 }
             }
         } else if (channelData.poroCount >= 10000) {
