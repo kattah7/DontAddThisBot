@@ -15,6 +15,11 @@ module.exports = {
                 text: `um you gotta do either put '7tv' or 'twitch' after the emote`
             }
         }
+        if (args[0] == `7tv` || args[0] == `twitch`) {
+            return {
+                text: `Usage |ezgif (emote) (twitch or 7tv), bttv and ffz not supported KEKW`
+            }
+        }
         await client.say(message.channelName, "fetching emotes xd")
         let { body: userData, statusCode } = await got(`https://api.ivr.fi/v2/twitch/emotes/${args[0]}`, { timeout: 10000, throwHttpErrors: false, responseType: "json" });
         console.log(userData)
