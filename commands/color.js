@@ -24,7 +24,7 @@ module.exports = {
             return client.privmsg(message.channelName, `.me ${message.senderUsername}, ${color} (${colorName.name.value}) KappaPride`)
         } else {
             return {
-                text: `${message.senderUsername}, ${color} (${colorName.name.value}) KappaPride`
+                text: `${message.senderUsername}, ${color} (${colorName.name.value}) KappaPride a`
             
             
             }
