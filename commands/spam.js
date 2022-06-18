@@ -1,7 +1,7 @@
 module.exports = {
     name: "spam",
     aliases: [],
-    cooldown: 30,
+    cooldown: 5000,
     permission: 1, //1 = mod, 2 = broadcaster
     description:"Spams message in chat",
     execute: async (message, args, client) => {

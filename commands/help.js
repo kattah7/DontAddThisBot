@@ -10,10 +10,10 @@ module.exports = {
         console.log(banned, banphrase_data)
         if (banned == false) {
             if (message.senderUsername == process.env.NUMBER_ONE) {
-                return client.privmsg(message.channelName, `.me ${message.senderUsername}, Check the bot's panels for more info kattahAroundTheWorld`)
+                return client.privmsg(message.channelName, `.me ${message.senderUsername}, Check the bot's panels for more info kattahHappy`)
             } else {
                 return {
-                    text: `${message.senderUsername}, Check the bot's panels for more info kattahAroundTheWorld`
+                    text: `${message.senderUsername}, Check the bot's panels for more info kattahHappy`
                 }
             }
         } else if (banned == true) {

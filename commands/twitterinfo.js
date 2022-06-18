@@ -7,6 +7,11 @@ module.exports = {
     cooldown: 1000,
     description: "Gets info of user's twitter",
     execute: async (message, args, client) => {
+        if (!args[0]) {
+            return {
+                text: `insert name to get twitter info lol`
+            }
+        }
         const targetUser = args[0] ?? message.senderUsername;
         const { data } = await got(`https://api.twitter.com/2/users/by/username/${targetUser}?user.fields=created_at,location,description`, {
             headers: {

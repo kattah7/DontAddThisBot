@@ -4,7 +4,7 @@ const humanizeDuration = require("../humanizeDuration");
 module.exports = {
     name: "randomstream",
     aliases: ["rs"],
-    cooldown: 3000,
+    cooldown: 5000,
     description:"Fetches a random streamer from any game category",
     execute: async (message, args, client) => {
         if (!args[0]) {

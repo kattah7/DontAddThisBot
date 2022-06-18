@@ -4,7 +4,7 @@ const humanizeDuration = require("../humanizeDuration");
 module.exports = {
     name: "sillychamp",
     aliases: [],
-    cooldown: 1000,
+    cooldown: 5000,
     description: "Gets recent tweet from TwitchGibberish",
     execute: async (message, args, client) => {
         const targetUser = args[0] ?? message.senderUsername;

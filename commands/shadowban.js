@@ -7,6 +7,11 @@ module.exports = {
     permission: 1,
     aliases: [],
     async execute(message, args, client) {
+        if (!args[0]) {
+            return {
+                text: `insert name to restrict lol`
+            }
+        }
         const targetUser = args[0] ?? message.senderUsername;
         let { body: userData, statusCode } = await got(`https://api.ivr.fi/v2/twitch/user?login=${targetUser}`, { timeout: 10000, throwHttpErrors: false, responseType: "json" });
         console.log(userData) 

@@ -4,9 +4,14 @@ const humanizeDuration = require("../humanizeDuration");
 module.exports = {
     name: "recenttweet",
     aliases: ["rt"],
-    cooldown: 1000,
+    cooldown: 5000,
     description: "Gets recent tweet of user (Usage: |rt or |recenttweet)",
     execute: async (message, args, client) => {
+        if (!args[0]) {
+            return {
+                text: `insert twitter name to get recent tweet lol`
+            }
+        }
         const targetUser = args[0] ?? message.senderUsername;
         const { data } = await got(`https://api.twitter.com/2/users/by/username/${targetUser}?user.fields=location`, {
             headers: {
