@@ -21,7 +21,7 @@ module.exports = {
         const lastUsage = await bot.Redis.get(`pororedeem:${message.senderUsername}`);
         const channelData = await bot.DB.poroCount.findOne({ username: message.senderUsername }).exec();
         const input = args[0]
-        const availableBadges = ["lol"];
+        const availableBadges = ["Stare"];
         if (banned == false) {
             if (lastUsage) {
                 if (new Date().getTime() - new Date(lastUsage).getTime() < 1000 * 60 * 60 * 24) {
@@ -36,7 +36,7 @@ module.exports = {
                     }
                 }
             } 
-             if (!availableBadges.includes(input.toLowerCase())) {
+             if (!availableBadges.includes(input)) {
                 if (message.senderUsername == process.env.NUMBER_ONE) {
                     client.privmsg(message.channelName, `.me ${message.senderUsername}, Wrong code :p`)
                     return
