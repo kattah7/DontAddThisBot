@@ -8,24 +8,32 @@ module.exports = {
     description: "Suggestion to the bot",
     execute: async (message, args, client) => {
         if (args.length < 1) return { text: "Usage: |suggest <suggestion>" };
-        var today = new Date();
-        var year = today.getFullYear();
-        var month = today.getMonth()+1;
-        var day = today.getDate();
-        var currentdate = year+"-"+month+"-"+day
-        const whurl2 = 'https://discord.com/api/webhooks/987635741523869757/MyyRLZ6MV-GSLjuzHEU2JJ5fyWcimcFiT_NGiLRfp-ibv5KpUF2kzHH-kNDgfHfU1leY'
-        const msg2 = {
-            "embeds": [{
-                "title": `Suggestion by ${message.senderUsername} in ${message.channelName}`,
-                "description": `${args.join(" ")} ${currentdate}`,
-                "color": 1127128,
-        
-            }]
-        }
-        fetch(whurl2 + "?wait=true", 
-        {"method":"POST", 
-        "headers": {"content-type": "application/json"},
-        "body": JSON.stringify(msg2)})
+        let { body: userData, statusCode } = await got(`https://api.ivr.fi/twitch/resolve/${message.senderUsername}`, { timeout: 10000, throwHttpErrors: false, responseType: "json" });
+        const pfp = userData.logo;
+        const XD = 'https://discord.com/api/webhooks/987635741523869757/MyyRLZ6MV-GSLjuzHEU2JJ5fyWcimcFiT_NGiLRfp-ibv5KpUF2kzHH-kNDgfHfU1leY'
+        const KEKW = {
+            embeds: [{
+            color: 0x0099ff,
+            title: `Sent by ${message.senderUsername} in #${message.channelName}`,
+            author: {
+                name: 'New suggestion',
+                icon_url: 'https://i.nuuls.com/nRGtC.png',
+            },
+            description: `${args.join(" ")}`,
+            thumbnail: {
+                url: `${pfp}`,
+            },
+            timestamp: new Date(),
+            footer: {
+                text: 'Pulled time',
+                icon_url: 'https://static-cdn.jtvnw.net/jtv_user_pictures/89049925-b020-436f-bf9e-6262c0bc6419-profile_image-600x600.png ',
+            }
+        }]
+    }
+        fetch(XD + "?wait=true", 
+        {method:"POST", 
+        headers: {"content-type": "application/json"},
+        body: JSON.stringify(KEKW)})
         .then(a=>a.json()).then(console.log)
         return {
             text: `Suggestion sent! :)`
