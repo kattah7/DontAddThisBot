@@ -20,6 +20,7 @@ module.exports = {
         
        const res = await fetch(`https://api.fortnitetracker.com/v1/profile/all/${args.join(" ")}`, requestOptions)
        const user = await res.json();
+       console.log(user)
 
        
        const ERROR = user.error
@@ -37,6 +38,10 @@ module.exports = {
       }
         return {
             text: `${args.join(" ")}'s profile is private DansGame`
+        }
+      } else if (user.code == '3') {
+        return {
+          text: `${user.error}`
         }
       } else {
         const matchesPlayed = user.lifeTimeStats[7].value;
