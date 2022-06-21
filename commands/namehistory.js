@@ -11,6 +11,11 @@ module.exports = {
             throwHttpErrors: false,
             responseType: 'json',
         })
+        if (!args[0]) { 
+            return {
+                text: 'Please provide a username.'
+            }
+        }
         console.log(pogger2[0])
         if (pogger2[0] == undefined) {
             return {
@@ -20,11 +25,6 @@ module.exports = {
         if (pogger2[0].roles.isAffiliate != true && pogger2[0].roles.isPartner != true) {
             return {
                 text: `${args[0]} must be affiliate or partner to check`
-            }
-        }
-        if (!args[0]) { 
-            return {
-                text: 'Please provide a username.'
             }
         }
         const query = []
