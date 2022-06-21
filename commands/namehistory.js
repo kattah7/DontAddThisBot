@@ -7,6 +7,21 @@ module.exports = {
     description: 'Check name history',
     execute: async(message, args, client) => {
         if (!regex.racism.test(args[0])) {
+            const { body: pogger2, statusCode } = await got(`https://api.ivr.fi/v2/twitch/user?login=${args[0]}`, {
+            throwHttpErrors: false,
+            responseType: 'json',
+        })
+        console.log(pogger2[0])
+        if (pogger2[0] == undefined) {
+            return {
+                text: `${message.senderUsername}, ${args[0]} is not a valid username.`
+            }
+        }
+        if (pogger2[0].roles.isAffiliate != true && pogger2[0].roles.isPartner != true) {
+            return {
+                text: `${args[0]} must be affiliate or partner to check`
+            }
+        }
         if (!args[0]) { 
             return {
                 text: 'Please provide a username.'
@@ -37,19 +52,15 @@ module.exports = {
             },
             json: query
         })
-        if (!pogger[0].data.user) {
-            return {
-                text: `${args[0]}'s has no name history, must be affiliate or partner to check`
-            }
-        } 
+        console.log(pogger[0].data.user)
         if (pogger[0].data.user.subscriptionProducts[0].name) {
-            if (args[0] == pogger[0].data.user.subscriptionProducts[0].name) {
+            if (args[0].toLowerCase() == pogger[0].data.user.subscriptionProducts[0].name) {
                 return {
                     text: `${args[0]} has no name change history`
                 }
             }
             return {
-                text: `${args[0]}'s name history: ${pogger[0].data.user.subscriptionProducts[0].name}`
+                text: `${args[0]}'s name history since affiliate/partner: ${pogger[0].data.user.subscriptionProducts[0].name}`
             }
         }
         console.log(pogger[0].data.user.subscriptionProducts[0].name)
