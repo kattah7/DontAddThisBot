@@ -10,5 +10,5 @@ app.use(cors());
 app.use(poros);
 
 app.listen(process.env.PORT, () => {
-    console.log("Server is running on port 1337");
+    console.log(`Server is running on port ${process.env.PORT}`);
 });
