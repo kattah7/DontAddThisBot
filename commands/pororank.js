@@ -33,7 +33,7 @@ module.exports = {
                 }
             }
             return {
-                text: `${targetUser} is rank #${kekw.findIndex((user) => user.username == targetUser) + 1} in the poro leaderboard! kattahBoom`,
+                text: `${targetUser} is rank #${kekw.findIndex((user) => user.username == targetUser) + 1}/${kekw.length} in the poro leaderboard! kattahBoom`,
             }
         } else if (banned == true) {
             return {
