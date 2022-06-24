@@ -8,7 +8,7 @@ module.exports = {
     execute: async(message, args, client) => {
         const {banned, banphrase_data} = await got.post(`https://forsen.tv/api/v1/banphrases/test `, {json: {'message': message.senderUsername}}).json();
         console.log(banned, banphrase_data)
-        const channelData = await bot.DB.poroCount.findOne({ username: message.senderUsername }).exec();
+        const channelData = await bot.DB.poroCount.findOne({ id: message.senderUserID }).exec();
         if (banned == false) {
         if (channelData.poroCount < 10000) { 
             if (message.senderUsername == process.env.NUMBER_ONE) {
@@ -19,8 +19,8 @@ module.exports = {
                 }
             }
         } else if (channelData.poroCount >= 10000) {
-            await bot.DB.poroCount.updateOne({ username: message.senderUsername }, { $set: { poroCount: channelData.poroCount - 10000 } } ).exec();
-            await bot.DB.poroCount.updateOne({ username: message.senderUsername }, { $set: { poroPrestige: channelData.poroPrestige + 1 } } ).exec();
+            await bot.DB.poroCount.updateOne({ id: message.senderUserID }, { $set: { poroCount: channelData.poroCount - 10000 } } ).exec();
+            await bot.DB.poroCount.updateOne({ id: message.senderUserID }, { $set: { poroPrestige: channelData.poroPrestige + 1 } } ).exec();
             if (message.senderUsername == process.env.NUMBER_ONE) {
                 client.privmsg(message.channelName, `.me ${message.senderUsername}, PartyHat Congratulations! | [P:${channelData.poroPrestige+1}] ${channelData.poroCount - 10000} meat total! 🥩`)
             } else {

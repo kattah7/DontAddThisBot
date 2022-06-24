@@ -18,8 +18,8 @@ module.exports = {
         }
         const {banned, banphrase_data} = await got.post(`https://forsen.tv/api/v1/banphrases/test `, {json: {'message': message.senderUsername}}).json();
         console.log(banned, banphrase_data)
-        const lastUsage = await bot.Redis.get(`pororedeem:${message.senderUsername}`);
-        const channelData = await bot.DB.poroCount.findOne({ username: message.senderUsername }).exec();
+        const lastUsage = await bot.Redis.get(`pororedeem:${message.senderUserID}`);
+        const channelData = await bot.DB.poroCount.findOne({ id: message.senderUserID }).exec();
         const input = args[0]
         const availableBadges = ["happE"];
         if (banned == false) {
@@ -46,8 +46,8 @@ module.exports = {
                     }
                 }
             } 
-                await bot.DB.poroCount.updateOne({ username: message.senderUsername }, { $set: { poroCount: channelData.poroCount + 50 } } ).exec();
-                await bot.Redis.set(`pororedeem:${message.senderUsername}`, Date.now(), 0);
+                await bot.DB.poroCount.updateOne({ id: message.senderUserID }, { $set: { poroCount: channelData.poroCount + 50 } } ).exec();
+                await bot.Redis.set(`pororedeem:${message.senderUserID}`, Date.now(), 0);
                 if (message.senderUsername == process.env.NUMBER_ONE) {
                     await client.privmsg(message.channelName, `.me Code Redeemed! ${message.senderUsername} (+50) kattahDance2 total [P:${channelData.poroPrestige}] ${channelData.poroCount + 50} meat`)
                     return

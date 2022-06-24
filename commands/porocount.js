@@ -23,7 +23,7 @@ module.exports = {
         if (prefix.length < 25) {
             if (banned == false) {
                 if (!channelData.poroPrestige) {
-                    const updateChannel = await bot.DB.poroCount.findOneAndUpdate({ username: message.senderUsername }, { $set: { poroPrestige: 0 } }, { new: true }).exec();
+                    const updateChannel = await bot.DB.poroCount.findOneAndUpdate({ id: message.senderUserID }, { $set: { poroPrestige: 0 } }, { new: true }).exec();
                     await updateChannel.save();
                 }
                 if (!channelData) {

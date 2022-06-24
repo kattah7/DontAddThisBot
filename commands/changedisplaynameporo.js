@@ -7,7 +7,7 @@ module.exports = {
     aliases: [],
     poro: true,
     async execute(message, args, client) {
-        const channelData = await bot.DB.poroCount.findOne({ username: message.senderUsername }).exec();
+        const channelData = await bot.DB.poroCount.findOne({ id: message.senderUserID }).exec();
         const {banned, banphrase_data} = await got.post(`https://forsen.tv/api/v1/banphrases/test `, {json: {'message': message.senderUsername}}).json();
         console.log(banned, banphrase_data)
         if (banned == false) {
@@ -38,7 +38,7 @@ module.exports = {
                     text: `Not enough poro meat! ${message.senderUsername} kattahHappy You need 50 poro meat | [P:${channelData.poroPrestige}] ${channelData.poroCount} meat total! 🥩`
                 }
             } else {
-                await bot.DB.poroCount.updateOne({ username: message.senderUsername }, { $set: { poroCount: channelData.poroCount - 50 } } ).exec();
+                await bot.DB.poroCount.updateOne({ id: message.senderUserID }, { $set: { poroCount: channelData.poroCount - 50 } } ).exec();
                 const query = []
                 query.push({
                     "operationName": "UpdateUserProfile",

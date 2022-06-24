@@ -8,8 +8,8 @@ module.exports = {
     description: "Get poro meat every 2 hour",
     poro: true,
     execute: async(message, args, client) => {
-        const lastUsage = await bot.Redis.get(`poro:${message.senderUsername}`);
-        const channelData = await bot.DB.poroCount.findOne({ username: message.senderUsername }).exec();
+        const lastUsage = await bot.Redis.get(`poro:${message.senderUserID}`);
+        const channelData = await bot.DB.poroCount.findOne({ id: message.senderUserID }).exec();
         const random = Math.floor(Math.random() * 27) + -5;
         const {banned, banphrase_data} = await got.post(`https://forsen.tv/api/v1/banphrases/test `, {json: {'message': message.senderUsername}}).json();
         console.log(banned, banphrase_data)
@@ -24,14 +24,14 @@ module.exports = {
                 });
                 
                 await newChannel.save();
-                await bot.Redis.set(`poro:${message.senderUsername}`, Date.now(), 0);
+                await bot.Redis.set(`poro:${message.senderUserID}`, Date.now(), 0);
     
                 return {
                     text: `New user! ${message.senderUsername} kattahDance2 here is free 10 poro meat 🥩`
                 }
             }
             if (!channelData.poroPrestige) {
-                const updateChannel = await bot.DB.poroCount.findOneAndUpdate({ username: message.senderUsername }, { $set: { poroPrestige: 0 } }, { new: true }).exec();
+                const updateChannel = await bot.DB.poroCount.findOneAndUpdate({ id: message.senderUserID }, { $set: { poroPrestige: 0 } }, { new: true }).exec();
                 await updateChannel.save();
             }
             
@@ -57,9 +57,9 @@ module.exports = {
                 }
             }
     
-            await bot.DB.poroCount.updateOne({ username: message.senderUsername }, { $set: { poroCount: channelData.poroCount + random } } ).exec();
+            await bot.DB.poroCount.updateOne({ id: message.senderUserID }, { $set: { poroCount: channelData.poroCount + random } } ).exec();
     
-            await bot.Redis.set(`poro:${message.senderUsername}`, Date.now(), 0);
+            await bot.Redis.set(`poro:${message.senderUserID}`, Date.now(), 0);
             console.log(random)
             if (random == 5 || random == 6 || random == 7 || random == 8 || random == 9) {
                 if (message.senderUsername == process.env.NUMBER_ONE) {
