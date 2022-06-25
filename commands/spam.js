@@ -13,7 +13,7 @@ module.exports = {
         const count = args[0];
         const phrase = args.slice(1).join(" ").replace("!", "ǃ").replace("=", "꓿").replace("$", "💲");
         if (isNaN(count)) return { text: `the spam count should be a number` };
-        if (count > 50) return { text: `the maximum spam count is 50` };
+        if (count > 1000) return { text: `the maximum spam count is 50` };
         if (count < 2) return { text: `the minimum spam count is 2` };
 
         for (let xd = 0; xd < count; xd++) {
