@@ -17,7 +17,7 @@ module.exports = {
         if (count < 2) return { text: `the minimum spam count is 2` };
 
         for (let xd = 0; xd < count; xd++) {
-            client.privmsg(message.channelName, phrase);
+            client.say(message.channelName, phrase);
         }
     } else {
         const XD = 'https://discord.com/api/webhooks/987735146297962497/Kvhez5MjG5Y-XiYQo9EUGbhiVd6UODyOf58WjkAZwRQMglOX_cpiW436mXZLLD8T7oFA'
