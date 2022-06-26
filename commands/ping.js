@@ -23,10 +23,10 @@ module.exports = {
         const kekw2 = sorted2.slice(0, 5000000);
         if (banned == false) {
             if (message.senderUsername == process.env.NUMBER_ONE) {
-                client.privmsg(message.channelName, `.me ${message.senderUsername}, TriHard 🏓 BOT UPTIME: ${humanizeDuration(process.uptime() * 1000 )} | Channels: ${kekw.length.toLocalString()} | Seen Users: ${kekw2.length.toLocalString()}`)
+                client.privmsg(message.channelName, `.me ${message.senderUsername}, TriHard 🏓 BOT UPTIME: ${humanizeDuration(process.uptime() * 1000 )} | Channels: ${kekw.length.toLocaleString()} | Seen Users: ${kekw2.length.toLocaleString()}`)
             } else {
                 return {
-                    text: `${message.senderUsername}, TriHard 🏓 BOT UPTIME: ${humanizeDuration(process.uptime() * 1000 )} | Channels: ${kekw.length.toLocalString()} | Seen Users: ${kekw2.length.toLocalString()}`,
+                    text: `${message.senderUsername}, TriHard 🏓 BOT UPTIME: ${humanizeDuration(process.uptime() * 1000 )} | Channels: ${kekw.length.toLocaleString()} | Seen Users: ${kekw2.length.toLocaleString()}`,
                 }; 
             } 
         } else if (banned == true) {
