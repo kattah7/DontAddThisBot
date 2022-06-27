@@ -22,7 +22,7 @@ module.exports = {
         console.log(banned, banphrase_data)
         const poroData = await bot.DB.poroCount.find({}).exec();
 
-        const sorted = poroData.sort((a, b) => b.poroCount - a.poroCount);
+        const sorted = poroData.sort((a, b) => b.poroPrestige - a.poroPrestige || b.poroCount - a.poroCount);
 
         const kekw = sorted.slice(0, 5000000);
 
