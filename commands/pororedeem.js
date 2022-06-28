@@ -21,7 +21,7 @@ module.exports = {
         const lastUsage = await bot.Redis.get(`pororedeem:${message.senderUserID}`);
         const channelData = await bot.DB.poroCount.findOne({ id: message.senderUserID }).exec();
         const input = args[0]
-        const availableBadges = ["Okayge"];
+        const availableBadges = ["FeelsDankMan"];
         if (banned == false) {
             if (lastUsage) {
                 if (new Date().getTime() - new Date(lastUsage).getTime() < 1000 * 60 * 60 * 24) {
