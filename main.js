@@ -175,3 +175,5 @@ const main = async () => {
 };
 
 main();
+
+module.exports = { client }; // Export the client
