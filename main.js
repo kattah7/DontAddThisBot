@@ -3,6 +3,7 @@ const nodeCron = require("node-cron");
 const { readdirSync } = require("fs");
 const { ChatClient, AlternateMessageModifier, SlowModeRateLimiter } = require("@kararty/dank-twitch-irc");
 const { channel } = require("diagnostics_channel");
+const pubsub = require('./util/pubsub.js')
 const got = require("got");
 
 global.bot = {};
@@ -41,7 +42,7 @@ client.use(new SlowModeRateLimiter(client, 10));
 
 client.on("ready", () => {
     console.log("Connected to chat!");
-
+    pubsub.init()
     nodeCron.schedule("0 0-22/2 * * *<", () => {
         client.say("kattah", "!cookie");
     });
