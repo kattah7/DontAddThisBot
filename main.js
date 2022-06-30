@@ -1,8 +1,8 @@
 require("dotenv").config();
 const nodeCron = require("node-cron");
 const { readdirSync } = require("fs");
-const { ChatClient, AlternateMessageModifier, SlowModeRateLimiter } = require("@kararty/dank-twitch-irc");
 const { channel } = require("diagnostics_channel");
+const { client } require('./util/connections.js')
 const pubsub = require('./util/pubSub.js')
 const got = require("got");
 
@@ -22,24 +22,6 @@ for (let file of readdirSync(`./commands/`).filter((file) => file.endsWith(".js"
     commands.set(pull.name, pull);
     if (pull.aliases && Array.isArray(pull.aliases)) pull.aliases.forEach((alias) => aliases.set(alias, pull.name));
 }
-
-const client = new ChatClient({
-    username: process.env.TWITCH_USERNAME,
-    password: process.env.TWITCH_OAUTH,
-    connection: {
-        type: "websocket",
-        secure: true,
-    },
-    maxChannelCountPerConnection: 5,
-    connectionRateLimits: {
-        parallelConnections: 20,
-        releaseTime: 50,
-    },
-});
-
-client.use(new AlternateMessageModifier(client));
-client.use(new SlowModeRateLimiter(client, 10));
-client.connect()
 
 client.on("ready", () => {
     console.log("Connected to chat!");
