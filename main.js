@@ -3,7 +3,7 @@ const nodeCron = require("node-cron");
 const { readdirSync } = require("fs");
 const { ChatClient, AlternateMessageModifier, SlowModeRateLimiter } = require("@kararty/dank-twitch-irc");
 const { channel } = require("diagnostics_channel");
-const pubsub = require('./util/pubsub.js')
+const pubsub = require('./util/pubSub.js')
 const got = require("got");
 
 global.bot = {};
@@ -39,6 +39,7 @@ const client = new ChatClient({
 
 client.use(new AlternateMessageModifier(client));
 client.use(new SlowModeRateLimiter(client, 10));
+client.connect()
 
 client.on("ready", () => {
     console.log("Connected to chat!");
@@ -164,7 +165,6 @@ const getChannel = async function (channel) {
 
 const main = async () => {
     await client.join("dontaddthisbot");
-    client.connect();
     const channels = await bot.DB.channels.find({}).exec();
     for (const channel of channels) {
         try {
