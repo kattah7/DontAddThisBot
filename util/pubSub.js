@@ -2,7 +2,7 @@ require("dotenv").config();
 const WS = require('ws');
 const crypto = require('crypto');
 const utils = require('./utils.js');
-const { client } = require('../main.js')
+const { client } = require('./connections.js')
 const RWS = require('reconnecting-websocket');
 
 exports.topics = [];
@@ -105,7 +105,7 @@ const connect = (ws, topics, id) => {
                 break;
 
             case 'RECONNECT':
-                console.log(`[${id}] PubSub server sent a reconnect message. restarting the socket`);
+                console.log(`[${id}] PubSub server sent a reconnect message. Restarting the socket`);
                 ws.reconnect();
                 break;
 
