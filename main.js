@@ -2,7 +2,7 @@ require("dotenv").config();
 const nodeCron = require("node-cron");
 const { readdirSync } = require("fs");
 const { channel } = require("diagnostics_channel");
-const { client } require('./util/connections.js')
+const { client } = require('./util/connections.js')
 const pubsub = require('./util/pubSub.js')
 const got = require("got");
 

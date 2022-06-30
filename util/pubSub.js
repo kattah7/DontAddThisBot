@@ -22,6 +22,8 @@ const listen = (channels, subs) => {
 exports.init = async () => {
     // xQc
     listen([{ login: 'xqc', id: '71092938' }], ['video-playback-by-id', 'broadcast-settings-update'])
+    listen([{ login: 'pokimane', id: '44445592' }], ['video-playback-by-id', 'broadcast-settings-update'])
+    listen([{ login: 'kattah', id: '137199626' }], ['video-playback-by-id', 'broadcast-settings-update'])
 
     const splitTopics = utils.splitArray(this.topics, 50)
 
@@ -127,22 +129,34 @@ const handleWSMsg = async (msg = {}) => {
     if (!msg.type) return console.error(`Unknown message without type: ${JSON.stringify(msg)}`);
 
     switch (msg.type) {
+         
         case 'stream-up': {
+             if (msg.channel === 'xqc') {
+                client.say('kattah', `@${msg.user_name} just went live! gn`)
+            }
             client.say('kattah', `${msg.channel} went live!`)
             break;
         }
 
         case 'stream-down': {
+            if (msg.channel === 'xqc') {
+                client.say('kattah', `${msg.channel} went offline! gm`)
+            }
             client.say('kattah', `${msg.channel} went offline!`)
             break;
         }
 
         case 'broadcast_settings_update': {
+            
             if (msg.game_id !== msg.old_game_id) {
+                if (msg.channel === 'xqc') return client.say('kattah', `${msg.channel} changed to new game: ${msg.game} gn`)
                 client.say('kattah', `${msg.channel} changed to new game: ${msg.game}`)
             }
-
-            if (msg.status !== msg.old_status) client.say('kattah', `${msg.channel} changed to new title: ${msg.status}`)
+            
+            if (msg.status !== msg.old_status) {
+                if (msg.channel === 'xqc') return client.say('kattah', `${msg.channel} changed to new title: ${msg.status} gn`)
+                client.say('kattah', `${msg.channel} changed to new title: ${msg.status}`)
+            }
             break;
         }
     }
