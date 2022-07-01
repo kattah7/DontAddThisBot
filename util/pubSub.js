@@ -24,6 +24,7 @@ exports.init = async () => {
     listen([{ login: 'xqc', id: '71092938' }], ['video-playback-by-id', 'broadcast-settings-update'])
     listen([{ login: 'pokimane', id: '44445592' }], ['video-playback-by-id', 'broadcast-settings-update'])
     listen([{ login: 'kattah', id: '137199626' }], ['video-playback-by-id', 'broadcast-settings-update'])
+    listen([{ login: 'forsen', id: '22484632' }], ['video-playback-by-id', 'broadcast-settings-update'])
 
     const splitTopics = utils.splitArray(this.topics, 50)
 
@@ -145,12 +146,12 @@ const handleWSMsg = async (msg = {}) => {
         case 'broadcast_settings_update': {
             
             if (msg.game_id !== msg.old_game_id) {
-                if (msg.channel === 'xqc') return client.say('kattah', `${msg.channel} changed to new game: ${msg.game} gn`)
+                if (msg.channel === 'xqc' || msg.channel === 'forsen') return client.say('kattah', `${msg.channel} changed to new game: ${msg.game} gn`)
                 client.say('kattah', `${msg.channel} changed to new game: ${msg.game}`)
             }
             
             if (msg.status !== msg.old_status) {
-                if (msg.channel === 'xqc') return client.say('kattah', `${msg.channel} changed to new title: ${msg.status} gn`)
+                if (msg.channel === 'xqc' || msg.channel === 'forsen') return client.say('kattah', `${msg.channel} changed to new title: ${msg.status} gn`)
                 client.say('kattah', `${msg.channel} changed to new title: ${msg.status}`)
             }
             break;
