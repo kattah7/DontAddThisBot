@@ -25,7 +25,7 @@ module.exports = {
                 client.privmsg(message.channelName, `.me ${name} Successfully tweeted :) Check out twitter.com/twitchsayschat to see your tweet`)
             } else {
                 return {
-                    text: `${name} Successfully tweeted :) Check out twitter.com/twitchsayschat to see your tweet`
+                    text: `${name} Successfully tweeted kattahSpin Check out twitter.com/twitchsayschat to see your tweet`
                 }
             }
         }

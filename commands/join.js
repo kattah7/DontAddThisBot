@@ -35,7 +35,7 @@ module.exports = {
         await newChannel.save();
 
         // return the response
-        client.say(message.senderUsername, `Joined channel, ${message.senderUsername} 🤖`);
+        client.say(message.senderUsername, `Joined channel, ${message.senderUsername} kattahSpin`);
         return {
             text: `Joined channel, ${message.senderUsername} :)`,
         }

@@ -34,10 +34,10 @@ module.exports = {
         if (!regex.racism.test(random.title)) {
             if (args[0].toLowerCase()) {
                 if (message.senderUsername == process.env.NUMBER_ONE) {
-                    client.privmsg(message.channelName, `.me ${random.user_name} been live for ${humanizeDuration(ms)} playing ${random.game_name} with ${random.viewer_count} viewers. Title: ${random.title}. twitch.tv/${random.user_login}`)
+                    client.privmsg(message.channelName, `.me ${random.user_name} been live for ${humanizeDuration(ms)} playing ${random.game_name} with ${random.viewer_count} viewers. Title: ${random.title}. twitch.tv/${random.user_login} kattahSpin`)
                 } else {
                     return {
-                        text: `${random.user_name} been live for ${humanizeDuration(ms)} playing ${random.game_name} with ${random.viewer_count} viewers. Title: ${random.title}. twitch.tv/${random.user_login}`
+                        text: `${random.user_name} been live for ${humanizeDuration(ms)} playing ${random.game_name} with ${random.viewer_count} viewers. Title: ${random.title}. twitch.tv/${random.user_login} kattahSpin`
                     }
                 }
             }

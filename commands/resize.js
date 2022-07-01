@@ -20,7 +20,7 @@ module.exports = {
                 text: `Usage |ezgif (emote) (twitch or 7tv), bttv and ffz not supported KEKW`
             }
         }
-        await client.say(message.channelName, "fetching emotes xd")
+        await client.say(message.channelName, "fetching emotes kattahSpin")
         let { body: userData, statusCode } = await got(`https://api.ivr.fi/v2/twitch/emotes/${args[0]}`, { timeout: 10000, throwHttpErrors: false, responseType: "json" });
         console.log(userData)
         
