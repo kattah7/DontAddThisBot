@@ -131,31 +131,27 @@ const handleWSMsg = async (msg = {}) => {
     switch (msg.type) {
          
         case 'stream-up': {
-             if (msg.channel === 'xqc') {
-                client.say('kattah', `@${msg.user_name} just went live! gn`)
-            }
-            client.say('kattah', `${msg.channel} went live!`)
+            if (msg.channel === 'xqc') return client.say('kattah', `@${msg.channel} just went live! gn`)
+            client.say('kattah', `@${msg.channel} went live!`)
             break;
         }
 
         case 'stream-down': {
-            if (msg.channel === 'xqc') {
-                client.say('kattah', `${msg.channel} went offline! gm`)
-            }
-            client.say('kattah', `${msg.channel} went offline!`)
+            if (msg.channel === 'xqc') return client.say('kattah', `@${msg.channel} went offline! gm`)
+            client.say('kattah', `@${msg.channel} went offline!`)
             break;
         }
 
         case 'broadcast_settings_update': {
             
             if (msg.game_id !== msg.old_game_id) {
-                if (msg.channel === 'xqc') return client.say('kattah', `${msg.channel} changed to new game: ${msg.game} gn`)
-                client.say('kattah', `${msg.channel} changed to new game: ${msg.game}`)
+                if (msg.channel === 'xqc') return client.say('kattah', `@${msg.channel} changed to new game: ${msg.game} gn`)
+                client.say('kattah', `@${msg.channel} changed to new game: ${msg.game}`)
             }
             
             if (msg.status !== msg.old_status) {
-                if (msg.channel === 'xqc') return client.say('kattah', `${msg.channel} changed to new title: ${msg.status} gn`)
-                client.say('kattah', `${msg.channel} changed to new title: ${msg.status}`)
+                if (msg.channel === 'xqc') return client.say('kattah', `@${msg.channel} changed to new title: ${msg.status} gn`)
+                client.say('kattah', `@${msg.channel} changed to new title: ${msg.status}`)
             }
             break;
         }
