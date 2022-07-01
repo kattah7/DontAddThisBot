@@ -20,7 +20,7 @@ const listen = (channels, subs) => {
 }
 
 exports.init = async () => {
-    // xQc
+    // Streamers
     listen([{ login: 'xqc', id: '71092938' }], ['video-playback-by-id', 'broadcast-settings-update'])
     listen([{ login: 'pokimane', id: '44445592' }], ['video-playback-by-id', 'broadcast-settings-update'])
     listen([{ login: 'kattah', id: '137199626' }], ['video-playback-by-id', 'broadcast-settings-update'])
@@ -132,14 +132,14 @@ const handleWSMsg = async (msg = {}) => {
     switch (msg.type) {
          
         case 'stream-up': {
-            if (msg.channelID === 'xqc') return client.say('kattah', `${msg.channelID} just went live! gn`)
-            client.say('kattah', `${msg.channelID} went live!`)
+            if (msg.channelID === '71092938') return client.say('kattah', `${await utils.loginByID(msg.channelID)} just went live! gn`)
+            client.say('kattah', `${await utils.loginByID(msg.channelID)} went live!`)
             break;
         }
 
         case 'stream-down': {
-            if (msg.channelID === 'xqc') return client.say('kattah', `${msg.channelID} went offline! gm`)
-            client.say('kattah', `${msg.channelID} went offline!`)
+            if (msg.channelID === '71092938') return client.say('kattah', `${await utils.loginByID(msg.channelID)} went offline! gm`)
+            client.say('kattah', `${await utils.loginByID(msg.channelID)} went offline!`)
             break;
         }
 
