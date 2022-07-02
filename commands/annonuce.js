@@ -8,6 +8,11 @@ module.exports = {
     permission: 1,
     aliases: ['ann'],
     async execute(message, args) {
+        if (args[0] == '.me') {
+            return {
+                text: `kekw`
+            }
+        }
         if (!regex.racism.test(args)) {
         const query = []
             query.push({
