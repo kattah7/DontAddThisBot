@@ -72,7 +72,14 @@ client.on("PRIVMSG", async (message) => {
     try {
         if (command) {
             if (command.cooldown) {
-                if (cooldown.has(`${command.name}${message.senderUserID}`)) return;
+                if (userdata.level == 3) {
+                    if (cooldown.has(`${command.name}${message.senderUserID}`)) return;
+                cooldown.set(`${command.name}${message.senderUserID}`, Date.now() + 10);
+                setTimeout(() => {
+                    cooldown.delete(`${command.name}${message.senderUserID}`);
+                }, 10);
+                }
+                else if (cooldown.has(`${command.name}${message.senderUserID}`)) return;
                 cooldown.set(`${command.name}${message.senderUserID}`, Date.now() + command.cooldown);
                 setTimeout(() => {
                     cooldown.delete(`${command.name}${message.senderUserID}`);
