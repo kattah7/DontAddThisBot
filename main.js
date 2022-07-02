@@ -74,16 +74,17 @@ client.on("PRIVMSG", async (message) => {
             if (command.cooldown) {
                 if (userdata.level == 3) {
                     if (cooldown.has(`${command.name}${message.senderUserID}`)) return;
-                cooldown.set(`${command.name}${message.senderUserID}`, Date.now() + 10);
-                setTimeout(() => {
-                    cooldown.delete(`${command.name}${message.senderUserID}`);
-                }, 10);
-                }
-                else if (cooldown.has(`${command.name}${message.senderUserID}`)) return;
-                cooldown.set(`${command.name}${message.senderUserID}`, Date.now() + command.cooldown);
-                setTimeout(() => {
-                    cooldown.delete(`${command.name}${message.senderUserID}`);
-                }, command.cooldown);
+                    cooldown.set(`${command.name}${message.senderUserID}`, Date.now() + 10);
+                    setTimeout(() => {
+                        cooldown.delete(`${command.name}${message.senderUserID}`);
+                    }, 10);
+                } else {
+                    if (cooldown.has(`${command.name}${message.senderUserID}`)) return;
+                    cooldown.set(`${command.name}${message.senderUserID}`, Date.now() + command.cooldown);
+                    setTimeout(() => {
+                        cooldown.delete(`${command.name}${message.senderUserID}`);
+                    }, command.cooldown);
+                } 
             }
             if (command.permission) {
                 if (command.permission == 1 && !message.isMod && message.channelName !== message.senderUsername) {
