@@ -34,16 +34,17 @@ module.exports = {
             },
             json: query
         })
-        for (const poggers of pogger[0].data.channelViewer.earnedBadges) {
-            if (poggers.setID == "twitchconEU2022") {
-                return {
-                    text: `${args[0]} is going to twitchcon PogChamp`
-                }
-            } else {
-                return {
-                    text: `${args[0]} isnt going to twitchcon PoroSad`
-                }
+        console.log(pogger[0].data.channelViewer.earnedBadges)
+        const tc = pogger[0].data.channelViewer.earnedBadges.find(badge => badge.setID === 'twitchconEU2022')
+        if (tc) {
+            return {
+                text: `${args[0]} is going to TwitchCon 2022 Amsterdam! PogChamp`
+            }
+        } else {
+            return {
+                text: `${args[0]} is not going to TwitchCon 2022 PoroSad maybe next year`
             }
         }
+        
         }
     }
