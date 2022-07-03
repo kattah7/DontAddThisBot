@@ -35,6 +35,11 @@ module.exports = {
             json: query
         })
         console.log(pogger[0].data.channelViewer.earnedBadges)
+        if (pogger[0].data.channelViewer.earnedBadges == null) {
+            return {
+                text: `${args[0]} is not going to TwitchCon 2022 PoroSad maybe next year`
+            }
+        }
         const tc = pogger[0].data.channelViewer.earnedBadges.find(badge => badge.setID === 'twitchconEU2022')
         if (tc) {
             return {
