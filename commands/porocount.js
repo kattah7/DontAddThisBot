@@ -36,10 +36,10 @@ module.exports = {
                     }
                 } else {
                     if (message.senderUsername == process.env.NUMBER_ONE) {
-                        client.privmsg(message.channelName, `.me ${targetUser} has total of [P:${channelData.poroPrestige}] ${channelData.poroCount} meat kattahXd | Registered: ${channelData.joinedAt}`)
+                        client.privmsg(message.channelName, `.me ${targetUser} has total of [P:${channelData.poroPrestige}] ${channelData.poroCount.toLocaleString()} meat kattahXd | Registered: ${channelData.joinedAt}`)
                     } else {
                         return {
-                            text: `${targetUser} has total of [P:${channelData.poroPrestige}] ${channelData.poroCount} meat kattahXd | Registered: ${channelData.joinedAt}`
+                            text: `${targetUser} has total of [P:${channelData.poroPrestige}] ${channelData.poroCount.toLocaleString()} meat kattahXd | Registered: ${channelData.joinedAt}`
                         }
                     }
                 } 

@@ -43,13 +43,13 @@ module.exports = {
                         if (message.senderUsername == process.env.NUMBER_ONE) {
                             
                                
-                                   client.privmsg(message.channelName, `.me No poros found... 🎇 kattahBoom ${message.senderUsername} | [P:${channelData.poroPrestige}] ${channelData.poroCount} meat total! 🥩  | Come back later in ${humanizeDuration(ms)}. kattahDance`)
+                                   client.privmsg(message.channelName, `.me No poros found... 🎇 kattahBoom ${message.senderUsername} | [P:${channelData.poroPrestige}] ${channelData.poroCount.toLocaleString()} meat total! 🥩  | Come back later in ${humanizeDuration(ms)}. kattahDance`)
                                    return
                                
                             
                         } else {
                             return {
-                                text: `No poros found... 🎇 kattahBoom ${message.senderUsername} | [P:${channelData.poroPrestige}] ${channelData.poroCount} meat total! 🥩  | Come back later in ${humanizeDuration(ms)}. kattahDance`
+                                text: `No poros found... 🎇 kattahBoom ${message.senderUsername} | [P:${channelData.poroPrestige}] ${channelData.poroCount.toLocaleString()} meat total! 🥩  | Come back later in ${humanizeDuration(ms)}. kattahDance`
                             } 
                         }
                         
