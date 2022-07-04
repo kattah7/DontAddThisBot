@@ -14,8 +14,6 @@ module.exports = {
             } else {
                 ev = await eval("(async () => {" + args.join(" ").replace(/„|“/gm, '"') + "})()");
             }
-            if (!ev) return null;
-            return { text: String(ev) };
         } catch (e) {
             return {
                 text: `error: ${e}`,
