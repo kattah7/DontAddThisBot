@@ -4,10 +4,91 @@ const crypto = require('crypto');
 const utils = require('./utils.js');
 const { client } = require('./connections.js')
 const RWS = require('reconnecting-websocket');
+const got = require("got");
 
 exports.topics = [];
 exports.connections = [];
 let id = 0
+
+const refundPoints = async (channelId, redemptionId) => {
+    const { body } = await got.post('https://gql.twitch.tv/gql', {
+        throwHttpErrors: false,
+        responseType: 'json',
+        headers: {
+            'Authorization': `OAuth ${process.env.TWITCH_GQL_OAUTH_KEKW}`,
+            'Client-Id': `${process.env.CLIENT_ID_FOR_GQL}`
+        },
+        json: {
+            "operationName": "UpdateCoPoCustomRewardStatus",
+            "variables": {
+                "input": {
+                    "channelID": channelId,
+                    "redemptionID": redemptionId,
+                    "newStatus": "CANCELED"
+                }
+            },
+            "extensions": {
+                "persistedQuery": {
+                    "version": 1,
+                    "sha256Hash": "d940a7ebb2e588c3fc0c69a2fb61c5aeb566833f514cf55b9de728082c90361d" // kekw
+                }
+            }
+        }
+    })
+    return body
+}
+
+const cancelRaid = async (channelId) => {
+    const { body } = await got.post('https://gql.twitch.tv/gql', {
+        throwHttpErrors: false,
+        responseType: 'json',
+        headers: {
+            'Authorization': `OAuth ${process.env.TWITCH_GQL_OAUTH_KEKW}`,
+            'Client-Id': `${process.env.CLIENT_ID_FOR_GQL}`
+        },
+        json: {
+            "operationName": "CancelRaid",
+            "variables": {
+                "input": {
+                    "sourceID": channelId,
+                }
+            },
+            "extensions": {
+                "persistedQuery": {
+                    "version": 1,
+                    "sha256Hash": "42a2a699ac85256d72fff2471c75803f7ffbc767ba790725de5ad5d6e0163648" // kekw2
+                }
+            }
+        }
+    })
+    return body
+}
+
+const goRaid = async (channelId) => {
+    const { body } = await got.post('https://gql.twitch.tv/gql', {
+        throwHttpErrors: false,
+        responseType: 'json',
+        headers: {
+            'Authorization': `OAuth ${process.env.TWITCH_GQL_OAUTH_KEKW}`,
+            'Client-Id': `${process.env.CLIENT_ID_FOR_GQL}`
+        },
+        json: {
+            "operationName": "GoRaid",
+            "variables": {
+                "input": {
+                    "sourceID": channelId,
+                }
+            },
+            "extensions": {
+                "persistedQuery": {
+                    "version": 1,
+                    "sha256Hash": "878ca88bed0c5a5f0687ad07562cffc0bf6a3136f15e5015c0f5f5f7f367f70a" // kekw2
+                }
+            }
+        }
+    })
+    return body
+}
 
 const listen = (channels, subs) => {
     for (const channel of channels) {
@@ -23,7 +104,7 @@ exports.init = async () => {
     // Streamers
     listen([{ login: 'xqc', id: '71092938' }], ['video-playback-by-id', 'broadcast-settings-update'])
     listen([{ login: 'pokimane', id: '44445592' }], ['video-playback-by-id', 'broadcast-settings-update'])
-    listen([{ login: 'kattah', id: '137199626' }], ['video-playback-by-id', 'broadcast-settings-update'])
+    listen([{ login: 'kattah', id: '137199626' }], ['video-playback-by-id', 'broadcast-settings-update', 'community-points-channel-v1', 'raid'])
     listen([{ login: 'forsen', id: '22484632' }], ['video-playback-by-id', 'broadcast-settings-update'])
 
     const splitTopics = utils.splitArray(this.topics, 50)
@@ -126,7 +207,7 @@ const connect = (ws, topics, id) => {
     ws.reconnect();
 };
 
-const handleWSMsg = async (msg = {}) => {
+const handleWSMsg = async (msg = {}, message) => {
     if (!msg.type) return console.error(`Unknown message without type: ${JSON.stringify(msg)}`);
 
     switch (msg.type) {
@@ -153,6 +234,44 @@ const handleWSMsg = async (msg = {}) => {
             if (msg.status !== msg.old_status) {
                 if (msg.channel === 'xqc' || msg.channel === 'forsen') return client.say('kattah', `${msg.channel} changed to new title: ${msg.status} gn`)
                 client.say('kattah', `${msg.channel} changed to new title: ${msg.status}`)
+            }
+            break;
+        }
+        case 'reward-redeemed': {
+            const redemption = msg.data.redemption
+            if (redemption.channel_id === '137199626' && redemption.reward.title === 'raid') {
+                const user = redemption.user_input.split(' ')[0].replace('@', '')
+                if (!/^[A-Za-z0-9_]*$/.test(user)) {
+                    client.say('kattah', `Invalid Name, Refunding points...`)
+                    refundPoints(redemption.channel_id, redemption.id)
+                }
+                if (user == await utils.loginByID(redemption.channel_id)) {
+                    client.say('kattah', `You cannot raid the broadcaster! Refunding points...`)
+                    refundPoints(redemption.channel_id, redemption.id)
+                } else {
+                const { data } = await got(`https://api.twitch.tv/helix/streams?user_login=${user}`, {
+                headers: {
+                "Client-ID": process.env.CLIENT_ID,
+                Authorization: `Bearer ${process.env.ACCESS_TOKEN}`,
+                },
+                }).json();
+                console.log(data)
+                if (data[0] == undefined) {
+                    client.say('kattah', `${user} is not streaming! Refunding points...`)
+                    refundPoints(redemption.channel_id, redemption.id)
+                } else if (data[0].type == 'live') {
+                    try {
+                        cancelRaid(redemption.channel_id)
+                        await client.privmsg("kattah", `.raid ${user}`)
+                        client.say('kattah', `${redemption.user.display_name} redeemed raid on ${user} PogBones !!`)
+                    } catch (err) {
+                        console.error(err)
+                        client.say('kattah', `${redemption.user.display_name} FailFish error! refunding points`)
+                        refundPoints(redemption.channel_id, redemption.id)
+                    }
+                }
+                
+            }
             }
             break;
         }

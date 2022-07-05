@@ -1,3 +1,4 @@
+require("dotenv").config();
 const got = require('got');
 
 exports.loginByID = async (userID) => {
