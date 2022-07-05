@@ -49,7 +49,9 @@
     "puppeteer": "^14.1.1",
     "puppeteer-extra": "^3.2.3",
     "puppeteer-extra-plugin-stealth": "^2.9.0",
+    "reconnecting-websocket": "^4.4.0",
     "redis": "^4.1.0",
+    "request": "^2.88.2",
     "tinify": "^1.6.1",
     "twitter-api-v2": "^1.12.0"
   }
