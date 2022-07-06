@@ -207,7 +207,7 @@ const connect = (ws, topics, id) => {
     ws.reconnect();
 };
 
-const handleWSMsg = async (msg = {}, message) => {
+const handleWSMsg = async (msg = {}, message, args) => {
     if (!msg.type) return console.error(`Unknown message without type: ${JSON.stringify(msg)}`);
 
     switch (msg.type) {
@@ -260,6 +260,8 @@ const handleWSMsg = async (msg = {}, message) => {
                     client.say('kattah', `${user} is not streaming! Refunding points...`)
                     refundPoints(redemption.channel_id, redemption.id)
                 } else if (data[0].type == 'live') {
+                 
+              
                     try {
                         cancelRaid(redemption.channel_id)
                         await client.privmsg("kattah", `.raid ${user}`)
@@ -269,7 +271,9 @@ const handleWSMsg = async (msg = {}, message) => {
                         client.say('kattah', `${redemption.user.display_name} FailFish error! refunding points`)
                         refundPoints(redemption.channel_id, redemption.id)
                     }
-                }
+
+                
+            }
                 
             }
             }
