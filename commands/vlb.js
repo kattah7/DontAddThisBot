@@ -4,8 +4,10 @@ module.exports = {
     name: "vlb",
     cooldown: 3000,
     execute: async(message, args, client) => {
-        let { body: userData, statusCode } = await got(`https://api.twitchinsights.net/v1/bots/online`, { timeout: 10000, throwHttpErrors: false, responseType: "json" });
+        client.say(message.channelName, `This will take a bit... kattahSpin`)
+        let { body: userData, statusCode } = await got(`https://api.twitchinsights.net/v1/bots/online`, { timeout: 30000, throwHttpErrors: true, responseType: "json" });
         let { body: userData2, statusCode2 } = await got(`https://api.twitchinsights.net/v1/game/all`, { timeout: 10000, throwHttpErrors: false, responseType: "json" });
+        console.log(userData, userData2)
         if (!args[0]) {
             userData.bots[0].pop()
             userData.bots[1].pop()
