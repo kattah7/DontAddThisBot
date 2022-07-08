@@ -5,6 +5,7 @@ const utils = require('./utils.js');
 const { client } = require('./connections.js')
 const RWS = require('reconnecting-websocket');
 const got = require("got");
+const axios = require('axios');
 
 exports.topics = [];
 exports.connections = [];
@@ -207,7 +208,7 @@ const connect = (ws, topics, id) => {
     ws.reconnect();
 };
 
-const handleWSMsg = async (msg = {}, message, args) => {
+const handleWSMsg = async (msg = {}, message, args, res) => {
     if (!msg.type) return console.error(`Unknown message without type: ${JSON.stringify(msg)}`);
 
     switch (msg.type) {
@@ -273,13 +274,25 @@ const handleWSMsg = async (msg = {}, message, args) => {
                     }
 
                 
+                    }
+                }
             }
-                
-            }
-            }
+            if (redemption.channel_id === redemption.channel_id && redemption.reward.title === 'random ban') {
+                try {
+                    const  c  = await got('http://tmi.twitch.tv/group/user/kattah/chatters').json()
+                    var vipsAndViewers = [...c.chatters.vips, ...c.chatters.viewers]
+                    var randomChatters = vipsAndViewers[Math.floor(Math.random()* vipsAndViewers.length)]
+                    client.timeout(await utils.loginByID(redemption.channel_id), randomChatters, 60, `kekw banned by ${redemption.user.display_name}`)
+                    await client.say(await utils.loginByID(redemption.channel_id), "PoroSad redeemed! " + randomChatters + " has been banned for 60 seconds")
+                } catch (err) {
+                    console.error(err)
+                    client.say(await utils.loginByID(redemption.channel_id), `${redemption.user.display_name} FailFish error! refunding points`)
+                    refundPoints(redemption.channel_id, redemption.id)
+                }
+        }
             break;
         }
-    }
+}
 };
 
 const handleWSResp = (msg) => {

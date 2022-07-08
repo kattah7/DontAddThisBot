@@ -29,6 +29,7 @@ client.on("ready", () => {
     nodeCron.schedule("0 0-22/2 * * *<", () => {
         client.say("kattah", "!cookie");
     });
+    
 });
 
 client.on("close", (err) => {
@@ -57,6 +58,14 @@ client.on("PRIVMSG", async (message) => {
 
     if (userdata.level < 1) {
         return;
+    }
+    if (message.channelName == 'kattah') {
+        if (message.senderUserID == 162760707 && message.messageText) {
+            client.say("kattah", `${message.messageText} BatChest`)
+        }
+        if (message.senderUserID == 790623318 && message.messageText.startsWith("pokimane")) {
+            client.say("kattah", `pokimane`)
+        }
     }
     const channelData = await getChannel(message.channelName);
     const prefix = channelData.prefix ?? "|";
@@ -124,9 +133,6 @@ client.on("PRIVMSG", async (message) => {
                     return client.say(message.channelName, 'xd')
                 }
             }
-
-            
-
             const response = await command.execute(message, args, client, userdata);
 
             if (response) {
@@ -151,6 +157,7 @@ const getUser = async function (id) {
 const getChannel = async function (channel) {
     return await bot.DB.channels.findOne({ username: channel }).catch((err) => console.log(err));
 };
+
 
 
 const main = async () => {
