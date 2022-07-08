@@ -105,7 +105,7 @@ exports.init = async () => {
     // Streamers
     listen([{ login: 'xqc', id: '71092938' }], ['video-playback-by-id', 'broadcast-settings-update'])
     listen([{ login: 'pokimane', id: '44445592' }], ['video-playback-by-id', 'broadcast-settings-update'])
-    listen([{ login: 'kattah', id: '137199626' }], ['video-playback-by-id', 'broadcast-settings-update', 'community-points-channel-v1', 'raid'])
+    listen([{ login: 'kattah', id: '137199626' }], ['video-playback-by-id', 'broadcast-settings-update', 'community-points-channel-v1', 'raid', 'chatrooms-user-v1', 'polls'])
     listen([{ login: 'forsen', id: '22484632' }], ['video-playback-by-id', 'broadcast-settings-update'])
 
     const splitTopics = utils.splitArray(this.topics, 50)
@@ -292,7 +292,20 @@ const handleWSMsg = async (msg = {}, message, args, res) => {
         }
             break;
         }
-}
+        case 'user_moderation_action': {
+            if (msg.data.target_id !== 790623318) return;
+
+            if (msg.data.action == 'unban') {
+                try {
+                    client.say("kattah", `yo`)
+                    console.log("yo")
+                } catch (err) {
+                    console.error(err)
+                }
+            }
+            break;
+        }
+};
 };
 
 const handleWSResp = (msg) => {
