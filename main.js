@@ -60,10 +60,10 @@ client.on("PRIVMSG", async (message) => {
         return;
     }
     if (message.channelName == 'kattah') {
-        if (message.senderUserID == 162760707 && message.messageText) {
-            client.say("kattah", `${message.messageText.toLowerCase().replace(/[#|@|'|+|$|!|?|||*|^|%|>|=|-]/, '')} BatChest`)
+        if (message.senderUserID == 162760707 && message.messageText) { // uid to username is felyp8
+            client.say("kattah", `${message.messageText.replace(/[#|@|'|+|$|!|?|||*|^|%|>|=|-]/, '')} BatChest`)
         }
-        if (message.senderUserID == 790623318 && message.messageText.startsWith("pokimane")) {
+        if (message.senderUserID == 790623318 && message.messageText.startsWith("pokimane")) { // uid to username is datb
             client.say("kattah", `pokimane`)
         }
     }
