@@ -69,6 +69,11 @@ client.on("PRIVMSG", async (message) => {
         if (message.senderUserID == 790623318 && message.messageText.startsWith("pokimane")) { // uid to username is datb
             client.say("kattah", `pokimane`)
         }
+        if (message.messageText.startsWith("|massbotping")) {
+            const xd = "' = ? * # > ! $ + | % ^ - < # @ & * ( ) [ ] { } , . / ~ `; bb"; 
+            for (const lol of xd.split(" ")) 
+            { client.say("kattah", `${lol}ping`) };
+        }
     }
 
     const channelData = await getChannel(message.channelName);
