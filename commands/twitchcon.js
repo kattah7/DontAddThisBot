@@ -6,7 +6,7 @@ module.exports = {
     description: "check if user has twitchcon badge.",
     aliases: ["tc"],
     execute: async(message, args, client) => {
-        const targetUser = args[0] ?? message.senderUsername
+        const targetUser = args[0].toLowerCase().replace(/[#|@]/, '') ?? message.senderUsername
         const query = []
             query.push({
                 "operationName": "ViewerCard",
@@ -35,7 +35,12 @@ module.exports = {
             },
             json: query
         })
-        console.log(pogger[0].data.channelViewer.earnedBadges)
+        if (!/^[A-Za-z0-25_]*$/.test(targetUser) || pogger[0].data.activeTargetUser == null) {
+            return {
+                text: `${targetUser} is not a valid username??`,
+            }
+        }
+        console.log(pogger[0])
         if (pogger[0].data.channelViewer.earnedBadges == null) {
             return {
                 text: `${targetUser} is not going to TwitchCon 2022 PoroSad maybe next year`
