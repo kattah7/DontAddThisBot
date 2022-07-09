@@ -209,6 +209,7 @@ const connect = (ws, topics, id) => {
 };
 
 const handleWSMsg = async (msg = {}, message, args, res) => {
+    console.log(msg)
     if (!msg.type) return console.error(`Unknown message without type: ${JSON.stringify(msg)}`);
 
     switch (msg.type) {
@@ -242,7 +243,7 @@ const handleWSMsg = async (msg = {}, message, args, res) => {
             const redemption = msg.data.redemption
             if (redemption.channel_id === '137199626' && redemption.reward.title === 'raid') {
                 const user = redemption.user_input.split(' ')[0].replace('@', '')
-                if (!/^[A-Za-z0-9_]*$/.test(user)) {
+                if (!/^[A-Za-z0-25_]*$/.test(user)) {
                     client.say('kattah', `Invalid Name, Refunding points...`)
                     refundPoints(redemption.channel_id, redemption.id)
                 }
@@ -293,14 +294,12 @@ const handleWSMsg = async (msg = {}, message, args, res) => {
             break;
         }
         case 'user_moderation_action': {
-            if (msg.data.target_id !== 790623318) return;
-            const channel = await utils.loginByID(msg.channelID)
-            if (!channel) return
+            if (msg.data.target_id !== "790623318") return;
             
             if (msg.data.action == 'unban') {
                 try {
-                    await client.join(channel)
-                    client.say(channel, `yo`)
+                    await client.join("kattah")
+                    client.say("kattah", `yo`)
                     console.log("yo")
                 } catch (err) {
                     console.error(err)
