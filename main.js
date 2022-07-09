@@ -5,6 +5,7 @@ const { channel } = require("diagnostics_channel");
 const { client } = require('./util/connections.js')
 const pubsub = require('./util/pubSub.js')
 const got = require("got");
+const stv = require('./util/7tvEvent.js')
 
 global.bot = {};
 bot.Redis = require("./util/redis.js");
@@ -61,7 +62,7 @@ client.on("PRIVMSG", async (message) => {
     }
     if (message.channelName == 'kattah') {
         if (message.senderUserID == 162760707 && message.messageText) {
-            client.say("kattah", `${message.messageText} BatChest`)
+            client.say("kattah", `${message.messageText.toLowerCase().replace(/[#|@|'|+|$|!|?|||*|^|%|>|=|-]/, '')} BatChest`)
         }
         if (message.senderUserID == 790623318 && message.messageText.startsWith("pokimane")) {
             client.say("kattah", `pokimane`)
