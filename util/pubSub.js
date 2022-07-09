@@ -301,7 +301,7 @@ const handleWSMsg = async (msg = {}, channel) => {
             if (msg.data.action == 'unban') {
                     try {
                         await client.join(await utils.loginByID(msg.data.channel_id))
-                        client.say(await utils.loginByID(msg.data.channel_id), `TriHard reconnected!`)
+                        await client.say(await utils.loginByID(msg.data.channel_id), `TriHard reconnected!`)
                         console.log("yo")
                     } catch (err) {
                         console.error(err)
