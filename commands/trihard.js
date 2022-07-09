@@ -8,7 +8,7 @@ module.exports = {
             client.privmsg(message.channelName, `.me ${message.senderUsername} TriHard 7`)
         } else {
             return {
-                text: `${message.senderUsername} TriHard 7`
+                text: `${message.senderUsername} TriHard`
             }
         }
         

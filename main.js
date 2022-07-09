@@ -5,7 +5,6 @@ const { channel } = require("diagnostics_channel");
 const { client } = require('./util/connections.js')
 const pubsub = require('./util/pubSub.js')
 const got = require("got");
-const stv = require('./util/7tvEvent.js')
 
 global.bot = {};
 bot.Redis = require("./util/redis.js");
