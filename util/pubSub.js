@@ -304,7 +304,6 @@ const handleWSMsg = async (msg = {}, channel) => {
         }
 };
 };
-
 const handleWSResp = (msg) => {
     if (!msg.nonce) return console.error(`Unknown message without nonce: ${JSON.stringify(msg)}`);
 
