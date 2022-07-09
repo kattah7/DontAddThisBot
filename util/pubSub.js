@@ -298,15 +298,6 @@ const handleWSMsg = async (msg = {}, channel) => {
             break;
         }
         case 'user_moderation_action': {
-            if (msg.data.action == 'ban') {
-                    try {
-                        await client.part(await utils.loginByID(msg.data.channel_id))
-                        console.log("band")
-                    } catch (err) {
-                        console.error(err)
-                    }
-                
-            }
             if (msg.data.action == 'unban') {
                     try {
                         await client.join(await utils.loginByID(msg.data.channel_id))
