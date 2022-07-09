@@ -6,13 +6,14 @@ module.exports = {
     description: "check if user has twitchcon badge.",
     aliases: ["tc"],
     execute: async(message, args, client) => {
+        const targetUser = args[0] ?? message.senderUsername
         const query = []
             query.push({
                 "operationName": "ViewerCard",
                 "variables": {
                     "channelID": "137199626",
                     "channelLogin": `kattah`,
-                    "giftRecipientLogin": `${args[0]}`,
+                    "giftRecipientLogin": `${targetUser}`,
                     "hasChannelID": "true",
                     "isViewerBadgeCollectionEnabled": "true",
                     "withStandardGifting": "true",
@@ -37,17 +38,17 @@ module.exports = {
         console.log(pogger[0].data.channelViewer.earnedBadges)
         if (pogger[0].data.channelViewer.earnedBadges == null) {
             return {
-                text: `${args[0]} is not going to TwitchCon 2022 PoroSad maybe next year`
+                text: `${targetUser} is not going to TwitchCon 2022 PoroSad maybe next year`
             }
         }
         const tc = pogger[0].data.channelViewer.earnedBadges.find(badge => badge.setID === 'twitchconEU2022')
         if (tc) {
             return {
-                text: `${args[0]} is going to TwitchCon 2022 Amsterdam! PogChamp`
+                text: `${targetUser} is going to TwitchCon 2022 Amsterdam! PogChamp`
             }
         } else {
             return {
-                text: `${args[0]} is not going to TwitchCon 2022 PoroSad maybe next year`
+                text: `${targetUser} is not going to TwitchCon 2022 PoroSad maybe next year`
             }
         }
         
