@@ -103,10 +103,18 @@ const listen = (channels, subs) => {
 
 exports.init = async () => {
     // Streamers
+    const channels = await bot.DB.channels.find({}).exec();
+    for (const channel of channels) {
+        try {
     listen([{ login: 'xqc', id: '71092938' }], ['video-playback-by-id', 'broadcast-settings-update'])
     listen([{ login: 'pokimane', id: '44445592' }], ['video-playback-by-id', 'broadcast-settings-update'])
     listen([{ login: 'kattah', id: '137199626' }], ['video-playback-by-id', 'broadcast-settings-update', 'community-points-channel-v1', 'raid', 'chatrooms-user-v1', 'polls'])
     listen([{ login: 'forsen', id: '22484632' }], ['video-playback-by-id', 'broadcast-settings-update'])
+    listen([{ login: channel.username, id: '790623318' }], ['chatrooms-user-v1'])
+} catch (err) {
+    console.log(err)
+}
+}
 
     const splitTopics = utils.splitArray(this.topics, 50)
 
@@ -117,6 +125,7 @@ exports.init = async () => {
         await utils.sleep(1000)
     }
 }
+    
 
 exports.createListener = (channel, sub) => {
     const nonce = crypto.randomBytes(20).toString('hex').slice(-8);
@@ -208,7 +217,7 @@ const connect = (ws, topics, id) => {
     ws.reconnect();
 };
 
-const handleWSMsg = async (msg = {}, message, args, res) => {
+const handleWSMsg = async (msg = {}, channel) => {
     console.log(msg)
     if (!msg.type) return console.error(`Unknown message without type: ${JSON.stringify(msg)}`);
 
@@ -294,16 +303,24 @@ const handleWSMsg = async (msg = {}, message, args, res) => {
             break;
         }
         case 'user_moderation_action': {
-            if (msg.data.target_id !== "790623318") return;
-            
+            if (msg.data.action == 'ban') {
+                    try {
+                        await client.part(await utils.loginByID(msg.data.channel_id))
+                        console.log("band")
+                    } catch (err) {
+                        console.error(err)
+                    }
+                
+            }
             if (msg.data.action == 'unban') {
-                try {
-                    await client.join("kattah")
-                    client.say("kattah", `yo`)
-                    console.log("yo")
-                } catch (err) {
-                    console.error(err)
-                }
+                    try {
+                        await client.join(await utils.loginByID(msg.data.channel_id))
+                        client.say(await utils.loginByID(msg.data.channel_id), `TriHard reconnected!`)
+                        console.log("yo")
+                    } catch (err) {
+                        console.error(err)
+                    }
+                
             }
             break;
         }
@@ -315,7 +332,7 @@ const handleWSResp = (msg) => {
 
     const topic = this.topics.find(topic => topic.nonce === msg.nonce);
 
-    if (msg.error && msg.error !== 'ERR_BADAUTH') {
+    if (msg.error) {
         this.topics.splice(this.topics.indexOf(topic), 1);
         console.error(`Error occurred while subscribing to topic ${topic.sub} for channel ${topic.channel.login}: ${msg.error}`);
     }
