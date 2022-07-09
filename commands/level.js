@@ -1,6 +1,7 @@
 module.exports = {
     name: "level",
     description: "Shows the user's level.",
+    aliases: ["lvl"],
     cooldown: 5000,
     async execute(message, args, client, userdata) {
         const user = args[0] ? args[0].toLowerCase() : message.senderUsername;
