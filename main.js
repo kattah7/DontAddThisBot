@@ -63,6 +63,9 @@ client.on("PRIVMSG", async (message) => {
         if (message.senderUserID == 162760707 && message.messageText) { // uid to username is felyp8
             client.say("kattah", `${message.messageText.replace(/[#|@|'|+|$|!|?|||*|^|%|>|=|-]/, '')} BatChest`)
         }
+        if (message.senderUserID == 162760707 && message.messageText.includes("why")) { // uid to username is felyp8
+            client.say("kattah", `why not`)
+        }
         if (message.senderUserID == 790623318 && message.messageText.startsWith("pokimane")) { // uid to username is datb
             client.say("kattah", `pokimane`)
         }
