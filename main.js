@@ -65,6 +65,9 @@ client.on("PRIVMSG", async (message) => {
         } else if (message.senderUserID == 162760707 && message.messageText) {
             await client.say("kattah", `"${message.messageText.replace(/[#|@|'|+|$|!|?|||*|^|%|>|=|-]/, '')}" BatChest`);
         }
+        if (message.senderUserID == 632146121 && message.messageText.startsWith("anakarolinne Reminder to eat your cookie nymnOkay")) {
+            await client.say("kattah", "anakarolinne Reminder to eat your cookie nymnOkay");
+        }
         
         if (message.senderUserID == 790623318 && message.messageText.startsWith("pokimane")) { // uid to username is datb
             client.say("kattah", `pokimane`)
