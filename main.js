@@ -63,7 +63,7 @@ client.on("PRIVMSG", async (message) => {
         if (message.senderUserID == 162760707 && message.messageText.includes("why")) {
             await client.say("kattah", "why not"); 
         } else if (message.senderUserID == 162760707 && message.messageText) {
-            await client.say("kattah", `${message.messageText.replace(/[#|@|'|+|$|!|?|||*|^|%|>|=|-]/, '')} BatChest`);
+            await client.say("kattah", `"${message.messageText.replace(/[#|@|'|+|$|!|?|||*|^|%|>|=|-]/, '')}" BatChest`);
         }
         
         if (message.senderUserID == 790623318 && message.messageText.startsWith("pokimane")) { // uid to username is datb
