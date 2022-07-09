@@ -294,10 +294,13 @@ const handleWSMsg = async (msg = {}, message, args, res) => {
         }
         case 'user_moderation_action': {
             if (msg.data.target_id !== 790623318) return;
-
+            const channel = await utils.loginByID(msg.channelID)
+            if (!channel) return
+            
             if (msg.data.action == 'unban') {
                 try {
-                    client.say("kattah", `yo`)
+                    await client.join(channel)
+                    client.say(channel, `yo`)
                     console.log("yo")
                 } catch (err) {
                     console.error(err)
