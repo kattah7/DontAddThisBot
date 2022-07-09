@@ -298,9 +298,18 @@ const handleWSMsg = async (msg = {}, channel) => {
             break;
         }
         case 'user_moderation_action': {
+            if (msg.data.action == 'ban') {
+                    try {
+                        await client.part(utils.loginByID(msg.data.channel_id))
+                        console.log("band")
+                    } catch (err) {
+                        console.error(err)
+                    }
+                
+            }
             if (msg.data.action == 'unban') {
                     try {
-                        await client.join(await utils.loginByID(msg.data.channel_id))
+                        await client.join(utils.loginByID(msg.data.channel_id))
                         await client.say(await utils.loginByID(msg.data.channel_id), `TriHard reconnected!`)
                         console.log("yo")
                     } catch (err) {
