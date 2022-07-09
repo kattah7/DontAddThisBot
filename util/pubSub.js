@@ -104,17 +104,12 @@ const listen = (channels, subs) => {
 exports.init = async () => {
     // Streamers
     const channels = await bot.DB.channels.find({}).exec();
-    for (const channel of channels) {
-        try {
     listen([{ login: 'xqc', id: '71092938' }], ['video-playback-by-id', 'broadcast-settings-update'])
     listen([{ login: 'pokimane', id: '44445592' }], ['video-playback-by-id', 'broadcast-settings-update'])
-    listen([{ login: 'kattah', id: '137199626' }], ['video-playback-by-id', 'broadcast-settings-update', 'community-points-channel-v1', 'raid', 'chatrooms-user-v1', 'polls'])
+    listen([{ login: 'kattah', id: '137199626' }], ['video-playback-by-id', 'broadcast-settings-update', 'community-points-channel-v1', 'raid', 'polls'])
     listen([{ login: 'forsen', id: '22484632' }], ['video-playback-by-id', 'broadcast-settings-update'])
-    listen([{ login: channel.username, id: '790623318' }], ['chatrooms-user-v1'])
-} catch (err) {
-    console.log(err)
-}
-}
+    listen([{ login: 'dontaddthisbot', id: '790623318' }], ['chatrooms-user-v1'])
+
 
     const splitTopics = utils.splitArray(this.topics, 50)
 
@@ -302,8 +297,31 @@ const handleWSMsg = async (msg = {}, channel) => {
         }
             break;
         }
+        case 'user_moderation_action': {
+            if (msg.data.action == 'ban') {
+                    try {
+                        await client.part(await utils.loginByID(msg.data.channel_id))
+                        console.log("band")
+                    } catch (err) {
+                        console.error(err)
+                    }
+                
+            }
+            if (msg.data.action == 'unban') {
+                    try {
+                        await client.join(await utils.loginByID(msg.data.channel_id))
+                        client.say(await utils.loginByID(msg.data.channel_id), `TriHard reconnected!`)
+                        console.log("yo")
+                    } catch (err) {
+                        console.error(err)
+                    }
+                
+            }
+            break;
+        }
 };
 };
+
 const handleWSResp = (msg) => {
     if (!msg.nonce) return console.error(`Unknown message without nonce: ${JSON.stringify(msg)}`);
 
