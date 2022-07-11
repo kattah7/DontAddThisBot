@@ -6,7 +6,7 @@ module.exports = {
     description: "check if user has twitchcon badge.",
     aliases: ["tc"],
     execute: async(message, args, client) => {
-        const targetUser = args[0].toLowerCase().replace(/[#|@]/, '') ?? message.senderUsername
+        const targetUser = message.senderUsername ?? args[0].toLowerCase().replace(/[#|@]/, '')
         const query = []
             query.push({
                 "operationName": "ViewerCard",
