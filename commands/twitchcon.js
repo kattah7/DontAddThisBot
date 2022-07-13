@@ -6,14 +6,14 @@ module.exports = {
     description: "check if user has twitchcon badge.",
     aliases: ["tc"],
     execute: async(message, args, client) => {
-        const targetUser = message.senderUsername ?? args[0].toLowerCase().replace(/[#|@]/, '')
+        const targetUser = args[0] ?? message.senderUsername
         const query = []
             query.push({
                 "operationName": "ViewerCard",
                 "variables": {
                     "channelID": "137199626",
                     "channelLogin": `kattah`,
-                    "giftRecipientLogin": `${targetUser}`,
+                    "giftRecipientLogin": `${targetUser.toLowerCase().replace(/[#|@]/, '')}`,
                     "hasChannelID": "true",
                     "isViewerBadgeCollectionEnabled": "true",
                     "withStandardGifting": "true",
@@ -35,7 +35,7 @@ module.exports = {
             },
             json: query
         })
-        if (!/^[A-Za-z0-25_]*$/.test(targetUser) || pogger[0].data.activeTargetUser == null) {
+        if (!/^[A-Za-z0-25_@#]*$/.test(targetUser) || pogger[0].data.activeTargetUser == null) {
             return {
                 text: `${targetUser} is not a valid username??`,
             }
