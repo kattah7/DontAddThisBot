@@ -7,6 +7,12 @@ module.exports = {
     description: "check if user has twitchcon badge.",
     aliases: ["tc"],
     execute: async(message, args, client) => {
+        if (args[0] == "when") {
+            const kek = humanizeDuration(1657850400 * 1000 - Date.now())
+            return {
+                text: `TwitchCon is in ${kek} PogBones`
+            }
+        } 
         const targetUser = args[0] ?? message.senderUsername
         const query = []
             query.push({
@@ -49,9 +55,8 @@ module.exports = {
         }
         const tc = pogger[0].data.channelViewer.earnedBadges.find(badge => badge.setID === 'twitchconEU2022')
         if (tc) {
-            const kek = humanizeDuration(1657850400 * 1000 - Date.now())
             return {
-                text: `${targetUser} is going to TwitchCon 2022 Amsterdam! PogChamp ${kek} left`
+                text: `${targetUser} is going to TwitchCon 2022 Amsterdam! PogChamp`
             }
         } else {
             return {
