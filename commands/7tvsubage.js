@@ -16,7 +16,7 @@ module.exports = {
     const TRIHARD = await api.fetchUser(`${targetUser.toLowerCase()}`);
 
 
-    let { body: userData, statusCode } = await got(`https://egvault.7tv.app/v1/subscriptions/${TRIHARD.id}`, { timeout: 10000, throwHttpErrors: false, responseType: "json" });
+    let { body: userData, statusCode } = await got(`https://egvault.7tv.io/v1/subscriptions/${TRIHARD.id}`, { timeout: 10000, throwHttpErrors: false, responseType: "json" });
        console.log(userData)
        const XDLOL = new Date().getTime() - Date.parse(userData.end_at.split("T")[0]) 
       if (userData) {
