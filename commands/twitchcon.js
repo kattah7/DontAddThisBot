@@ -1,4 +1,5 @@
 const got = require("got")
+const humanizeDuration = require("humanize-duration")
 
 module.exports = {
     name: "twitchcon",
@@ -48,14 +49,15 @@ module.exports = {
         }
         const tc = pogger[0].data.channelViewer.earnedBadges.find(badge => badge.setID === 'twitchconEU2022')
         if (tc) {
+            const kek = humanizeDuration(1657850400 * 1000 - Date.now())
             return {
-                text: `${targetUser} is going to TwitchCon 2022 Amsterdam! PogChamp`
+                text: `${targetUser} is going to TwitchCon 2022 Amsterdam! PogChamp ${kek} left`
             }
         } else {
             return {
                 text: `${targetUser} is not going to TwitchCon 2022 PoroSad maybe next year`
             }
-        }
+        } 
         
         }
     }
