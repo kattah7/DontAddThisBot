@@ -8,7 +8,6 @@ module.exports = {
     description: "Get stuff to do every 12 hours",
     execute: async (message, args, client) => {
         const lastUsage = await bot.Redis.get(`test:${message.senderUsername}`);
-        const targetUser = args[0] ?? message.senderUsername;
         let { body: userData, statusCode } = await got(`http://www.boredapi.com/api/activity?participants=1`, { timeout: 10000, throwHttpErrors: false, responseType: "json" });
         console.log(userData);
 
@@ -25,9 +24,9 @@ module.exports = {
         }
         await bot.Redis.set(`test:${message.senderUsername}`, Date.now(), 0);
         if (message.senderUsername == process.env.NUMBER_ONE) {
-            return client.privmsg(message.channelName, `.me ${targetUser}, ${userData.activity}`)
+            return client.privmsg(message.channelName, `.me ${message.senderUsername}, ${userData.activity}`)
         } else return {
-            text: `${targetUser}, ${userData.activity}`,
+            text: `${message.senderUsername}, ${userData.activity}`,
         };
     },
 };
