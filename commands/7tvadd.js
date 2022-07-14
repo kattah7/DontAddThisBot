@@ -2,6 +2,7 @@ const got = require("got")
 const SevenTV = require("7tv");
 const { ConsoleMessage } = require("puppeteer");
 const api = SevenTV()
+const utils = require('../util/utils.js');
 
 module.exports = {
     name: "add",
@@ -23,6 +24,97 @@ module.exports = {
         const findChannelEditor = pogger.data.user.editors.find(editor => editor.login === message.senderUsername);
         if (message.senderUsername.toLowerCase() == message.channelName.toLowerCase() || findChannelEditor) {
         if (findEditor) {
+            const findEmoteInChannel = pogger.data.user.emotes.find(emote => emote.name === args[0]);
+            
+            const matcher="https://7tv.app/emotes/"
+            const [url] = args;
+            if (url.startsWith(matcher)) {
+                const linkEmote = url.slice(matcher.length)
+                const xd = await api.fetchUser(`${message.channelName}`);
+                const { body: poggers } = await got.post(`https://7tv.io/v3/gql`, {
+                    throwHttpErrors: false,
+                    responseType: 'json',
+                    headers: {
+                    Authorization: process.env.STV_AUTH,
+                    },
+                    json: {
+                "extensions": {},
+                "operationName": "ChangeEmoteInSet",
+                "query": "mutation ChangeEmoteInSet($id: ObjectID!, $action: ListItemAction!, $emote_id: ObjectID!, $name: String) {\n  emoteSet(id: $id) {\n    id\n    emotes(id: $emote_id, action: $action, name: $name) {\n      id\n      name\n      __typename\n    }\n    __typename\n  }\n}",
+                "variables": {
+                    "action": "ADD",
+                    "emote_id": linkEmote,
+                            "id": xd.id,
+                },
+                "type": "connection_init"
+            }
+        })
+        return {
+            text: `Added ${await utils.IDtoEmote(linkEmote)} to chat`
+        }
+                
+            }
+            if (args[1]) {
+                console.log(await utils.channelEmotes(args[1]))
+                const allChannelEmotes = await utils.channelEmotes(args[1])
+                const findChannelEmote = allChannelEmotes.find(emote => emote.name === args[0]);
+                if (findChannelEmote) {
+                    const KEKG = await utils.IDtoEmote(findChannelEmote.id)
+                    console.log(KEKG)
+                    console.log(findChannelEmote.id)
+                    const xd = await api.fetchUser(`${message.channelName}`);
+                    const { body: poggers } = await got.post(`https://7tv.io/v3/gql`, {
+                    throwHttpErrors: false,
+                    responseType: 'json',
+                    headers: {
+                    Authorization: process.env.STV_AUTH,
+                    },
+                    json: {
+                    "extensions": {},
+                    "operationName": "ChangeEmoteInSet",
+                    "query": "mutation ChangeEmoteInSet($id: ObjectID!, $action: ListItemAction!, $emote_id: ObjectID!, $name: String) {\n  emoteSet(id: $id) {\n    id\n    emotes(id: $emote_id, action: $action, name: $name) {\n      id\n      name\n      __typename\n    }\n    __typename\n  }\n}",
+                    "variables": {
+                    "action": "ADD",
+                    "emote_id": findChannelEmote.id,
+                            "id": xd.id,
+                },
+                "type": "connection_init"
+            }
+        })
+        if (KEKG != args[0]) {
+                const xd = await api.fetchUser(`${message.channelName}`);
+                const { body: poggers } = await got.post(`https://7tv.io/v3/gql`, {
+                throwHttpErrors: false,
+                responseType: 'json',
+                headers: {
+                Authorization: process.env.STV_AUTH,
+                },
+                json: {
+                "extensions": {},
+                "operationName": "ChangeEmoteInSet",
+                "query": "mutation ChangeEmoteInSet($id: ObjectID!, $action: ListItemAction!, $emote_id: ObjectID!, $name: String) {\n  emoteSet(id: $id) {\n    id\n    emotes(id: $emote_id, action: $action, name: $name) {\n      id\n      name\n      __typename\n    }\n    __typename\n  }\n}",
+                "variables": {
+                "action": "UPDATE",
+                "emote_id": findChannelEmote.id,
+                "id": xd.id,
+                "name": args[0]
+            },
+                "type": "connection_init"
+            }
+            })
+            return {
+            text: `Added ${findChannelEmote.name} to chat from ${args[1]}`
+            }
+        }
+        return {
+            text: `Added ${findChannelEmote.name} to chat from ${args[1]}`
+        }
+                } else {
+                    return {
+                        text: `${args[0]} not found in ${args[1]}`
+                    }
+                }
+            }
             const { body: stv } = await got.post(`https://api.7tv.app/v2/gql`, {
                 throwHttpErrors: false,
                 responseType: 'json',
@@ -41,7 +133,6 @@ module.exports = {
                     }
                 }
             })
-            console.log(stv.data.search_emotes)
             const findEmote = stv.data.search_emotes.find(emote => emote.name === args[0]);
             if (!findEmote) {
                 return {
@@ -67,11 +158,11 @@ module.exports = {
                 "type": "connection_init"
             }
         })
-        console.log(poggers)
         return {
             text: `Added ${findEmote.name} to chat`
-                }
-            }      
+        }
+        } 
+
         } else {
             return {
                 text: `Please grant @DontAddThisBot as a editor :)`
@@ -82,5 +173,7 @@ module.exports = {
             text: `ur not editor in ${message.channelName}!!!`
         }
     }
+} 
 }
-}
+
+

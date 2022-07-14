@@ -19,3 +19,24 @@ exports.splitArray = (arr, len) => {
     }
     return chunks;
 };
+
+exports.IDtoEmote = async (emote) => {
+    if (!emote) return null
+    const emoteData = await got(`https://api.7tv.app/v2/emotes/${emote}`, { responseType: 'json', throwHttpErrors: false })
+    if (!emoteData.body.id) return null
+    return emoteData.body.name
+}
+
+exports.NameToID = async (name) => {
+    if (!name) return null
+    const nameData = await got(`https://api.7tv.app/v2/users/${name}`, { responseType: 'json', throwHttpErrors: false })
+    if (!nameData.body.id) return null
+    return nameData.body.id
+}
+
+exports.channelEmotes = async (channel) => {
+    if (!channel) return null
+    const channelData = await got(`https://api.7tv.app/v2/users/${channel}/emotes`, { responseType: 'json', throwHttpErrors: false })
+    if (!channelData) return null
+    return channelData.body
+}
