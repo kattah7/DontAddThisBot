@@ -7,16 +7,7 @@ module.exports = {
     description: "Check your rank in the poro leaderboard",
     poro: true,
     execute: async (message, args, client) => {
-        if (!args[0]) {
-            if (message.senderUsername == process.env.NUMBER_ONE) {
-                client.privmsg(message.channelName, `.me insert name lol`)
-            } else {
-                return {
-                    text: `insert name lol`
-                }
-            }
-        }
-        const targetUser = args[0].toLowerCase()
+        const targetUser = args[0]?.toLowerCase() ?? message.senderUsername
 
         const {banned, banphrase_data} = await got.post(`https://forsen.tv/api/v1/banphrases/test `, {json: {'message': targetUser}}).json();
         console.log(banned, banphrase_data)
@@ -40,7 +31,5 @@ module.exports = {
                 text: `banned msg lol`
             }
         }
-        
-    
     }
 }
