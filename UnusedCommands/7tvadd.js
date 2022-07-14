@@ -106,9 +106,6 @@ module.exports = {
             text: `Added ${findChannelEmote.name} to chat from ${args[1]}`
             }
         }
-        return {
-            text: `Added ${findChannelEmote.name} to chat from ${args[1]}`
-        }
                 } else {
                     return {
                         text: `${args[0]} not found in ${args[1]}`

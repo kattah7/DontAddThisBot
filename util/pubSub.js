@@ -213,7 +213,6 @@ const connect = (ws, topics, id) => {
 };
 
 const handleWSMsg = async (msg = {}, channel) => {
-    console.log(msg)
     if (!msg.type) return console.error(`Unknown message without type: ${JSON.stringify(msg)}`);
 
     switch (msg.type) {
