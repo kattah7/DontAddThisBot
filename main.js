@@ -77,6 +77,9 @@ client.on("PRIVMSG", async (message) => {
             for (const lol of xd.split(" ")) 
             { client.say("kattah", `${lol}ping`) };
         }
+        if (message.messageText.startsWith("to")) {
+            client.say("kattah", `to`)
+        }
     }
 
     const channelData = await getChannel(message.channelName);
