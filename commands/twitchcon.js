@@ -42,12 +42,12 @@ module.exports = {
             },
             json: query
         })
-        if (!/^[A-Za-z0-25_@#]*$/.test(targetUser) || pogger[0].data.activeTargetUser == null) {
+        console.log(pogger[0])
+        if (pogger[0].data.activeTargetUser == null) {
             return {
                 text: `${targetUser} is not a valid username??`,
             }
         }
-        console.log(pogger[0])
         if (pogger[0].data.channelViewer.earnedBadges == null) {
             return {
                 text: `${targetUser} is not going to TwitchCon 2022 PoroSad maybe next year`
