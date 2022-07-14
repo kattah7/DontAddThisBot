@@ -22,8 +22,6 @@ module.exports = {
         }
         await client.say(message.channelName, "fetching emotes kattahSpin")
         let { body: userData, statusCode } = await got(`https://api.ivr.fi/v2/twitch/emotes/${args[0]}`, { timeout: 10000, throwHttpErrors: false, responseType: "json" });
-        console.log(userData)
-        
         const { body: stv } = await got.post(`https://api.7tv.app/v2/gql`, {
             throwHttpErrors: false,
             responseType: 'json',
@@ -59,21 +57,16 @@ module.exports = {
         console.log(stv.data.user.emotes)
 
         if (args[1] == '7tv') {
-            for (const stvs of stv.data.user.emotes) {
-                if (stvs.name.includes(args[0])) {
-                    return {
-                        text: `https://ezgif.com/webp-to-png?url=https://cdn.7tv.app/emote/${stvs.id}/4x`
-                    }
-                } 
-                }
-                for (const stvs of stv.data.user.emotes) {
-            if (!stvs.name.includes(args[0])) {
+            const findChannelEmote = stv.data.user.emotes.find(emote => emote.name === args[0]);
+            if (!findChannelEmote) {
                 return {
                     text: `https://ezgif.com/webp-to-png?url=https://cdn.7tv.app/emote/${pogger.data.search_emotes[0].id}/4x`
                 }
-            } 
+            }
+            return {
+                text: `https://ezgif.com/webp-to-png?url=https://cdn.7tv.app/emote/${findChannelEmote.id}/4x`
+            }
         }
-    }
     if (args[1] == 'twitch') {
         if (userData.statusCode == 404) {
             return {
