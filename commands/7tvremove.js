@@ -20,7 +20,7 @@ module.exports = {
         })
         const findEditor = pogger.data.user.editors.find(editor => editor.id === "629d77a20e60c6d53da64e38");
         const findChannelEditor = pogger.data.user.editors.find(editor => editor.login === message.senderUsername);
-        if (message.senderUsername == message.channelName || findChannelEditor) {
+        if (message.senderUsername.toLowerCase() == message.channelName.toLowerCase() || findChannelEditor) {
         if (findEditor) {
         const { body: stv } = await got.post(`https://api.7tv.app/v2/gql`, { // find emotes
             throwHttpErrors: false,
