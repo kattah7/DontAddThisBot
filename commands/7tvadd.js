@@ -23,9 +23,14 @@ module.exports = {
         })
         const findEditor = pogger.data.user.editors.find(editor => editor.id === "629d77a20e60c6d53da64e38");
         const findChannelEditor = pogger.data.user.editors.find(editor => editor.login === message.senderUsername);
+        const findEmoteInChannel = pogger.data.user.emotes.find(emote => emote.name === args[0]);
+        if (findEmoteInChannel) {
+            return {
+                text: `you already have that emote`
+            }
+        } 
         if (message.senderUsername.toLowerCase() == message.channelName.toLowerCase() || findChannelEditor) {
         if (findEditor) {
-            const findEmoteInChannel = pogger.data.user.emotes.find(emote => emote.name === args[0]);
             
             const matcher="https://7tv.app/emotes/"
             const [url] = args;
