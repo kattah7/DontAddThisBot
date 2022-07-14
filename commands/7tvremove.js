@@ -6,6 +6,7 @@ module.exports = {
     name: "remove",
     description: "Remove 7tv emote from channel",
     cooldown: 3000,
+    level: 2,
     execute: async(message, args, client) => {
         let { body: userData, statusCode } = await got(`https://api.7tv.app/v2/users/${message.channelName}`, { timeout: 10000, throwHttpErrors: false, responseType: "json" });
         const { body: pogger, statusCode2 } = await got.post(`https://api.7tv.app/v2/gql`, { // find editors
