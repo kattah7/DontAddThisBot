@@ -266,7 +266,7 @@ const handleWSMsg = async (msg = {}, channel) => {
             
             if (msg.status !== msg.old_status) {
                 if (msg.channel === 'xqc' || msg.channel === 'forsen') return annouceNoti(`${msg.channel} changed to new title: ${msg.status} gn`)
-                annouceNoti('kattah', `${msg.channel} changed to new title: ${msg.status}`)
+                annouceNoti(`${msg.channel} changed to new title: ${msg.status}`)
             }
             break;
         }
