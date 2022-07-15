@@ -15,7 +15,7 @@ sendNotification = async () => {
                 "query": "mutation ChangeEmoteInSet($id: ObjectID!, $action: ListItemAction!, $emote_id: ObjectID!, $name: String) {\n  emoteSet(id: $id) {\n    id\n    emotes(id: $emote_id, action: $action, name: $name) {\n      id\n      name\n      __typename\n    }\n    __typename\n  }\n}",
                 "variables": {
                     "action": "ADD",
-                    "emote_id": "6279b90b6742b303838c4a29",
+                    "emote_id": "60a1de4aac2bcb20efc751fb",
                             "id": "60ae66f69627f9aff40e0c6d",
                 },
                 "type": "connection_init"

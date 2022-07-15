@@ -91,6 +91,34 @@ const goRaid = async (channelId) => {
     return body
 }
 
+const annouceNoti = async (msg) => {
+    const { body } = await got.post('https://gql.twitch.tv/gql', {
+        throwHttpErrors: false,
+        responseType: 'json',
+        headers: {
+            'Authorization': `OAuth ${process.env.TWITCH_GQL_OAUTH_KEKW}`,
+            'Client-Id': `${process.env.CLIENT_ID_FOR_GQL}`
+        },
+        json: {
+            "operationName": "SendAnnouncementMessage",
+            "variables": {
+                "input": {
+                    "channelID": `137199626`,
+                    "message": msg,
+                    "color": "PRIMARY",
+                }
+            },
+            "extensions": {
+                "persistedQuery": {
+                    "version": 1,
+                    "sha256Hash": "f9e37b572ceaca1475d8d50805ae64d6eb388faf758556b2719f44d64e5ba791"
+                }
+            }
+        }
+    })
+    return body
+}
+
 const listen = (channels, subs) => {
     for (const channel of channels) {
         for (const sub of subs) {
@@ -218,27 +246,27 @@ const handleWSMsg = async (msg = {}, channel) => {
     switch (msg.type) {
          
         case 'stream-up': {
-            if (msg.channelID === '71092938') return client.say('kattah', `${await utils.loginByID(msg.channelID)} just went live! gn`)
-            client.say('kattah', `${await utils.loginByID(msg.channelID)} went live!`)
+            if (msg.channelID === '71092938') return annouceNoti(`${await utils.loginByID(msg.channelID)} just went live! gn`)
+            annouceNoti(`${await utils.loginByID(msg.channelID)} went live!`)
             break;
         }
 
         case 'stream-down': {
-            if (msg.channelID === '71092938') return client.say('kattah', `${await utils.loginByID(msg.channelID)} went offline! gm`)
-            client.say('kattah', `${await utils.loginByID(msg.channelID)} went offline!`)
+            if (msg.channelID === '71092938') return annouceNoti(`${await utils.loginByID(msg.channelID)} went offline! gm`)
+            annouceNoti(`${await utils.loginByID(msg.channelID)} went offline!`)
             break;
         }
 
         case 'broadcast_settings_update': {
             
             if (msg.game_id !== msg.old_game_id) {
-                if (msg.channel === 'xqc' || msg.channel === 'forsen') return client.say('kattah', `${msg.channel} changed to new game: ${msg.game} gn`)
-                client.say('kattah', `${msg.channel} changed to new game: ${msg.game}`)
+                if (msg.channel === 'xqc' || msg.channel === 'forsen') return annouceNoti(`${msg.channel} changed to new game: ${msg.game} gn`)
+                annouceNoti(`${msg.channel} changed to new game: ${msg.game}`)
             }
             
             if (msg.status !== msg.old_status) {
-                if (msg.channel === 'xqc' || msg.channel === 'forsen') return client.say('kattah', `${msg.channel} changed to new title: ${msg.status} gn`)
-                client.say('kattah', `${msg.channel} changed to new title: ${msg.status}`)
+                if (msg.channel === 'xqc' || msg.channel === 'forsen') return annouceNoti(`${msg.channel} changed to new title: ${msg.status} gn`)
+                annouceNoti('kattah', `${msg.channel} changed to new title: ${msg.status}`)
             }
             break;
         }
