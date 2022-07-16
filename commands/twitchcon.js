@@ -7,12 +7,6 @@ module.exports = {
     description: "check if user has twitchcon badge.",
     aliases: ["tc"],
     execute: async(message, args, client) => {
-        if (args[0] == "when") {
-            const kek = humanizeDuration(1657879200 * 1000 - Date.now())
-            return {
-                text: `TwitchCon is in ${kek} PogBones`
-            }
-        } 
         const targetUser = args[0] ?? message.senderUsername
         const query = []
             query.push({

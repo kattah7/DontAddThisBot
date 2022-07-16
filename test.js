@@ -1,29 +1,39 @@
 require("dotenv").config();
-const got = require("got");
+const WebSocket = require('ws');
+const RWS = require('reconnecting-websocket');
+const utils = require('./util/utils.js');
 
-sendNotification = async () => {
-    test = setInterval(async () => {
-        const { body: poggers } = await got.post(`https://7tv.io/v3/gql`, {
-                    throwHttpErrors: false,
-                    responseType: 'json',
-                    headers: {
-                    Authorization: process.env.STV_AUTH,
-                    },
-                    json: {
-                "extensions": {},
-                "operationName": "ChangeEmoteInSet",
-                "query": "mutation ChangeEmoteInSet($id: ObjectID!, $action: ListItemAction!, $emote_id: ObjectID!, $name: String) {\n  emoteSet(id: $id) {\n    id\n    emotes(id: $emote_id, action: $action, name: $name) {\n      id\n      name\n      __typename\n    }\n    __typename\n  }\n}",
-                "variables": {
-                    "action": "ADD",
-                    "emote_id": "60a1de4aac2bcb20efc751fb",
-                            "id": "60ae66f69627f9aff40e0c6d",
-                },
-                "type": "connection_init"
-            }
-        })
+const GQL = {
+    CONNECTION_INIT: 'connection_init',
+    CONNECTION_ACK: 'connection_ack',
+    CONNECTION_ERROR: 'connection_error',
+    CONNECTION_KEEP_ALIVE: 'ka',
+    START: 'start',
+    STOP: 'stop',
+    CONNECTION_TERMINATE: 'connection_terminate',
+    DATA: 'data',
+    ERROR: 'error',
+    COMPLETE: 'complete'
+  }
+  
 
-        console.log(poggers);
-    }, 1); // 10 => 15 subs | 100 => 3
-};
+const ws = new WebSocket(`wss://7tv.io/v3/gql`);
+ws.addEventListener('open', function open() {
+  ws.send(JSON.stringify({
+    type: GQL.CONNECTION_INIT,
+    payload: process.env.STV_AUTH
+}));
+  console.log(`7TV Connected`)
+});
 
-sendNotification();
+ws.addEventListener('message', ({ data }) => {
+    const msg = JSON.parse(data);
+});
+
+ws.addEventListener('error', (e) => {
+    console.error(e)
+});
+
+ws.addEventListener('close', () => {
+    console.log(`7TV Disconnected`)
+});
