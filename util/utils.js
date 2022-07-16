@@ -8,6 +8,20 @@ exports.loginByID = async (userID) => {
     return userData.body.login
 };
 
+exports.IDByLogin = async (userID) => {
+    if (!userID) return null
+    userData = await got(`https://api.ivr.fi/twitch/resolve/${encodeURIComponent(userID)}`, { responseType: 'json', throwHttpErrors: false })
+    if (!userData.body.id) return null
+    return userData.body.id
+};
+
+exports.getPFP = async (userID) => {
+    if (!userID) return null
+    userData = await got(`https://api.ivr.fi/twitch/resolve/${encodeURIComponent(userID)}`, { responseType: 'json', throwHttpErrors: false })
+    if (!userData.body.id) return null
+    return userData.body.logo
+};
+
 exports.sleep = (ms) => {
     return new Promise(resolve => setTimeout(resolve, ms))
 };
