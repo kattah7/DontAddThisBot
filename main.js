@@ -59,7 +59,7 @@ client.on("PRIVMSG", async (message) => {
     if (userdata.level < 1) {
         return;
     }
-    if (message.channelName == 'checkingstreamers') {
+    if (message.channelName == 'kattah') {
         if (message.senderUserID == 162760707 && message.messageText.includes("why")) {
             await client.say("kattah", "why not"); 
         } else if (message.senderUserID == 162760707 && message.messageText) {
