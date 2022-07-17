@@ -8,6 +8,11 @@ module.exports = {
     cooldown: 3000,
     level: 2,
     execute: async(message, args, client) => {
+        if (!args[0]) {
+            return {
+                text: "Please specify an emote to remove"
+            }
+        }
         let { body: userData, statusCode } = await got(`https://api.7tv.app/v2/users/${message.channelName}`, { timeout: 10000, throwHttpErrors: false, responseType: "json" });
         const { body: pogger, statusCode2 } = await got.post(`https://api.7tv.app/v2/gql`, { // find editors
             throwHttpErrors: false,

@@ -10,6 +10,11 @@ module.exports = {
     cooldown: 3000,
     level: 2,
     execute: async(message, args, client) => {
+        if (!args[0]) {
+            return {
+                text: "Please provide a emote"
+            }
+        }
         let { body: userData, statusCode } = await got(`https://api.7tv.app/v2/users/${message.channelName}`, { timeout: 10000, throwHttpErrors: false, responseType: "json" });
         const { body: pogger, statusCode2 } = await got.post(`https://api.7tv.app/v2/gql`, { // find editors
             throwHttpErrors: false,
@@ -118,25 +123,19 @@ module.exports = {
                     }
                 }
             }
-            const { body: stv } = await got.post(`https://api.7tv.app/v2/gql`, {
-                throwHttpErrors: false,
-                responseType: 'json',
-                json: {
-                    "query": "query($query: String!,$page: Int,$pageSize: Int,$globalState: String,$sortBy: String,$sortOrder: Int,$channel: String,$submitted_by: String,$filter: EmoteFilter) {search_emotes(query: $query,limit: $pageSize,page: $page,pageSize: $pageSize,globalState: $globalState,sortBy: $sortBy,sortOrder: $sortOrder,channel: $channel,submitted_by: $submitted_by,filter: $filter) {id,visibility,owner {id,display_name,role {id,name,color},banned}name,tags}}",
-                    "variables": {
-                        channel: null,
-                        globalState: null,
-                        limit: 16,
-                        page: 1,
-                        pageSize: 16,
-                        query: `${args[0]}`,
-                        sortBy: "popularity",
-                        sortOrder: 0,
-                        submitted_by: null
+            const { body: STVEmoteSearch } = await got.post(`https://7tv.io/v3/gql`, { 
+            throwHttpErrors: false,
+            responseType: 'json',
+            json: {
+                "operationName": "SearchEmotes",
+                "query": "query SearchEmotes($query: String!, $page: Int, $limit: Int) {\n  emotes(query: $query, page: $page, limit: $limit) {\n    count\n    items {\n      id\n      name\n      listed\n      owner {\n        id\n        username\n        display_name\n        tag_color\n        __typename\n      }\n      flags\n      images {\n        name\n        format\n        url\n        width\n        height\n        __typename\n      }\n      __typename\n    }\n    __typename\n  }\n}",
+                "variables": {
+                    limit: 1000,
+                    query: args[0]
                     }
                 }
             })
-            const findEmote = stv.data.search_emotes.find(emote => emote.name === args[0]);
+            const findEmote = STVEmoteSearch.data.emotes.items.find(emote => emote.name === args[0]);
             if (!findEmote) {
                 return {
                     text: `Could not find emote ${args[0]} XD`

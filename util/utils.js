@@ -54,3 +54,10 @@ exports.channelEmotes = async (channel) => {
     if (!channelData) return null
     return channelData.body
 }
+
+exports.stvNameToID = async (name) => {
+    if (!name) return null
+    const nameData = await got(`https://api.7tv.app/v2/users/${encodeURIComponent(name)}`, { responseType: 'json', throwHttpErrors: false })
+    if (!nameData.body.id) return null
+    return nameData.body.id
+}
