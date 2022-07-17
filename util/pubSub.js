@@ -6,6 +6,7 @@ const { client } = require('./connections.js')
 const RWS = require('reconnecting-websocket');
 const got = require("got");
 const axios = require('axios');
+const humanizeDuration = require("../humanizeDuration");
 
 exports.topics = [];
 exports.connections = [];
@@ -243,7 +244,29 @@ const connect = (ws, topics, id) => {
 
 const handleWSMsg = async (msg = {}, channel) => {
     if (!msg.type) {
-        client.say("dontaddthisbot", `${msg.username} just followed`)
+        const lastUsage = await bot.Redis.get(`porofollow:${await utils.IDByLogin(msg.username)}`);
+        const channelData = await bot.DB.poroCount.findOne({ id: await utils.IDByLogin(msg.username) }).exec();
+        if (!channelData) {
+            client.say("dontaddthisbot", `${msg.username}, You aren't registered! type |poro to get started!`);
+        }
+        if (!lastUsage) {
+            await bot.Redis.set(`porofollow:${await utils.IDByLogin(msg.username)}`, Date.now(), 0);
+        }
+        if (lastUsage || channelData) {
+            if (new Date().getTime() - new Date(lastUsage).getTime() < 1000 * 60 * 1000000000000000 ) {
+                const ms = new Date(lastUsage).getTime() - new Date().getTime() + 1000 * 60 * 1000000000000000  ;
+                client.say("dontaddthisbot", `nice try`)
+            }
+            
+        } 
+        if (lastUsage || channelData) {
+        if (new Date().getTime() - new Date(lastUsage).getTime() > 1000 * 60 * 1000000000000000  ) {
+        await bot.DB.poroCount.updateOne({ id: await utils.IDByLogin(msg.username) }, { $set: { poroCount: channelData.poroCount + 100 } }, {multi: true} ).exec();
+        client.say("dontaddthisbot", `@${msg.username} just followed !! kattahHappy +100 Poro Pts ${channelData.poroCount + 100} meat total!`)
+        }
+    }
+        
+        
     }
     if (!msg.type) return console.error(`Unknown message without type: ${JSON.stringify(msg)}`);
     
@@ -350,9 +373,6 @@ const handleWSMsg = async (msg = {}, channel) => {
                 
             }
             break;
-        }
-        case 'channel-follow': {
-            console.log("yo")
         }
 };
 };
