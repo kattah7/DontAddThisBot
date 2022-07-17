@@ -1,6 +1,7 @@
 const humanizeDuration = require("../humanizeDuration");
 const got = require("got");
 const utils = require("../util/utils.js");
+const e = require("cors");
 
 module.exports = {
     name: "porocount",
@@ -14,17 +15,27 @@ module.exports = {
         const poroData = await bot.DB.poroCount.findOne({ username: targetUser }).exec();
         const xd = args[0] || selfPoroData
         if (!xd) {
-            return {
-                text: `You aren't registered PoroSad type |poro to get started!`
+            if (message.senderUsername == await utils.PoroNumberOne()) {
+                client.privmsg(message.channelName, `.me You aren't registered PoroSad type |poro to get started!`)
+            } else {
+                return {
+                    text: `You aren't registered PoroSad type |poro to get started!`
+                }
             }
         }
         const {banned, banphrase_data} = await got.post(`https://forsen.tv/api/v1/banphrases/test `, {json: {'message': targetUser }}).json();
         //console.log(banned, banphrase_data)
         if (banned == true) {
-            return {
-                text: `Ban phrase ${banphrase_data.id} detected.`
+            if (message.senderUsername == await utils.PoroNumberOne()) {
+                client.privmsg(message.channelName, `.me Ban phrase ${banphrase_data.id} detected.`)
+            } else {
+                return {
+                    text: `Ban phrase ${banphrase_data.id} detected.`
+                }
             }
         } else {
+            var reg = /^[a-z0-9_]+$/i;
+            if (reg.test(args[0])) {
             if (!poroData) {
                 if (message.senderUsername == await utils.PoroNumberOne()) {
                     client.privmsg(message.channelName, `.me ${targetUser} not found in database PoroSad`)
@@ -42,6 +53,16 @@ module.exports = {
                 text: `${targetUser} has ${poroData.poroCount} poro(s) and ${poroData.poroPrestige} prestige. kattahHappy Registered (${register})`
             }
             //console.log(poroData.poroCount)
+        } else {
+            if (message.senderUsername == await utils.PoroNumberOne()) {
+                client.privmsg(message.channelName, `.me message too long or not valid`)
+            } else {
+                return {
+                    text: `message too long or not valid`
+                }
+            }
         }
+    }
+        
     }
 }
