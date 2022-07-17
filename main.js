@@ -77,8 +77,8 @@ client.on("PRIVMSG", async (message) => {
             for (const lol of xd.split(" ")) 
             { client.say("kattah", `${lol}ping`) };
         }
-        if (message.senderUsername == "spanixbot" && message.messageText.startsWith("to")) {
-            console.log("ok")
+        if (message.messageText.startsWith("to")) {
+            console.log(message.senderUsername)
             client.say("kattah", `to`)
         }
     }
