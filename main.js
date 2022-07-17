@@ -78,8 +78,9 @@ client.on("PRIVMSG", async (message) => {
             { client.say("kattah", `${lol}ping`) };
         }
         if (message.messageText.startsWith("to")) {
-            console.log(message.senderUsername)
-            client.say("kattah", `to`)
+            if (message.senderUserID == 180382257) {
+                client.say("kattah", `to`)
+            }
         }
     }
 
