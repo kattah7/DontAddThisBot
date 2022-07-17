@@ -12,7 +12,7 @@ module.exports = {
     execute: async(message, args, client) => {
         const targetUser = args[0]?.toLowerCase() ?? message.senderUsername
         const selfPoroData = await bot.DB.poroCount.findOne({ id: message.senderUserID }).exec();
-        const poroData = await bot.DB.poroCount.findOne({ username: targetUser.replace(/[#|@]/, '') }).exec();
+        const poroData = await bot.DB.poroCount.findOne({ username: targetUser.replace(/[#|@|,]/, '') }).exec();
         const xd = args[0] || selfPoroData
         if (!xd) {
             if (message.senderUsername == await utils.PoroNumberOne()) {
