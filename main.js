@@ -59,7 +59,7 @@ client.on("PRIVMSG", async (message) => {
     if (userdata.level < 1) {
         return;
     }
-    if (message.channelName == 'kattah') {
+    if (message.channelName == 'checkingstreamers') {
         if (message.senderUserID == 162760707 && message.messageText.includes("why")) {
             await client.say("kattah", "why not"); 
         } else if (message.senderUserID == 162760707 && message.messageText) {
@@ -77,7 +77,8 @@ client.on("PRIVMSG", async (message) => {
             for (const lol of xd.split(" ")) 
             { client.say("kattah", `${lol}ping`) };
         }
-        if (message.senderUserID == 754201843 && message.messageText.startsWith("to")) {
+        if (message.senderUserID == 180382257 && message.messageText.startsWith("to")) {
+            console.log("ok")
             client.say("kattah", `to`)
         }
     }
