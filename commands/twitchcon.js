@@ -1,5 +1,6 @@
 const got = require("got")
 const humanizeDuration = require("humanize-duration")
+const utils = require('../util/utils.js');
 
 module.exports = {
     name: "twitchcon",
@@ -38,23 +39,39 @@ module.exports = {
         })
         console.log(pogger[0])
         if (pogger[0].data.activeTargetUser == null) {
-            return {
-                text: `${targetUser} is not a valid username??`,
+            if (message.senderUsername == await utils.PoroNumberOne()) {
+                client.privmsg(message.channelName, `.me ${targetUser} is not a valid username??`)
+            } else {
+                return {
+                    text: `${targetUser} is not a valid username??`,
+                }
             }
         }
         if (pogger[0].data.channelViewer.earnedBadges == null) {
-            return {
-                text: `${targetUser} is not going to TwitchCon 2022 PoroSad maybe next year`
+            if (message.senderUsername == await utils.PoroNumberOne()) {
+                client.privmsg(message.channelName, `.me ${targetUser} is not going to TwitchCon 2022 PoroSad maybe next year`)
+            } else {
+                return {
+                    text: `${targetUser} is not going to TwitchCon 2022 PoroSad maybe next year`
+                }
             }
         }
         const tc = pogger[0].data.channelViewer.earnedBadges.find(badge => badge.setID === 'twitchconEU2022')
         if (tc) {
-            return {
-                text: `${targetUser} is going to TwitchCon 2022 Amsterdam! PogChamp`
+            if (message.senderUsername == await utils.PoroNumberOne()) {
+                client.privmsg(message.channelName, `.me ${targetUser} is going to TwitchCon 2022 Amsterdam! PogChamp`)
+            } else {
+                return {
+                    text: `${targetUser} is going to TwitchCon 2022 Amsterdam! PogChamp`
+                }
             }
         } else {
-            return {
-                text: `${targetUser} is not going to TwitchCon 2022 PoroSad maybe next year`
+            if (message.senderUsername == await utils.PoroNumberOne()) {
+                client.privmsg(message.channelName, `.me ${targetUser} is not going to TwitchCon 2022 PoroSad maybe next year`)
+            } else {
+                return {
+                    text: `${targetUser} is not going to TwitchCon 2022 PoroSad maybe next year`
+                }
             }
         } 
         

@@ -1,6 +1,7 @@
 const got = require("got")
 const SevenTV = require("7tv");
 const api = SevenTV()
+const utils = require("../util/utils.js");
 
 module.exports = {
     name: "remove",
@@ -9,8 +10,12 @@ module.exports = {
     level: 2,
     execute: async(message, args, client) => {
         if (!args[0]) {
-            return {
-                text: "Please specify an emote to remove"
+            if (message.senderUsername == await utils.PoroNumberOne()) {
+                return client.privmsg(message.channelName, `.me Please specify an emote to remove`)
+            } else {
+                return {
+                    text: "Please specify an emote to remove"
+                }
             }
         }
         let { body: userData, statusCode } = await got(`https://api.7tv.app/v2/users/${message.channelName}`, { timeout: 10000, throwHttpErrors: false, responseType: "json" });
@@ -40,8 +45,12 @@ module.exports = {
         })
             const findEmote = stv.data.user.emotes.find(emote => emote.name === args[0]);
             if (!findEmote) {
-                return {
-                    text: `Could not find emote ${args[0]} XD`
+                if (message.senderUsername == await utils.PoroNumberOne()) {
+                    return client.privmsg(message.channelName, `.me Could not find emote ${args[0]} XD`)
+                } else {
+                    return {
+                        text: `Could not find emote ${args[0]} XD`
+                    }
                 }
             } else if (findEmote) {
                 const xd = await api.fetchUser(`${message.channelName}`);
@@ -65,18 +74,30 @@ module.exports = {
         })
         console.log(stv.data.user.emotes)
         console.log(poggers)
-        return {
-            text: `removed ${findEmote.name} from chat`
-                }
-            }      
+        if (message.senderUsername == await utils.PoroNumberOne()) {
+            return client.privmsg(message.channelName, `.me removed ${findEmote.name} from chat`)
         } else {
             return {
-                text: `Please grant @DontAddThisBot as a editor :)`
+                text: `removed ${findEmote.name} from chat`
+                }
+        }
+            }      
+        } else {
+            if (message.senderUsername == await utils.PoroNumberOne()) {
+                return client.privmsg(message.channelName, `.me Please grant @DontAddThisBot as a editor :)`)
+            } else {
+                return {
+                    text: `Please grant @DontAddThisBot as a editor :)`
+                }
             }
         }   
     } else {
-        return {
-            text: `ur not editor in ${message.channelName}!!!`
+        if (message.senderUsername == await utils.PoroNumberOne()) {
+            return client.privmsg(message.channelName, `.me ur not editor in ${message.channelName}!!!`)
+        } else {
+            return {
+                text: `ur not editor in ${message.channelName}!!!`
+            }
         }
     }
 }

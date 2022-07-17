@@ -1,5 +1,5 @@
-const { isObjectIdOrHexString } = require("mongoose");
 const got = require("got");
+const utils = require("../util/utils.js");
 
 module.exports = {
     name: `changecolor`,
@@ -14,14 +14,14 @@ module.exports = {
         console.log(banned, banphrase_data)
         if (banned == false) {
             if (channelData.poroCount < 50) {
-                if (message.senderUsername == process.env.NUMBER_ONE) {
+                if (message.senderUsername == await utils.PoroNumberOne()) {
                     return client.privmsg(message.channelName, `.me Not enough poro meat! ${message.senderUsername} kattahHappy You need 50 poro meat | [P:${channelData.poroPrestige}] ${channelData.poroCount} meat total! 🥩`)
                 }
                 return {
                     text: `Not enough poro meat! ${message.senderUsername} kattahHappy You need 50 poro meat | [P:${channelData.poroPrestige}] ${channelData.poroCount} meat total! 🥩`
                 }
             } else if (!reg.test(args[0])) {
-                if (message.senderUsername == process.env.NUMBER_ONE) {
+                if (message.senderUsername == await utils.PoroNumberOne()) {
                     return client.privmsg(message.channelName, `.me Invalid color, please use hex color code with # kattahDance`)
                 }
                 return {
@@ -31,7 +31,7 @@ module.exports = {
             } else {
                 await bot.DB.poroCount.updateOne({ id: message.senderUserID }, { $set: { poroCount: channelData.poroCount - 50 } } ).exec();
                 client.privmsg(message.channelName, `.color ${args[0]}`);
-                if (message.senderUsername == process.env.NUMBER_ONE) {
+                if (message.senderUsername == await utils.PoroNumberOne()) {
                     return client.privmsg(message.channelName, `.me Color changed! PoroSad [P:${channelData.poroPrestige}] ${channelData.poroCount - 50} meat total! 🥩`)
                 }
                 return {

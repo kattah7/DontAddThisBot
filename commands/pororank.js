@@ -1,4 +1,5 @@
 const got = require("got");
+const utils = require("../util/utils.js");
 
 module.exports = {
     name: "rank",
@@ -19,12 +20,20 @@ module.exports = {
 
         if (banned == false) {
             if (kekw.findIndex((user) => user.username == targetUser) + 1 == 0) {
-                return {
-                    text: `${targetUser} not found in database PoroSad`
+                if (message.senderUsername == await utils.PoroNumberOne()) {
+                    client.privmsg(message.channelName, `.me ${targetUser} not found in database PoroSad`)
+                } else {
+                    return {
+                        text: `${targetUser} not found in database PoroSad`
+                    } 
                 }
             }
-            return {
-                text: `${targetUser} is rank #${kekw.findIndex((user) => user.username == targetUser) + 1}/${kekw.length} in the poro leaderboard! kattahBoom`,
+            if (message.senderUsername == await utils.PoroNumberOne()) {
+                client.privmsg(message.channelName, `.me ${targetUser} is rank #${kekw.findIndex((user) => user.username == targetUser) + 1}/${kekw.length} in the poro leaderboard! kattahBoom`)
+            } else {
+                return {
+                    text: `${targetUser} is rank #${kekw.findIndex((user) => user.username == targetUser) + 1}/${kekw.length} in the poro leaderboard! kattahBoom`,
+                }
             }
         } else if (banned == true) {
             return {

@@ -1,5 +1,6 @@
 const got = require("got");
 const regex = require('../util/regex.js');
+const utils = require("../util/utils.js");
 
 module.exports = {
     name: "bio",
@@ -12,7 +13,7 @@ module.exports = {
         console.log(userData)
         const bio = userData.bio;
         if (!regex.racism.test(bio)) {
-            if (message.senderUsername == process.env.NUMBER_ONE) {
+            if (message.senderUsername == await utils.PoroNumberOne()) {
                 return client.privmsg(message.channelName, `.me ${targetUser}'s bio, ${bio}`)
             } else {
                 return {

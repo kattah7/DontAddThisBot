@@ -1,5 +1,6 @@
 const got = require("got");
 const humanizeDuration = require("../humanizeDuration");
+const utils = require("../util/utils.js");
 
 module.exports = {
     name: "queencheck",
@@ -16,7 +17,7 @@ module.exports = {
         if (data) {
             if (data.followedAt == null) {
                 if (data.cumulative.months == 0) {
-                    if (message.senderUsername == process.env.NUMBER_ONE) {
+                    if (message.senderUsername == await utils.PoroNumberOne()) {
                         client.privmsg(message.channelName, `.me ${data.username} WAS NEVER SUBBED & FOLLOWING D:`)
                     } else {
                         return {
@@ -24,7 +25,7 @@ module.exports = {
                         }
                     }
                 } else if (data.subscribed == true) {
-                    if (message.senderUsername == process.env.NUMBER_ONE) {
+                    if (message.senderUsername == await utils.PoroNumberOne()) {
                         client.privmsg(message.channelName, `.me ${data.username} is subbed to pokimane for ${data.cumulative.months} months & not following. ThankEgg`)
                     } else {
                         return {
@@ -32,7 +33,7 @@ module.exports = {
                         }
                     }
                 } else if (data.cumulative.months > 0) {
-                    if (message.senderUsername == process.env.NUMBER_ONE) {
+                    if (message.senderUsername == await utils.PoroNumberOne()) {
                         client.privmsg(message.channelName, `.me ${data.username} is previously subbed to pokimane for ${data.cumulative.months} months & not following. ThankEgg`)
                     } else {
                         return {
@@ -42,7 +43,7 @@ module.exports = {
                 }
             } else if (data.cumulative.months == 0) {
                 if (data.cumulative.months == 0) {
-                    if (message.senderUsername == process.env.NUMBER_ONE) {
+                    if (message.senderUsername == await utils.PoroNumberOne()) {
                         client.privmsg(message.channelName, `.me ${data.username} was never subbed to pokimane & following for ${humanizeDuration(followAge)} ThankEgg`)
                     } else {
                         return {
@@ -52,7 +53,7 @@ module.exports = {
                 }
             } else if (data.cumulative.months > 0) {
                 if (data.subscribed == false) {
-                    if (message.senderUsername == process.env.NUMBER_ONE) {
+                    if (message.senderUsername == await utils.PoroNumberOne()) {
                         client.privmsg(message.channelName, `.me ${data.username} was previously subbed to pokimane for ${data.cumulative.months} months & following for ${humanizeDuration(followAge)} ThankEgg`)
                     } else {
                         return {
@@ -60,7 +61,7 @@ module.exports = {
                         }
                     }
                 } else if (data.subscribed == true) {
-                    if (message.senderUsername == process.env.NUMBER_ONE) {
+                    if (message.senderUsername == await utils.PoroNumberOne()) {
                         client.privmsg(message.channelName, `.me ${data.username} is subbed to pokimane for ${data.cumulative.months} months & following for ${humanizeDuration(followAge)} ThankEgg`)
                     } else {
                         return {
@@ -69,7 +70,7 @@ module.exports = {
                     }
                 } 
             }  else if (data.hidden == true) {
-                if (message.senderUsername == process.env.NUMBER_ONE) {
+                if (message.senderUsername == await utils.PoroNumberOne()) {
                     client.privmsg(message.channelName, `.me ${data.username}'s subscription is hidden, Try hovering over their sub badge. Following for ${humanizeDuration(followAge)} ThankEgg`)
                 } else {
                     return {

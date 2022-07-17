@@ -1,5 +1,5 @@
 const got = require("got");
-const util = require('util')
+const utils = require("../util/utils.js");
 const regex = require('../util/regex.js');
 
 module.exports = {
@@ -26,14 +26,14 @@ module.exports = {
        const ERROR = user.error
         if (!regex.racism.test(args.join(" "))) {
       if (ERROR == 'Player Not Found') {
-        if (message.senderUsername == process.env.NUMBER_ONE) {
+        if (message.senderUsername == await utils.PoroNumberOne()) {
           return client.privmsg(message.channelName, `.me ${args.join(" ")} Not Found monkaS`)
       }
         return {
             text: `${args.join(" ")} Not Found monkaS`
         }
       } else if (ERROR == 'Profile is private. Make it public please.  Check your fortnite settings.') {
-        if (message.senderUsername == process.env.NUMBER_ONE) {
+        if (message.senderUsername == await utils.PoroNumberOne()) {
           return client.privmsg(message.channelName, `.me ${args.join(" ")}'s profile is private DansGame`)
       }
         return {
@@ -50,7 +50,7 @@ module.exports = {
         const totalKD = user.lifeTimeStats[11].value;
         const winRate = user.lifeTimeStats[9].value;
 
-        if (message.senderUsername == process.env.NUMBER_ONE) {
+        if (message.senderUsername == await utils.PoroNumberOne()) {
           return client.privmsg(message.channelName, `.me ${args.join(" ")}'s All time Fortnite matches played ${matchesPlayed}, WINS: ${totalWins} with ${winRate} win rate, KILLS: ${totalKills} with ${totalKD} K/D PogBones`)
       } else {
         return {

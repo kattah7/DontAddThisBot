@@ -2,6 +2,7 @@ const got = require("got")
 const prettyjson = require('prettyjson')
 const SevenTV = require("../node_modules/7tv/lib");
 const api = SevenTV()
+const utils = require("../util/utils.js");
 
 module.exports = {
   name: "7tv",
@@ -13,7 +14,7 @@ module.exports = {
     let { body: userData, statusCode } = await got(`https://api.7tv.app/v2/users/${targetUser.toLowerCase()}`, { timeout: 10000, throwHttpErrors: false, responseType: "json" });
     console.log(userData)
     if (userData.status == 404 ) {
-        if (message.senderUsername == process.env.NUMBER_ONE) {
+        if (message.senderUsername == await utils.PoroNumberOne()) {
             return client.privmsg(message.channelName, `.me ${targetUser} has no data on 7tv. YEAHBUT7TV 7tvM`)
         }
         return {
@@ -35,18 +36,20 @@ module.exports = {
         console.log(emotes.role);
         
          if (emotes.role.name == '') {
-            if (message.senderUsername == process.env.NUMBER_ONE) {
+            if (message.senderUsername == await utils.PoroNumberOne()) {
                 return client.privmsg(message.channelName, `.me YEAHBUT7TV 7tvM ${pogger.data.user.display_name}'s Emote Slots ${pogger.data.user.emote_ids.length}/${pogger.data.user.emote_slots}, Created: ${pogger.data.user.created_at.split("T")[0]}, Editors: ${pogger.data.user.editor_ids.length}, Rank: None 7tv.app/users/${pogger.data.user.display_name}`)
-            }
-            return {
-                text: `YEAHBUT7TV 7tvM ${pogger.data.user.display_name}'s Emote Slots ${pogger.data.user.emote_ids.length}/${pogger.data.user.emote_slots}, Created: ${pogger.data.user.created_at.split("T")[0]}, Editors: ${pogger.data.user.editor_ids.length}, Rank: None 7tv.app/users/${pogger.data.user.display_name}`
+            } else {
+                return {
+                    text: `YEAHBUT7TV 7tvM ${pogger.data.user.display_name}'s Emote Slots ${pogger.data.user.emote_ids.length}/${pogger.data.user.emote_slots}, Created: ${pogger.data.user.created_at.split("T")[0]}, Editors: ${pogger.data.user.editor_ids.length}, Rank: None 7tv.app/users/${pogger.data.user.display_name}`
+                }
             }
         } else {
-            if (message.senderUsername == process.env.NUMBER_ONE) {
+            if (message.senderUsername == await utils.PoroNumberOne()) {
                 return client.privmsg(message.channelName, `.me YEAHBUT7TV 7tvM ${pogger.data.user.display_name}'s Emote Slots ${pogger.data.user.emote_ids.length}/${pogger.data.user.emote_slots}, Created: ${pogger.data.user.created_at.split("T")[0]}, Editors: ${pogger.data.user.editor_ids.length}, Rank: ${emotes.role.name} 7tv.app/users/${pogger.data.user.display_name}`)
-            }
-            return {
-                text: `YEAHBUT7TV 7tvM ${pogger.data.user.display_name}'s Emote Slots ${pogger.data.user.emote_ids.length}/${pogger.data.user.emote_slots}, Created: ${pogger.data.user.created_at.split("T")[0]}, Editors: ${pogger.data.user.editor_ids.length}, Rank: ${emotes.role.name} 7tv.app/users/${pogger.data.user.display_name}`
+            } else {
+                return {
+                    text: `YEAHBUT7TV 7tvM ${pogger.data.user.display_name}'s Emote Slots ${pogger.data.user.emote_ids.length}/${pogger.data.user.emote_slots}, Created: ${pogger.data.user.created_at.split("T")[0]}, Editors: ${pogger.data.user.editor_ids.length}, Rank: ${emotes.role.name} 7tv.app/users/${pogger.data.user.display_name}`
+                } 
             }
         }
   }

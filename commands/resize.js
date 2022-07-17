@@ -1,4 +1,5 @@
 const got = require("got")
+const utils = require("../util/utils.js");
 
 module.exports = {
     name: "ezgif",
@@ -6,18 +7,30 @@ module.exports = {
     description: "ezgif twitch, 7tv emotes (Usage: |ezgif (emote) (twitch or 7tv), bttv and ffz not supported KEKW)",
     execute: async(message, args, client) => {
         if (!args[0]) {
-            return {
-                text: `insert an emote lol`
+            if (message.senderUsername == await utils.PoroNumberOne()) {
+                client.privmsg(message.channelName, `.me insert an emote lol`)
+            } else {
+                return {
+                    text: `insert an emote lol`
+                }
             }
         }
         if (!args[1]) {
-            return{
-                text: `um you gotta do either put '7tv' or 'twitch' after the emote`
+            if (message.senderUsername == await utils.PoroNumberOne()) {
+                client.privmsg(message.channelName, `.me um you gotta do either put '7tv' or 'twitch' after the emote`)
+            } else {
+                return{
+                    text: `um you gotta do either put '7tv' or 'twitch' after the emote`
+                }
             }
         }
         if (args[0] == `7tv` || args[0] == `twitch`) {
-            return {
-                text: `Usage |ezgif (emote) (twitch or 7tv), bttv and ffz not supported KEKW`
+            if (message.senderUsername == await utils.PoroNumberOne()) {
+                client.privmsg(message.channelName, `.me Usage |ezgif (emote) (twitch or 7tv), bttv and ffz not supported KEKW`)
+            } else {
+                return {
+                    text: `Usage |ezgif (emote) (twitch or 7tv), bttv and ffz not supported KEKW`
+                }
             }
         }
         await client.say(message.channelName, "fetching emotes kattahSpin")

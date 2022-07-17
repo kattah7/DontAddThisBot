@@ -1,4 +1,5 @@
 const got = require("got");
+const utils = require("../util/utils.js");
 
 module.exports = {  
     name: "roblox",
@@ -22,7 +23,7 @@ module.exports = {
         const banned = (data.isBanned)
 
         if (userData.success == false) {
-            if (message.senderUsername == process.env.NUMBER_ONE) {
+            if (message.senderUsername == await utils.PoroNumberOne()) {
                 client.privmsg(message.channelName, `.me "${targetUser}" Not Found.`)
             } else {
                 return {
@@ -30,7 +31,7 @@ module.exports = {
                 } 
             }
         } else {
-            if (message.senderUsername == process.env.NUMBER_ONE) {
+            if (message.senderUsername == await utils.PoroNumberOne()) {
                 client.privmsg(message.channelName, `.me ${targetUser}'s Roblox display name is ${display}, Created ${(age.split("T")[0])}, Status: ${userData.IsOnline ? "Online ✅" : "Offline ❌"}, Banned: ${data.isBanned ? "TRUE ✅" : "False ❌"}`)
             } else {
                 return {

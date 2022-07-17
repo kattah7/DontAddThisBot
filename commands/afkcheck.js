@@ -1,5 +1,6 @@
 const got = require("got");
 const humanizeDuration = require("../humanizeDuration");
+const utils = require("../util/utils.js");
 
 module.exports = {
     name: "isafk",
@@ -12,7 +13,7 @@ module.exports = {
 
         //Check if statusCode is 200, if not, return a message saying that something went wrong
         if (statusCode !== 200) {
-            if (message.senderUsername == process.env.NUMBER_ONE) {
+            if (message.senderUsername == await utils.PoroNumberOne()) {
                 return client.privmsg(message.channelName, `.me Something went wrong with the request.`)
             }
             return {
@@ -26,7 +27,7 @@ module.exports = {
 
         //If there is no afk status, return a message saying that the user is not afk
         if (!afkStatus) {
-            if (message.senderUsername == process.env.NUMBER_ONE) {
+            if (message.senderUsername == await utils.PoroNumberOne()) {
                 return client.privmsg(message.channelName, `.me ${targetUser} is not AFK. FeelsDankMan`)
             }
             console.log(afkStatus)
@@ -37,7 +38,7 @@ module.exports = {
             // else return a message saying that the user is afk
         } else if (afkStatus.status == 'afk') {
             const ms = new Date().getTime() - Date.parse(afkStatus.started);
-            if (message.senderUsername == process.env.NUMBER_ONE) {
+            if (message.senderUsername == await utils.PoroNumberOne()) {
                 return client.privmsg(message.channelName, `.me ${targetUser} went AFK ${humanizeDuration(ms)} ago BatChest Reason: ${afkStatus.text}`)
             }
             return {
@@ -45,7 +46,7 @@ module.exports = {
             };
         } else { 
             const ms = new Date().getTime() - Date.parse(afkStatus.started);
-            if (message.senderUsername == process.env.NUMBER_ONE) {
+            if (message.senderUsername == await utils.PoroNumberOne()) {
                 return client.privmsg(message.channelName, `.me ${targetUser} went AFK(${afkStatus.status}) ${humanizeDuration(ms)} ago BatChest Reason: ${afkStatus.text}`)
             }  
             return {

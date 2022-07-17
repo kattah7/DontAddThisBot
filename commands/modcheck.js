@@ -1,4 +1,5 @@
 const got = require("got");
+const utils = require("../util/utils.js");
 
 module.exports = {
     name: "firstmod",
@@ -10,7 +11,7 @@ module.exports = {
         let { body: userData, statusCode } = await got(`https://api.ivr.fi/twitch/modsvips/${targetUser}`, { timeout: 10000, throwHttpErrors: false, responseType: "json" });
         
         if (userData.status == 404) {
-            if (message.senderUsername == process.env.NUMBER_ONE) {
+            if (message.senderUsername == await utils.PoroNumberOne()) {
                 client.privmsg(message.channelName, `.me This channel doesnt have any moderators. PoroSad`)
             } else {
                 return {
@@ -19,7 +20,7 @@ module.exports = {
             }
         } else {
             const vipmod = userData.mods.reduce((r, o) => o.grantedAt < r.grantedAt ? o : r); 
-            if (message.senderUsername == process.env.NUMBER_ONE) {
+            if (message.senderUsername == await utils.PoroNumberOne()) {
                 client.privmsg(message.channelName, `.me ${message.senderUsername}, First moderator of this channel is ${vipmod.login} and was modded at ${vipmod.grantedAt.split("T")[0]}. BatChest`)
             } else {
                 return {

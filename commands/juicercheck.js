@@ -1,5 +1,6 @@
 const got = require("got");
 const humanizeDuration = require("../humanizeDuration");
+const utils = require("../util/utils.js");
 
 module.exports = {
     name: "juicercheck",
@@ -19,7 +20,7 @@ module.exports = {
             if (data) {
                 if (data.followedAt == null) {
                     if (data.cumulative.months == 0) {
-                        if (message.senderUsername == process.env.NUMBER_ONE) {
+                        if (message.senderUsername == await utils.PoroNumberOne()) {
                             client.privmsg(message.channelName, `.me ${USERNAME} WAS NEVER SUBBED & FOLLOWING EZ`)
                         } else {
                             return {
@@ -27,7 +28,7 @@ module.exports = {
                             }
                         }
                     } else if (data.subscribed == true) {
-                        if (message.senderUsername == process.env.NUMBER_ONE) {
+                        if (message.senderUsername == await utils.PoroNumberOne()) {
                             client.privmsg(message.channelName, `.me ${USERNAME} is subbed to xQc for ${data.cumulative.months} months & not following. xqcL`)
                         } else {
                             return {
@@ -35,7 +36,7 @@ module.exports = {
                             }
                         }
                     } else if (data.cumulative.months > 0) {
-                        if (message.senderUsername == process.env.NUMBER_ONE) {
+                        if (message.senderUsername == await utils.PoroNumberOne()) {
                             client.privmsg(message.channelName, `.me ${USERNAME} is previously subbed to xQc for ${data.cumulative.months} months & not following. xqcL`)
                         } else {
                             return {
@@ -45,7 +46,7 @@ module.exports = {
                     }
                 } else if (data.cumulative.months == 0) {
                     if (data.cumulative.months == 0) {
-                        if (message.senderUsername == process.env.NUMBER_ONE) {
+                        if (message.senderUsername == await utils.PoroNumberOne()) {
                             client.privmsg(message.channelName, `.me ${USERNAME} was never subbed to xQc & following for ${humanizeDuration(followAge)} xqcL`)
                         } else {
                             return {
@@ -55,7 +56,7 @@ module.exports = {
                     }
                 } else if (data.cumulative.months > 0) {
                     if (data.subscribed == false) {
-                        if (message.senderUsername == process.env.NUMBER_ONE) {
+                        if (message.senderUsername == await utils.PoroNumberOne()) {
                             client.privmsg(message.channelName, `.me ${USERNAME} was previously subbed to xQc for ${data.cumulative.months} months & following for ${humanizeDuration(followAge)} xqcL`)
                         } else {
                             return {
@@ -63,7 +64,7 @@ module.exports = {
                             }
                         }
                     } else if (data.subscribed == true) {
-                        if (message.senderUsername == process.env.NUMBER_ONE) {
+                        if (message.senderUsername == await utils.PoroNumberOne()) {
                             client.privmsg(message.channelName, `.me ${USERNAME} is subbed to xQc for ${data.cumulative.months} months & following for ${humanizeDuration(followAge)} xqcL`)
                         } else {
                             return {
@@ -72,7 +73,7 @@ module.exports = {
                         }
                     } 
                 } else if (data.hidden == true) {
-                    if (message.senderUsername == process.env.NUMBER_ONE) {
+                    if (message.senderUsername == await utils.PoroNumberOne()) {
                         client.privmsg(message.channelName, `.me ${USERNAME}'s subscription is hidden, Try hovering over their sub badge. Following for ${humanizeDuration(followAge)} xqcL`)
                     } else {
                         return {

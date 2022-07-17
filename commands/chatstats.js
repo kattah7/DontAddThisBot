@@ -1,5 +1,6 @@
 const got = require("got");
 const humanizeDuration = require("../humanizeDuration");
+const utils = require("../util/utils.js");
 
 module.exports = {
     name: "chatstats",
@@ -12,7 +13,7 @@ module.exports = {
         console.log(userData);
         
         if (userData.statusCode == 404) {
-            if (message.senderUsername == process.env.NUMBER_ONE) {
+            if (message.senderUsername == await utils.PoroNumberOne()) {
                 return client.privmsg(message.channelName, `.me Channel doesn't exist :p maybe try using old name?`)
             } else {
                 return {
@@ -20,7 +21,7 @@ module.exports = {
                 }
             }
         } else {
-            if (message.senderUsername == process.env.NUMBER_ONE) {
+            if (message.senderUsername == await utils.PoroNumberOne()) {
                 return client.privmsg(message.channelName, `.me Total ${userData.totalMessages} MESSAGES, Top Chatter: ${userData.chatters[0].name} Amount: ${userData.chatters[0].amount}, Top BTTV Emote: ${userData.bttvEmotes[0].emote} used ${userData.bttvEmotes[0].amount} times, Top FFZ Emote: ${userData.ffzEmotes[0].emote} used ${userData.ffzEmotes[0].amount}, Top TWITCH Emote: ${userData.twitchEmotes[0].emote} used ${userData.twitchEmotes[0].amount}. Top Hastag: ${userData.hashtags[0].hashtag} used ${userData.hashtags[0].amount} times, Top command ${userData.commands[0].command} used ${userData.commands[0].amount} times :O`)
             }
             return {

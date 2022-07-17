@@ -1,4 +1,5 @@
 const got = require("got");
+const utils = require("../util/utils.js");
 
 module.exports = {  
     name: "firstline",
@@ -11,7 +12,7 @@ module.exports = {
         let { body: userData, statusCode } = await got(`https://api.ivr.fi/logs/firstmessage/${targetChannel}/${targetUser}`, { timeout: 10000, throwHttpErrors: false, responseType: "json" });
 
         if (userData.status == 404) {
-            if (message.senderUsername == process.env.NUMBER_ONE) {
+            if (message.senderUsername == await utils.PoroNumberOne()) {
                 return client.privmsg(message.channelName, `.me ${userData.error} FeelsDankMan or channel not logged.`)
             }
             return {
@@ -20,7 +21,7 @@ module.exports = {
         } else {
             const message1 = userData.message
             const time = userData.time
-            if (message.senderUsername == process.env.NUMBER_ONE) {
+            if (message.senderUsername == await utils.PoroNumberOne()) {
                 return client.privmsg(message.channelName, `.me ${targetUser} first logged message in ${targetChannel} is "${message1}" ${time} ago BatChest.`)
             }
             return {

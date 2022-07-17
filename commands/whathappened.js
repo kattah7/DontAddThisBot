@@ -1,4 +1,5 @@
 const got = require("got");
+const utils = require('../util/utils.js');
 
 module.exports = {
     name: "whathappen",
@@ -9,22 +10,34 @@ module.exports = {
         const MONTH = args[0] 
         const DAY = args[1]
         if (!MONTH) {
-            return {
-                text: `Pls insert date, |wh (month) (date)`
+            if (message.senderUsername == await utils.PoroNumberOne()) {
+                client.privmsg(message.channelName, `.me Pls insert date, |wh (month) (date)`)
+            } else {
+                return {
+                    text: `Pls insert date, |wh (month) (date)`
+                }
             }
         }
         if (!DAY) {
-            return {
-                text: `Pls insert Day, |wh (month) (date)`
+            if (message.senderUsername == await utils.PoroNumberOne()) {
+                client.privmsg(message.channelName, `.me Pls insert Day, |wh (month) (date)`)
+            } else {
+                return {
+                    text: `Pls insert Day, |wh (month) (date)`
+                }
             }
         }
         
         const res = await fetch(`https://byabbe.se/on-this-day/${MONTH}/${DAY}/events.json`)
         const user = await res.json();
         var random = user.events[Math.floor(Math.random()*user.events.length)];
-        console.log(random)
-        return {
-            text: `What happened on ${user.date} ${random.year}? ${random.description} BatChest`
+        //console.log(random)
+        if (message.senderUsername == await utils.PoroNumberOne()) {
+            client.privmsg(message.channelName, `.me What happened on ${user.date} ${random.year}? ${random.description} BatChest`)
+        } else {
+            return {
+                text: `What happened on ${user.date} ${random.year}? ${random.description} BatChest`
+            }
         }
 
           

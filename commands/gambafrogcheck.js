@@ -1,5 +1,6 @@
 const got = require("got");
 const humanizeDuration = require("../humanizeDuration");
+const utils = require("../util/utils.js");
 
 module.exports = {
     name: "gambafrog",
@@ -16,7 +17,7 @@ module.exports = {
         if (data) {
             if (data.followedAt == null) {
                 if (data.cumulative.months == 0) {
-                    if (message.senderUsername == process.env.NUMBER_ONE) {
+                    if (message.senderUsername == await utils.PoroNumberOne()) {
                         client.privmsg(message.channelName, `.me ${data.username} WAS NEVER SUBBED & FOLLOWING EZ`)
                     } else {
                         return {
@@ -24,7 +25,7 @@ module.exports = {
                         }
                     }
                 } else if (data.subscribed == true) {
-                    if (message.senderUsername == process.env.NUMBER_ONE) {
+                    if (message.senderUsername == await utils.PoroNumberOne()) {
                         client.privmsg(message.channelName, `.me ${data.username} is subbed to trainwrecks for ${data.cumulative.months} months & not following. 🦍`)
                     } else {
                         return {
@@ -32,7 +33,7 @@ module.exports = {
                         }
                     }
                 } else if (data.cumulative.months > 0) {
-                    if (message.senderUsername == process.env.NUMBER_ONE) {
+                    if (message.senderUsername == await utils.PoroNumberOne()) {
                         client.privmsg(message.channelName, `.me ${data.username} is previously subbed to trainwrecks for ${data.cumulative.months} months & not following. 🦍`)
                     } else {
                         return {
@@ -48,7 +49,7 @@ module.exports = {
                     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
                     console.log(diffDays)
                     if (diffDays < 365) {
-                        if (message.senderUsername == process.env.NUMBER_ONE) {
+                        if (message.senderUsername == await utils.PoroNumberOne()) {
                             client.privmsg(message.channelName, `.me ${data.username} was never subbed to trainwrecks & following for ${humanizeDuration(followAge)} WutFace`)
                         } else {
                             return {
@@ -56,7 +57,7 @@ module.exports = {
                             }
                         }
                     } else {
-                        if (message.senderUsername == process.env.NUMBER_ONE) {
+                        if (message.senderUsername == await utils.PoroNumberOne()) {
                             client.privmsg(message.channelName, `.me ${data.username} was never subbed to trainwrecks & following for ${humanizeDuration(followAge)} 🦍`)
                         } else {
                             return {
@@ -73,7 +74,7 @@ module.exports = {
                     console.log(diffDays)
                 if (data.subscribed == false) {
                     if (diffDays < 365) {
-                        if (message.senderUsername == process.env.NUMBER_ONE) {
+                        if (message.senderUsername == await utils.PoroNumberOne()) {
                             client.privmsg(message.channelName, `.me ${data.username} was previously subbed to trainwrecks for ${data.cumulative.months} months & following for ${humanizeDuration(followAge)} WutFace`)
                         } else {
                             return {
@@ -81,7 +82,7 @@ module.exports = {
                             } 
                         }
                     } else {
-                        if (message.senderUsername == process.env.NUMBER_ONE) {
+                        if (message.senderUsername == await utils.PoroNumberOne()) {
                             client.privmsg(message.channelName, `.me ${data.username} was previously subbed to trainwrecks for ${data.cumulative.months} months & following for ${humanizeDuration(followAge)} 🦍`)
                         } else {
                             return {
@@ -96,7 +97,7 @@ module.exports = {
                     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
                     console.log(diffDays)
                     if (diffDays < 365) {
-                        if (message.senderUsername == process.env.NUMBER_ONE) {
+                        if (message.senderUsername == await utils.PoroNumberOne()) {
                             client.privmsg(message.channelName, `.me ${data.username} is subbed to trainwrecks for ${data.cumulative.months} months & following for ${humanizeDuration(followAge)} WutFace`)
                         } else {
                             return {
@@ -104,7 +105,7 @@ module.exports = {
                             } 
                         } 
                     } else {
-                        if (message.senderUsername == process.env.NUMBER_ONE) {
+                        if (message.senderUsername == await utils.PoroNumberOne()) {
                             client.privmsg(message.channelName, `.me ${data.username} is subbed to trainwrecks for ${data.cumulative.months} months & following for ${humanizeDuration(followAge)} 🦍`)
                         } else {
                             return {
@@ -120,7 +121,7 @@ module.exports = {
                     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
                     console.log(diffDays)
                 if (diffDays < 365) {
-                    if (message.senderUsername == process.env.NUMBER_ONE) {
+                    if (message.senderUsername == await utils.PoroNumberOne()) {
                         client.privmsg(message.channelName, `.me ${data.username}'s subscription is hidden, Try hovering over their sub badge. Following for ${humanizeDuration(followAge)} WutFace`)
                     } else {
                         return {
@@ -128,7 +129,7 @@ module.exports = {
                         } 
                     }
                 } else {
-                    if (message.senderUsername == process.env.NUMBER_ONE) {
+                    if (message.senderUsername == await utils.PoroNumberOne()) {
                         client.privmsg(message.channelName, `.me ${data.username}'s subscription is hidden, Try hovering over their sub badge. Following for ${humanizeDuration(followAge)} 🦍`)
                     } else {
                         return {

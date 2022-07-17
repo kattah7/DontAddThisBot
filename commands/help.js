@@ -1,4 +1,5 @@
 const got = require("got");
+const utils = require("../util/utils.js");
 
 module.exports = {
     name: "help",
@@ -9,7 +10,7 @@ module.exports = {
         const {banned, banphrase_data} = await got.post(`https://forsen.tv/api/v1/banphrases/test `, {json: {'message': message.senderUsername}}).json();
         console.log(banned, banphrase_data)
         if (banned == false) {
-            if (message.senderUsername == process.env.NUMBER_ONE) {
+            if (message.senderUsername == await utils.PoroNumberOne()) {
                 return client.privmsg(message.channelName, `.me ${message.senderUsername}, Check the bot's panels for more info kattahHappy`)
             } else {
                 return {

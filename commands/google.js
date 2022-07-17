@@ -1,4 +1,5 @@
 const regex = require('../util/regex.js');
+const utils = require("../util/utils.js");
 
 module.exports = {
     name: "search",
@@ -7,7 +8,7 @@ module.exports = {
     description:"google anything!",
     execute: async (message, args, client) => {
         if (!regex.racism.test(args.join("+"))) {
-        if (message.senderUsername == process.env.NUMBER_ONE) {
+        if (message.senderUsername == await utils.PoroNumberOne()) {
             client.privmsg(message.channelName, `.me ${message.senderUsername}, https://www.google.com/search?q=${args.join("+")}`)
         } else {
             return {

@@ -1,10 +1,11 @@
 const got = require("got")
+const utils = require("../util/utils.js");
 
 module.exports = {
   name: "7tvpfp",
   description: "Get user's 7tv profile picture",
   cooldown: 1000,
-  execute: async(message, args) => {
+  execute: async(message, args, client) => {
 
     const targetUser = args[0] ?? message.senderUsername
     let { body: userData, statusCode } = await got(`https://api.7tv.app/v2/users/${targetUser.toLowerCase()}`, { timeout: 10000, throwHttpErrors: false, responseType: "json" });
@@ -22,7 +23,10 @@ module.exports = {
         })
         console.log(stv)
         
-
-        return { text: `${stv.data.user.profile_image_url.replace("//", "")}`}
+        if (message.senderUsername == await utils.PoroNumberOne()) {
+            return client.privmsg(message.channelName, `.me ${stv.data.user.profile_image_url.replace("//", "")}`)
+        } else {
+            return { text: `${stv.data.user.profile_image_url.replace("//", "")}`}
+        }
   }
 }

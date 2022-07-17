@@ -1,5 +1,6 @@
 const got = require("got");
 const regex = require('../util/regex.js');
+const utils = require('../util/utils.js');
 
 module.exports = {
     name: "wolfram",
@@ -8,10 +9,10 @@ module.exports = {
     description:"search anything and get a answer",
     execute: async (message, args, client) => {
         let { body: userData, statusCode } = await got(`https://api.wolframalpha.com/v1/conversation.jsp?appid=${process.env.WOLFRAM_APP_ID}&i=${encodeURIComponent(args.join(" "))}`, { timeout: 10000, throwHttpErrors: false, responseType: "json" });
-        console.log(userData)
+        //console.log(userData)
         
         if (!regex.racism.test(userData.result)) {
-        if (message.senderUsername == process.env.NUMBER_ONE) {
+        if (message.senderUsername == await utils.PoroNumberOne()) {
             client.privmsg(message.channelName, `.me ${message.senderUsername}, ${userData.result}`)
         } else {
             return {

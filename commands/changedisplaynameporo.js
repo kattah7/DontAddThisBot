@@ -1,4 +1,5 @@
 const got = require('got')
+const utils = require("../util/utils.js");
 
 module.exports = {
     name: 'changename',
@@ -12,7 +13,7 @@ module.exports = {
         console.log(banned, banphrase_data)
         if (banned == false) {
             if (!args[0]) {
-                if (message.senderUsername == process.env.NUMBER_ONE) {
+                if (message.senderUsername == await utils.PoroNumberOne()) {
                     return client.privmsg(message.channelName, `.me put a display name lol`)
                 } else {
                     return {
@@ -22,7 +23,7 @@ module.exports = {
             } 
             
              if (!/^[dontaddthisbot]{14}$/i.test(args[0])) {
-                if (message.senderUsername == process.env.NUMBER_ONE) {
+                if (message.senderUsername == await utils.PoroNumberOne()) {
                     return client.privmsg(message.channelName, `.me you can only change the display name`)
                 } else {
                     return {
@@ -31,7 +32,7 @@ module.exports = {
                 }
             }
             if (channelData.poroCount < 50) {
-                if (message.senderUsername == process.env.NUMBER_ONE) {
+                if (message.senderUsername == await utils.PoroNumberOne()) {
                     return client.privmsg(message.channelName, `.me Not enough poro meat! ${message.senderUsername} kattahHappy You need 50 poro meat | ${channelData.poroCount} meat total! 🥩`)
                 }
                 return {
@@ -66,7 +67,7 @@ module.exports = {
                 },
                 json: query
             })
-            if (message.senderUsername == process.env.NUMBER_ONE) {
+            if (message.senderUsername == await utils.PoroNumberOne()) {
                 return client.privmsg(message.channelName, `.me Name Changed! PoroSad [P:${channelData.poroPrestige}] ${channelData.poroCount - 50} meat total! 🥩`)
             } else {
                 return {

@@ -1,5 +1,6 @@
 const got = require("got")
 const regex = require('../util/regex.js');
+const utils = require("../util/utils.js");
 
 module.exports = {
     name: "randombio",
@@ -10,7 +11,7 @@ module.exports = {
        const { chatters } = await got(`http://tmi.twitch.tv/group/user/${message.channelName}/chatters`).json();
        var allChatters = [...chatters.broadcaster, ...chatters.moderators, ...chatters.vips, ...chatters.viewers];
        var randomChatters = allChatters[Math.floor(Math.random()* allChatters.length)]
-       console.log(randomChatters)
+       //console.log(randomChatters)
        const bio  = await got(`https://api.twitch.tv/helix/users?login=${randomChatters}`, {
            headers: {
                Authorization: `Bearer ${process.env.ACCESS_TOKEN}`,
@@ -20,7 +21,7 @@ module.exports = {
        
        if (!regex.racism.test(bio.data[0].description)) {
        if (bio.data[0].description == '') {
-        if (message.senderUsername == process.env.NUMBER_ONE) {
+        if (message.senderUsername == await utils.PoroNumberOne()) {
             client.privmsg(message.channelName, `.me Unlucky! user doesn't have a bio FeelsDankMan`)
         } else {
             return {
@@ -28,7 +29,7 @@ module.exports = {
             } 
         }
     } else {
-        if (message.senderUsername == process.env.NUMBER_ONE) {
+        if (message.senderUsername == await utils.PoroNumberOne()) {
             client.privmsg(message.channelName, `.me ${bio.data[0].description}`)
         } else {
             return {

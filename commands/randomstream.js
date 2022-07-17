@@ -1,6 +1,7 @@
 const got = require("got");
 const humanizeDuration = require("../humanizeDuration");
 const regex = require('../util/regex.js');
+const utils = require("../util/utils.js");
 
 module.exports = {
     name: "randomstream",
@@ -9,9 +10,13 @@ module.exports = {
     description:"Fetches a random streamer from any game category",
     execute: async (message, args, client) => {
         if (!args[0]) {
-            return {
-                text: `Pls write a category lol`
-            } 
+            if (message.senderUsername == await utils.PoroNumberOne()) {
+                client.privmsg(message.channelName, `.me Pls write a category lol`)
+            } else {
+                return {
+                    text: `Pls write a category lol`
+                } 
+            }
         }
         
 
@@ -33,7 +38,7 @@ module.exports = {
 
         if (!regex.racism.test(random.title)) {
             if (args[0].toLowerCase()) {
-                if (message.senderUsername == process.env.NUMBER_ONE) {
+                if (message.senderUsername == await utils.PoroNumberOne()) {
                     client.privmsg(message.channelName, `.me ${random.user_name} been live for ${humanizeDuration(ms)} playing ${random.game_name} with ${random.viewer_count} viewers. Title: ${random.title}. twitch.tv/${random.user_login} kattahSpin`)
                 } else {
                     return {

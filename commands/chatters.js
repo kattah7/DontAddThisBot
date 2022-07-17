@@ -1,4 +1,5 @@
 const got = require("got");
+const utils = require("../util/utils.js");
 
 module.exports = {
     name: "chatters",
@@ -29,7 +30,7 @@ module.exports = {
       }
     }
   } 
-  if (message.senderUsername == process.env.NUMBER_ONE) {
+  if (message.senderUsername == await utils.PoroNumberOne()) {
     return client.privmsg(message.channelName, `.me ${targetUser} currently has ${users.length} users chatted, ${BRUH.chatter_count.toLocaleString()} users in viewerlist.`)
 } else {
     return {

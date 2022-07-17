@@ -1,5 +1,6 @@
 const humanizeDuration = require("../humanizeDuration");
 const got = require("got");
+const utils = require("../util/utils.js");
 
 module.exports = {
     name: "cdr",
@@ -17,7 +18,7 @@ module.exports = {
             if (lastUsage && channelData) {
                 if (new Date().getTime() - new Date(lastUsage).getTime() < 1000 * 60 * 60 * 3) {
                     const ms = new Date(lastUsage).getTime() - new Date().getTime() + 1000 * 60 * 60 * 3;
-                    if (message.senderUsername == process.env.NUMBER_ONE) {
+                    if (message.senderUsername == await utils.PoroNumberOne()) {
                         client.privmsg(message.channelName, `.me Please wait ${humanizeDuration(ms)} before doing another cooldown reset!`)
                         return
                     } else {
@@ -30,7 +31,7 @@ module.exports = {
             await bot.DB.poroCount.updateOne({ id: message.senderUserID }, { $set: { poroCount: channelData.poroCount - 5 } } ).exec();
             await bot.Redis.set(`porocdr:${message.senderUserID}`, Date.now(), 0);
             await bot.Redis.del(`poro:${message.senderUserID}`); 
-            if (message.senderUsername == process.env.NUMBER_ONE) {
+            if (message.senderUsername == await utils.PoroNumberOne()) {
                 client.privmsg(message.channelName, `.me Timer Reset! ${message.senderUsername} (-5) kattahDance total [P:${channelData.poroPrestige}] ${channelData.poroCount -5} meat`)
             } else {
                 await client.say(message.channelName, `Timer Reset! ${message.senderUsername} (-5) kattahDance total [P:${channelData.poroPrestige}] ${channelData.poroCount -5} meat`)

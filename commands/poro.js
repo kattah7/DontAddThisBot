@@ -1,6 +1,6 @@
-const e = require("express");
 const humanizeDuration = require("../humanizeDuration");
 const got = require("got");
+const utils = require("../util/utils.js");
 
 module.exports = {
     name: "poro",
@@ -30,17 +30,12 @@ module.exports = {
                     text: `New user! ${message.senderUsername} kattahDance2 here is free 10 poro meat 🥩`
                 }
             }
-            if (!channelData.poroPrestige) {
-                const updateChannel = await bot.DB.poroCount.findOneAndUpdate({ id: message.senderUserID }, { $set: { poroPrestige: 0 } }, { new: true }).exec();
-                await updateChannel.save();
-            }
             
-    
             if (lastUsage || channelData) {
                 if (new Date().getTime() - new Date(lastUsage).getTime() < 1000 * 60 * 60 * 2) {
                     const ms = new Date(lastUsage).getTime() - new Date().getTime() + 1000 * 60 * 60 * 2;
                     
-                        if (message.senderUsername == process.env.NUMBER_ONE) {
+                        if (message.senderUsername == await utils.PoroNumberOne()) {
                             
                                
                                    client.privmsg(message.channelName, `.me No poros found... 🎇 kattahBoom ${message.senderUsername} | [P:${channelData.poroPrestige}] ${channelData.poroCount.toLocaleString()} meat total! 🥩  | Come back later in ${humanizeDuration(ms)}. kattahDance`)
@@ -62,7 +57,7 @@ module.exports = {
             await bot.Redis.set(`poro:${message.senderUserID}`, Date.now(), 0);
             console.log(random)
             if (random == 5 || random == 6 || random == 7 || random == 8 || random == 9) {
-                if (message.senderUsername == process.env.NUMBER_ONE) {
+                if (message.senderUsername == await utils.PoroNumberOne()) {
                     client.privmsg(message.channelName, `.me Poro slaughtered! ${message.senderUsername} --> Tenderloin Poro kattahStare (+${random}) PoroSad [P:${channelData.poroPrestige}] ${channelData.poroCount + random} meat total!`)
                 } else {
                     return {
@@ -70,7 +65,7 @@ module.exports = {
                     };
                 }
             } else if (random == 10 || random == 11 || random == 12 || random == 13 || random == 14 || random == 15) {
-                if (message.senderUsername == process.env.NUMBER_ONE) {
+                if (message.senderUsername == await utils.PoroNumberOne()) {
                     client.privmsg(message.channelName, `.me Poro slaughtered! ${message.senderUsername} --> Wagyu Poro 🤤 (+${random}) kattahHappy [P:${channelData.poroPrestige}] ${channelData.poroCount + random} meat total!`)
                 } else {
                     return {
@@ -78,7 +73,7 @@ module.exports = {
                     }
                 }
             } else if (random == -1 || random == -2 || random == -3 || random == -4 || random == -5) {
-                if (message.senderUsername == process.env.NUMBER_ONE) {
+                if (message.senderUsername == await utils.PoroNumberOne()) {
                     client.privmsg(message.channelName, `.me Poro slaughtered! ${message.senderUsername} --> Rotten Poro DansGame (${random}) kattahBAT [P:${channelData.poroPrestige}] ${channelData.poroCount + random} meat total!`)
                 } else {
                     return {
@@ -86,7 +81,7 @@ module.exports = {
                     }
                 }
             } else if (random == 1 || random == 2 || random == 3 || random == 4) {
-                if (message.senderUsername == process.env.NUMBER_ONE) {
+                if (message.senderUsername == await utils.PoroNumberOne()) {
                     client.privmsg(message.channelName, `.me Poro slaughtered! ${message.senderUsername} --> Sirloin Poro OpieOP (+${random}) PoroSad [P:${channelData.poroPrestige}] ${channelData.poroCount + random} meat total!`)
                 } else {
                     return {
@@ -94,7 +89,7 @@ module.exports = {
                     }
                 }
             } else if (random == 0) {
-                if (message.senderUsername == process.env.NUMBER_ONE) {
+                if (message.senderUsername == await utils.PoroNumberOne()) {
                     client.privmsg(message.channelName, `.me Poro gone! ${message.senderUsername} --> Poro ran away haHAA (±${random}) kattahHappy [P:${channelData.poroPrestige}] ${channelData.poroCount + random} meat total!`)
                 } else {
                     return {
@@ -102,7 +97,7 @@ module.exports = {
                     }
                 }
             } else if (random >= 16) {
-                if (message.senderUsername == process.env.NUMBER_ONE) {
+                if (message.senderUsername == await utils.PoroNumberOne()) {
                     client.privmsg(message.channelName, `.me Poro slaughtered! ${message.senderUsername} --> LEGENDARY PORO VisLaud (+${random}) kattahXd [P:${channelData.poroPrestige}] ${channelData.poroCount + random} meat total!`)
                 } else {
                     return {

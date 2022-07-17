@@ -19,7 +19,7 @@ module.exports = {
                 Authorization: `Bearer ${process.env.TWITTER_BEARER}`,
             },
         }).json();
-        console.log(data2);
+        //console.log(data2);
 
         const random = Math.floor(Math.random() * 10) + 0;
         return {

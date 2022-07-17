@@ -7,7 +7,7 @@ module.exports = {
     description: "Check 7tv emote info",
     execute: async(message, args, client) => {
         if (!args[0]) {
-            if (message.senderUsername == process.env.NUMBER_ONE) {
+            if (message.senderUsername == await utils.PoroNumberOne()) {
                 return client.privmsg(message.channelName, `.me Please insert a emote :)`)
             } else {
                 return {
@@ -17,7 +17,7 @@ module.exports = {
         }
         var reg = /^[a-z]+$/i;
         if (!reg.test(args[0])) {
-            if (message.senderUsername == process.env.NUMBER_ONE) {
+            if (message.senderUsername == await utils.PoroNumberOne()) {
                 return client.privmsg(message.channelName, `.me Invalid emote :)`)
             } else {
                 return {
@@ -66,8 +66,12 @@ module.exports = {
             const emoteOwner = STVEmoteDate.data.emote.owner.display_name
             const emoteDate = STVEmoteDate.data.emote.created_at.split("T")[0]
             const emoteUsers = STVEmoteUsers.data.emote.channels.total.toLocaleString()
-            return {
-                text: `Emote ${args[0]} by ${emoteOwner} | Created at: ${emoteDate} | Enabled users: ${emoteUsers} 7tvM YEAHBUT7TV https://7tv.app/emotes/${findThatEmote.id}`
+            if (message.senderUsername == await utils.PoroNumberOne()) {
+                return client.privmsg(message.channelName, `.me Emote ${args[0]} by ${emoteOwner} | Created at: ${emoteDate} | Enabled users: ${emoteUsers} 7tvM YEAHBUT7TV https://7tv.app/emotes/${findThatEmote.id}`)
+            } else {
+                return {
+                    text: `Emote ${args[0]} by ${emoteOwner} | Created at: ${emoteDate} | Enabled users: ${emoteUsers} 7tvM YEAHBUT7TV https://7tv.app/emotes/${findThatEmote.id}`
+                }
             }
         } else {
             const { body: STVEmoteSearch } = await got.post(`https://7tv.io/v3/gql`, { 
@@ -85,8 +89,12 @@ module.exports = {
             //console.log(STVEmoteSearch, STVEmoteSearch.data.emotes.items)
             const findEmoteBySearch = STVEmoteSearch.data.emotes.items.find(emote => emote.name === args[0])
             if (!findEmoteBySearch) {
-                return {
-                    text: `Emote ${args[0]} not found :p check spelling or caps maybe?`
+                if (message.senderUsername == await utils.PoroNumberOne()) {
+                    return client.privmsg(message.channelName, `.me Emote ${args[0]} not found :p check spelling or caps maybe?`)
+                } else {
+                    return {
+                        text: `Emote ${args[0]} not found :p check spelling or caps maybe?`
+                    }
                 }
             }
             const { body: STVEmoteDate } = await got.post(`https://7tv.io/v3/gql`, { 
@@ -115,8 +123,12 @@ module.exports = {
             const emoteOwner = STVEmoteDate.data.emote.owner.display_name
             const emoteDate = STVEmoteDate.data.emote.created_at.split("T")[0]
             const emoteUsers = STVEmoteUsers.data.emote.channels.total.toLocaleString()
-            return {
-                text: `Emote ${args[0]} by ${emoteOwner} | Created at: ${emoteDate} | Enabled users: ${emoteUsers} 7tvM YEAHBUT7TV https://7tv.app/emotes/${findEmoteBySearch.id}`
+            if (message.senderUsername == await utils.PoroNumberOne()) {
+                return client.privmsg(message.channelName, `.me Emote ${args[0]} by ${emoteOwner} | Created at: ${emoteDate} | Enabled users: ${emoteUsers} 7tvM YEAHBUT7TV https://7tv.app/emotes/${findEmoteBySearch.id}`)
+            } else {
+                return {
+                    text: `Emote ${args[0]} by ${emoteOwner} | Created at: ${emoteDate} | Enabled users: ${emoteUsers} 7tvM YEAHBUT7TV https://7tv.app/emotes/${findEmoteBySearch.id}`
+                }
             }
         }
 }}

@@ -1,4 +1,5 @@
 const got = require("got");
+const utils = require("../util/utils.js");
 
 module.exports = {
     name: "bot",
@@ -9,16 +10,28 @@ module.exports = {
         const targetUser = args[0] ?? message.senderUsername;
         let { body: userData, statusCode } = await got(`https://api.ivr.fi/twitch/resolve/${targetUser}`, { timeout: 10000, throwHttpErrors: false, responseType: "json" });
         if (userData.bot == false) {
-            return {
-                text: `${targetUser}, BOT: false`
+            if (message.senderUsername == await utils.PoroNumberOne()) {
+                return client.privmsg(message.channelName, `.me ${targetUser}, BOT: false`)
+            } else {
+                return {
+                    text: `${targetUser}, BOT: false`
+                }
             }
         } else if (userData.bot == true) {
-            return {
-                text: `${targetUser}, BOT: true MrDestructoid`
+            if (message.senderUsername == await utils.PoroNumberOne()) {
+                return client.privmsg(message.channelName, `.me ${targetUser}, BOT: true MrDestructoid`)
+            } else {
+                return {
+                    text: `${targetUser}, BOT: true MrDestructoid`
+                }
             }
         } else if (statusCode == 404) {
-            return {
-                text: `${userData.error}`
+            if (message.senderUsername == await utils.PoroNumberOne()) {
+                return client.privmsg(message.channelName, `.me ${userData.error}`)
+            } else {
+                return {
+                    text: `${userData.error}`
+                }
             }
         }
     },

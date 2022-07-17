@@ -1,6 +1,7 @@
 const got = require("got");
 const humanizeDuration = require("../humanizeDuration");
 const regex = require('../util/regex.js');
+const utils = require('../util/utils.js');
 
 module.exports = {
     name: "uptime",
@@ -20,8 +21,8 @@ module.exports = {
         }).json();
 
         let { body: userData, statusCode3 } = await got(`https://api.ivr.fi/v2/twitch/user?login=${targetUser}`, { timeout: 10000, throwHttpErrors: false, responseType: "json" });
-        console.log(userData)
-        console.log(data2)
+        //console.log(userData)
+        //console.log(data2)
 
        
         if (data2[0] == null) {
@@ -31,7 +32,7 @@ module.exports = {
             }
         } else {
             const ms = new Date().getTime() - Date.parse(data2[0].started_at);
-            if (message.senderUsername == process.env.NUMBER_ONE) {
+            if (message.senderUsername == await utils.PoroNumberOne()) {
                 client.privmsg(message.channelName, `.me ${data2[0].user_name} went live ${humanizeDuration(ms)} ago, Playing ${data2[0].game_name} with ${data2[0].viewer_count.toLocaleString()} viewers. Title: ${data2[0].title}`)
             } else {
                 return {

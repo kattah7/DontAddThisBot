@@ -1,5 +1,6 @@
 const got = require("got");
 const regex = require('../util/regex.js');
+const utils = require("../util/utils.js");
 
 module.exports = {  
     name: "name",
@@ -15,7 +16,7 @@ module.exports = {
 
         if (!regex.racism.test(targetUser)) {
         if (userData == 400) {
-            if (message.senderUsername == process.env.NUMBER_ONE) {
+            if (message.senderUsername == await utils.PoroNumberOne()) {
                 client.privmsg(message.channelName, `.me ${targetUser} must start with an alphanumeric character.`)
             } else {
                 return {
@@ -23,7 +24,7 @@ module.exports = {
                 }
             }
         } else if (userData.available == false) {
-            if (message.senderUsername == process.env.NUMBER_ONE) {
+            if (message.senderUsername == await utils.PoroNumberOne()) {
                 client.privmsg(message.channelName, `.me "${targetUser}" username is not available. PoroSad`)
             } else {
                 return {
@@ -31,7 +32,7 @@ module.exports = {
                 }
             }
         } else if (userData.available == true) {
-            if (message.senderUsername == process.env.NUMBER_ONE) {
+            if (message.senderUsername == await utils.PoroNumberOne()) {
                 client.privmsg(message.channelName, `.me "${targetUser}" username is available. PogBones`)
             } else {
                 return {

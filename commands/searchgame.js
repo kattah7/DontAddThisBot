@@ -1,4 +1,5 @@
 const got = require("got");
+const utils = require("../util/utils.js");
 
 module.exports = {
     name: "searchgame",
@@ -14,7 +15,7 @@ module.exports = {
         const result = userData.response.result
 
         if (result == 42) {
-            if (message.senderUsername == process.env.NUMBER_ONE) {
+            if (message.senderUsername == await utils.PoroNumberOne()) {
                 client.privmsg(message.channelName, `.me Game doesnt not exist :) Please use |search "Game" App ID`)
             } else {
                 return {
@@ -22,7 +23,7 @@ module.exports = {
                 } 
             }
         } else {
-            if (message.senderUsername == process.env.NUMBER_ONE) {
+            if (message.senderUsername == await utils.PoroNumberOne()) {
                 client.privmsg(message.channelName, `.me Currently has ${data} players :O`)
             } else {
                 return {

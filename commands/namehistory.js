@@ -1,5 +1,6 @@
 const got = require('got');
 const regex = require('../util/regex.js');
+const utils = require("../util/utils.js");
 
 module.exports = {
     name: 'history',
@@ -16,15 +17,23 @@ module.exports = {
                 text: 'Please provide a username.'
             }
         }
-        console.log(pogger2[0])
+        //console.log(pogger2[0])
         if (pogger2[0] == undefined) {
-            return {
-                text: `${message.senderUsername}, ${args[0]} is not a valid username.`
+            if (message.senderUsername == await utils.PoroNumberOne()) {
+                return client.privmsg(message.channelName, `.me ${message.senderUsername}, ${args[0]} is not a valid username.`)
+            } else {
+                return {
+                    text: `${message.senderUsername}, ${args[0]} is not a valid username.`
+                }
             }
         }
         if (pogger2[0].roles.isAffiliate != true && pogger2[0].roles.isPartner != true) {
-            return {
-                text: `${args[0]} must be affiliate or partner to check`
+            if (message.senderUsername == await utils.PoroNumberOne()) {
+                return client.privmsg(message.channelName, `.me ${args[0]} must be affiliate or partner to check`)
+            } else {
+                return {
+                    text: `${args[0]} must be affiliate or partner to check`
+                }
             }
         }
         const query = []
@@ -52,18 +61,26 @@ module.exports = {
             },
             json: query
         })
-        console.log(pogger[0].data.user)
+        //console.log(pogger[0].data.user)
         if (pogger[0].data.user.subscriptionProducts[0].name) {
             if (args[0].toLowerCase() == pogger[0].data.user.subscriptionProducts[0].name) {
-                return {
-                    text: `${args[0]} has no name change history`
+                if (message.senderUsername == await utils.PoroNumberOne()) {
+                    return client.privmsg(message.channelName, `.me ${args[0]} has no name change history`)
+                } else {
+                    return {
+                        text: `${args[0]} has no name change history`
+                    }
                 }
             }
-            return {
-                text: `${args[0]}'s name history since affiliate/partner: ${pogger[0].data.user.subscriptionProducts[0].name}`
+            if (message.senderUsername == await utils.PoroNumberOne()) {
+                return client.privmsg(message.channelName, `.me ${args[0]}'s name history since affiliate/partner: ${pogger[0].data.user.subscriptionProducts[0].name}`)
+            } else {
+                return {
+                    text: `${args[0]}'s name history since affiliate/partner: ${pogger[0].data.user.subscriptionProducts[0].name}`
+                }
             }
         }
-        console.log(pogger[0].data.user.subscriptionProducts[0].name)
+        //console.log(pogger[0].data.user.subscriptionProducts[0].name)
     }   else { 
         const XD = 'https://discord.com/api/webhooks/987735146297962497/Kvhez5MjG5Y-XiYQo9EUGbhiVd6UODyOf58WjkAZwRQMglOX_cpiW436mXZLLD8T7oFA'
         const msg2 = {

@@ -1,5 +1,6 @@
 const got = require("got");
 const humanizeDuration = require("../humanizeDuration");
+const utils = require("../util/utils.js");
 
 module.exports = {
     name: "bored",
@@ -14,7 +15,7 @@ module.exports = {
         if (lastUsage) {
             if (new Date().getTime() - new Date(lastUsage).getTime() < 1000 * 60 * 60 * 12) {
                 const ms = new Date(lastUsage).getTime() - new Date().getTime() + 1000 * 60 * 60 * 12;
-                if (message.senderUsername == process.env.NUMBER_ONE) {
+                if (message.senderUsername == await utils.PoroNumberOne()) {
                     return client.privmsg(message.channelName, `.me This command can only be used every 12hours. Please wait ${humanizeDuration(ms)}.`)
                 }
                 return {
@@ -23,7 +24,7 @@ module.exports = {
             }
         }
         await bot.Redis.set(`test:${message.senderUsername}`, Date.now(), 0);
-        if (message.senderUsername == process.env.NUMBER_ONE) {
+        if (message.senderUsername == await utils.PoroNumberOne()) {
             return client.privmsg(message.channelName, `.me ${message.senderUsername}, ${userData.activity}`)
         } else return {
             text: `${message.senderUsername}, ${userData.activity}`,

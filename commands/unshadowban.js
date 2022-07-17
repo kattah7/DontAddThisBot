@@ -1,4 +1,5 @@
 const got = require('got')
+const utils = require('../util/utils.js');
 
 module.exports = {
     name: 'unrestrict',
@@ -8,8 +9,12 @@ module.exports = {
     aliases: [],
     async execute(message, args, client) {
         if (!args[0]) {
-            return {
-                text: `insert name to unrestrict lol`
+            if (message.senderUsername == await utils.PoroNumberOne()) {
+                client.privmsg(message.channelName, `.me insert name to unrestrict lol`)
+            } else {
+                return {
+                    text: `insert name to unrestrict lol`
+                }
             }
         }
         const targetUser = args[0] ?? message.senderUsername;
@@ -43,7 +48,7 @@ module.exports = {
             },
             json: query
         })
-        if (message.senderUsername == process.env.NUMBER_ONE) {
+        if (message.senderUsername == await utils.PoroNumberOne()) {
             client.privmsg(message.channelName, `.me Un-restricted ${targetUser}`)
         } else {
             return {

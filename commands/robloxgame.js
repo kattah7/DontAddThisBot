@@ -1,4 +1,5 @@
 const got = require("got");
+const utils = require("../util/utils.js");
 
 module.exports = {  
     name: "robloxgame",
@@ -18,7 +19,7 @@ module.exports = {
         const playing = (data1.data[0].playing)
         const visit = (data1.data[0].visits)
         const favorite = (data1.data[0].favoritedCount)
-        if (message.senderUsername == process.env.NUMBER_ONE) {
+        if (message.senderUsername == await utils.PoroNumberOne()) {
             client.privmsg(message.channelName, `.me ${name} currently has ${playing} PLAYERS, ${visit} total visits and favorited by ${favorite} Players. CREATED: ${(data1.data[0].created.split("T")[0])}, LAST UPDATED: ${(data1.data[0].updated.split("T")[0])} LuL`)
         } else {
             return {

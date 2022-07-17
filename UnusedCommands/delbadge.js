@@ -1,4 +1,5 @@
 const got = require('got')
+const utils = require("../util/utils.js");
 
 module.exports = {
     name: 'delbadge',
@@ -8,7 +9,7 @@ module.exports = {
     async execute(message, args, client) {
         const channelData = await bot.DB.poroCount.findOne({ username: message.senderUsername }).exec();
         if (channelData.poroCount < 50) {
-            if (message.senderUsername == process.env.NUMBER_ONE) {
+            if (message.senderUsername == await utils.PoroNumberOne()) {
                 return client.privmsg(message.channelName, `.me Not enough poro meat! ${message.senderUsername} kattahHappy You need 50 poro meat | ${channelData.poroCount} meat total! 🥩`)
             }
             return {
@@ -38,7 +39,7 @@ module.exports = {
             },
             json: query
         })
-        if (message.senderUsername == process.env.NUMBER_ONE) {
+        if (message.senderUsername == await utils.PoroNumberOne()) {
             return client.privmsg(message.channelName, `.me Badge Removed! PoroSad ${channelData.poroCount - 50} meat total! 🥩`)
         } else {
             return {

@@ -1,6 +1,7 @@
 const rwClient = require("../twitterClient");
 const got = require("got");
 const regex = require('../util/regex.js');
+const utils = require('../util/utils.js');
 
 module.exports = {
     name: "tweet",
@@ -21,7 +22,7 @@ module.exports = {
                 }
             }
             tweet()
-            if (message.senderUsername == process.env.NUMBER_ONE) {
+            if (message.senderUsername == await utils.PoroNumberOne()) {
                 client.privmsg(message.channelName, `.me ${name} Successfully tweeted :) Check out twitter.com/twitchsayschat to see your tweet`)
             } else {
                 return {

@@ -1,4 +1,5 @@
 const got = require("got")
+const utils = require("../util/utils.js");
 
 module.exports = {
     name: "7tvrank",
@@ -24,8 +25,12 @@ module.exports = {
             const index = parseInt((AllEmotes.findIndex((x) => x.name === args[0]))) + 1
             //console.log(index)
             if (index === 0) {
-                return {
-                    text: `couldnt fetch emote :p`
+                if (message.senderUsername == await utils.PoroNumberOne()) {
+                    return client.privmsg(message.channelName, `.me couldnt fetch emote :p`)
+                } else {
+                    return {
+                        text: `couldnt fetch emote :p`
+                    }
                 }
             }
             const { body: STVEmoteUsers } = await got.post(`https://7tv.io/v3/gql`, { 
@@ -41,8 +46,12 @@ module.exports = {
             })
             //console.log(STVEmoteUsers)
             const Users = STVEmoteUsers.data.emote.channels.total.toLocaleString()
-            return {
-                text: `#${index}/${AllEmotes.length} | ${Users + " Users"}`
+            if (message.senderUsername == await utils.PoroNumberOne()) {
+                return client.privmsg(message.channelName, `.me #${index}/${AllEmotes.length} | ${Users + " Users"}`)
+            } else {
+                return {
+                    text: `#${index}/${AllEmotes.length} | ${Users + " Users"}`
+                }
             }
     }
 }

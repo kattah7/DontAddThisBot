@@ -1,4 +1,5 @@
 const got = require("got");
+const utils = require("../util/utils.js");
 
 module.exports = {
     name: "color",
@@ -11,7 +12,7 @@ module.exports = {
         console.log(userData)
         const color = userData.chatColor;
         if (color == null) {
-            if (message.senderUsername == process.env.NUMBER_ONE) {
+            if (message.senderUsername == await utils.PoroNumberOne()) {
                 return client.privmsg(message.channelName, `.me ${message.senderUsername}, ${targetUser} has never changed their name color WutFace`)
             }
             return {
@@ -20,7 +21,7 @@ module.exports = {
         } 
         const colorName = await got(`https://www.thecolorapi.com/id?hex=${color.replace('#', '')}`).json();
         console.log(colorName)
-        if (message.senderUsername == process.env.NUMBER_ONE) {
+        if (message.senderUsername == await utils.PoroNumberOne()) {
             return client.privmsg(message.channelName, `.me ${message.senderUsername}, ${color} (${colorName.name.value}) KappaPride`)
         } else {
             return {
