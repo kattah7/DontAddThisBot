@@ -253,18 +253,17 @@ const handleWSMsg = async (msg = {}, channel) => {
             await bot.Redis.set(`porofollow:${await utils.IDByLogin(msg.username)}`, Date.now(), 0);
         }
         if (lastUsage || channelData) {
-            if (new Date().getTime() - new Date(lastUsage).getTime() < 1000 * 60 * 1000000000000000 ) {
-                const ms = new Date(lastUsage).getTime() - new Date().getTime() + 1000 * 60 * 1000000000000000  ;
+            if (new Date().getTime() - new Date(lastUsage).getTime() < 1000 * 60 * 60 * 60 * 60 * 60) {
+                const ms = new Date(lastUsage).getTime() - new Date().getTime() + 1000 * 60 * 60 * 60 * 60 * 60;
                 client.say("dontaddthisbot", `nice try`)
             }
             
         } 
-        if (lastUsage || channelData) {
-        if (new Date().getTime() - new Date(lastUsage).getTime() > 1000 * 60 * 1000000000000000  ) {
+        
+        if (new Date().getTime() - new Date(lastUsage).getTime() > 1000 * 60 * 60 * 60 * 60 * 60) {
         await bot.DB.poroCount.updateOne({ id: await utils.IDByLogin(msg.username) }, { $set: { poroCount: channelData.poroCount + 100 } }, {multi: true} ).exec();
         client.say("dontaddthisbot", `@${msg.username} just followed !! kattahHappy +100 Poro Pts ${channelData.poroCount + 100} meat total!`)
         }
-    }
         
         
     }
