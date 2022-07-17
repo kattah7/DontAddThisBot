@@ -70,3 +70,8 @@ exports.PoroNumberOne = async() => {
             return xd.username
         }
 }
+
+exports.ParseUser = async (user) => {
+    const parsed = user.replace(/[@#,]/g, '') // Remove @, #, and ,
+    return parsed
+}

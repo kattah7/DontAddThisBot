@@ -1,7 +1,6 @@
 const humanizeDuration = require("../humanizeDuration");
 const got = require("got");
 const utils = require("../util/utils.js");
-const e = require("cors");
 
 module.exports = {
     name: "porocount",
@@ -12,7 +11,7 @@ module.exports = {
     execute: async(message, args, client) => {
         const targetUser = args[0]?.toLowerCase() ?? message.senderUsername
         const selfPoroData = await bot.DB.poroCount.findOne({ id: message.senderUserID }).exec();
-        const poroData = await bot.DB.poroCount.findOne({ username: targetUser.replace(/[#|@|,]/, '') }).exec();
+        const poroData = await bot.DB.poroCount.findOne({ username: await utils.ParseUser(targetUser) }).exec();
         const xd = args[0] || selfPoroData
         if (!xd) {
             if (message.senderUsername == await utils.PoroNumberOne()) {
@@ -34,7 +33,7 @@ module.exports = {
                 }
             }
         } else {
-            var reg = /^[a-z0-9_#@]+$/i;
+            var reg = /^[a-z0-9_#@,]+$/i;
             if (reg.test(args[0])) {
             if (!poroData) {
                 if (message.senderUsername == await utils.PoroNumberOne()) {
