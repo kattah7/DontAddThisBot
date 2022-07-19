@@ -10,6 +10,9 @@ module.exports = {
     poro: true,
     execute: async(message, args, client) => {
         const {banned, banphrase_data} = await got.post(`https://forsen.tv/api/v1/banphrases/test `, {json: {'message': args[0] || message.senderUsername}}).json();
+        const banned2 = await utils.Nymn(args[0] || message.senderUsername)
+        console.log(banned, await utils.Nymn(args[0] || message.senderUsername))
+        if (banned2 == false) {
         if (banned == false) {
         if (!args[0]) { // if no user is provided
             if (message.senderUsername == await utils.PoroNumberOne()) {
@@ -166,12 +169,18 @@ module.exports = {
     }
 } else if (banned == true) {
     if (message.senderUsername == await utils.PoroNumberOne()) {
-        client.privmsg(message.channelName, `.me Ban phrase ${banphrase_data.id} detected.`)
+        client.privmsg(message.channelName, `.me Ban phrase detected.`)
     } else {
-        client.say(message.channelName, `Ban phrase ${banphrase_data.id} detected.`)
+        client.say(message.channelName, `Ban phrase detected.`)
     }
 }
-
+        } else if (banned2 == true) {
+            if (message.senderUsername == await utils.PoroNumberOne()) {
+                client.privmsg(message.channelName, `.me Ban phrase detected.`)
+            } else {
+                client.say(message.channelName, `Ban phrase detected.`)
+            }
+        }
 
 
 
