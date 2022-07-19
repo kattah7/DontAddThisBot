@@ -7,7 +7,6 @@ module.exports = {
     name: "remove",
     description: "Remove 7tv emote from channel",
     cooldown: 3000,
-    level: 2,
     execute: async(message, args, client) => {
         if (!args[0]) {
             if (message.senderUsername == await utils.PoroNumberOne()) {

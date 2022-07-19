@@ -8,7 +8,6 @@ module.exports = {
     name: "add",
     description: "Add 7tv emote from channel",
     cooldown: 3000,
-    level: 2,
     execute: async(message, args, client) => {
         if (!args[0]) {
             if (message.senderUsername == await utils.PoroNumberOne()) {
@@ -47,8 +46,9 @@ module.exports = {
             
             const matcher="https://7tv.app/emotes/"
             const [url] = args;
-            if (url.startsWith(matcher)) {
-                const linkEmote = url.slice(matcher.length)
+            if (/https:\/\/(next\.)?7tv\.app\/emotes\/\w{24}/g.test(url)) {
+                const linkEmote = /https:\/\/(next\.)?7tv\.app\/emotes\/(\w{24})/.exec(url)
+                console.log(linkEmote)
                 const xd = await api.fetchUser(`${message.channelName}`);
                 const { body: poggers } = await got.post(`https://7tv.io/v3/gql`, {
                     throwHttpErrors: false,
@@ -62,17 +62,17 @@ module.exports = {
                 "query": "mutation ChangeEmoteInSet($id: ObjectID!, $action: ListItemAction!, $emote_id: ObjectID!, $name: String) {\n  emoteSet(id: $id) {\n    id\n    emotes(id: $emote_id, action: $action, name: $name) {\n      id\n      name\n      __typename\n    }\n    __typename\n  }\n}",
                 "variables": {
                     "action": "ADD",
-                    "emote_id": linkEmote,
+                    "emote_id": linkEmote[2],
                             "id": xd.id,
                 },
                 "type": "connection_init"
             }
         })
         if (message.senderUsername == await utils.PoroNumberOne()) {
-            return client.privmsg(message.channelName, `.me Added ${await utils.IDtoEmote(linkEmote)} to chat`)
+            return client.privmsg(message.channelName, `.me Added ${await utils.IDtoEmote(linkEmote[2])} to chat`)
         } else {
             return {
-                text: `Added ${await utils.IDtoEmote(linkEmote)} to chat`
+                text: `Added ${await utils.IDtoEmote(linkEmote[2])} to chat`
             }
         }
                 
