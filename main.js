@@ -220,7 +220,7 @@ const main = async () => {
     const channels = await bot.DB.channels.find({}).exec();
     for (const channel of channels) {
         try {
-            await client.join(channel.username);
+            await client.joinAll(channels);
         } catch (err) {
             console.error(`Failed to join channel ${channel.username}`, err);
         }
