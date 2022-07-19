@@ -12,7 +12,7 @@ module.exports = {
                 kek = kek + 1
 
                 console.log(`hello world, ${kek}`)
-            }, 1000);
+            }, 60000);
         };
         
         sendNotification();

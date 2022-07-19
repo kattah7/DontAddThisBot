@@ -216,7 +216,7 @@ const getChannel = async function (channel) {
 
 
 const main = async () => {
-    await client.join("dontaddthisbot");
+    await client.join("dontaddthisbot")
     const channels = await bot.DB.channels.find({}).exec();
     for (const channel of channels) {
         try {
