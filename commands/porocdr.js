@@ -16,8 +16,8 @@ module.exports = {
         if (banned2 == false) {
         if (banned == false) {
             if (lastUsage && channelData) {
-                if (new Date().getTime() - new Date(lastUsage).getTime() < 1000 * 60 * 1) {
-                    const ms = new Date(lastUsage).getTime() - new Date().getTime() + 1000 * 60 * 1;
+                if (new Date().getTime() - new Date(lastUsage).getTime() < 1000 * 60 * 60 * 3) {
+                    const ms = new Date(lastUsage).getTime() - new Date().getTime() + 1000 * 60 * 60 * 3;
                     if (message.senderUsername == await utils.PoroNumberOne()) {
                         client.privmsg(message.channelName, `.me Please wait ${humanizeDuration(ms)} before doing another cooldown reset!`)
                         return
