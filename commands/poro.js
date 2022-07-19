@@ -27,6 +27,7 @@ module.exports = {
                     
                     await newChannel.save();
                     await bot.Redis.set(`poro:${message.senderUserID}`, Date.now(), 0);
+                    await bot.Redis.set(`porocdr:${message.senderUserID}`, Date.now(), 0);
         
                     return {
                         text: `New user! ${message.senderUsername} kattahDance2 here is free 10 poro meat 🥩`
