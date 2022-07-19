@@ -7,20 +7,12 @@ module.exports = {
     poro: true,
     description: 'Bot help',
     execute: async(message, args, client) => {
-        const {banned, banphrase_data} = await got.post(`https://forsen.tv/api/v1/banphrases/test `, {json: {'message': message.senderUsername}}).json();
-        console.log(banned, banphrase_data)
-        if (banned == false) {
             if (message.senderUsername == await utils.PoroNumberOne()) {
-                return client.privmsg(message.channelName, `.me ${message.senderUsername}, Check the bot's panels for more info kattahHappy`)
+                return client.privmsg(message.channelName, `.me Check the bot's panels for more info kattahHappy`)
             } else {
                 return {
-                    text: `${message.senderUsername}, Check the bot's panels for more info kattahHappy`
+                    text: `Check the bot's panels for more info kattahHappy`
                 }
             }
-        } else if (banned == true) {
-            return {
-                text: `banned msg lol`
-            }
-        }
     }
 }
