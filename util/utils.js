@@ -138,3 +138,25 @@ exports.AliasSTVEmote = async (emote, userID, name) => {
         })
         return poggers
 }
+
+exports.AddSTVEmote = async (emote, channel) => {
+    const { body: poggers2 } = await got.post(`https://7tv.io/v3/gql`, {
+                    throwHttpErrors: false,
+                    responseType: 'json',
+                    headers: {
+                    Authorization: process.env.STV_AUTH,
+                    },
+                    json: {
+                    "extensions": {},
+                    "operationName": "ChangeEmoteInSet",
+                    "query": "mutation ChangeEmoteInSet($id: ObjectID!, $action: ListItemAction!, $emote_id: ObjectID!, $name: String) {\n  emoteSet(id: $id) {\n    id\n    emotes(id: $emote_id, action: $action, name: $name) {\n      id\n      name\n      __typename\n    }\n    __typename\n  }\n}",
+                    "variables": {
+                    "action": "ADD",
+                    "emote_id": emote,
+                            "id": channel,
+                },
+                "type": "connection_init"
+            }
+        })
+        return poggers2
+}

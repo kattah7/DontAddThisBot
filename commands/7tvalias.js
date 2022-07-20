@@ -1,18 +1,17 @@
-
 const utils = require("../util/utils.js")
 
 module.exports = {
     name: "7tvalias",
     aliases: ["alias"],
     description: "Alias a 7tv emote",
-    cooldown: 1000,
+    cooldown: 3000,
     execute: async(message, args, client) => {
         if (!args[0]) {
             if (message.senderUsername == await utils.PoroNumberOne()) {
                 return client.privmsg(message.channelName, `.me Usage: |alias <emote> <name>`)
             } else {
                 return {
-                    text: "Usage: |alias <emote> <name>",
+                    text: "7tvM Usage: |alias <emote> <name>",
                 }
             }
         }
@@ -21,11 +20,22 @@ module.exports = {
                 return client.privmsg(message.channelName, `.me Usage: |alias <emote> <name>`)
             } else {
                 return {
-                    text: "Usage: |alias <emote> <name>",
+                    text: "7tvM Usage: |alias <emote> <name>",
                 }
             }
         }
+        if (!/^[a-z0-9_]+$/i.test(args[1])) {
+            return {
+                text: `⛔ ${args[1]} is not a valid alias...`
+            }
+        }
         const StvID = await utils.stvNameToID(message.channelName)
+        const isNull = await utils.StvChannelEmotes(StvID)
+        if (isNull.data == null) {
+            return {
+                text: `⛔ ${message.channelName} is not a valid channel...`,
+            }
+        }
         const StvID2 = await utils.stvNameToID(message.senderUsername)
         const Editors = (await utils.StvEditors(StvID)).data.user.editor_ids
         const isBotEditor = Editors.find((x) => x == "629d77a20e60c6d53da64e38") // DontAddThisBot's 7tv id
@@ -42,7 +52,7 @@ module.exports = {
                             return client.privmsg(message.channelName, `.me Emote "${args[1]}" already exists, therefore it cannot be aliased to "${args[1]}"`)
                         } else {
                             return {
-                                text: `Emote "${args[1]}" already exists, therefore it cannot be aliased to "${args[1]}"`,
+                                text: `⛔ Emote "${args[1]}" already exists, therefore it cannot be aliased to "${args[1]}"...`,
                             }
                         }
                     } else {
@@ -52,7 +62,7 @@ module.exports = {
                             return client.privmsg(message.channelName, `.me Emote "${args[0]}" has been successfully aliased to "${args[1]}"`)
                         } else {
                             return {
-                                text: `Emote "${args[0]}" has been successfully aliased to "${args[1]}"`,
+                                text: `7tvM Emote "${args[0]}" has been successfully aliased to "${args[1]}"`,
                             }
                         }
                     }
@@ -61,7 +71,7 @@ module.exports = {
                         return client.privmsg(message.channelName, `.me I could not find the emote "${args[0]}" in ${message.channelName}`)
                     } else {
                         return {
-                            text: `I could not find the emote "${args[0]}" in ${message.channelName}`
+                            text: `⛔ I could not find the emote "${args[0]}" in ${message.channelName}...`
                         }
                     }
                 }
@@ -70,7 +80,7 @@ module.exports = {
                     return client.privmsg(message.channelName, `.me You are not a 7tv editor`)
                 } else {
                     return {
-                        text: `You are not a 7tv editor`,
+                        text: `⛔ You are not a 7tv editor!`,
                     }
                 }
             }
