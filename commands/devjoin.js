@@ -1,3 +1,5 @@
+const utils = require("../util/utils.js")
+
 module.exports = {
     name: "botjoin",
     aliases: [],
@@ -28,6 +30,7 @@ module.exports = {
         // create the channel
         const newChannel = new bot.DB.channels({
             username: args[0].toLowerCase(),
+            id: await utils.IDByLogin(args[0].toLowerCase()),
             joinedAt: new Date(),
         });
 
