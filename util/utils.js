@@ -85,3 +85,56 @@ exports.Nymn = async (text) => {
     const {banned, banphrase_data} = await got.post(`https://nymn.pajbot.com/api/v1/banphrases/test `, {json: {'message': text }}).json();
     return banned
 }
+
+exports.StvEditors = async (user) => {
+    const { body: pogger, statusCode2 } = await got.post(`https://api.7tv.app/v2/gql`, { // find editors
+            throwHttpErrors: false,
+            responseType: 'json',
+            json: {
+                "query": "query GetUser($id: String!) {user(id: $id) {...FullUser,, banned, youtube_id}}fragment FullUser on User {id,email, display_name, login,description,role {id,name,position,color,allowed,denied},emote_aliases,emotes { id, name, status, visibility, width, height },owned_emotes { id, name, status, visibility, width, height },emote_ids,editor_ids,editors {id, display_name, login,role { id, name, position, color, allowed, denied },profile_image_url,emote_ids},editor_in {id, display_name, login,role { id, name, position, color, allowed, denied },profile_image_url,emote_ids},follower_count,broadcast {type,title,game_name,viewer_count,},twitch_id,broadcaster_type,profile_image_url,created_at,emote_slots,audit_entries {id,type,timestamp,action_user_id,action_user {id, display_name, login,role { id, name, position, color, allowed, denied },profile_image_url,emote_ids},changes {key, values},target {type,data,id},reason}}",
+                "variables": {
+                    "id": user
+                }
+            }
+        })
+        return pogger
+}
+
+exports.StvChannelEmotes = async (user) => {
+    const { body: STVEmotesInChannel, error } = await got.post(`https://7tv.io/v3/gql`, { // find emotes
+            throwHttpErrors: false,
+            responseType: 'json',
+            json: {
+                "operationName": "WatchEmoteSetMin",
+                "query": "subscription WatchEmoteSetMin($id: ObjectID!, $init: Boolean) {\n  emoteSet(id: $id, init: $init) {\n    id\n    name\n    capacity\n    emotes {\n      id\n      name\n      __typename\n    }\n    owner {\n      id\n      display_name\n      tag_color\n      avatar_url\n      __typename\n    }\n    __typename\n  }\n}",
+                "variables": {
+                    "id": user,
+                    init: true
+                }
+            }
+        })
+        return STVEmotesInChannel
+}
+
+exports.AliasSTVEmote = async (emote, userID, name) => {
+    const { body: poggers } = await got.post(`https://7tv.io/v3/gql`, {
+                throwHttpErrors: false,
+                responseType: 'json',
+                headers: {
+                Authorization: process.env.STV_AUTH,
+                },
+                json: {
+                "extensions": {},
+                "operationName": "ChangeEmoteInSet",
+                "query": "mutation ChangeEmoteInSet($id: ObjectID!, $action: ListItemAction!, $emote_id: ObjectID!, $name: String) {\n  emoteSet(id: $id) {\n    id\n    emotes(id: $emote_id, action: $action, name: $name) {\n      id\n      name\n      __typename\n    }\n    __typename\n  }\n}",
+                "variables": {
+                "action": "UPDATE",
+                "emote_id": emote,
+                "id": userID,
+                "name": name
+            },
+                "type": "connection_init"
+            }
+        })
+        return poggers
+}

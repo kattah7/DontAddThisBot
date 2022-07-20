@@ -17,7 +17,7 @@ module.exports = {
         throwHttpErrors: false,
         timeout: 10000,
     })
-    console.log(Subage.end_at)
+    //console.log(Subage.end_at)
     const ms = new Date().getTime() - Date.parse(Subage.end_at)
     const subDate = humanizeDuration(ms);
 

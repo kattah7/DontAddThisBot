@@ -1,6 +1,5 @@
 const got = require("got")
 const SevenTV = require("7tv");
-const { ConsoleMessage } = require("puppeteer");
 const api = SevenTV()
 const utils = require('../util/utils.js');
 
@@ -37,7 +36,7 @@ module.exports = {
                 return client.privmsg(message.channelName, `.me you already have that emote`)
             } else {
                 return {
-                    text: `you already have that emote`
+                    text: `${message.channelName} already has that emote`
                 }
             }
         } 
