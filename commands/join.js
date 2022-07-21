@@ -63,7 +63,7 @@ module.exports = {
         await newChannel.save();
 
         // return the response
-        client.say(message.senderUsername, `Joined channel, ${message.senderUsername} kattahSpin Also check @DontAddThisBot's panels for info!`);
+        client.say(message.senderUsername, `Joined channel, ${message.senderUsername} kattahSpin Also check @DontAddThisBot panels for info!`);
         await bot.DB.poroCount.updateOne({ id: message.senderUserID }, { $set: { poroCount: poroData.poroCount + 100 } } ).exec();
         return {
             text: `Joined channel, ${message.senderUsername} :) also i gave u free 100 poros!!`,
