@@ -12,12 +12,12 @@ module.exports = {
         const USERNAME = args[0] ?? message.senderUsername
         const prefix = args[0]
         const {banned, banphrase_data} = await got.post(`https://forsen.tv/api/v1/banphrases/test `, {json: {'message': USERNAME}}).json();
-        console.log(banned, banphrase_data)
+        const banned2 = await utils.Nymn(USERNAME)
+        console.log(banned2)
         let data = await got(`https://api.ivr.fi/twitch/subage/${USERNAME}/forsen`, { timeout: 10000}).json();
-        console.log(data)
 
         const followAge = new Date().getTime() - Date.parse(data.followedAt);
-
+        if (banned2 == false) {
             if (banned == false) {
                 if (data) {
                     if (data.followedAt == null) {
@@ -85,6 +85,11 @@ module.exports = {
                     text: `banned msg lol`
                 }
             }
+        } else if (banned2 == true) {
+            return {
+                text: `banned msg lol`
+            }
+        }
         
         
         
