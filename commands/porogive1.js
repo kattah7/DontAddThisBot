@@ -16,48 +16,48 @@ module.exports = {
         if (banned == false) {
         if (!args[0]) { // if no user is provided
             if (message.senderUsername == await utils.PoroNumberOne()) {
-                client.privmsg(message.channelName, `.me Please provide a user.`)
+                client.privmsg(message.channelName, `.me Please provide a user. PoroSad`)
             } else {
                 return {
-                    text: `Please provide a user.`,
+                    text: `Please provide a user. PoroSad`,
                 };
             }
         }
         if (!args[1]) { // if no amount is provided
             if (message.senderUsername == await utils.PoroNumberOne()) {
-                client.privmsg(message.channelName, `.me Please provide amount.`)
+                client.privmsg(message.channelName, `.me Please provide amount. PoroSad`)
             } else {
                 return {
-                    text: `Please provide amount.`,
+                    text: `Please provide amount. PoroSad`,
                 };
             }
         }
         if (isNaN(args[1]) || args[1].startsWith('-')) { // if amount is not a number
             if (message.senderUsername == await utils.PoroNumberOne()) {
-                client.privmsg(message.channelName, `.me Please provide a valid amount.`)
+                client.privmsg(message.channelName, `.me Please provide a valid amount. PoroSad`)
             } else {
                 return {
-                    text: `Please provide a valid amount.`,
+                    text: `Please provide a valid amount. PoroSad`,
                 };
             }
         }
         const recieverID = await utils.IDByLogin(args[0])
         if (!recieverID) { // if user not found on twitch
             if (message.senderUsername == await utils.PoroNumberOne()) {
-                client.privmsg(message.channelName, `.me User not found.`)
+                client.privmsg(message.channelName, `.me User not found. PoroSad`)
             } else {
                 return {
-                    text: `User not found.`,
+                    text: `User not found. PoroSad`,
                 };
             }
         }
         const channelData = await bot.DB.poroCount.findOne({ id: message.senderUserID }).exec(); // Gets channel data for senderID
         if (!channelData) { // if senderID data not found
             if (message.senderUsername == await utils.PoroNumberOne()) {
-                client.privmsg(message.channelName, `.me You aren't registered. PoroSad type |poro to get started`)
+                client.privmsg(message.channelName, `.me You aren't registered. PoroSad type |poro to get started kattahHappy`)
             } else {
                 return {
-                    text: `You aren't registered. PoroSad type |poro to get started`,
+                    text: `You aren't registered. PoroSad type |poro to get started kattahHappy`,
                 };
             }
         }
@@ -68,20 +68,20 @@ module.exports = {
         const timeLeft = humanizeDuration(diffTime - 604800000)
         if (diffDays < 7) { // if user has not joined for more than 7 days
             if (message.senderUsername == await utils.PoroNumberOne()) {
-                client.privmsg(message.channelName, `.me ${message.senderUsername}, You must be registered for ${timeLeft} to use this command.`)
+                client.privmsg(message.channelName, `.me ${message.senderUsername}, You must be registered for ${timeLeft} to use this command. kattahDespair`)
             } else {
                 return {
-                    text: `${message.senderUsername}, You must be registered for ${timeLeft} to use this command.`,
+                    text: `${message.senderUsername}, You must be registered for ${timeLeft} to use this command. kattahDespair`,
                 }
             }
         }
         const channelData2 = await bot.DB.poroCount.findOne({ id: recieverID }).exec(); // Gets channel data for poro reciever's ID
         if (!channelData2) { // if senderID has no channel data
             if (message.senderUsername == await utils.PoroNumberOne()) {
-                client.privmsg(message.channelName, `.me ${args[0]} isnt registered.`)
+                client.privmsg(message.channelName, `.me ${args[0]} isnt registered. PoroSad`)
             } else {
                 return {
-                    text: `${args[0]} isnt registered.`,
+                    text: `${args[0]} isnt registered. PoroSad`,
                 };
             }
         }
@@ -91,10 +91,10 @@ module.exports = {
         const timeLeft2 = humanizeDuration(diffTime2 - 604800000)
         if (diffDays2 < 7) { // if user has not joined for more than 7 days
             if (message.senderUsername == await utils.PoroNumberOne()) {
-                client.privmsg(message.channelName, `.me ${message.senderUsername}, ${args[0]} must be registered for ${timeLeft2} to recieve`)
+                client.privmsg(message.channelName, `.me ${message.senderUsername}, ${args[0]} must be registered for ${timeLeft2} to recieve kattahDespair`)
             } else {
                 return {
-                    text: `${message.senderUsername}, ${args[0]} must be registered for ${timeLeft2} to recieve`,
+                    text: `${message.senderUsername}, ${args[0]} must be registered for ${timeLeft2} to recieve kattahDespair`,
                 }
             }
         }
@@ -141,30 +141,30 @@ module.exports = {
             }
         } else {
             if (message.senderUsername == await utils.PoroNumberOne()) {
-                client.privmsg(message.channelName, `.me ${message.senderUsername}, You must have more than 100 poros`)
+                client.privmsg(message.channelName, `.me ${message.senderUsername}, You must have more than 100 poros kattahDance`)
             } else {
-                client.say(message.channelName, `${message.senderUsername}, You must have more than 100 poros`)
+                client.say(message.channelName, `${message.senderUsername}, You must have more than 100 poros kattahDance`)
             }
         }
     } else {
         if (message.senderUsername == await utils.PoroNumberOne()) {
-            client.privmsg(message.channelName, `.me You dont have enough poro to give ${sendAmount} to ${args[0]}`)
+            client.privmsg(message.channelName, `.me You dont have enough poro to give ${sendAmount} to ${args[0]} kattahDespair`)
         } else {
-            client.say(message.channelName, `You dont have enough poro to give ${sendAmount} to ${args[0]}`);
+            client.say(message.channelName, `You dont have enough poro to give ${sendAmount} to ${args[0]} kattahDespair`);
         }
     }
     } else {
         if (message.senderUsername == await utils.PoroNumberOne()) {
-            client.privmsg(message.channelName, `.me ${message.senderUsername}, You can't give poro to yourself`)
+            client.privmsg(message.channelName, `.me ${message.senderUsername}, You can't give poro to yourself PoroSad`)
         } else {
-            client.say(message.channelName, `${message.senderUsername}, You can't give poro to yourself`)
+            client.say(message.channelName, `${message.senderUsername}, You can't give poro to yourself PoroSad`)
         }
     }
     } else {
         if (message.senderUsername == await utils.PoroNumberOne()) {
-            client.privmsg(message.channelName, `.me ${args[0]} is blacklisted`)
+            client.privmsg(message.channelName, `.me ${args[0]} is blacklisted PoroSad`)
         } else {
-            client.say(message.channelName, `${args[0]} is blacklisted`)
+            client.say(message.channelName, `${args[0]} is blacklisted PoroSad`)
         }
     }
 } else if (banned == true) {

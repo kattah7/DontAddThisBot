@@ -37,11 +37,11 @@ module.exports = {
                     if (new Date().getTime() - new Date(lastUsage).getTime() < 1000 * 60 * 60 * 2) {
                         const ms = new Date(lastUsage).getTime() - new Date().getTime() + 1000 * 60 * 60 * 2;
                             if (message.senderUsername == await utils.PoroNumberOne()) {
-                                       client.privmsg(message.channelName, `.me No poros found... 🎇 kattahBoom ${message.senderUsername} | [P:${channelData.poroPrestige}] ${channelData.poroCount.toLocaleString()} meat total! 🥩  | Come back later in ${humanizeDuration(ms)}. kattahDance`)
+                                       client.privmsg(message.channelName, `.me No poros found... 🎇 kattahDespair ${message.senderUsername} | [P:${channelData.poroPrestige}] ${channelData.poroCount.toLocaleString()} meat total! 🥩  | Come back later in ${humanizeDuration(ms)}. kattahDance`)
                                        return
                             } else {
                                 return {
-                                    text: `No poros found... 🎇 kattahBoom ${message.senderUsername} | [P:${channelData.poroPrestige}] ${channelData.poroCount.toLocaleString()} meat total! 🥩  | Come back later in ${humanizeDuration(ms)}. kattahDance`
+                                    text: `No poros found... 🎇 kattahDespair ${message.senderUsername} | [P:${channelData.poroPrestige}] ${channelData.poroCount.toLocaleString()} meat total! 🥩  | Come back later in ${humanizeDuration(ms)}. kattahDance`
                                 } 
                             }
                     }
@@ -85,7 +85,7 @@ module.exports = {
                     }
                 } else if (random == 0) {
                     if (message.senderUsername == await utils.PoroNumberOne()) {
-                        client.privmsg(message.channelName, `.me Poro gone! ${message.senderUsername} --> Poro ran away haHAA (±${random}) kattahHappy [P:${channelData.poroPrestige}] ${channelData.poroCount + random} meat total!`)
+                        client.privmsg(message.channelName, `.me Poro gone! ${message.senderUsername} --> Poro ran away haHAA (±${random}) kattahDespair [P:${channelData.poroPrestige}] ${channelData.poroCount + random} meat total!`)
                     } else {
                         return {
                             text: `Poro gone! ${message.senderUsername} --> Poro ran away haHAA (±${random}) kattahHappy [P:${channelData.poroPrestige}] ${channelData.poroCount + random} meat total!`

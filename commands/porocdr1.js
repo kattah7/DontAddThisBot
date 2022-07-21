@@ -19,11 +19,11 @@ module.exports = {
                 if (new Date().getTime() - new Date(lastUsage).getTime() < 1000 * 60 * 60 * 3) {
                     const ms = new Date(lastUsage).getTime() - new Date().getTime() + 1000 * 60 * 60 * 3;
                     if (message.senderUsername == await utils.PoroNumberOne()) {
-                        client.privmsg(message.channelName, `.me Please wait ${humanizeDuration(ms)} before doing another cooldown reset!`)
+                        client.privmsg(message.channelName, `.me Please wait ${humanizeDuration(ms)} before doing another cooldown reset! kattahDespair`)
                         return
                     } else {
                         return {
-                            text: `Please wait ${humanizeDuration(ms)} before doing another cooldown reset!`,
+                            text: `Please wait ${humanizeDuration(ms)} before doing another cooldown reset! kattahDespair`,
                         };
                     }
                 }
