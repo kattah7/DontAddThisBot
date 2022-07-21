@@ -40,9 +40,11 @@ module.exports = {
         const Editors = (await utils.StvEditors(StvID)).data.user.editor_ids
         const isBotEditor = Editors.find((x) => x == "629d77a20e60c6d53da64e38") // DontAddThisBot's 7tv id
         if (isBotEditor) {
-            const isSenderUserEditor = Editors.find((x) => x == StvID2)
+            const uid = await utils.IDByLogin(message.senderUsername);
+            const channel = await bot.DB.channels.findOne({ username: message.channelName }).exec();
+            const tc = channel.editors.find(badge => badge.id === uid);
             const ChannelOwnerEditor = message.senderUsername.toLowerCase() == message.channelName.toLowerCase()
-            if (isSenderUserEditor || ChannelOwnerEditor) {
+            if (tc || ChannelOwnerEditor) {
                 const channelEmotes = await utils.StvChannelEmotes(StvID)
                 const findEmote = channelEmotes.data.emoteSet.emotes.find((x) => x.name == args[0])
                 if (findEmote) {
@@ -80,7 +82,7 @@ module.exports = {
                     return client.privmsg(message.channelName, `.me You are not a 7tv editor`)
                 } else {
                     return {
-                        text: `⛔ You are not a 7tv editor!`,
+                        text: `⛔ You are not a editor in ${message.channelName}, ask the broadcaster to add you as an editor by typing <|editor add ${message.senderUsername}>`,
                     }
                 }
             }

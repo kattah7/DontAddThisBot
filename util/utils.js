@@ -160,3 +160,66 @@ exports.AddSTVEmote = async (emote, channel) => {
         })
         return poggers2
 }
+
+exports.RemoveSTVEmote = async (emote, channel) => {
+    const { body: poggers3 } = await got.post(`https://7tv.io/v3/gql`, { // remove emote
+                    throwHttpErrors: false,
+                    responseType: 'json',
+                    headers: {
+                    Authorization: process.env.STV_AUTH,
+                    },
+                    json: {
+                "extensions": {},
+                "operationName": "ChangeEmoteInSet",
+                "query": "mutation ChangeEmoteInSet($id: ObjectID!, $action: ListItemAction!, $emote_id: ObjectID!, $name: String) {\n  emoteSet(id: $id) {\n    id\n    emotes(id: $emote_id, action: $action, name: $name) {\n      id\n      name\n      __typename\n    }\n    __typename\n  }\n}",
+                "variables": {
+                    "action": "REMOVE",
+                    "emote_id": emote,
+                            "id": channel,
+                },
+                "type": "connection_init"
+            }
+        })
+        return poggers3
+    }
+
+exports.SearchSTVEmote = async (emote) => {
+    const { body: poggers4 } = await got.post(`https://7tv.io/v3/gql`, { // remove emote
+                    throwHttpErrors: false,
+                    responseType: 'json',
+                    headers: {
+                    Authorization: process.env.STV_AUTH,
+                    },
+                    json: {
+                        "variables": {
+                          "query": emote,
+                          "limit": 300,
+                        },
+                        "extensions": {},
+                        "operationName": "SearchEmotes",
+                        "query": "query SearchEmotes($query: String!, $page: Int, $limit: Int) {\n  emotes(query: $query, page: $page, limit: $limit) {\n    count\n    items {\n      id\n      name\n      listed\n      owner {\n        id\n        username\n        display_name\n        tag_color\n        __typename\n      }\n      flags\n      images {\n        name\n        format\n        url\n        width\n        height\n        __typename\n      }\n      __typename\n    }\n    __typename\n  }\n}"
+                      }
+        })
+        return poggers4
+    }
+
+exports.StvEmoteIDToEmoteName = async (emoteID) => {
+    const { body: poggers5 } = await got.post(`https://7tv.io/v3/gql`, { // remove emote
+                    throwHttpErrors: false,
+                    responseType: 'json',
+                    headers: {
+                    Authorization: process.env.STV_AUTH,
+                    },
+                    json: {
+                        "variables": {
+                          "id": emoteID
+                        },
+                        "extensions": {},
+                        "operationName": "Emote",
+                        "query": "query Emote($id: ObjectID!) {\n  emote(id: $id) {\n    id\n    created_at\n    name\n    lifecycle\n    owner {\n      id\n      username\n      display_name\n      avatar_url\n      tag_color\n      __typename\n    }\n    flags\n    versions {\n      id\n      name\n      description\n      created_at\n      lifecycle\n      images {\n        name\n        format\n        url\n        width\n        height\n        __typename\n      }\n      __typename\n    }\n    animated\n    __typename\n  }\n}"
+                      }
+        })
+        return poggers5
+    }
+
+
