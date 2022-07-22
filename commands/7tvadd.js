@@ -182,6 +182,9 @@ module.exports = {
                                 } 
                             } 
                         } else {
+                            const xddddd =await utils.StvChannelEmotes(StvID)
+                            //console.log(xddddd)
+                            const availableEmotes = xddddd.data.emoteSet.emotes.length
                             if (availableEmotes == xddddd.data.emoteSet.capacity) {
                                 return {
                                     text: `⛔ ${message.channelName}'s emote slots is full`,
