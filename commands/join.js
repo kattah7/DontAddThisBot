@@ -29,7 +29,7 @@ module.exports = {
             // save the channel
             await newChannel.save();
 
-            client.say(message.senderUsername, `Joined channel, ${message.senderUsername} kattahSpin`);
+            client.say(message.senderUsername, `Joined channel, ${message.senderUsername} kattahSpin Also check @DontAddThisBot panels for info!`);
             return {
                 text: `Joined channel, ${message.senderUsername} :)`,
             }
