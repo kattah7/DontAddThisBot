@@ -25,6 +25,15 @@ module.exports = {
                 };
             }
         }
+        if (args[0] == message.channelName) {
+            if (message.senderUsername == await utils.PoroNumberOne()) {
+                return client.privmsg(message.channelName, `.me You can't add yourself to the editor list!`)
+            } else {
+                return {
+                    text: "You can't add yourself to the editor list!",
+                };
+            }
+        }
         const uid = await utils.IDByLogin(await utils.ParseUser(args[1].toLowerCase()));
         if (uid == null) {
             if (message.senderUsername == await utils.PoroNumberOne()) {
