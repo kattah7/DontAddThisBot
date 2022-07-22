@@ -52,7 +52,9 @@
     "reconnecting-websocket": "^4.4.0",
     "redis": "^4.1.0",
     "request": "^2.88.2",
+    "scramjet": "^4.36.7",
     "tinify": "^1.6.1",
-    "twitter-api-v2": "^1.12.0"
+    "twitter-api-v2": "^1.12.0",
+    "yahoo-stock-api": "^1.1.10"
   }
 }

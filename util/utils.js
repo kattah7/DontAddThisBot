@@ -222,4 +222,17 @@ exports.StvEmoteIDToEmoteName = async (emoteID) => {
         return poggers5
     }
 
+exports.Invest = async (symbol) => {
+    const { body : rawData } = await got.get('https://www.alphavantage.co/query', {
+            throwHttpErrors: false,
+            responseType: 'json',
+            searchParams: {
+				function: "GLOBAL_QUOTE",
+				symbol: symbol,
+				apikey: process.env.STOCK_API_KEY
+			}
+        })
+        return rawData['Global Quote']['10. change percent'].replace(/[-%]/g, '')
+    }
+
 

@@ -26,7 +26,7 @@ for (let file of readdirSync(`./commands/`).filter((file) => file.endsWith(".js"
 client.on("ready", () => {
     console.log("Connected to chat!");
     pubsub.init()
-    nodeCron.schedule("0 0-22/2 * * *<", () => {
+    nodeCron.schedule("*/121 * * * *", () => {
         client.say("kattah", "!cookie");
     });
     
