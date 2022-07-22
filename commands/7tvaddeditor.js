@@ -25,7 +25,7 @@ module.exports = {
                 };
             }
         }
-        if (args[0] == message.channelName) {
+        if (args[1] == message.channelName) {
             if (message.senderUsername == await utils.PoroNumberOne()) {
                 return client.privmsg(message.channelName, `.me You can't add yourself to the editor list!`)
             } else {
