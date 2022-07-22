@@ -182,9 +182,16 @@ module.exports = {
                                 } 
                             } 
                         } else {
-                            await utils.AddSTVEmote(searchEmotes.data.emotes.items[0].id, StvID)
-                            return {
-                                text: `7tvM Couldn't find "${args[0]}" in search results, therefore added an emote "${searchEmotes.data.emotes.items[0].name}" related to "${args[0]}"`,
+                            if (availableEmotes == xddddd.data.emoteSet.capacity) {
+                                return {
+                                    text: `⛔ ${message.channelName}'s emote slots is full`,
+                                }
+                            } else {
+                                await utils.AddSTVEmote(searchEmotes.data.emotes.items[0].id, StvID)
+                                return {
+                                    text: `7tvM Couldn't find "${args[0]}" in search results, therefore added an emote "${searchEmotes.data.emotes.items[0].name}" related to "${args[0]}"`,
+                                }
+                            
                             }
                         }
                     }
