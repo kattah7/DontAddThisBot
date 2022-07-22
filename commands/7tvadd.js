@@ -58,8 +58,15 @@ module.exports = {
                                     }
                                 }
                             }
-                            await utils.AddSTVEmote(findEmoteInChannel2.id, StvID)
-                            const KEKG = await utils.IDtoEmote(findEmoteInChannel2.id)
+                            const xddddd =await utils.StvChannelEmotes(StvID)
+                            const availableEmotes = xddddd.data.emoteSet.emotes.length
+                            if (availableEmotes == xddddd.data.emoteSet.capacity) {
+                                return {
+                                    text: `⛔ ${message.channelName}'s emote slots is full`,
+                                }
+                            } else {
+                                await utils.AddSTVEmote(findEmoteInChannel2.id, StvID)
+                                const KEKG = await utils.IDtoEmote(findEmoteInChannel2.id)
                             if (KEKG != args[0]) {
                                 await utils.AliasSTVEmote(findEmoteInChannel2.id, StvID, args[0])
                                 if (message.senderUsername == await utils.PoroNumberOne()) {
@@ -69,12 +76,13 @@ module.exports = {
                                         text: `7tvM Successfully added "${args[0]}" to ${message.channelName} from ${args[1]} & auto-aliased to "${args[0]}"`,
                                     }
                                 }
-                            }
-                            if (message.senderUsername == await utils.PoroNumberOne()) {
+                                }
+                                if (message.senderUsername == await utils.PoroNumberOne()) {
                                 return client.privmsg(message.channelName, `.me 7tvM Successfully added "${args[0]}" to ${message.channelName} from ${args[1]}`)
-                            } else {
+                                } else {
                                 return {
                                     text: `7tvM Successfully added "${args[0]}" to ${message.channelName} from ${args[1]}`,
+                                }
                                 }
                             }
                         } else {
@@ -122,6 +130,13 @@ module.exports = {
                             }
                         }
                     }
+                    const xddddd =await utils.StvChannelEmotes(StvID)
+                    const availableEmotes = xddddd.data.emoteSet.emotes.length
+                    if (availableEmotes == xddddd.data.emoteSet.capacity) {
+                        return {
+                            text: `⛔ ${message.channelName}'s emote slots is full`,
+                        }
+                    } else {
                     //console.log(emoteName)
                     await utils.AddSTVEmote(linkEmote[2], StvID)
                     if (message.senderUsername == await utils.PoroNumberOne()) {
@@ -131,6 +146,7 @@ module.exports = {
                             text: `7tvM Successfully added emote "${emoteName.data.emote.name}" to ${message.channelName}`,
                         }
                     }
+                        }
                     }
                     const searchEmotes = await utils.SearchSTVEmote(args[0])
                     //console.log(searchEmotes.data.emotes.items)
@@ -147,14 +163,24 @@ module.exports = {
                         const findThatEmote = searchEmotes.data.emotes.items.find(emote => emote.name === args[0]);
                         //console.log(findThatEmote)
                         if (findThatEmote) {
-                            await utils.AddSTVEmote(findThatEmote.id, StvID)
-                            if (message.senderUsername == await utils.PoroNumberOne()) {
-                                return client.privmsg(message.channelName, `.me 7tvM Successfully added emote "${args[0]}" to ${message.channelName}`)
-                            } else {
+                            const xddddd =await utils.StvChannelEmotes(StvID)
+                            //console.log(xddddd)
+                            const availableEmotes = xddddd.data.emoteSet.emotes.length
+                            //console.log(availableEmotes)
+                            if (availableEmotes == xddddd.data.emoteSet.capacity) {
                                 return {
-                                    text: `7tvM Successfully added emote "${args[0]}" to ${message.channelName}`,
+                                    text: `⛔ ${message.channelName}'s emote slots is full`,
                                 }
-                            }
+                            } else {
+                                await utils.AddSTVEmote(findThatEmote.id, StvID)
+                                if (message.senderUsername == await utils.PoroNumberOne()) {
+                                    return client.privmsg(message.channelName, `.me 7tvM Successfully added emote "${args[0]}" to ${message.channelName}`)
+                                } else {
+                                    return {
+                                        text: `7tvM Successfully added emote "${args[0]}" to ${message.channelName}`,
+                                    }
+                                } 
+                            } 
                         } else {
                             await utils.AddSTVEmote(searchEmotes.data.emotes.items[0].id, StvID)
                             return {

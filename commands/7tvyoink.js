@@ -54,7 +54,14 @@ module.exports = {
                         }
                     }
                 } else {
-                    const KEKG = await utils.IDtoEmote(findEmote.id)
+                    const xddddd =await utils.StvChannelEmotes(StvID2)
+                    const availableEmotes = xddddd.data.emoteSet.emotes.length
+                    if (availableEmotes == xddddd.data.emoteSet.capacity) {
+                        return {
+                            text: `⛔ ${message.senderUsername}'s emote slots is full`,
+                            }
+                    } else {
+                        const KEKG = await utils.IDtoEmote(findEmote.id)
                     await utils.AddSTVEmote(findEmote.id, StvID2)
                     if (KEKG != args[0]) {
                         await utils.AliasSTVEmote(findEmote.id, StvID2, args[0])
@@ -72,6 +79,7 @@ module.exports = {
                         return {
                             text: `7tvM Yoinked ${args[0]} into ${message.senderUsername}'s channel!`,
                         }
+                    }
                     }
                 }
             } else {
