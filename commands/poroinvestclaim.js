@@ -7,7 +7,7 @@ module.exports = {
     cooldown: 10000,
     execute: async(message, args, client) => {
         var today = new Date().getHours()
-        if (today >= 7 && today <= 20) { // The NYSE is open from Monday through Friday 9:30 a.m. to 4:00 p.m. NY Time. 
+        if (today >= 1 && today <= 23) { // The NYSE is open from Monday through Friday 9:30 a.m. to 4:00 p.m. NY Time. 
             const investPoro = await bot.DB.poroCount.findOne({ id: message.senderUserID }).exec();
             const isInvesting = investPoro.invest.find(badge => badge.id === message.senderUserID);
             if (isInvesting) {

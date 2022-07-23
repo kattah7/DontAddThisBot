@@ -7,7 +7,7 @@ module.exports = {
     cooldown: 10000,
     execute: async(message, args, client) => {
         var today = new Date().getHours()
-        if (today >= 7 && today <= 20) { // The NYSE is open from Monday through Friday 9:30 a.m. to 4:00 p.m. NY Time. 
+        if (today >= 1 && today <= 23) { // The NYSE is open from Monday through Friday 9:30 a.m. to 4:00 p.m. NY Time. 
             // BUT since this isnt real money, we are gonna include the weekends too
             // The bot will use UTC time, so we need to convert to New York Time
             // UTC is 4 hours ahead of New York Time, so we need to plus 4 hours of 9:30AM to 4:00PM
