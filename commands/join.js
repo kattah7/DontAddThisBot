@@ -1,5 +1,3 @@
-const { poro } = require("./pororank");
-
 module.exports = {
     name: "join",
     aliases: [],

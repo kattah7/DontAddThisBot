@@ -223,16 +223,10 @@ exports.StvEmoteIDToEmoteName = async (emoteID) => {
     }
 
 exports.Invest = async (symbol) => {
-    const { body : rawData } = await got.get('https://www.alphavantage.co/query', {
-            throwHttpErrors: false,
-            responseType: 'json',
-            searchParams: {
-				function: "GLOBAL_QUOTE",
-				symbol: symbol,
-				apikey: process.env.STOCK_API_KEY
-			}
-        })
-        return rawData['Global Quote']['10. change percent'].replace(/[-%]/g, '')
+    const res = await got(`https://finnhub.io/api/v1/quote?symbol=${symbol}&token=${process.env.FINNHUB_API_KEY}`).catch(e=>console.log(e)); 
+    if (!res) return null
+    const data = JSON.parse(res.body);
+        return data
     }
 
 
