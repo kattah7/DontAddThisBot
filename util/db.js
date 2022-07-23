@@ -27,7 +27,6 @@ const PoroSchema = new DB.Schema({
     joinedAt: Date,
     poroCount: Number,
     poroPrestige: Number,
-    invest: [{ username: String, id: String, stock: String, amount: String, investedAt: Date }],
 });
 
 const UserSchema = new DB.Schema({
