@@ -1,6 +1,6 @@
-const humanizeDuration = require("../humanizeDuration");
 const got = require("got");
 const utils = require("../util/utils.js");
+const humanizeDuration = require("../humanizeDuration");
 
 module.exports = {
     name: "ping",
@@ -17,10 +17,10 @@ module.exports = {
 
         if (banned == false) {
             if (message.senderUsername == await utils.PoroNumberOne()) {
-                client.privmsg(message.channelName, `.me ${message.senderUsername}, TriHard 🏓 BOT UPTIME: ${humanizeDuration(process.uptime() * 1000 )} | Channels: ${poroData} | Seen Users: ${poroData2}`)
+                client.privmsg(message.channelName, `.me ${message.senderUsername}, TriHard 🏓 BOT UPTIME: ${humanizeDuration(process.uptime() * 1000)} | Channels: ${poroData} | Seen Users: ${poroData2}`)
             } else {
                 return {
-                    text: `${message.senderUsername}, TriHard 🏓 BOT UPTIME: ${humanizeDuration(process.uptime() * 1000 )} | Channels: ${poroData} | Seen Users: ${poroData2}`,
+                    text: `${message.senderUsername}, TriHard 🏓 BOT UPTIME: ${humanizeDuration(process.uptime() * 1000)} | Channels: ${poroData} | Seen Users: ${poroData2}`,
                 }; 
             } 
         } else if (banned == true) {
