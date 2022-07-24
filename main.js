@@ -2,8 +2,8 @@ require("dotenv").config();
 const nodeCron = require("node-cron");
 const { readdirSync } = require("fs");
 const { channel } = require("diagnostics_channel");
-const { client } = require('./util/connections.js')
-const pubsub = require('./util/pubSub.js')
+const { client } = require('./util/connections.js');
+const pubsub = require('./util/pubSub.js');
 const got = require("got");
 
 global.bot = {};
@@ -25,7 +25,7 @@ for (let file of readdirSync(`./commands/`).filter((file) => file.endsWith(".js"
 
 client.on("ready", () => {
     console.log("Connected to chat!");
-    pubsub.init()
+    pubsub.init();
     nodeCron.schedule("*/121 * * * *", () => {
         client.say("kattah", "!cookie");
     });
@@ -70,15 +70,14 @@ client.on("PRIVMSG", async (message) => {
         }
         
         if (message.senderUserID == 790623318 && message.messageText.startsWith("pokimane")) { // uid to username is datb
-            client.say("kattah", `pokimane`)
+            client.say("kattah", `pokimane`);
         }
         if (message.messageText.startsWith("|massbotping")) {
-            const xd = "' = ? * # > ! $ + | % ^ - < # @ & * ( ) [ ] { } , . / ~ `; bb"; 
-            for (const lol of xd.split(" ")) 
-            { client.say("kattah", `${lol}ping`) };
+            const xd = "' = ? * # > ! $ + | % ^ - < # @ & * ( ) [ ] { } , . / ~ ` ; bb"; 
+            for (const lol of xd.split(" ")) { client.say("kattah", `${lol}ping`); };
         }
-        if (message.senderUserID == 180382257&&message.messageText.startsWith("to")) {
-                client.say("kattah", `to`)
+        if (message.senderUserID == 180382257 && message.messageText.startsWith("to")) {
+            client.say("kattah", `to`);
         }
     }
 
@@ -97,58 +96,30 @@ client.on("PRIVMSG", async (message) => {
         if (command) {
             if (command.cooldown) {
                 const poroData = await bot.DB.poroCount.find({}).exec();
-
                 const sorted = poroData.sort((a, b) => b.poroPrestige - a.poroPrestige || b.poroCount - a.poroCount);
+                const top10 = sorted.slice(0, 10);
+                const indexed = top10.map((user, index) => ({ name: user.username, position: index + 1 })); // start at 1
+                const userPosition = indexed.find(user => user.name === message.senderUsername)?.position;
 
-                const top1 = sorted.slice(0, 1);
-                const top2 = sorted.slice(1, 2);
-                const top3 = sorted.slice(2, 3);
-                const top4 = sorted.slice(3, 4);
-                const top5 = sorted.slice(4, 5);
-                const top6 = sorted.slice(5, 6);
-                const top7 = sorted.slice(6, 7);
-                const top8 = sorted.slice(7, 8);
-                const top9 = sorted.slice(8, 9);
-                const top10 = sorted.slice(9, 10);
-
-                const num1 = top1.map((user) => `${user.username}`)
-                const num2 = top2.map((user) => `${user.username}`)
-                const num3 = top3.map((user) => `${user.username}`)
-                const num4 = top4.map((user) => `${user.username}`)
-                const num5 = top5.map((user) => `${user.username}`)
-                const num6 = top6.map((user) => `${user.username}`)
-                const num7 = top7.map((user) => `${user.username}`)
-                const num8 = top8.map((user) => `${user.username}`)
-                const num9 = top9.map((user) => `${user.username}`)
-                const num10 = top10.map((user) => `${user.username}`)
                 if (userdata.level == 3 || userdata.level == 2) {
                     if (cooldown.has(`${command.name}${message.senderUserID}`)) return;
                     cooldown.set(`${command.name}${message.senderUserID}`, Date.now() + 10);
                     setTimeout(() => {
                         cooldown.delete(`${command.name}${message.senderUserID}`);
                     }, 10);
-                } else if (message.senderUsername == num1 || 
-                    message.senderUsername == num2 || 
-                    message.senderUsername == num3 || 
-                    message.senderUsername == num4 || 
-                    message.senderUsername == num5 || 
-                    message.senderUsername == num6 ||
-                    message.senderUsername == num7 ||
-                    message.senderUsername == num8 ||
-                    message.senderUsername == num9 ||
-                    message.senderUsername == num10){
+                } else if (userPosition <= 10) { // users position is within the range of 10
                     if (cooldown.has(`${command.name}${message.senderUserID}`)) return;
                     cooldown.set(`${command.name}${message.senderUserID}`, Date.now() + 3000);
                     setTimeout(() => {
                         cooldown.delete(`${command.name}${message.senderUserID}`);
                     }, 3000);
-                } else {
+                } else { // user is not in top 10
                     if (cooldown.has(`${command.name}${message.senderUserID}`)) return;
                     cooldown.set(`${command.name}${message.senderUserID}`, Date.now() + command.cooldown);
                     setTimeout(() => {
                         cooldown.delete(`${command.name}${message.senderUserID}`);
                     }, command.cooldown);
-                 }
+                }
             }
             if (command.permission) {
                 if (command.permission == 1 && !message.isMod && message.channelName !== message.senderUsername) {
@@ -164,28 +135,28 @@ client.on("PRIVMSG", async (message) => {
                 }
             }
             if (channelData.poroOnly && !command.poro) {
-                return
+                return;
             }
     
             if (channelData.offlineOnly && !command.offline) {
                 const { data } = await got(`https://api.twitch.tv/helix/streams?user_login=${message.channelName}`, {
-                headers: {
-                "Client-ID": process.env.CLIENT_ID,
-                Authorization: `Bearer ${process.env.ACCESS_TOKEN}`,
-                },
+                    headers: {
+                        "Client-ID": process.env.CLIENT_ID,
+                        Authorization: `Bearer ${process.env.ACCESS_TOKEN}`,
+                    },
                 }).json();
-                console.log(data)
-                var xd = true
-                if (data[0]==undefined){
+                console.log(data);
+                var xd = true;
+                if (data[0] == undefined) {
                     
                 } else if (data[0].type == 'live') {
-                    return
+                    return;
                 }
             }
 
             if (command.numberone) {
                 if (command.numberone == message.senderUsername == 'kattah') {
-                    return client.say(message.channelName, 'xd')
+                    return client.say(message.channelName, 'xd');
                 }
             }
             const response = await command.execute(message, args, client, userdata);
@@ -219,7 +190,7 @@ const main = async () => {
     const channels = await bot.DB.channels.find({}).exec();
     for (const channel of channels) {
         try {
-            client.join(channel.username) ;
+            client.join(channel.username);
         } catch (err) {
             console.error(`Failed to join channel ${channel.username}`, err);
         }
