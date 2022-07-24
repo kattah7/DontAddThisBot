@@ -64,10 +64,10 @@ module.exports = {
             }
         } else {
             if (message.senderUsername == await utils.PoroNumberOne()) {
-                return client.privmsg(message.channelName, `.me Please grant @DontAddThisBot as a editor :)`)
+                return client.privmsg(message.channelName, `.me Please grant @DontAddThisBot as a editor on 7TV 7tvM`)
             } else {
                 return {
-                    text: `Please grant @DontAddThisBot as a editor :)`
+                    text: `Please grant @DontAddThisBot as a editor on 7TV 7tvM`
                 }
             }
         }
