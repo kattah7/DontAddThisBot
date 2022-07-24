@@ -26,10 +26,9 @@ for (let file of readdirSync(`./commands/`).filter((file) => file.endsWith(".js"
 client.on("ready", () => {
     console.log("Connected to chat!");
     pubsub.init();
-    nodeCron.schedule("*/121 * * * *", () => {
+    nodeCron.schedule("5 */2 * * *", () => { // every 2 hours at :05
         client.say("kattah", "!cookie");
     });
-    
 });
 
 client.on("close", (err) => {
@@ -61,19 +60,19 @@ client.on("PRIVMSG", async (message) => {
     }
     if (message.channelName == 'kattah') {
         if (message.senderUserID == 162760707 && message.messageText.includes("why")) {
-            await client.say("kattah", "why not"); 
+            await client.say("kattah", "why not");
         } else if (message.senderUserID == 162760707 && message.messageText) {
             await client.say("kattah", `"${message.messageText.replace(/[#|@|'|+|$|!|?|||*|^|%|>|=|-]/, '')}" AYAYA`);
         }
         if (message.senderUserID == 632146121 && message.messageText.startsWith("anakarolinne Reminder to eat your cookie nymnOkay")) {
             await client.say("kattah", "anakarolinne Reminder to eat your cookie nymnOkay");
         }
-        
+
         if (message.senderUserID == 790623318 && message.messageText.startsWith("pokimane")) { // uid to username is datb
             client.say("kattah", `pokimane`);
         }
         if (message.messageText.startsWith("|massbotping")) {
-            const xd = "' = ? * # > ! $ + | % ^ - < # @ & * ( ) [ ] { } , . / ~ ` ; bb"; 
+            const xd = "' = ? * # > ! $ + | % ^ - < # @ & * ( ) [ ] { } , . / ~ ` ; bb";
             for (const lol of xd.split(" ")) { client.say("kattah", `${lol}ping`); };
         }
         if (message.senderUserID == 180382257 && message.messageText.startsWith("to")) {
@@ -137,7 +136,7 @@ client.on("PRIVMSG", async (message) => {
             if (channelData.poroOnly && !command.poro) {
                 return;
             }
-    
+
             if (channelData.offlineOnly && !command.offline) {
                 const { data } = await got(`https://api.twitch.tv/helix/streams?user_login=${message.channelName}`, {
                     headers: {
@@ -148,7 +147,7 @@ client.on("PRIVMSG", async (message) => {
                 console.log(data);
                 var xd = true;
                 if (data[0] == undefined) {
-                    
+
                 } else if (data[0].type == 'live') {
                     return;
                 }
