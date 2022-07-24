@@ -134,6 +134,7 @@ exports.init = async () => {
     // Streamers
     const channels = await bot.DB.channels.find({}).exec();
     listen([{ login: 'xqc', id: '71092938' }], ['video-playback-by-id', 'broadcast-settings-update'])
+    listen([{ login: 'georgy177', id: '135075027' }], ['video-playback-by-id', 'broadcast-settings-update'])
     listen([{ login: 'pokimane', id: '44445592' }], ['video-playback-by-id', 'broadcast-settings-update'])
     listen([{ login: 'kattah', id: '137199626' }], ['video-playback-by-id', 'broadcast-settings-update', 'community-points-channel-v1', 'raid', 'polls'])
     listen([{ login: 'forsen', id: '22484632' }], ['video-playback-by-id', 'broadcast-settings-update'])
@@ -274,12 +275,14 @@ const handleWSMsg = async (msg = {}, channel) => {
          
         case 'stream-up': {
             if (msg.channelID === '71092938') return annouceNoti(`${await utils.loginByID(msg.channelID)} just went live! gn`)
+            if (msg.channelID === '135075027') return annouceNoti(`${await utils.loginByID(msg.channelID)} just went live! ppPoof`)
             annouceNoti(`${await utils.loginByID(msg.channelID)} went live!`)
             break;
         }
 
         case 'stream-down': {
             if (msg.channelID === '71092938') return annouceNoti(`${await utils.loginByID(msg.channelID)} went offline! gm`)
+            if (msg.channelID === '71092938') return annouceNoti(`${await utils.loginByID(msg.channelID)} went offline! UwUDespair`)
             annouceNoti(`${await utils.loginByID(msg.channelID)} went offline!`)
             break;
         }
