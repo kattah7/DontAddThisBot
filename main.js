@@ -62,7 +62,7 @@ client.on("PRIVMSG", async (message) => {
         if (message.senderUserID == 162760707 && message.messageText.includes("why")) {
             await client.say("kattah", "why not");
         } else if (message.senderUserID == 162760707 && message.messageText) {
-            await client.say("kattah", `"${message.messageText.replace(/[#|@|'|+|$|!|?|||*|^|%|>|=|-]/, '')}" AYAYA`);
+            await client.say("kattah", `"${message.messageText.replace(/[|#@'+$!?*^%>=-]/, '')}" AYAYA`);
         }
         if (message.senderUserID == 632146121 && message.messageText.startsWith("anakarolinne Reminder to eat your cookie nymnOkay")) {
             await client.say("kattah", "anakarolinne Reminder to eat your cookie nymnOkay");
