@@ -7,6 +7,7 @@ module.exports = {
     cooldown: 3000,
     permission: 1,
     aliases: ['ann'],
+    botPerms: 'mod',
     async execute(message, args) {
         if (args[0] == '.me') {
             return {

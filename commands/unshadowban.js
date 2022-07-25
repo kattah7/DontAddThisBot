@@ -7,6 +7,7 @@ module.exports = {
     cooldown: 1500,
     permission: 1,
     aliases: [],
+    botPerms: 'mod',
     async execute(message, args, client) {
         if (!args[0]) {
             if (message.senderUsername == await utils.PoroNumberOne()) {

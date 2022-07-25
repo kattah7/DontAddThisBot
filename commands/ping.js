@@ -20,8 +20,8 @@ module.exports = {
                 client.privmsg(message.channelName, `.me ${message.senderUsername}, TriHard 🏓 BOT UPTIME: ${humanizeDuration(process.uptime() * 1000)} | Channels: ${poroData} | Seen Users: ${poroData2}`)
             } else {
                 return {
-                    text: `${message.senderUsername}, TriHard 🏓 BOT UPTIME: ${humanizeDuration(process.uptime() * 1000)} | Channels: ${poroData} | Seen Users: ${poroData2}`,
-                }; 
+                    text: `${message.senderUsername}, TriHard 🏓 BOT UPTIME: ${humanizeDuration(process.uptime() * 1000)} | Channels: ${poroData} | Seen Users: ${poroData2}`
+                }
             } 
         } else if (banned == true) {
             return {

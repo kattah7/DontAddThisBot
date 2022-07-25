@@ -6,6 +6,7 @@ module.exports = {
     cooldown: 5000,
     permission: 1, //1 = mod, 2 = broadcaster
     description:"Spams message in chat",
+    botPerms: "vip",
     execute: async (message, args, client) => {
     if (!regex.racism.test(args.join(" "))) {
         if (args.length < 2) return { text: "Usage: |spam 3 xd" };

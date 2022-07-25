@@ -4,6 +4,7 @@ const { readdirSync } = require("fs");
 const { channel } = require("diagnostics_channel");
 const { client } = require('./util/connections.js');
 const pubsub = require('./util/pubSub.js');
+const utils = require("./util/utils.js");
 const got = require("got");
 
 global.bot = {};
@@ -133,6 +134,18 @@ client.on("PRIVMSG", async (message) => {
                     return client.say(message.channelName, `${message.senderUsername}, you don't have permission to use this command. (${bot.Utils.misc.levels[command.level]})`);
                 }
             }
+
+            if (command.botPerms) {
+                const displayNamekek = await utils.displayName("dontaddthisbot")
+                if (command.botPerms == "mod" && !(await client.getMods(message.channelName)).find(mod => mod == "dontaddthisbot")) {
+                    return client.say(message.channelName, "This command requires the bot to be modded.");
+                } else if (command.botPerms == "vip" && !(await client.getVips(message.channelName)).find(vip => vip == displayNamekek)) { // vips use displayname
+                    return client.say(message.channelName, "This command requires the bot to be VIP'd.");                                  // and since the bot has a feature to change display names
+                }                                                                                                                             // this my only option
+            }
+
+            
+
             if (channelData.poroOnly && !command.poro) {
                 return;
             }
