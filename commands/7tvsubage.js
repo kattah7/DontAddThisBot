@@ -23,7 +23,7 @@ module.exports = {
 
     if (Subage.status_code == 404) {
         return {
-            text: `7tvM ${pronouns} sub is currently not active`,
+            text: `7tvM ${pronouns} sub is currently not active!`,
         }
     }
     if (Subage.status_code == 400) {
