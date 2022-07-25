@@ -1,11 +1,11 @@
-const utils = require("../util/utils.js")
+const utils = require('../util/utils.js');
 
 module.exports = {
-    name: "botjoin",
+    name: 'botjoin',
     aliases: [],
     cooldown: 3000,
     level: 3,
-    description: "Join channel command",
+    description: 'Join channel command',
     execute: async (message, args, client) => {
         // try to get the channel from the database
         const channelData = await bot.DB.channels.findOne({ username: args[0].toLowerCase() }).exec();
@@ -23,7 +23,7 @@ module.exports = {
         } catch (err) {
             console.log(err);
             return {
-                text: "Failed to join channel PoroSad",
+                text: 'Failed to join channel PoroSad',
             };
         }
 
