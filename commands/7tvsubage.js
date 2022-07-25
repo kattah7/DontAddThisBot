@@ -32,7 +32,7 @@ module.exports = {
         }
     }
     if (Subage.statuscode !== 404 || 400) {
-        const renew = (Subage.renew == true) ? "renews" : "ending"
+        const renew = (Subage.renew == true) ? "renews" : "is ending"
         return {
             text: `7tvM ${pronouns} sub ${renew} in ${subDate}`,
         }
