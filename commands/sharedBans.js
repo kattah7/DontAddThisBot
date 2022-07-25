@@ -34,6 +34,11 @@ module.exports = {
         })
         const shared = pogger[0].data.channel.bansSharingRelationships.acceptedRequests
         console.log(pogger[0].data.channel.bansSharingRelationships)
+        if (shared == null) {
+            return {
+                text: `${targetUser} has no shared bans`,
+            }
+        }
         if (shared.length == 0) {
             return {
                 text: `${targetUser} has no shared bans`,
