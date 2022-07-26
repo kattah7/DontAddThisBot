@@ -4,7 +4,7 @@ module.exports = {
     name: 'remove',
     cooldown: 5000,
     aliases: ['7tvremove'],
-    description: 'Remove a 7tv emote',
+    description: '|remove <main/emote set name> <emote>',
     execute: async(message, args, client) => {
         if (!args[0]) {
             return {
@@ -44,7 +44,7 @@ module.exports = {
                     if (isChannelEmotesFullInSet) {
                         const isThatEmoteInChat = isChannelEmotesFullInSet.emotes.find(emote => emote.name === args[1]);
                         if (isThatEmoteInChat) {
-                            console.log(isThatEmoteInChat.id, isChannelEmotesFullInSet)
+                            //console.log(isThatEmoteInChat.id, isChannelEmotesFullInSet)
                             await utils.RemoveSTVEmote(isThatEmoteInChat.id, isChannelEmotesFullInSet.id)
                             return {
                                 text: `7tvM Successfully removed "${args[1]}" from ${args[0]}`

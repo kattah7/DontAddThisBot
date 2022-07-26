@@ -2,7 +2,7 @@ const utils = require('../util/utils.js');
 
 module.exports = {
     name: 'add',
-    description: 'Usage: |add <username>',
+    description: 'Usage: |add <main/emote set name> <emote> <channel if you want>',
     aliases: ["7tvadd"],
     cooldown: 3000,
     execute: async (message, args, client) => {
