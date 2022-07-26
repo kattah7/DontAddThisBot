@@ -1,7 +1,7 @@
 const utils = require('../util/utils.js');
 
 module.exports = {
-    name: 'removev2',
+    name: 'remove',
     cooldown: 5000,
     aliases: ['7tvremove'],
     description: 'Remove a 7tv emote',
