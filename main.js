@@ -4,6 +4,7 @@ const { readdirSync } = require("fs");
 const { channel } = require("diagnostics_channel");
 const { client } = require('./util/connections.js');
 const pubsub = require('./util/pubSub.js');
+const sevenTV = require('./util/sevenTVevents.js');
 const utils = require("./util/utils.js");
 const got = require("got");
 
@@ -27,6 +28,7 @@ for (let file of readdirSync(`./commands/`).filter((file) => file.endsWith(".js"
 client.on("ready", () => {
     console.log("Connected to chat!");
     pubsub.init();
+    sevenTV.init()
     nodeCron.schedule("5 */2 * * *", () => { // every 2 hours at :05
         client.say("kattah", "!cookie");
     });
