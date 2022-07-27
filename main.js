@@ -141,7 +141,7 @@ client.on("PRIVMSG", async (message) => {
                 const displayNamekek = await utils.displayName("dontaddthisbot")
                 if (command.botPerms == "mod" && !(await client.getMods(message.channelName)).find(mod => mod == "dontaddthisbot")) {
                     return client.say(message.channelName, "This command requires the bot to be modded.");
-                } else if (command.botPerms == "vip" && !(await client.getVips(message.channelName)).find(vip => vip == displayNamekek)) { // vips use displayname
+                }else if (command.botPerms == "vip" && !(await client.getVips(message.channelName)).find(vip => vip == displayNamekek) && !(await client.getMods(message.channelName)).find(mod => mod == "dontaddthisbot")) { // vips use displayname
                     return client.say(message.channelName, "This command requires the bot to be VIP'd.");                                  // and since the bot has a feature to change display names
                 }                                                                                                                             // this my only option
             }
