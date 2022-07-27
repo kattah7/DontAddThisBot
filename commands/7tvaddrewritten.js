@@ -1,9 +1,9 @@
 const utils = require('../util/utils.js');
 
 module.exports = {
-    name: 'add',
+    name: 'addset',
     description: 'Usage: |add <main/emote set name> <emote> <channel if you want>',
-    aliases: ["7tvadd"],
+    aliases: [],
     cooldown: 3000,
     execute: async (message, args, client) => {
         if (!args[0]) {

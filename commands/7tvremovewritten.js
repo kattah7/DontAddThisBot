@@ -1,9 +1,9 @@
 const utils = require('../util/utils.js');
 
 module.exports = {
-    name: 'remove',
+    name: 'removeset',
     cooldown: 5000,
-    aliases: ['7tvremove'],
+    aliases: [],
     description: '|remove <main/emote set name> <emote>',
     execute: async(message, args, client) => {
         if (!args[0]) {
