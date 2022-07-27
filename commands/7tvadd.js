@@ -25,12 +25,11 @@ module.exports = {
                 };
             }
         }
-        const Editors = (await utils.StvEditors(StvID)).data.user.editor_ids;
-        const isBotEditor = Editors.find((x) => x == '629d77a20e60c6d53da64e38'); // DontAddThisBot's 7tv id
+        const Editors = await utils.VThreeEditors(StvID)
+        const isBotEditor = Editors.find((x) => x.user.id == '629d77a20e60c6d53da64e38'); // DontAddThisBot's 7tv id
         if (isBotEditor) {
-            const uid = await utils.IDByLogin(message.senderUsername);
             const channel = await bot.DB.channels.findOne({ username: message.channelName }).exec();
-            const tc = channel.editors.find((badge) => badge.id === uid);
+            const tc = channel.editors.find((badge) => badge.id === message.senderUserID);
             const ChannelOwnerEditor = message.senderUsername.toLowerCase() == message.channelName.toLowerCase();
             if (tc || ChannelOwnerEditor) {
                 if (args[1]) {

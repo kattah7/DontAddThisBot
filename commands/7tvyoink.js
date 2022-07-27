@@ -37,8 +37,8 @@ module.exports = {
             }
         }
         const StvID2 = await utils.stvNameToID(message.senderUsername)
-        const Editors = (await utils.StvEditors(StvID2)).data.user.editor_ids
-        const isBotEditor = Editors.find((x) => x == "629d77a20e60c6d53da64e38") // DontAddThisBot's 7tv id
+        const Editors = await utils.VThreeEditors(StvID2)
+        const isBotEditor = Editors.find((x) => x.user.id == "629d77a20e60c6d53da64e38") // DontAddThisBot's 7tv id
         if (isBotEditor) {
             const channelEmotes = await utils.StvChannelEmotes(StvID)
             const findEmote = channelEmotes.data.emoteSet.emotes.find((x) => x.name == args[0])
