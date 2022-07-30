@@ -25,7 +25,7 @@ module.exports = {
                         operationName: "ViewerCardModLogsMessagesBySender",
                         variables: {
                             senderID: userid,
-                            channelLogin: message.channelName,
+                            channelLogin: args[1],
                             cursor,
                         },
                         extensions: {
@@ -45,7 +45,8 @@ module.exports = {
                 const msg = messages.slice(-1)[0].node
                     const tmiData = []
                     for (const xd of messages) {
-                        const text = xd.node.content.text
+                        const text = xd.node.content?.text
+                        if (!text) { continue }
                         const tags = {
                             id: xd.node.id,
                             badges: xd.node.sender.displayBadges.map(b => `${b.setID}/${b.version}`).join(),
@@ -54,10 +55,11 @@ module.exports = {
                             'rm-received-ts': Date.parse(xd.node.sentAt)
                         }
                         const rawTags = Object.entries(tags).map(([k, v]) => `${k}=${v}`).join(';')
-                        tmiData.push(`@${rawTags} :${xd.node.sender.login} PRIVMSG #${message.channelName} :${text}`)
+                        tmiData.push(`@${rawTags} :${xd.node.sender.login} PRIVMSG #${args[1]} :${text}`)
+                        const paste = await got.post('https://paste.ivr.fi/documents', { body: tmiData.reverse().join('\n') }).json()
+                        client.say(message.channelName, `${user} has sent ${total} messages. Their first message in this channel was ${xd.node.sentAt.split("T")[0]} ago: "${xd.node.content.text}" More info => https://logs.raccatta.cc/?url=https://paste.ivr.fi/raw/${paste.key}?reverse`);
                     }
-                    const paste = await got.post('https://paste.ivr.fi/documents', { body: tmiData.reverse().join('\n') }).json()
-                    client.say(message.channelName, `${user} has sent ${total} messages. Their first message in this channel was ${msg.sentAt.split("T")[0]} ago: "${msg.content.text}" More info => https://logs.raccatta.cc/?url=https://paste.ivr.fi/raw/${paste.key}?reverse`);
+                    
             } else if (messages.slice(-1).pop().cursor) {
                 fetchMessages(messages.slice(-1).pop().cursor);
             } 
