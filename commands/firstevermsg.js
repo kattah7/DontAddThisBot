@@ -38,13 +38,20 @@ module.exports = {
                 ]),
             });
 
-            console.log(JSON.parse(body)[0].data.channel.modLogs.messagesBySender.edges);
+            //console.log(JSON.parse(body)[0].data.channel.modLogs.messagesBySender.edges);
             const messages = JSON.parse(body)[0].data.channel.modLogs.messagesBySender.edges;
             total += messages.length;
             if (messages.length !== 50) {
-                const msg = messages.slice(-1)[0].node;
-                console.log(msg);
-                client.say(message.channelName, `${user} has sent ${total} messages. Their first message in this channel was ${msg.sentAt.split("T")[0]} ago: "${msg.content.text}"`);
+                //const msg = messages.slice(-1)[0].node;
+                const mapped = messages.map(x => x.node.content.text + " (" + x.node.sentAt + ")");
+                console.log(mapped)
+                const { key } = await got
+                .post(`https://haste.fuchsty.com/documents`, {
+                    responseType: "json",
+                    body: mapped.join("\n"),
+                })
+                .json();
+                client.say(message.channelName, `https://haste.fuchsty.com/${key}.txt`);
             }
             if (messages.slice(-1).pop().cursor) {
                 fetchMessages(messages.slice(-1).pop().cursor);
