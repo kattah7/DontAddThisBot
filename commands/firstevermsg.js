@@ -9,7 +9,7 @@ module.exports = {
     botPerms: "mod",
     level: 3,
     execute: async (message, args, client) => {
-        const user = args[0] ?? message.senderUsername;
+        const user = await utils.ParseUser(args[0] ?? message.senderUsername);
         const userid = await utils.IDByLogin(user);
 
         let total = 0;
@@ -38,23 +38,29 @@ module.exports = {
                 ]),
             });
 
-            //console.log(JSON.parse(body)[0].data.channel.modLogs.messagesBySender.edges);
-            const messages = JSON.parse(body)[0].data.channel.modLogs.messagesBySender.edges;
+            console.log(JSON.parse(body)[0].data.channel.modLogs.messagesBySender.edges);
+            const messages = JSON.parse(body)[0].data.channel.modLogs.messagesBySender.edges
             total += messages.length;
             if (messages.length !== 50) {
-                //const msg = messages.slice(-1)[0].node;
-                const mapped = (messages.map(x => x.node.content.text + " (" + x.node.sentAt + ")" +  " | " + x.node.id )).reverse();
-                console.log(mapped)
-                const { key } = await got
-                .post(`https://haste.fuchsty.com/documents`, {
-                    responseType: "json",
-                    body: mapped.join("\n"),
-                })
-                .json();
-                client.say(message.channelName, `https://haste.fuchsty.com/${key}.txt`);
+                const msg = messages.slice(-1)[0].node
+                    const tmiData = []
+                    for (const xd of messages) {
+                        const text = xd.node.content.text
+                        const tags = {
+                            id: xd.node.id,
+                            badges: xd.node.sender.displayBadges.map(b => `${b.setID}/${b.version}`).join(),
+                            color: xd.node.sender.chatColor,
+                            'display-name': xd.node.sender.displayName,
+                            'rm-received-ts': Date.parse(xd.node.sentAt)
+                        }
+                        const rawTags = Object.entries(tags).map(([k, v]) => `${k}=${v}`).join(';')
+                        tmiData.push(`@${rawTags} :${xd.node.sender.login} PRIVMSG #${message.channelName} :${text}`)
+                    }
+                    const paste = await got.post('https://paste.ivr.fi/documents', { body: tmiData.reverse().join('\n') }).json()
+                    client.say(message.channelName, `${user} has sent ${total} messages. Their first message in this channel was ${msg.sentAt.split("T")[0]} ago: "${msg.content.text}" More info => https://logs.raccatta.cc/?url=https://paste.ivr.fi/raw/${paste.key}?reverse`);
             } else if (messages.slice(-1).pop().cursor) {
                 fetchMessages(messages.slice(-1).pop().cursor);
-            }
+            } 
         };
 
         fetchMessages();
