@@ -43,7 +43,7 @@ module.exports = {
             total += messages.length;
             if (messages.length !== 50) {
                 //const msg = messages.slice(-1)[0].node;
-                const mapped = messages.map(x => x.node.content.text + " (" + x.node.sentAt + ")");
+                const mapped = (messages.map(x => x.node.content.text + " (" + x.node.sentAt + ")" +  " | " + x.node.id )).reverse();
                 console.log(mapped)
                 const { key } = await got
                 .post(`https://haste.fuchsty.com/documents`, {
@@ -52,8 +52,7 @@ module.exports = {
                 })
                 .json();
                 client.say(message.channelName, `https://haste.fuchsty.com/${key}.txt`);
-            }
-            if (messages.slice(-1).pop().cursor) {
+            } else if (messages.slice(-1).pop().cursor) {
                 fetchMessages(messages.slice(-1).pop().cursor);
             }
         };
