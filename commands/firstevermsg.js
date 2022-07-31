@@ -2,6 +2,21 @@ const got = require("got");
 const utils = require("../util/utils.js");
 const humanizeDuration = require("../humanizeDuration");
 
+const ulength = (text) => {
+    let n = 0;
+    for (let i = 0; i < text.length; i++) {
+        const cur = text.charCodeAt(i);
+        if (cur >= 0xD800 && cur <= 0xDBFF) {
+            const next = text.charCodeAt(i + 1);
+            // Skip second char in surrogate pair
+            if (next >= 0xDC00 && next <= 0xDFFF)
+                i++;
+        }
+        n++;
+    }
+    return n;
+}
+
 module.exports = {
     name: "fetchfirstmessage",
     aliases: ["ffm"],
@@ -47,10 +62,19 @@ module.exports = {
                     for (const xd of messages) {
                         const text = xd.node.content?.text
                         if (!text) { continue }
+                        let emotes = []
+
+                        let pos = 0
+                        for (f of xd.node.content.fragments) {
+                            const pos2 = pos + f.text.length - 1
+                            if (f.content?.emoteID) emotes.push(`${f.content.emoteID}:${pos}-${pos2}`)
+                            pos += ulength(f.text)
+                        }
                         const tags = {
                             id: xd.node.id,
                             badges: xd.node.sender.displayBadges.map(b => `${b.setID}/${b.version}`).join(),
                             color: xd.node.sender.chatColor,
+                            emotes: emotes.join('/'),
                             'display-name': xd.node.sender.displayName,
                             'rm-received-ts': Date.parse(xd.node.sentAt)
                         }
