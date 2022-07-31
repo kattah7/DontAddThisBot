@@ -56,9 +56,11 @@ module.exports = {
                         }
                         const rawTags = Object.entries(tags).map(([k, v]) => `${k}=${v}`).join(';')
                         tmiData.push(`@${rawTags} :${xd.node.sender.login} PRIVMSG #${message.channelName} :${text}`)
-                        const paste = await got.post('https://paste.ivr.fi/documents', { body: tmiData.reverse().join('\n') }).json()
-                        client.say(message.channelName, `${user} has sent ${total} messages. Their first message in this channel was ${xd.node.sentAt.split("T")[0]} ago: "${xd.node.content.text}" More info => https://logs.raccatta.cc/?url=https://paste.ivr.fi/raw/${paste.key}?reverse`);
                     }
+                    const paste = await got.post('https://paste.ivr.fi/documents', { body: tmiData.reverse().join('\n') }).json()
+                    const poggersxd = msg.sentAt ?? msg.timestamp
+                    const poggersKEKW = msg.action ?? msg.content.text
+                    await client.say(message.channelName, `${user} has sent ${total} messages. Their first message in this channel was ${poggersxd.split("T")[0]} ago: "${poggersKEKW}" More info => https://logs.raccatta.cc/?url=https://paste.ivr.fi/raw/${paste.key}?reverse`);
                     
             } else if (messages.slice(-1).pop().cursor) {
                 fetchMessages(messages.slice(-1).pop().cursor);
