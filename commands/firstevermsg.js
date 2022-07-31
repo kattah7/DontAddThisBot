@@ -93,7 +93,7 @@ module.exports = {
 
         fetchMessages();
         return {
-            text: `Fetching... ppCircle this will take a while`,
+            text: `Fetching... kattahSpin this will take a while`,
         };
     },
 };
