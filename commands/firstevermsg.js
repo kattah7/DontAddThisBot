@@ -1,6 +1,5 @@
 const got = require("got");
 const utils = require("../util/utils.js");
-const humanizeDuration = require("../humanizeDuration");
 
 const ulength = (text) => {
     let n = 0;
@@ -33,31 +32,29 @@ module.exports = {
                 headers: {
                     "Client-ID": process.env.CLIENT_ID_FOR_GQL,
                     Authorization: `OAuth ${process.env.TWITCH_GQL_OAUTH_KEKW}`,
-                    "Content-Type": "application/json",
                 },
-                body: JSON.stringify([
-                    {
-                        operationName: "ViewerCardModLogsMessagesBySender",
-                        variables: {
-                            senderID: userid,
-                            channelLogin: message.channelName,
-                            cursor,
-                        },
-                        extensions: {
-                            persistedQuery: {
-                                version: 1,
-                                sha256Hash: "437f209626e6536555a08930f910274528a8dea7e6ccfbef0ce76d6721c5d0e7",
-                            },
+                json: {
+                    operationName: "ViewerCardModLogsMessagesBySender",
+                    variables: {
+                        senderID: userid,
+                        channelLogin: message.channelName,
+                        cursor,
+                    },
+                    extensions: {
+                        persistedQuery: {
+                            version: 1,
+                            sha256Hash: "437f209626e6536555a08930f910274528a8dea7e6ccfbef0ce76d6721c5d0e7",
                         },
                     },
-                ]),
+                },
             });
 
-            console.log(JSON.parse(body)[0].data.channel.modLogs.messagesBySender.edges);
-            const messages = JSON.parse(body)[0].data.channel.modLogs.messagesBySender.edges
+            const messages = JSON.parse(body).data.channel.modLogs.messagesBySender.edges
             total += messages.length;
+            console.log(`Loaded ${messages.length}, Total: ${total}`)
+
+            const nextCursor = messages.slice(-1).pop().cursor
             if (messages.length !== 50) {
-                const msg = messages.slice(-1)[0].node
                 const tmiData = []
                 for (const xd of messages) {
                     const text = xd.node.content?.text
@@ -77,19 +74,22 @@ module.exports = {
                         color: xd.node.sender.chatColor,
                         emotes: emotes.join('/'),
                         'display-name': xd.node.sender.displayName,
-                        'rm-received-ts': Date.parse(xd.node.sentAt)
+                        'tmi-sent-ts': Date.parse(xd.node.sentAt)
                     }
 
                     const rawTags = Object.entries(tags).map(([k, v]) => `${k}=${v}`).join(';')
                     tmiData.push(`@${rawTags} :${xd.node.sender.login} PRIVMSG #${message.channelName} :${text}`)
                 }
-                const paste = await got.post('https://paste.ivr.fi/documents', { body: tmiData.reverse().join('\n') }).json()
-                const poggersxd = msg.sentAt ?? msg.timestamp
-                const poggersKEKW = msg.action ?? msg.content.text
-                await client.say(message.channelName, `${user} has sent ${total} messages. Their first message in this channel was ${poggersxd.split("T")[0]} ago: "${poggersKEKW}" More info => https://logs.raccatta.cc/?url=https://paste.ivr.fi/raw/${paste.key}?reverse`);
 
-            } else if (messages.slice(-1).pop().cursor) {
-                fetchMessages(messages.slice(-1).pop().cursor);
+                const paste = await got.post('https://paste.ivr.fi/documents', { body: tmiData.reverse().join('\n') }).json()
+                console.log(`Result: https://paste.ivr.fi/raw/${paste.key}`)
+
+                const msg = messages.slice(-1)[0].node
+                const timestamp = msg.sentAt ?? msg.timestamp
+                const text = msg.action ?? msg.content.text
+                await client.say(message.channelName, `${user} has sent ${total} messages. Their first message in this channel was ${timestamp.split("T")[0]} ago: "${text}" More info => https://logs.raccatta.cc/?url=https://paste.ivr.fi/raw/${paste.key}?reverse`);
+            } else if (nextCursor) {
+                fetchMessages(nextCursor);
             }
         };
 
