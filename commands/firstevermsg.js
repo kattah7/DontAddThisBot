@@ -58,37 +58,39 @@ module.exports = {
             total += messages.length;
             if (messages.length !== 50) {
                 const msg = messages.slice(-1)[0].node
-                    const tmiData = []
-                    for (const xd of messages) {
-                        const text = xd.node.content?.text
-                        if (!text) { continue }
-                        let emotes = []
+                const tmiData = []
+                for (const xd of messages) {
+                    const text = xd.node.content?.text
+                    if (!text) { continue }
 
-                        let pos = 0
-                        for (f of xd.node.content.fragments) {
-                            const pos2 = pos + f.text.length - 1
-                            if (f.content?.emoteID) emotes.push(`${f.content.emoteID}:${pos}-${pos2}`)
-                            pos += ulength(f.text)
-                        }
-                        const tags = {
-                            id: xd.node.id,
-                            badges: xd.node.sender.displayBadges.map(b => `${b.setID}/${b.version}`).join(),
-                            color: xd.node.sender.chatColor,
-                            emotes: emotes.join('/'),
-                            'display-name': xd.node.sender.displayName,
-                            'rm-received-ts': Date.parse(xd.node.sentAt)
-                        }
-                        const rawTags = Object.entries(tags).map(([k, v]) => `${k}=${v}`).join(';')
-                        tmiData.push(`@${rawTags} :${xd.node.sender.login} PRIVMSG #${message.channelName} :${text}`)
+                    let emotes = []
+                    let pos = 0
+                    for (f of xd.node.content.fragments) {
+                        const pos2 = pos + f.text.length - 1
+                        if (f.content?.emoteID) emotes.push(`${f.content.emoteID}:${pos}-${pos2}`)
+                        pos += ulength(f.text)
                     }
-                    const paste = await got.post('https://paste.ivr.fi/documents', { body: tmiData.reverse().join('\n') }).json()
-                    const poggersxd = msg.sentAt ?? msg.timestamp
-                    const poggersKEKW = msg.action ?? msg.content.text
-                    await client.say(message.channelName, `${user} has sent ${total} messages. Their first message in this channel was ${poggersxd.split("T")[0]} ago: "${poggersKEKW}" More info => https://logs.raccatta.cc/?url=https://paste.ivr.fi/raw/${paste.key}?reverse`);
-                    
+
+                    const tags = {
+                        id: xd.node.id,
+                        badges: xd.node.sender.displayBadges.map(b => `${b.setID}/${b.version}`).join(),
+                        color: xd.node.sender.chatColor,
+                        emotes: emotes.join('/'),
+                        'display-name': xd.node.sender.displayName,
+                        'rm-received-ts': Date.parse(xd.node.sentAt)
+                    }
+
+                    const rawTags = Object.entries(tags).map(([k, v]) => `${k}=${v}`).join(';')
+                    tmiData.push(`@${rawTags} :${xd.node.sender.login} PRIVMSG #${message.channelName} :${text}`)
+                }
+                const paste = await got.post('https://paste.ivr.fi/documents', { body: tmiData.reverse().join('\n') }).json()
+                const poggersxd = msg.sentAt ?? msg.timestamp
+                const poggersKEKW = msg.action ?? msg.content.text
+                await client.say(message.channelName, `${user} has sent ${total} messages. Their first message in this channel was ${poggersxd.split("T")[0]} ago: "${poggersKEKW}" More info => https://logs.raccatta.cc/?url=https://paste.ivr.fi/raw/${paste.key}?reverse`);
+
             } else if (messages.slice(-1).pop().cursor) {
                 fetchMessages(messages.slice(-1).pop().cursor);
-            } 
+            }
         };
 
         fetchMessages();
