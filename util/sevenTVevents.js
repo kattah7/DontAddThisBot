@@ -12,16 +12,20 @@ exports.init = async () => {
 
         this.sevenEvents.addEventListener("update", (e) => {
             const data = JSON.parse(e.data);
-            // This is a JSON payload matching the type for the specified event channel
-            if (data.action == 'ADD') {
-                console.log(`Added 7tv emote, ${data.name} by ${data.actor} in ${data.channel}`);
-            }
-            else if (data.action == 'REMOVE') {
-                console.log(`Removed 7tv + ${data.name} by ${data.actor} in ${data.channel}`);
-            } 
-            else if (data.action == 'UPDATE') {
-                console.log(`Updated 7tv emote, ${data.emote.name} to ${data.name} by ${data.actor} in ${data.channel}`);
-            }
+             switch (data.action) {
+                case "ADD": {
+                    console.log(`Added 7tv emote, ${data.name} by ${data.actor} in ${data.channel}`)
+                    break;
+                }
+                case "REMOVE": {
+                    console.log(`Removed 7tv + ${data.name} by ${data.actor} in ${data.channel}`);
+                    break;
+                }
+                case "UPDATE": {
+                    console.log(`Updated 7tv emote, ${data.emote.name} to ${data.name} by ${data.actor} in ${data.channel}`);
+                    break;
+                }
+             }
         }, false);
 
         this.sevenEvents.addEventListener("open", (e) => {
