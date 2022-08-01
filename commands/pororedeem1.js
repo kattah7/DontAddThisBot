@@ -19,7 +19,7 @@ module.exports = {
         const lastUsage = await bot.Redis.get(`pororedeem:${message.senderUserID}`);
         const channelData = await bot.DB.poroCount.findOne({ id: message.senderUserID }).exec();
         const input = args[0]
-        const availableBadges = ["YEAHBUT7TV"];
+        const availableBadges = ["okge"];
 
         if (message.channelName == "forsen") {
             if (await utils.ForsenTV(message.senderUsername)) {
