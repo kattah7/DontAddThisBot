@@ -38,7 +38,7 @@ module.exports = {
             },
             json: query,
         });
-        console.log(pogger[0]);
+        //console.log(pogger[0]);
         if (pogger[0].data) {
             if (pogger[0].data.user == null) {
                 if (message.senderUsername == (await utils.PoroNumberOne())) {

@@ -5,7 +5,6 @@ module.exports = {
     cooldown: 3000,
     level: 3,
     execute: async (message, args, client) => {
-        client.say(message.channelName, `This will take a bit... kattahSpin`);
         let { body: userData, statusCode } = await got(`https://api.twitchinsights.net/v1/bots/online`, {
             timeout: 30000,
             throwHttpErrors: true,
@@ -16,7 +15,7 @@ module.exports = {
             throwHttpErrors: false,
             responseType: 'json',
         });
-        console.log(userData, userData2);
+        //console.log(userData, userData2);
         if (!args[0]) {
             userData.bots[0].pop();
             userData.bots[1].pop();
@@ -73,7 +72,7 @@ module.exports = {
         }
         const { chatters } = await got(`https://tmi.twitch.tv/group/user/${args[0].toLowerCase()}/chatters`).json();
         const BRUH = chatters.viewers.length;
-        console.log(BRUH);
+        //console.log(BRUH);
         let xd = 0;
         let xd2 = 0;
 
@@ -89,7 +88,7 @@ module.exports = {
             if (userDatas.includes(args[0])) {
                 const rank = parseInt(userData.bots.findIndex((e) => e[0] === args[0].toLowerCase())) + 1 ?? 0;
                 userDatas.pop();
-                console.log(userDatas.length);
+                //console.log(userDatas.length);
                 return {
                     text: `#${rank}, @${userDatas.join(', ')}/${xd} Channels, Currently ${BRUH} users in viewerlist.`,
                 };

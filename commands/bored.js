@@ -14,7 +14,7 @@ module.exports = {
             throwHttpErrors: false,
             responseType: 'json',
         });
-        console.log(userData);
+        //console.log(userData);
 
         if (lastUsage) {
             if (new Date().getTime() - new Date(lastUsage).getTime() < 1000 * 60 * 60 * 12) {
