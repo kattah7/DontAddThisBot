@@ -1,48 +1,69 @@
-const EventSource = require("eventsource");
-
+const EventSource = require('eventsource');
 
 exports.init = async () => {
-    const channels = ["kattah"];
+    const channels = ['kattah'];
     this.sevenEvents = new EventSource(`https://events.7tv.app/v1/channel-emotes?channel=${channels}`);
 
-        this.sevenEvents.addEventListener("ready", (e) => {
+    this.sevenEvents.addEventListener(
+        'ready',
+        (e) => {
             // Should be "7tv-event-sub.v1" since this is the `v1` endpoint
-            console.log("Ready", e.data);
-        }, false);
+            console.log('Ready', e.data);
+        },
+        false
+    );
 
-        this.sevenEvents.addEventListener("update", (e) => {
+    this.sevenEvents.addEventListener(
+        'update',
+        (e) => {
             const data = JSON.parse(e.data);
-             switch (data.action) {
-                case "ADD": {
-                    console.log(`Added 7tv emote, ${data.name} by ${data.actor} in ${data.channel}`)
+            switch (data.action) {
+                case 'ADD': {
+                    console.log(`Added 7tv emote, ${data.name} by ${data.actor} in ${data.channel}`);
                     break;
                 }
-                case "REMOVE": {
+                case 'REMOVE': {
                     console.log(`Removed 7tv + ${data.name} by ${data.actor} in ${data.channel}`);
                     break;
                 }
-                case "UPDATE": {
-                    console.log(`Updated 7tv emote, ${data.emote.name} to ${data.name} by ${data.actor} in ${data.channel}`);
+                case 'UPDATE': {
+                    console.log(
+                        `Updated 7tv emote, ${data.emote.name} to ${data.name} by ${data.actor} in ${data.channel}`
+                    );
                     break;
                 }
-             }
-        }, false);
+            }
+        },
+        false
+    );
 
-        this.sevenEvents.addEventListener("open", (e) => {
+    this.sevenEvents.addEventListener(
+        'open',
+        (e) => {
             // Connection was opened.
-            console.log("Open", e.data);
-        }, false);
+            console.log('Open', e.data);
+        },
+        false
+    );
 
-        this.sevenEvents.addEventListener("error", (e) => {
+    this.sevenEvents.addEventListener(
+        'error',
+        (e) => {
             if (e.readyState === EventSource.CLOSED) {
                 // Connection was closed.
-                console.log("7TV Error", e);
+                console.log('7TV Error', e);
             }
-        }, false);
+        },
+        false
+    );
 
-        this.sevenEvents.addEventListener("heartbeat", (e) => {
+    this.sevenEvents.addEventListener(
+        'heartbeat',
+        (e) => {
             // Heartbeat received.
             lastHeartbeat = Date.now();
-            console.log("Heartbeat", e.data);
-        }, false);
-    }
+            //console.log("Heartbeat", e.data);
+        },
+        false
+    );
+};
