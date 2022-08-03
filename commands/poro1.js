@@ -28,6 +28,15 @@ module.exports = {
 
                     await newChannel.save();
                     await bot.Redis.set(`poro:${message.senderUserID}`, Date.now(), 0);
+                    const Info = await utils.IVR(message.senderUsername);
+                    await discord.NewPoro(
+                        Info.createdAt.split('T')[0],
+                        message.senderUserID,
+                        message.senderUsername,
+                        message.channelName,
+                        message.messageText,
+                        Info.logo
+                    );
 
                     return {
                         text: `New user! ${message.senderUsername} kattahDance2 here is free 10 poro meat 🥩`,
@@ -206,6 +215,15 @@ module.exports = {
 
                     await newChannel.save();
                     await bot.Redis.set(`poro:${message.senderUserID}`, Date.now(), 0);
+                    const Info = await utils.IVR(message.senderUsername);
+                    await discord.NewPoro(
+                        Info.createdAt.split('T')[0],
+                        message.senderUserID,
+                        message.senderUsername,
+                        message.channelName,
+                        message.messageText,
+                        Info.logo
+                    );
 
                     return {
                         text: `New user! ${message.senderUsername} kattahDance2 here is free 10 poro meat 🥩`,

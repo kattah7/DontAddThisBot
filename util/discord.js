@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 exports.NewPoro = async (AccAge, UID, username, channel, description, logo) => {
     const WebHook = `https://discord.com/api/webhooks/${process.env.PORO_DISCORD}`;
     const WebhookMsg = {
