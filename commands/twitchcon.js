@@ -37,7 +37,6 @@ module.exports = {
             },
             json: query,
         });
-        //console.log(pogger[0])
         if (pogger[0].data.activeTargetUser == null) {
             if (message.senderUsername == (await utils.PoroNumberOne())) {
                 client.privmsg(message.channelName, `.me ${targetUser} is not a valid username??`);
@@ -59,13 +58,13 @@ module.exports = {
                 };
             }
         }
-        const tc = pogger[0].data.channelViewer.earnedBadges.find((badge) => badge.setID === 'twitchconEU2022');
+        const tc = pogger[0].data.channelViewer.earnedBadges.find((badge) => badge.setID === 'twitchconNA2022');
         if (tc) {
             if (message.senderUsername == (await utils.PoroNumberOne())) {
-                client.privmsg(message.channelName, `.me ${targetUser} is going to TwitchCon 2022 Amsterdam! PogChamp`);
+                client.privmsg(message.channelName, `.me ${targetUser} is going to TwitchCon 2022 San Diego! PogChamp`);
             } else {
                 return {
-                    text: `${targetUser} is going to TwitchCon 2022 Amsterdam! PogChamp`,
+                    text: `${targetUser} is going to TwitchCon 2022 San Diego! PogChamp`,
                 };
             }
         } else {
