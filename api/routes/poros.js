@@ -1,13 +1,14 @@
-const express = require("express");
+const express = require('express');
 
 const router = express.Router();
 
-router.get("/lookup/:user", async (req, res) => {
+router.get('/lookup/:user', async (req, res) => {
     if (!req.params.user) {
-        return res.status(400).send("No user specified");
+        return res.status(400).send('No user specified');
     }
 
     const lastUsage = await bot.Redis.get(`poro:${req.params.user}`);
+    const ms = new Date(lastUsage).getTime() - new Date().getTime() + 1000 * 60 * 60 * 2;
 
     if (!lastUsage) {
         res.json({
@@ -16,7 +17,7 @@ router.get("/lookup/:user", async (req, res) => {
     } else {
         res.json({
             cooldown: true,
-            lastUsage: lastUsage,
+            lastUsage: ms,
         });
     }
 });
