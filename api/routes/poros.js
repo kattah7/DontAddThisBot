@@ -9,7 +9,6 @@ router.get('/lookup/:user', async (req, res) => {
     }
 
     const lastUsage = await bot.Redis.get(`poro:${req.params.user}`);
-    const ms = new Date(lastUsage).getTime() - new Date().getTime() + 1000 * 60 * 60 * 2;
 
     if (!lastUsage) {
         res.json({
@@ -18,7 +17,7 @@ router.get('/lookup/:user', async (req, res) => {
     } else {
         res.json({
             cooldown: true,
-            lastUsage: humanizeDuration(ms),
+            lastUsage: humanizeDuration(lastUsage),
         });
     }
 });
