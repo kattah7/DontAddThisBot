@@ -19,6 +19,7 @@ router.get('/lookup/:user', async (req, res) => {
             cooldown: true,
             lastUsage: timeLeft,
             kekw: lastUsage,
+            kekw2: new Date(),
         });
     } else {
         res.json({
