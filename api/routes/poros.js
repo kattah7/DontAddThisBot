@@ -1,6 +1,7 @@
 const express = require('express');
 
 const router = express.Router();
+const humanizeDuration = require('../../humanizeDuration');
 
 router.get('/lookup/:user', async (req, res) => {
     if (!req.params.user) {
@@ -17,7 +18,7 @@ router.get('/lookup/:user', async (req, res) => {
     } else {
         res.json({
             cooldown: true,
-            lastUsage: ms,
+            lastUsage: humanizeDuration(ms),
         });
     }
 });
