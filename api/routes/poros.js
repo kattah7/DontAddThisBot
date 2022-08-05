@@ -12,9 +12,10 @@ router.get('/lookup/:user', async (req, res) => {
 
     if (lastUsage) {
         const ms = new Date().getTime() + 1000 * 60 * 60 * 2 - new Date(lastUsage).getTime();
+        const divided = Math.abs(ms / 1000);
         res.json({
             cooldown: true,
-            ms: ms,
+            ms: divided,
         });
     } else {
         res.json({
