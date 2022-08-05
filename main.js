@@ -59,6 +59,24 @@ client.on('PRIVMSG', async (message) => {
 
     await userdata.save();
 
+    if (userdata.username !== message.senderUsername) {
+        await bot.DB.users
+            .updateOne({ id: message.senderUserID }, { $set: { username: message.senderUsername } })
+            .exec();
+        await bot.DB.users
+            .updateOne(
+                { id: message.senderUserID },
+                { $addToSet: { nameChanges: [{ username: message.senderUsername, changedAt: new Date() }] } }
+            )
+            .exec();
+        await bot.DB.poroCount
+            .updateOne({ id: message.senderUserID }, { $set: { username: message.senderUsername } })
+            .exec();
+        await bot.DB.channels
+            .updateOne({ id: message.senderUserID }, { $set: { username: message.senderUsername } })
+            .exec();
+    }
+
     if (userdata.level < 1) {
         return;
     }
