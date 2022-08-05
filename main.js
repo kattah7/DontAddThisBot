@@ -218,6 +218,7 @@ const getChannel = async function (channel) {
 };
 
 const main = async () => {
+    await newChannel.save();
     const channels = await bot.DB.channels.find({}).exec();
     for (const channel of channels) {
         try {
