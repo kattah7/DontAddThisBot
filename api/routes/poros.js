@@ -8,11 +8,21 @@ router.get('/lookup/:user', async (req, res) => {
         return res.status(400).send('No user specified');
     }
 
-    const channelData = await bot.DB.poroCount.findOne({ id: await utils.IDByLogin(req.params.user) }).exec();
+    const poroData = await bot.DB.poroCount.findOne({ id: await utils.IDByLogin(req.params.user) }).exec();
+    const channelData = await bot.DB.users.findOne({ id: await utils.IDByLogin(req.params.user) }).exec();
 
     if (channelData) {
         res.json({
             username: channelData.username,
+            level: channelData.level,
+            firstSeen: channelData.firstSeen,
+            poros: {
+                username: poroData.username,
+                id: poroData.id,
+                joinedAt: poroData.joinedAt,
+                poroCount: poroData.poroCount,
+                poroPrestige: poroData.poroPrestige,
+            },
         });
     } else {
         res.json({
