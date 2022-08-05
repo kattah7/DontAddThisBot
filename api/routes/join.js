@@ -20,6 +20,7 @@ router.post(`/api/bot/join`, async (req, res) => {
         // If the user doesn't exist at all, join the channel.
         try {
             await client.join(username);
+            await client.say(username, `Joined channel, ${username} kattahSpin Also check @DontAddThisBot panels for info!`);
         } catch (err) {
             return res.status(500).json({
                 success: false,
