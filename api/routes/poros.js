@@ -15,7 +15,7 @@ router.get('/lookup/:user', async (req, res) => {
         const divided = Math.floor(ms / 1000);
         res.json({
             cooldown: true,
-            ms: divided,
+            ms: humanizeDuration(divided),
         });
     } else {
         res.json({
