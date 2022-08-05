@@ -1,7 +1,6 @@
 require('dotenv').config();
 const nodeCron = require('node-cron');
 const { readdirSync } = require('fs');
-const { channel } = require('diagnostics_channel');
 const { client } = require('./util/connections.js');
 const pubsub = require('./util/pubSub.js');
 const sevenTV = require('./util/sevenTVevents.js');
@@ -68,7 +67,7 @@ client.on('PRIVMSG', async (message) => {
                 { id: message.senderUserID },
                 { $addToSet: { nameChanges: [{ username: message.senderUsername, changedAt: new Date() }] } }
             )
-            .exec();
+            .exec(); // Logging since 2022 August 5th 2:19AM UTC
         await bot.DB.poroCount
             .updateOne({ id: message.senderUserID }, { $set: { username: message.senderUsername } })
             .exec();

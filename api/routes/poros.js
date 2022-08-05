@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-const humanizeDuration = require('../../humanizeDuration');
 const utils = require('../../util/utils');
 
 router.get('/lookup/:user', async (req, res) => {
