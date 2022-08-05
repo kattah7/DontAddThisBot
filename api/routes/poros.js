@@ -15,7 +15,7 @@ router.get('/lookup/:user', async (req, res) => {
         const timestamp = new Date(lastUsage);
         const diffTime = Math.abs(today - timestamp);
         const timeLeft = humanizeDuration(diffTime - 7200000);
-        const ms = new Date(lastUsage).getTime() - new Date().getTime() + 1000 * 60 * 60 * 2;
+        const ms = new Date().getTime() + 1000 * 60 * 60 * 2 - new Date(lastUsage).getTime();
         res.json({
             cooldown: true,
             lastUsage: timeLeft,
