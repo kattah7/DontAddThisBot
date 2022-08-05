@@ -13,7 +13,7 @@ router.get('/lookup/:user', async (req, res) => {
     if (lastUsage) {
         res.json({
             cooldown: true,
-            ms: Date.now() - lastUsage,
+            ms: Date.now(lastUsage),
         });
     } else {
         res.json({
