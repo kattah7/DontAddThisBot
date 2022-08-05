@@ -8,16 +8,15 @@ router.get('/lookup/:user', async (req, res) => {
         return res.status(400).send('No user specified');
     }
 
-    const lastUsage = await bot.Redis.get(`poro:${req.params.user}`);
+    const channelData = await bot.DB.poroCount.findOne({ username: req.params.user }).exec();
 
-    if (lastUsage) {
+    if (channelData) {
         res.json({
-            cooldown: true,
-            ms: Date.now(lastUsage),
+            username: channelData.username,
         });
     } else {
         res.json({
-            cooldown: false,
+            Error: 'Not Found',
         });
     }
 });
