@@ -29,6 +29,7 @@ router.post(`/api/bot/part`, async (req, res) => {
 
         // Save to DB
         try {
+            await client.say(username, `Parting ${username} 👋`)
             await bot.DB.channels.findOneAndDelete({ id: id }).exec();
         } catch (err) {
             return res.status(500).json({
