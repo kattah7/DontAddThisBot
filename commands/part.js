@@ -10,18 +10,18 @@ module.exports = {
         if (!poroData) {
             if (channelData) {
                 client.part(message.senderUsername);
-                return { text: `Parting channel #${message.senderUserID}` };
+                return { text: `Parting channel #${message.senderUsername}` };
             } else {
-                return { text: `Not in channel #${message.senderUserID}` };
+                return { text: `Not in channel #${message.senderUsername}` };
             }
         }
 
         if (channelData) {
             client.part(message.senderUsername);
             await bot.DB.poroCount.updateOne({ id: message.senderUserID }, { $set: { poroCount: poroData.poroCount - 100 } } ).exec();
-            return { text: `Parting channel #${message.senderUserID}` };
+            return { text: `Parting channel #${message.senderUsername}` };
         } else {
-            return { text: `Not in channel #${message.senderUserID}` };
+            return { text: `Not in channel #${message.senderUsername}` };
         }
     },
 };

@@ -36,7 +36,7 @@ module.exports = {
         // if the channel already exists, return
         if (channelData) {
             return {
-                text: `Already in channel ${channelData.id}`,
+                text: `Already in channel ${message.senderUsername}`,
             };
         }
 
