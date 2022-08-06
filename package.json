@@ -4,22 +4,21 @@
   "description": "\"# DontAddThisBot\"",
   "main": "main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint './**/*.{js}'"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/kattah7/DontAddThisBot.git"
-  },
+  "repository": "git+https://github.com/kattah7/DontAddThisBot.git",
   "keywords": [],
-  "author": "",
+  "author": "Kattah <kattahpro@gmail.com>",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/kattah7/DontAddThisBot/issues"
   },
   "homepage": "https://github.com/kattah7/DontAddThisBot#readme",
   "dependencies": {
-    "@kararty/dank-twitch-irc": "^4.6.0",
     "7tv": "^0.0.4",
+    "@kararty/dank-twitch-irc": "^4.6.0",
+    "@typescript-eslint/eslint-plugin": "^5.32.0",
     "axios": "^0.27.2",
     "cheerio": "^1.0.0-rc.11",
     "cloudflare-bypasser": "^0.0.3",
@@ -28,6 +27,8 @@
     "cross-fetch": "^3.1.5",
     "dlurl": "^1.0.2",
     "dotenv": "^16.0.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-import": "^2.26.0",
     "eventsource": "^2.0.2",
     "express": "^4.18.1",
     "ezgif": "^1.0.0",
@@ -60,6 +61,8 @@
     "yahoo-stock-api": "^1.1.10"
   },
   "devDependencies": {
+    "eslint": "^8.21.0",
+    "eslint-plugin-optimize-regex": "^1.2.1",
     "prettier": "^2.7.1"
   }
 }

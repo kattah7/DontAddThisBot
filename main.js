@@ -197,7 +197,6 @@ client.on('PRIVMSG', async (message) => {
                     },
                 }).json();
                 //console.log(data);
-                var xd = true;
                 if (data[0] == undefined) {
                 } else if (data[0].type == 'live') {
                     return;
