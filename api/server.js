@@ -6,6 +6,7 @@ const part = require('./routes/part');
 const join = require('./routes/join');
 const ban = require('./routes/ban');
 const unban = require('./routes/unban');
+const admin = require('./routes/checkadmin');
 
 const app = express();
 
@@ -16,6 +17,7 @@ app.use(part);
 app.use(join)
 app.use(ban)
 app.use(unban)
+app.use(admin)
 
 app.listen(3002, () => {
     console.log(`Server is running on port 3002`);

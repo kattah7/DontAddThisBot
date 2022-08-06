@@ -16,11 +16,43 @@ router.post(`/api/bot/join`, async (req, res) => {
 
     // Get user from db
     const user = await bot.DB.channels.findOne({ id: id }).exec();
+    const poro = await bot.DB.poroCount.findOne({ id: id }).exec();
+
     if (!user) {
         // If the user doesn't exist at all, join the channel.
+        if (!poro) {
+            try {
+                await client.join(username);
+                await client.say(username, `Joined channel, ${username} kattahSpin Also check @DontAddThisBot panels for info!`);
+            } catch (err) {
+                return res.status(500).json({
+                    success: false,
+                    message: 'Failed to join chat.',
+                });
+            }
+    
+            // Save to DB
+            try {
+                await new bot.DB.channels({
+                    username: username,
+                    id: id,
+                    joinedAt: new Date(),
+                }).save();
+            } catch (err) {
+                return res.status(500).json({
+                    success: false,
+                    message: 'Failed to save to datastore.',
+                });
+            }
+    
+            return res.status(200).json({
+                success: true,
+            });
+        } 
         try {
             await client.join(username);
             await client.say(username, `Joined channel, ${username} kattahSpin Also check @DontAddThisBot panels for info!`);
+            await bot.DB.poroCount.updateOne({ id: id }, { $set: { poroCount: poro.poroCount + 100 } } ).exec();
         } catch (err) {
             return res.status(500).json({
                 success: false,

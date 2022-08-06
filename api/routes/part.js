@@ -16,8 +16,35 @@ router.post(`/api/bot/part`, async (req, res) => {
 
     // Get user from db
     const user = await bot.DB.channels.findOne({ id: id }).exec();
+    const poro = await bot.DB.poroCount.findOne({ id: id }).exec();
     if (user) {
         // If the user doesn't exist at all, join the channel.
+        if (!poro) {
+            try {
+                await client.part(username);
+            } catch (err) {
+                return res.status(500).json({
+                    success: false,
+                    message: 'Failed to part chat.',
+                });
+            }
+    
+            // Save to DB
+            try {
+                await client.say(username, `Parting ${username} 👋`)
+                await bot.DB.channels.findOneAndDelete({ id: id }).exec();
+            } catch (err) {
+                return res.status(500).json({
+                    success: false,
+                    message: 'Failed to delete to datastore.',
+                });
+            }
+    
+            return res.status(200).json({
+                success: true,
+            });
+        }
+
         try {
             await client.part(username);
         } catch (err) {
@@ -31,6 +58,7 @@ router.post(`/api/bot/part`, async (req, res) => {
         try {
             await client.say(username, `Parting ${username} 👋`)
             await bot.DB.channels.findOneAndDelete({ id: id }).exec();
+            await bot.DB.poroCount.updateOne({ id: id }, { $set: { poroCount: poro.poroCount - 100 } } ).exec();
         } catch (err) {
             return res.status(500).json({
                 success: false,
