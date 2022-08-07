@@ -13,6 +13,7 @@ bot.DB = require('./util/db.js');
 bot.Utils = require('./util');
 
 require('./api/server');
+require('./publicapi/server');
 
 const commands = new Map();
 const aliases = new Map();
