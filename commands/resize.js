@@ -70,7 +70,7 @@ module.exports = {
             },
         });
 
-        console.log(stv.data.user.emotes);
+        //console.log(stv.data.user.emotes);
 
         if (args[1] == '7tv') {
             const findChannelEmote = stv.data.user.emotes.find((emote) => emote.name === args[0]);

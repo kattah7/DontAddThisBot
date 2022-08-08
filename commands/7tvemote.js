@@ -119,7 +119,7 @@ module.exports = {
                     }
                 }
             })
-             console.log(STVEmoteUsers, STVEmoteUsers.data.emote.channels)
+             //console.log(STVEmoteUsers, STVEmoteUsers.data.emote.channels)
             const emoteOwner = STVEmoteDate.data.emote.owner.display_name
             const emoteDate = STVEmoteDate.data.emote.created_at.split("T")[0]
             const emoteUsers = STVEmoteUsers.data.emote.channels.total.toLocaleString()

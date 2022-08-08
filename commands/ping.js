@@ -10,7 +10,7 @@ module.exports = {
     poro: true,
     execute: async (message, args, client) => {
         const {banned, banphrase_data} = await got.post(`https://forsen.tv/api/v1/banphrases/test `, {json: {'message': message.senderUsername}}).json();
-        console.log(banned, banphrase_data)
+        //console.log(banned, banphrase_data)
 
         const poroData = await bot.DB.channels.count({}).exec();
         const poroData2 = await bot.DB.users.count({}).exec();

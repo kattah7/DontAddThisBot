@@ -9,7 +9,7 @@ module.exports = {
 
     const targetUser = args[0] ?? message.senderUsername
     let { body: userData, statusCode } = await got(`https://api.7tv.app/v2/users/${targetUser.toLowerCase()}`, { timeout: 10000, throwHttpErrors: false, responseType: "json" });
-        console.log(userData)
+        //console.log(userData)
 
     const { body: stv } = await got.post(`https://api.7tv.app/v2/gql`, {
             throwHttpErrors: false,
@@ -21,7 +21,7 @@ module.exports = {
                 }
             }
         })
-        console.log(stv)
+        //console.log(stv)
         
         if (message.senderUsername == await utils.PoroNumberOne()) {
             return client.privmsg(message.channelName, `.me ${stv.data.user.profile_image_url.replace("//", "")}`)
