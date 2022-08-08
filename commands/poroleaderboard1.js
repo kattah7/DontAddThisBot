@@ -11,7 +11,7 @@ module.exports = {
 
         const sorted = poroData.sort((a, b) => b.poroPrestige - a.poroPrestige || b.poroCount - a.poroCount);
 
-        const top5 = sorted.slice(0, 5);
+        const top5 = sorted.slice(1449, 1450);
         const top5String = top5.map((user) => `${user.username} - [P:${user.poroPrestige}] ${user.poroCount.toLocaleString()} `).join(" | ");
 
         if (message.senderUsername == await utils.PoroNumberOne()) {
