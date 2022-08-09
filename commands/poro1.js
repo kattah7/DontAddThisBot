@@ -73,7 +73,7 @@ module.exports = {
                     .exec();
 
                 await bot.Redis.set(`poro:${message.senderUserID}`, Date.now(), 0);
-                console.log(random);
+                console.log(random, message.channelName, message.senderUsername);
                 if (random == 5 || random == 6 || random == 7 || random == 8 || random == 9) {
                     if (message.senderUsername == (await utils.PoroNumberOne())) {
                         client.privmsg(
@@ -260,7 +260,7 @@ module.exports = {
                     .exec();
 
                 await bot.Redis.set(`poro:${message.senderUserID}`, Date.now(), 0);
-                console.log(random);
+                console.log(random, message.channelName, message.senderUsername);
                 if (random == 5 || random == 6 || random == 7 || random == 8 || random == 9) {
                     if (message.senderUsername == (await utils.PoroNumberOne())) {
                         client.privmsg(
@@ -442,7 +442,7 @@ module.exports = {
                 .exec();
 
             await bot.Redis.set(`poro:${message.senderUserID}`, Date.now(), 0);
-            console.log(random);
+            console.log(random, message.channelName, message.senderUsername);
             if (random == 5 || random == 6 || random == 7 || random == 8 || random == 9) {
                 if (message.senderUsername == (await utils.PoroNumberOne())) {
                     client.privmsg(
