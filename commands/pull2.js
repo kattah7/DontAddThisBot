@@ -1,7 +1,7 @@
 const { exec } = require("child_process");
 
 module.exports = {
-    name: "pull",
+    name: "pull2",
     aliases: [],
     cooldown: 3000,
     level: 3,
