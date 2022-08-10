@@ -15,8 +15,16 @@ router.post(`/api/bot/join`, async (req, res) => {
     const id = await utils.IDByLogin(username);
 
     // Get user from db
-    const user = await bot.DB.channels.findOne({ id: id }).exec();
+    const actualUser = await bot.DB.users.findOne({ id: id }).exec();
+    if (actualUser.level == 0) {
+        return res.status(403).json({
+            success: false,
+            message: "Forbidden",
+        });
+    }
+
     const poro = await bot.DB.poroCount.findOne({ id: id }).exec();
+    const user = await bot.DB.channels.findOne({ id: id }).exec();
 
     if (!user) {
         // If the user doesn't exist at all, join the channel.

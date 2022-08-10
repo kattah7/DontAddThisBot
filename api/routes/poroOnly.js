@@ -9,6 +9,13 @@ router.post('/api/bot/poro', async (req, res) => {
             message: "malformed id parameter",
         });
     }
+    const actualUser = await bot.DB.users.findOne({ id: id }).exec();
+    if (actualUser.level == 0) {
+        return res.status(403).json({
+            success: false,
+            message: "Forbidden",
+        });
+    }
     const channel = await bot.DB.channels.findOne({ id: id }).exec();
     if (!channel) {
         return res.status(404).json({
