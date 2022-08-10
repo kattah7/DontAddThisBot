@@ -6,6 +6,8 @@ const pubsub = require('./util/pubSub.js');
 const sevenTV = require('./util/sevenTVevents.js');
 const utils = require('./util/utils.js');
 const got = require('got');
+const regex = require('./util/regex.js');
+const discord = require('./util/discord.js');
 
 global.bot = {};
 bot.Redis = require('./util/redis.js');
@@ -190,6 +192,16 @@ client.on('PRIVMSG', async (message) => {
                         cooldown.delete(`${command.name}${message.senderUserID}`);
                     }, 2000);
                 }
+
+                if (regex.racism.test(args.join(" ") || response.text)) {
+                    try {
+                        await discord.racist(message.senderUsername, message.senderUserID, message.channelName, args.join(" "))
+                        return client.say(message.channelName, "That message violates the terms of service")
+                    } catch (e) {
+                        console.log(e, "Error while trying to report racism")
+                    }
+                }
+                
                 if (message.senderUsername == await utils.PoroNumberOne()) {
                     return client.privmsg(message.channelName, `.me ${response.text}`)
                 } else {

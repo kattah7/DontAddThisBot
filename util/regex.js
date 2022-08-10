@@ -3,4 +3,5 @@ module.exports = {
     racism: new RegExp(/(?:(?:\b(?<![-=\.])|monka)(?:[Nnñ]|[Ii7]V)|[\/|]\\[\/|])[\s\.]*?[liI1y!j\/|]+[\s\.]*?(?:[GgbB6934Q🅱qğĜƃ၅5\*][\s\.]*?){2,}(?!arcS|l|Ktlw|ylul|ie217|64|\d? ?times)/),
     accents: new RegExp(/[\u0300-\u036f]/g),
     punctuation: new RegExp(/[!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~]/g),
+    test: new RegExp(/^[A-Z_\d]{4,25}$/i)
 }
