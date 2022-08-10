@@ -1,7 +1,6 @@
 const got = require('got');
 const humanizeDuration = require('../humanizeDuration');
 const regex = require('../util/regex.js');
-const utils = require('../util/utils.js');
 
 module.exports = {
     name: 'recenttweet',
@@ -10,13 +9,9 @@ module.exports = {
     description: 'Gets recent tweet of user (Usage: |rt or |recenttweet)',
     execute: async (message, args, client) => {
         if (!args[0]) {
-            if (message.senderUsername == (await utils.PoroNumberOne())) {
-                client.privmsg(message.channelName, `.me insert twitter name to get recent tweet lol`);
-            } else {
-                return {
-                    text: `insert twitter name to get recent tweet lol`,
-                };
-            }
+            return {
+                text: `insert twitter name to get recent tweet lol`,
+            };
         }
         const targetUser = args[0] ?? message.senderUsername;
         const { data } = await got(`https://api.twitter.com/2/users/by/username/${targetUser}?user.fields=location`, {
@@ -33,20 +28,11 @@ module.exports = {
         //console.log(data2);
         const ms = new Date().getTime() - Date.parse(data2[0].created_at);
         if (!regex.racism.test(data2[0].text)) {
-            if (message.senderUsername == (await utils.PoroNumberOne())) {
-                client.privmsg(
-                    message.channelName,
-                    `.me Recent Tweet: ${data2[0].text} (Posted ${humanizeDuration(
-                        ms
-                    )} ago) | twitter.com/${targetUser}/status/${data2[0].id}`
-                );
-            } else {
-                return {
-                    text: `Recent Tweet: ${data2[0].text} (Posted ${humanizeDuration(
+            return {
+                text: `Recent Tweet: ${data2[0].text} (Posted ${humanizeDuration(
                         ms
                     )} ago) | twitter.com/${targetUser}/status/${data2[0].id}`,
-                };
-            }
+            };
         } else {
             const XD =
                 'https://discord.com/api/webhooks/987735146297962497/Kvhez5MjG5Y-XiYQo9EUGbhiVd6UODyOf58WjkAZwRQMglOX_cpiW436mXZLLD8T7oFA';

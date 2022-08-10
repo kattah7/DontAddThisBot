@@ -1,7 +1,6 @@
 const rwClient = require('../twitterClient');
 const got = require('got');
 const regex = require('../util/regex.js');
-const utils = require('../util/utils.js');
 
 module.exports = {
     name: 'tweet',
@@ -26,16 +25,9 @@ module.exports = {
                 }
             };
             tweet();
-            if (message.senderUsername == (await utils.PoroNumberOne())) {
-                client.privmsg(
-                    message.channelName,
-                    `.me ${name} Successfully tweeted :) Check out twitter.com/twitchsayschat to see your tweet`
-                );
-            } else {
-                return {
-                    text: `${name} Successfully tweeted kattahSpin Check out twitter.com/twitchsayschat to see your tweet`,
-                };
-            }
+            return {
+                text: `${name} Successfully tweeted kattahSpin Check out twitter.com/twitchsayschat to see your tweet`,
+            };
         } else {
             const XD =
                 'https://discord.com/api/webhooks/987735146297962497/Kvhez5MjG5Y-XiYQo9EUGbhiVd6UODyOf58WjkAZwRQMglOX_cpiW436mXZLLD8T7oFA';

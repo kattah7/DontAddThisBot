@@ -1,5 +1,4 @@
 const got = require('got');
-const utils = require('../util/utils.js');
 
 module.exports = {
     name: 'topgames',
@@ -28,15 +27,9 @@ module.exports = {
         const data2 = userData2.response.player_count;
         const data3 = userData3.response.player_count;
 
-        if (message.senderUsername == (await utils.PoroNumberOne())) {
-            client.privmsg(
-                message.channelName,
-                `.me TOP STEAM GAMES BatChest Lost Ark: ${data1} players :o CS:GO: ${data2} players :o Dota 2: ${data3} players :o`
-            );
-        } else {
-            return {
-                text: `TOP STEAM GAMES BatChest Lost Ark: ${data1} players :o CS:GO: ${data2} players :o Dota 2: ${data3} players :o`,
-            };
-        }
+        
+        return {
+            text: `TOP STEAM GAMES BatChest Lost Ark: ${data1} players :o CS:GO: ${data2} players :o Dota 2: ${data3} players :o`,
+        };
     },
 };

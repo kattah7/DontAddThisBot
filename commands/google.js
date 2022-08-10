@@ -1,5 +1,4 @@
 const regex = require('../util/regex.js');
-const utils = require("../util/utils.js");
 
 module.exports = {
     name: "search",
@@ -8,13 +7,9 @@ module.exports = {
     description:"google anything!",
     execute: async (message, args, client) => {
         if (!regex.racism.test(args.join("+"))) {
-        if (message.senderUsername == await utils.PoroNumberOne()) {
-            client.privmsg(message.channelName, `.me ${message.senderUsername}, https://www.google.com/search?q=${args.join("+")}`)
-        } else {
-            return {
-                text: `${message.senderUsername}, https://www.google.com/search?q=${args.join("+")}`,
-            };
-        }
+        return {
+            text: `${message.senderUsername}, https://www.google.com/search?q=${args.join("+")}`,
+        };
     } else {
         const XD = 'https://discord.com/api/webhooks/987735146297962497/Kvhez5MjG5Y-XiYQo9EUGbhiVd6UODyOf58WjkAZwRQMglOX_cpiW436mXZLLD8T7oFA'
         const msg2 = {

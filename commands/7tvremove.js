@@ -6,23 +6,15 @@ module.exports = {
     cooldown: 3000,
     execute: async(message, args, client) => {
         if (!args[0]) {
-            if (message.senderUsername == await utils.PoroNumberOne()) {
-                return client.privmsg(message.channelName, `.me 7tvM Please specify an emote`)
-            } else {
-                return {
-                    text: "7tvM Please specify an emote",
-                }
+            return {
+                text: "7tvM Please specify an emote",
             }
         }
         const StvID = await utils.stvNameToID(message.channelName)
         const isNull = await utils.StvChannelEmotes(StvID)
         if (isNull.data == null) {
-            if (message.senderUsername == await utils.PoroNumberOne()) {
-                return client.privmsg(message.channelName, `.me ⛔ ${message.channelName} is not a valid channel...`)
-            } else {
-                return {
-                    text: `⛔ ${message.channelName} is not a valid channel...`,
-                }
+            return {
+                text: `⛔ ${message.channelName} is not a valid channel...`,
             }
         }
         const Editors = await utils.VThreeEditors(StvID)
@@ -36,46 +28,23 @@ module.exports = {
                 const findEmote = channelEmotes.data.emoteSet.emotes.find((x) => x.name == args[0])
                 if (findEmote) {
                     await utils.RemoveSTVEmote(findEmote.id, StvID)
-                    if (message.senderUsername == await utils.PoroNumberOne()) {
-                        return client.privmsg(message.channelName, `.me 7tvM Emote "${args[0]}" has been successfully removed from ${message.channelName}`)
-                    } else {
-                        return {
-                            text: `7tvM Emote "${args[0]}" has been successfully removed from ${message.channelName}`,
-                        }
+                    return {
+                        text: `7tvM Emote "${args[0]}" has been successfully removed from ${message.channelName}`,
                     }
                 } else {
-                    if (message.senderUsername == await utils.PoroNumberOne()) {
-                        return client.privmsg(message.channelName, `.me ⛔ I could not find the emote "${args[0]}" in ${message.channelName}...`)
-                    } else {
-                        return {
-                            text: `⛔ I could not find the emote "${args[0]}" in ${message.channelName}...`
-                        }
+                    return {
+                        text: `⛔ I could not find the emote "${args[0]}" in ${message.channelName}...`
                     }
                 }
             } else {
-                if (message.senderUsername == await utils.PoroNumberOne()) {
-                    return client.privmsg(message.channelName, `.me ⛔ You are not a editor in ${message.channelName}, ask the broadcaster to add you as an editor by typing <|editor add ${message.senderUsername}>`)
-                } else {
-                    return {
-                        text: `⛔ You are not a editor in ${message.channelName}, ask the broadcaster to add you as an editor by typing <|editor add ${message.senderUsername}>`,
-                    }
+                return {
+                    text: `⛔ You are not a editor in ${message.channelName}, ask the broadcaster to add you as an editor by typing <|editor add ${message.senderUsername}>`,
                 }
             }
         } else {
-            if (message.senderUsername == await utils.PoroNumberOne()) {
-                return client.privmsg(message.channelName, `.me Please grant @DontAddThisBot as a editor on 7TV 7tvM`)
-            } else {
-                return {
-                    text: `Please grant @DontAddThisBot as a editor on 7TV 7tvM`
-                }
+            return {
+                text: `Please grant @DontAddThisBot as a editor on 7TV 7tvM`
             }
-        }
+        };
     }
-}
-
-
-
-
-
-
-  
+};

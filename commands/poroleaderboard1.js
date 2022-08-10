@@ -1,5 +1,3 @@
-const utils = require("../util/utils.js");
-
 module.exports = {
     name: "leaderboard",
     cooldown: 10000,
@@ -14,12 +12,8 @@ module.exports = {
         const top5 = sorted.slice(0, 5);
         const top5String = top5.map((user) => `${user.username} - [P:${user.poroPrestige}] ${user.poroCount.toLocaleString()} `).join(" | ");
 
-        if (message.senderUsername == await utils.PoroNumberOne()) {
-            client.privmsg(message.channelName, `.me kattahXd Poro leaderboard: ${top5String}`)
-        } else {
-            return {
-                text: `kattahXd Poro leaderboard: ${top5String}`,
-            };
-        }
+        return {
+            text: `kattahXd Poro leaderboard: ${top5String}`,
+        };
     },
 };

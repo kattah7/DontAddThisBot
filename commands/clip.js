@@ -22,12 +22,8 @@ module.exports = {
         const name = (data[0].broadcaster_name)
         const views = (data[0].view_count)
         const by = (data[0].creator_name)
-        if (message.senderUsername == await utils.PoroNumberOne()) {
-            return client.privmsg(message.channelName, `.me ${name}'s all time top clip with ${views} views by ${by} at ${(data[0].created_at.split("T")[0])} ${clip}`)
-        } else {
-            return {
-                text: `${name}'s all time top clip with ${views} views by ${by} at ${(data[0].created_at.split("T")[0])} ${clip}`
-            }
+        return {
+            text: `${name}'s all time top clip with ${views} views by ${by} at ${(data[0].created_at.split("T")[0])} ${clip}`
         }
     },
 };

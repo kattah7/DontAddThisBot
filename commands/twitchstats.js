@@ -1,6 +1,4 @@
 const got = require('got');
-const humanizeDuration = require('../humanizeDuration');
-const utils = require('../util/utils.js');
 
 module.exports = {
     name: 'stats',
@@ -23,16 +21,8 @@ module.exports = {
                 console.error(`error`, err);
             }
         }
-        const lol = args[0];
-        if (message.senderUsername == (await utils.PoroNumberOne())) {
-            client.privmsg(
-                message.channelName,
-                `.me Currently ${xd.toLocaleString()} streamers are live, ${xd2.toLocaleString()} total viewers on twitch. Total ${userData.total.toLocaleString()} categories OMGScoots`
-            );
-        } else {
-            return {
-                text: `Currently ${xd.toLocaleString()} streamers are live, ${xd2.toLocaleString()} total viewers on twitch. Total ${userData.total.toLocaleString()} categories OMGScoots`,
-            };
-        }
+        return {
+            text: `Currently ${xd.toLocaleString()} streamers are live, ${xd2.toLocaleString()} total viewers on twitch. Total ${userData.total.toLocaleString()} categories OMGScoots`,
+        };
     },
 };

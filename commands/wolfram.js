@@ -1,6 +1,5 @@
 const got = require('got');
 const regex = require('../util/regex.js');
-const utils = require('../util/utils.js');
 
 module.exports = {
     name: 'wolfram',
@@ -17,13 +16,9 @@ module.exports = {
         //console.log(userData)
 
         if (!regex.racism.test(userData.result)) {
-            if (message.senderUsername == (await utils.PoroNumberOne())) {
-                client.privmsg(message.channelName, `.me ${message.senderUsername}, ${userData.result}`);
-            } else {
-                return {
-                    text: `${message.senderUsername}, ${userData.result}`,
-                };
-            }
+            return {
+                text: `${message.senderUsername}, ${userData.result}`,
+            };
         } else {
             const XD =
                 'https://discord.com/api/webhooks/987735146297962497/Kvhez5MjG5Y-XiYQo9EUGbhiVd6UODyOf58WjkAZwRQMglOX_cpiW436mXZLLD8T7oFA';

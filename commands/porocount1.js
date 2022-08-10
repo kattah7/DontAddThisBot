@@ -13,12 +13,8 @@ module.exports = {
         const poroData = await bot.DB.poroCount.findOne({ username: await utils.ParseUser(targetUser) }).exec();
         const xd = args[0] || selfPoroData
         if (!xd) {
-            if (message.senderUsername == await utils.PoroNumberOne()) {
-                client.privmsg(message.channelName, `.me You aren't registered PoroSad type |poro to get started!`)
-            } else {
-                return {
-                    text: `You aren't registered PoroSad type |poro to get started!`
-                }
+            return {
+                text: `You aren't registered PoroSad type |poro to get started!`
             }
         }
         if (message.channelName == "nymn") { //nymn
@@ -30,12 +26,8 @@ module.exports = {
                 var reg = /^[a-z0-9_#@,]+$/i;
             if (reg.test(args[0])) {
             if (!poroData) {
-                if (message.senderUsername == await utils.PoroNumberOne()) {
-                    client.privmsg(message.channelName, `.me ${targetUser} not found in database PoroSad`)
-                } else {
-                    return {
-                        text: `${targetUser} not found in database PoroSad`
-                    }
+                return {
+                    text: `${targetUser} not found in database PoroSad`
                 }
             }
             var today = new Date()
@@ -47,16 +39,12 @@ module.exports = {
             }
             //console.log(poroData.poroCount)
         } else {
-            if (message.senderUsername == await utils.PoroNumberOne()) {
-                client.privmsg(message.channelName, `.me message too long or not valid`)
-            } else {
-                return {
-                    text: `message too long or not valid`
-                }
+            return {
+                text: `message too long or not valid`
             }
         }
-            }
-        }
+    }
+}
 
         if (message.channelName == "forsen") { // forsen
             if (await utils.ForsenTV(args[0] || message.senderUsername) == true) {
@@ -67,12 +55,8 @@ module.exports = {
                 var reg = /^[a-z0-9_#@,]+$/i;
             if (reg.test(args[0])) {
             if (!poroData) {
-                if (message.senderUsername == await utils.PoroNumberOne()) {
-                    client.privmsg(message.channelName, `.me ${targetUser} not found in database PoroSad`)
-                } else {
-                    return {
-                        text: `${targetUser} not found in database PoroSad`
-                    }
+                return {
+                    text: `${targetUser} not found in database PoroSad`
                 }
             }
             var today = new Date()
@@ -84,27 +68,19 @@ module.exports = {
             }
             //console.log(poroData.poroCount)
         } else {
-            if (message.senderUsername == await utils.PoroNumberOne()) {
-                client.privmsg(message.channelName, `.me message too long or not valid`)
-            } else {
-                return {
-                    text: `message too long or not valid`
-                }
+            return {
+                text: `message too long or not valid`
             }
         }
-            }
-        }
+    }
+}
 
         if (message.channelName == message.channelName) {
             var reg = /^[a-z0-9_#@,]+$/i;
             if (reg.test(args[0])) {
             if (!poroData) {
-                if (message.senderUsername == await utils.PoroNumberOne()) {
-                    client.privmsg(message.channelName, `.me ${targetUser} not found in database PoroSad`)
-                } else {
-                    return {
-                        text: `${targetUser} not found in database PoroSad`
-                    }
+                return {
+                    text: `${targetUser} not found in database PoroSad`
                 }
             }
             var today = new Date()
@@ -116,12 +92,8 @@ module.exports = {
             }
             //console.log(poroData.poroCount)
         } else {
-            if (message.senderUsername == await utils.PoroNumberOne()) {
-                client.privmsg(message.channelName, `.me message too long or not valid`)
-            } else {
-                return {
-                    text: `message too long or not valid`
-                }
+            return {
+                text: `message too long or not valid`
             }
         }
         }

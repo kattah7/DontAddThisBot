@@ -1,6 +1,4 @@
 const got = require('got');
-const humanizeDuration = require('../humanizeDuration');
-const utils = require('../util/utils.js');
 
 module.exports = {
     name: 'accage',
@@ -14,19 +12,10 @@ module.exports = {
 
         const date = userData.createdAt;
         if (userData.banned == true) {
-            if (message.senderUsername == (await utils.PoroNumberOne())) {
-                return client.privmsg(
-                    message.channelName,
-                    `.me ${targetUser}'s accage ${date.split('T')[0]} BatChest ❌`
-                );
-            }
             return {
                 text: `${targetUser}'s accage ${date.split('T')[0]} BatChest ❌`,
             };
         } else {
-            if (message.senderUsername == (await utils.PoroNumberOne())) {
-                return client.privmsg(message.channelName, `.me ${targetUser}'s accage ${date.split('T')[0]} BatChest`);
-            }
             return {
                 text: `${targetUser}'s accage ${date.split('T')[0]} BatChest`,
             };

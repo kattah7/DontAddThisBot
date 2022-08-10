@@ -1,7 +1,5 @@
-const got = require("got");
 const util = require("util");
 const regex = require('../util/regex.js');
-const utils = require("../util/utils.js");
 
 module.exports = {
     name: "csgo",
@@ -25,21 +23,13 @@ module.exports = {
         if (!regex.racism.test(args.join(" "))) {
         if (user.errors) {
             if (user.errors[0].code == "CollectorResultStatus::NotFound") {
-                if (message.senderUsername == await utils.PoroNumberOne()) {
-                    return client.privmsg(message.channelName, `.me ${args.join(" ")} Not found :( , Please use Steam ID, Steam Community URL, Steam Vanity Username, etc.`)
-                } else {
-                    return {
-                        text: `${args.join(" ")} Not found :( , Please use Steam ID, Steam Community URL, Steam Vanity Username, etc.`,
-                    };  
-                }
+                return {
+                    text: `${args.join(" ")} Not found :( , Please use Steam ID, Steam Community URL, Steam Vanity Username, etc.`,
+                };  
             } else if (user.errors[0].code == "CollectorResultStatus::Private") {
-                if (message.senderUsername == await utils.PoroNumberOne()) {
-                    return client.privmsg(message.channelName, `.me ${args.join(" ")} Profile is private :p , Please enable game settings under privacy settings`)
-                } else {
-                    return {
-                        text: `${args.join(" ")} Profile is private :p , Please enable game settings under privacy settings`,
-                    };
-                }
+                return {
+                    text: `${args.join(" ")} Profile is private :p , Please enable game settings under privacy settings`,
+                };
             }
         } else {
             const playtime = user.data.segments[0].stats.timePlayed.displayValue;
@@ -50,13 +40,10 @@ module.exports = {
             const deaths = user.data.segments[0].stats.deaths.displayValue;
             const kd = user.data.segments[0].stats.kd.displayValue;
 
-            if (message.senderUsername == await utils.PoroNumberOne()) {
-                return client.privmsg(message.channelName, `.me ${args.join(" ")} has ${playtime} in CSGO LuL ${matches} Rounds [W:${losses} L:${wins}] LuL ${kd} K/D [K:${kills} D:${deaths}]`)
-            } else {
-                return {
-                    text: `${args.join(" ")} has ${playtime} in CSGO LuL ${matches} Rounds [W:${losses} L:${wins}] LuL ${kd} K/D [K:${kills} D:${deaths}]`,
-                };
-            }
+            
+            return {
+                text: `${args.join(" ")} has ${playtime} in CSGO LuL ${matches} Rounds [W:${losses} L:${wins}] LuL ${kd} K/D [K:${kills} D:${deaths}]`,
+            };
         }
     } else {
         const XD = 'https://discord.com/api/webhooks/987735146297962497/Kvhez5MjG5Y-XiYQo9EUGbhiVd6UODyOf58WjkAZwRQMglOX_cpiW436mXZLLD8T7oFA'

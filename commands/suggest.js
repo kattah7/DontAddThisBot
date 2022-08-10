@@ -1,5 +1,4 @@
 const got = require("got");
-const utils = require("../util/utils.js");
 
 module.exports = {
     name: "suggest",
@@ -35,12 +34,8 @@ module.exports = {
         headers: {"content-type": "application/json"},
         body: JSON.stringify(KEKW)})
         .then(a=>a.json()).then(console.log)
-        if (message.senderUsername == await utils.PoroNumberOne()) {
-            client.privmsg(message.channelName, `.me Suggestion sent! :)`)
-        } else {
-            return {
-                text: `Suggestion sent! :)`
-            }
+        return {
+            text: `Suggestion sent! :)`
         }
     }
 }

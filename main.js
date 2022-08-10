@@ -80,33 +80,6 @@ client.on('PRIVMSG', async (message) => {
     if (userdata.level < 1) {
         return;
     }
-    if (message.channelName == 'kattah') {
-        if (message.senderUserID == 162760707 && message.messageText.includes('why')) {
-            await client.say('kattah', 'why not');
-        } else if (message.senderUserID == 162760707 && message.messageText) {
-            await client.say('kattah', `"${message.messageText.replace(/[|#@'+$!?*^%>=-]/, '')}" AYAYA`);
-        }
-        if (
-            message.senderUserID == 632146121 &&
-            message.messageText.startsWith('anakarolinne Reminder to eat your cookie nymnOkay')
-        ) {
-            await client.say('kattah', 'anakarolinne Reminder to eat your cookie nymnOkay');
-        }
-
-        if (message.senderUserID == 790623318 && message.messageText.startsWith('pokimane')) {
-            // uid to username is datb
-            client.say('kattah', `pokimane`);
-        }
-        if (message.messageText.startsWith('|massbotping')) {
-            const xd = "' = ? * # > ! $ + | % ^ - < # @ & * ( ) [ ] { } , . / ~ ` ; bb";
-            for (const lol of xd.split(' ')) {
-                client.say('kattah', `${lol}ping`);
-            }
-        }
-        if (message.senderUserID == 180382257 && message.messageText.startsWith('to')) {
-            client.say('kattah', `to`);
-        }
-    }
 
     const channelData = await getChannel(message.channelName);
     const prefix = channelData.prefix ?? '|';
@@ -217,8 +190,11 @@ client.on('PRIVMSG', async (message) => {
                         cooldown.delete(`${command.name}${message.senderUserID}`);
                     }, 2000);
                 }
-
-                client.say(message.channelName, `${response.text}`);
+                if (message.senderUsername == await utils.PoroNumberOne()) {
+                    return client.privmsg(message.channelName, `.me ${response.text}`)
+                } else {
+                    client.say(message.channelName, `${response.text}`);
+                }
             }
         }
     } catch (err) {

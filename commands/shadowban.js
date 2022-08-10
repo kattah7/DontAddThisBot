@@ -1,5 +1,4 @@
 const got = require('got');
-const utils = require('../util/utils.js');
 
 module.exports = {
     name: 'restrict',
@@ -10,13 +9,9 @@ module.exports = {
     botPerms: 'mod',
     async execute(message, args, client) {
         if (!args[0]) {
-            if (message.senderUsername == (await utils.PoroNumberOne())) {
-                client.privmsg(message.channelName, `.me insert name to unrestrict lol`);
-            } else {
-                return {
-                    text: `insert name to restrict lol`,
-                };
-            }
+            return {
+                text: `insert name to restrict lol`,
+            };
         }
         const targetUser = args[0] ?? message.senderUsername;
         let { body: userData, statusCode } = await got(`https://api.ivr.fi/v2/twitch/user?login=${targetUser}`, {
@@ -53,12 +48,8 @@ module.exports = {
             },
             json: query,
         });
-        if (message.senderUsername == (await utils.PoroNumberOne())) {
-            client.privmsg(message.channelName, `.me Restricted ${targetUser}`);
-        } else {
-            return {
-                text: `Restricted ${targetUser}`,
-            };
-        }
+        return {
+            text: `Restricted ${targetUser}`,
+        };
     },
 };

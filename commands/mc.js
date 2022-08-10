@@ -1,6 +1,5 @@
 const got = require('got');
 const regex = require('../util/regex.js');
-const utils = require('../util/utils.js');
 
 module.exports = {
     name: 'mc',
@@ -30,35 +29,17 @@ module.exports = {
 
         if (!regex.racism.test(firstname)) {
             if (undefined == 'f0369554-7707-486a-b230-8518f04102f7') {
-                if (message.senderUsername == (await utils.PoroNumberOne())) {
-                    client.privmsg(message.channelName, `.me ${targetUser}'s account does not exist. SSSsss`);
-                } else {
-                    return {
-                        text: `${targetUser}'s account does not exist. SSSsss`,
-                    };
-                }
+                return {
+                    text: `${targetUser}'s account does not exist. SSSsss`,
+                };
             } else if (accage == null) {
-                if (message.senderUsername == (await utils.PoroNumberOne())) {
-                    client.privmsg(
-                        message.channelName,
-                        `.me ${targetUser}'s first Minecraft name is ${firstname} and could not fetch account age. PoroSad`
-                    );
-                } else {
-                    return {
-                        text: `${targetUser}'s first Minecraft name is ${firstname} and could not fetch account age. PoroSad`,
-                    };
-                }
+                return {
+                    text: `${targetUser}'s first Minecraft name is ${firstname} and could not fetch account age. PoroSad`,
+                };
             } else {
-                if (message.senderUsername == (await utils.PoroNumberOne())) {
-                    client.privmsg(
-                        message.channelName,
-                        `.me ${targetUser}'s first Minecraft name is ${firstname} and created at ${accage} PunchTrees`
-                    );
-                } else {
-                    return {
-                        text: `${targetUser}'s first Minecraft name is ${firstname} and created at ${accage} PunchTrees`,
-                    };
-                }
+                return {
+                    text: `${targetUser}'s first Minecraft name is ${firstname} and created at ${accage} PunchTrees`,
+                };
             }
         } else {
             const XD =

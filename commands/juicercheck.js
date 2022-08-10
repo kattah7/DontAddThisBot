@@ -24,100 +24,46 @@ module.exports = {
                 if (data) {
                     if (data.followedAt == null) {
                         if (data.cumulative.months == 0) {
-                            if (message.senderUsername == (await utils.PoroNumberOne())) {
-                                client.privmsg(message.channelName, `.me ${USERNAME} WAS NEVER SUBBED & FOLLOWING EZ`);
-                            } else {
-                                return {
-                                    text: `${USERNAME} WAS NEVER SUBBED & FOLLOWING EZ`,
-                                };
-                            }
+                            return {
+                                text: `${USERNAME} WAS NEVER SUBBED & FOLLOWING EZ`,
+                            };
                         } else if (data.subscribed == true) {
-                            if (message.senderUsername == (await utils.PoroNumberOne())) {
-                                client.privmsg(
-                                    message.channelName,
-                                    `.me ${USERNAME} is subbed to xQc for ${data.cumulative.months} months & not following. xqcL`
-                                );
-                            } else {
-                                return {
-                                    text: `${USERNAME} is subbed to xQc for ${data.cumulative.months} months & not following. xqcL`,
-                                };
-                            }
+                            return {
+                                text: `${USERNAME} is subbed to xQc for ${data.cumulative.months} months & not following. xqcL`,
+                            };
                         } else if (data.cumulative.months > 0) {
-                            if (message.senderUsername == (await utils.PoroNumberOne())) {
-                                client.privmsg(
-                                    message.channelName,
-                                    `.me ${USERNAME} is previously subbed to xQc for ${data.cumulative.months} months & not following. xqcL`
-                                );
-                            } else {
-                                return {
-                                    text: `${USERNAME} is previously subbed to xQc for ${data.cumulative.months} months & not following. xqcL`,
-                                };
-                            }
+                            return {
+                                text: `${USERNAME} is previously subbed to xQc for ${data.cumulative.months} months & not following. xqcL`,
+                            };
                         }
                     } else if (data.cumulative.months == 0) {
                         if (data.cumulative.months == 0) {
-                            if (message.senderUsername == (await utils.PoroNumberOne())) {
-                                client.privmsg(
-                                    message.channelName,
-                                    `.me ${USERNAME} was never subbed to xQc & following for ${humanizeDuration(
-                                        followAge
-                                    )} xqcL`
-                                );
-                            } else {
-                                return {
-                                    text: `${USERNAME} was never subbed to xQc & following for ${humanizeDuration(
+                            return {
+                                text: `${USERNAME} was never subbed to xQc & following for ${humanizeDuration(
                                         followAge
                                     )} xqcL`,
-                                };
-                            }
+                            };
                         }
                     } else if (data.cumulative.months > 0) {
                         if (data.subscribed == false) {
-                            if (message.senderUsername == (await utils.PoroNumberOne())) {
-                                client.privmsg(
-                                    message.channelName,
-                                    `.me ${USERNAME} was previously subbed to xQc for ${
-                                        data.cumulative.months
-                                    } months & following for ${humanizeDuration(followAge)} xqcL`
-                                );
-                            } else {
-                                return {
-                                    text: `${USERNAME} was previously subbed to xQc for ${
-                                        data.cumulative.months
-                                    } months & following for ${humanizeDuration(followAge)} xqcL`,
-                                };
-                            }
-                        } else if (data.subscribed == true) {
-                            if (message.senderUsername == (await utils.PoroNumberOne())) {
-                                client.privmsg(
-                                    message.channelName,
-                                    `.me ${USERNAME} is subbed to xQc for ${
-                                        data.cumulative.months
-                                    } months & following for ${humanizeDuration(followAge)} xqcL`
-                                );
-                            } else {
-                                return {
-                                    text: `${USERNAME} is subbed to xQc for ${
-                                        data.cumulative.months
-                                    } months & following for ${humanizeDuration(followAge)} xqcL`,
-                                };
-                            }
-                        }
-                    } else if (data.hidden == true) {
-                        if (message.senderUsername == (await utils.PoroNumberOne())) {
-                            client.privmsg(
-                                message.channelName,
-                                `.me ${USERNAME}'s subscription is hidden, Try hovering over their sub badge. Following for ${humanizeDuration(
-                                    followAge
-                                )} xqcL`
-                            );
-                        } else {
                             return {
-                                text: `${USERNAME}'s subscription is hidden, Try hovering over their sub badge. Following for ${humanizeDuration(
-                                    followAge
-                                )} xqcL`,
+                                text: `${USERNAME} was previously subbed to xQc for ${
+                                        data.cumulative.months
+                                    } months & following for ${humanizeDuration(followAge)} xqcL`,
+                            };
+                        } else if (data.subscribed == true) {
+                            return {
+                                text: `${USERNAME} is subbed to xQc for ${
+                                        data.cumulative.months
+                                    } months & following for ${humanizeDuration(followAge)} xqcL`,
                             };
                         }
+                    } else if (data.hidden == true) {
+                        return {
+                            text: `${USERNAME}'s subscription is hidden, Try hovering over their sub badge. Following for ${humanizeDuration(
+                                    followAge
+                                )} xqcL`,
+                        };
                     }
                 }
             } else if (banned == true) {

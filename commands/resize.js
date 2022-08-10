@@ -1,5 +1,4 @@
 const got = require('got');
-const utils = require('../util/utils.js');
 
 module.exports = {
     name: 'ezgif',
@@ -7,34 +6,19 @@ module.exports = {
     description: 'ezgif twitch, 7tv emotes (Usage: |ezgif (emote) (twitch or 7tv), bttv and ffz not supported KEKW)',
     execute: async (message, args, client) => {
         if (!args[0]) {
-            if (message.senderUsername == (await utils.PoroNumberOne())) {
-                client.privmsg(message.channelName, `.me insert an emote lol`);
-            } else {
-                return {
-                    text: `insert an emote lol`,
-                };
-            }
+            return {
+                text: `insert an emote lol`,
+            };
         }
         if (!args[1]) {
-            if (message.senderUsername == (await utils.PoroNumberOne())) {
-                client.privmsg(message.channelName, `.me um you gotta do either put '7tv' or 'twitch' after the emote`);
-            } else {
-                return {
-                    text: `um you gotta do either put '7tv' or 'twitch' after the emote`,
-                };
-            }
+            return {
+                text: `um you gotta do either put '7tv' or 'twitch' after the emote`,
+            };
         }
         if (args[0] == `7tv` || args[0] == `twitch`) {
-            if (message.senderUsername == (await utils.PoroNumberOne())) {
-                client.privmsg(
-                    message.channelName,
-                    `.me Usage |ezgif (emote) (twitch or 7tv), bttv and ffz not supported KEKW`
-                );
-            } else {
-                return {
-                    text: `Usage |ezgif (emote) (twitch or 7tv), bttv and ffz not supported KEKW`,
-                };
-            }
+            return {
+                text: `Usage |ezgif (emote) (twitch or 7tv), bttv and ffz not supported KEKW`,
+            };
         }
         let { body: userData, statusCode } = await got(`https://api.ivr.fi/v2/twitch/emotes/${args[0]}`, {
             timeout: 10000,

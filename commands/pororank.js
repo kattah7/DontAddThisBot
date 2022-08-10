@@ -22,23 +22,15 @@ module.exports = {
                 }
             } else {
                 if (kekw.findIndex((user) => user.username == targetUser) + 1 == 0) {
-                if (message.senderUsername == await utils.PoroNumberOne()) {
-                    client.privmsg(message.channelName, `.me ${targetUser} not found in database PoroSad`)
-                } else {
-                    return {
-                        text: `${targetUser} not found in database PoroSad`
-                    } 
-                }
-            }
-            if (message.senderUsername == await utils.PoroNumberOne()) {
-                client.privmsg(message.channelName, `.me ${targetUser} is rank #${kekw.findIndex((user) => user.username == targetUser) + 1}/${kekw.length} in the poro leaderboard! kattahBoom`)
-            } else {
                 return {
-                    text: `${targetUser} is rank #${kekw.findIndex((user) => user.username == targetUser) + 1}/${kekw.length} in the poro leaderboard! kattahBoom`,
-                }
+                    text: `${targetUser} not found in database PoroSad`
+                } 
             }
+            return {
+                text: `${targetUser} is rank #${kekw.findIndex((user) => user.username == targetUser) + 1}/${kekw.length} in the poro leaderboard! kattahBoom`,
             }
         }
+    }
 
         if (message.channelName == "nymn") {
             if (await utils.Nymn(args[0] || message.senderUsername)) {
@@ -47,40 +39,24 @@ module.exports = {
                 }
             } else {
                 if (kekw.findIndex((user) => user.username == targetUser) + 1 == 0) {
-                    if (message.senderUsername == await utils.PoroNumberOne()) {
-                        client.privmsg(message.channelName, `.me ${targetUser} not found in database PoroSad`)
-                    } else {
-                        return {
-                            text: `${targetUser} not found in database PoroSad`
-                        } 
-                    }
-                }
-                if (message.senderUsername == await utils.PoroNumberOne()) {
-                    client.privmsg(message.channelName, `.me ${targetUser} is rank #${kekw.findIndex((user) => user.username == targetUser) + 1}/${kekw.length} in the poro leaderboard! kattahBoom`)
-                } else {
                     return {
-                        text: `${targetUser} is rank #${kekw.findIndex((user) => user.username == targetUser) + 1}/${kekw.length} in the poro leaderboard! kattahBoom`,
-                    }
+                        text: `${targetUser} not found in database PoroSad`
+                    } 
+                }
+                return {
+                    text: `${targetUser} is rank #${kekw.findIndex((user) => user.username == targetUser) + 1}/${kekw.length} in the poro leaderboard! kattahBoom`,
                 }
             }
         }
 
         if (message.channelName == message.channelName) {
             if (kekw.findIndex((user) => user.username == targetUser) + 1 == 0) {
-                if (message.senderUsername == await utils.PoroNumberOne()) {
-                    client.privmsg(message.channelName, `.me ${targetUser} not found in database PoroSad`)
-                } else {
-                    return {
-                        text: `${targetUser} not found in database PoroSad`
-                    } 
-                }
-            }
-            if (message.senderUsername == await utils.PoroNumberOne()) {
-                client.privmsg(message.channelName, `.me ${targetUser} is rank #${kekw.findIndex((user) => user.username == targetUser) + 1}/${kekw.length} in the poro leaderboard! kattahBoom`)
-            } else {
                 return {
-                    text: `${targetUser} is rank #${kekw.findIndex((user) => user.username == targetUser) + 1}/${kekw.length} in the poro leaderboard! kattahBoom`,
-                }
+                    text: `${targetUser} not found in database PoroSad`
+                } 
+            }
+            return {
+                text: `${targetUser} is rank #${kekw.findIndex((user) => user.username == targetUser) + 1}/${kekw.length} in the poro leaderboard! kattahBoom`,
             }
         }
     }

@@ -1,5 +1,4 @@
 const got = require("got");
-const utils = require("../util/utils.js");
 
 module.exports = {
     name: "pfp",
@@ -11,12 +10,8 @@ module.exports = {
         let { body: userData, statusCode } = await got(`https://api.ivr.fi/twitch/resolve/${targetUser}`, { timeout: 10000, throwHttpErrors: false, responseType: "json" });
 
         const pfp = userData.logo;
-        if (message.senderUsername == await utils.PoroNumberOne()) {
-            client.privmsg(message.channelName, `.me ${message.senderUsername}, ${pfp} BatChest`)
-        } else {
-            return {
-                text: `${message.senderUsername}, ${pfp} BatChest`,
-            };
-        }
+        return {
+            text: `${message.senderUsername}, ${pfp} BatChest`,
+        };
     },
 };

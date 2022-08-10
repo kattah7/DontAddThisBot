@@ -31,19 +31,10 @@ module.exports = {
                 }
             }
         }
-        if (message.senderUsername == (await utils.PoroNumberOne())) {
-            return client.privmsg(
-                message.channelName,
-                `.me ${targetUser} currently has ${
-                    users.length
-                } users chatted, ${BRUH.chatter_count.toLocaleString()} users in viewerlist.`
-            );
-        } else {
-            return {
-                text: `${targetUser} currently has ${
+        return {
+            text: `${targetUser} currently has ${
                     users.length
                 } users chatted, ${BRUH.chatter_count.toLocaleString()} users in viewerlist.`,
-            };
-        }
+        };
     },
 };

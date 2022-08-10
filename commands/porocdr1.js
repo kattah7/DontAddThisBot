@@ -20,21 +20,11 @@ module.exports = {
                 if (lastUsage && channelData) {
                     if (new Date().getTime() - new Date(lastUsage).getTime() < 1000 * 60 * 60 * 3) {
                         const ms = new Date(lastUsage).getTime() - new Date().getTime() + 1000 * 60 * 60 * 3;
-                        if (message.senderUsername == (await utils.PoroNumberOne())) {
-                            client.privmsg(
-                                message.channelName,
-                                `.me Please wait ${humanizeDuration(
-                                    ms
-                                )} before doing another cooldown reset! kattahDespair`
-                            );
-                            return;
-                        } else {
-                            return {
-                                text: `Please wait ${humanizeDuration(
+                        return {
+                            text: `Please wait ${humanizeDuration(
                                     ms
                                 )} before doing another cooldown reset! kattahDespair`,
-                            };
-                        }
+                        };
                     }
                 }
                 await bot.DB.poroCount
@@ -42,21 +32,12 @@ module.exports = {
                     .exec();
                 await bot.Redis.set(`porocdr:${message.senderUserID}`, Date.now(), 0);
                 await bot.Redis.del(`poro:${message.senderUserID}`);
-                if (message.senderUsername == (await utils.PoroNumberOne())) {
-                    client.privmsg(
-                        message.channelName,
-                        `.me Timer Reset! ${message.senderUsername} (-5) kattahDance total [P:${
-                            channelData.poroPrestige
-                        }] ${channelData.poroCount - 5} meat`
-                    );
-                } else {
-                    await client.say(
+                await client.say(
                         message.channelName,
                         `Timer Reset! ${message.senderUsername} (-5) kattahDance total [P:${
                             channelData.poroPrestige
                         }] ${channelData.poroCount - 5} meat`
-                    );
-                }
+                );
             } else if (banned == true) {
                 return {
                     text: `banned msg lol`,

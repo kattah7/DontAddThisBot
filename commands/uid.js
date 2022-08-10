@@ -1,5 +1,4 @@
 const got = require('got');
-const utils = require('../util/utils.js');
 
 module.exports = {
     name: 'uid',
@@ -16,24 +15,13 @@ module.exports = {
         //console.log(userData)
         if (userData) {
             if (userData[0].banned == true) {
-                if (message.senderUsername == (await utils.PoroNumberOne())) {
-                    client.privmsg(
-                        message.channelName,
-                        `.me ${targetUser}'s UID ${userData[0].id} PoroSad (${userData[0].banReason})`
-                    );
-                } else {
-                    return {
-                        text: `${targetUser}'s UID ${userData[0].id} PoroSad (${userData[0].banReason})`,
-                    };
-                }
+                return {
+                    text: `${targetUser}'s UID ${userData[0].id} PoroSad (${userData[0].banReason})`,
+                };
             } else if (userData[0].banned == false) {
-                if (message.senderUsername == (await utils.PoroNumberOne())) {
-                    client.privmsg(message.channelName, `.me ${targetUser}'s UID ${userData[0].id} BatChest`);
-                } else {
-                    return {
-                        text: `${targetUser}'s UID ${userData[0].id} BatChest`,
-                    };
-                }
+                return {
+                    text: `${targetUser}'s UID ${userData[0].id} BatChest`,
+                };
             }
         }
     },

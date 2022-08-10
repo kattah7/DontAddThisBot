@@ -1,4 +1,3 @@
-const got = require("got");
 const utils = require("../util/utils.js");
 
 module.exports = {
@@ -15,13 +14,9 @@ module.exports = {
                     text: `banned msg lol`
                 }
             } else {
-                if (message.senderUsername == await utils.PoroNumberOne()) {
-                    client.privmsg(message.channelName, `.me ${message.senderUsername}, kattahDance setcolor (50 🥩) | cdr (5 🥩) | change display name (50 🥩) | deactivate bot :tf: (1mill 🥩)`)
-                } else {
-                    return {
-                        text: `${message.senderUsername}, kattahDance setcolor (50 🥩) | cdr (5 🥩) | change display name (50 🥩) | deactivate bot :tf: (1mill 🥩)`
-                    } 
-                }
+                return {
+                    text: `${message.senderUsername}, kattahDance setcolor (50 🥩) | cdr (5 🥩) | change display name (50 🥩) | deactivate bot :tf: (1mill 🥩)`
+                } 
             }
         }
 
@@ -31,24 +26,16 @@ module.exports = {
                     text: `banned msg lol`
                 }
             } else {
-                if (message.senderUsername == await utils.PoroNumberOne()) {
-                    client.privmsg(message.channelName, `.me ${message.senderUsername}, kattahDance setcolor (50 🥩) | cdr (5 🥩) | change display name (50 🥩) | deactivate bot :tf: (1mill 🥩)`)
-                } else {
-                    return {
-                        text: `${message.senderUsername}, kattahDance setcolor (50 🥩) | cdr (5 🥩) | change display name (50 🥩) | deactivate bot :tf: (1mill 🥩)`
-                    } 
-                }
-            }
-        }
-
-        if (message.channelName == message.channelName) {
-            if (message.senderUsername == await utils.PoroNumberOne()) {
-                client.privmsg(message.channelName, `.me ${message.senderUsername}, kattahDance setcolor (50 🥩) | cdr (5 🥩) | change display name (50 🥩) | deactivate bot :tf: (1mill 🥩)`)
-            } else {
                 return {
                     text: `${message.senderUsername}, kattahDance setcolor (50 🥩) | cdr (5 🥩) | change display name (50 🥩) | deactivate bot :tf: (1mill 🥩)`
                 } 
             }
+        }
+
+        if (message.channelName == message.channelName) {
+            return {
+                text: `${message.senderUsername}, kattahDance setcolor (50 🥩) | cdr (5 🥩) | change display name (50 🥩) | deactivate bot :tf: (1mill 🥩)`
+            } 
         }
     }
 }

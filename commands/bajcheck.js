@@ -24,47 +24,20 @@ module.exports = {
                 if (data) {
                     if (data.followedAt == null) {
                         if (data.cumulative.months == 0) {
-                            if (message.senderUsername == (await utils.PoroNumberOne())) {
-                                return client.privmsg(
-                                    message.channelName,
-                                    `.me ${USERNAME} WAS NEVER SUBBED & FOLLOWING forsenBased`
-                                );
-                            }
                             return {
                                 text: `${USERNAME} WAS NEVER SUBBED & FOLLOWING forsenBased`,
                             };
                         } else if (data.subscribed == true) {
-                            if (message.senderUsername == (await utils.PoroNumberOne())) {
-                                return client.privmsg(
-                                    message.channelName,
-                                    `.me ${USERNAME} is subbed to forsen for ${data.cumulative.months} months & not following. forsenE`
-                                );
-                            }
                             return {
                                 text: `${USERNAME} is subbed to forsen for ${data.cumulative.months} months & not following. forsenE`,
                             };
                         } else if (data.cumulative.months > 0) {
-                            if (message.senderUsername == (await utils.PoroNumberOne())) {
-                                return client.privmsg(
-                                    message.channelName,
-                                    `.me ${USERNAME} is previously subbed to forsen for ${data.cumulative.months} months & not following. forsenWhat`
-                                );
-                            }
-
                             return {
                                 text: `${USERNAME} is previously subbed to forsen for ${data.cumulative.months} months & not following. forsenWhat`,
                             };
                         }
                     } else if (data.cumulative.months == 0) {
                         if (data.cumulative.months == 0) {
-                            if (message.senderUsername == (await utils.PoroNumberOne())) {
-                                return client.privmsg(
-                                    message.channelName,
-                                    `.me ${USERNAME} was never subbed to forsen & following for ${humanizeDuration(
-                                        followAge
-                                    )} forsenWhat`
-                                );
-                            }
                             return {
                                 text: `${USERNAME} was never subbed to forsen & following for ${humanizeDuration(
                                     followAge
@@ -73,28 +46,12 @@ module.exports = {
                         }
                     } else if (data.cumulative.months > 0) {
                         if (data.subscribed == false) {
-                            if (message.senderUsername == (await utils.PoroNumberOne())) {
-                                return client.privmsg(
-                                    message.channelName,
-                                    `.me ${USERNAME} was previously subbed to forsen for ${
-                                        data.cumulative.months
-                                    } months & following for ${humanizeDuration(followAge)} forsenWhat`
-                                );
-                            }
                             return {
                                 text: `${USERNAME} was previously subbed to forsen for ${
                                     data.cumulative.months
                                 } months & following for ${humanizeDuration(followAge)} forsenWhat`,
                             };
                         } else if (data.subscribed == true) {
-                            if (message.senderUsername == (await utils.PoroNumberOne())) {
-                                return client.privmsg(
-                                    message.channelName,
-                                    `.me ${USERNAME} is subbed to forsen for ${
-                                        data.cumulative.months
-                                    } months & following for ${humanizeDuration(followAge)} forsenE`
-                                );
-                            }
                             return {
                                 text: `${USERNAME} is subbed to forsen for ${
                                     data.cumulative.months
@@ -102,15 +59,6 @@ module.exports = {
                             };
                         }
                     } else if (data.hidden == true) {
-                        if (message.senderUsername == (await utils.PoroNumberOne())) {
-                            return client.privmsg(
-                                message.channelName,
-                                `.me ${USERNAME}'s subscription is hidden, Try hovering over their sub badge. Following for ${humanizeDuration(
-                                    followAge
-                                )} forsenE`
-                            );
-                        }
-
                         return {
                             text: `${USERNAME}'s subscription is hidden, Try hovering over their sub badge. Following for ${humanizeDuration(
                                 followAge

@@ -1,5 +1,4 @@
 const got = require("got")
-const utils = require("../util/utils.js");
 
 module.exports = {
   name: "7tvpfp",
@@ -23,10 +22,7 @@ module.exports = {
         })
         //console.log(stv)
         
-        if (message.senderUsername == await utils.PoroNumberOne()) {
-            return client.privmsg(message.channelName, `.me ${stv.data.user.profile_image_url.replace("//", "")}`)
-        } else {
-            return { text: `${stv.data.user.profile_image_url.replace("//", "")}`}
-        }
+        
+    return { text: `${stv.data.user.profile_image_url.replace("//", "")}`}
   }
 }

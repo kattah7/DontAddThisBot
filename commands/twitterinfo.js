@@ -1,7 +1,5 @@
 const got = require('got');
-const humanizeDuration = require('../humanizeDuration');
 const regex = require('../util/regex.js');
-const utils = require('../util/utils.js');
 
 module.exports = {
     name: 'twitter',
@@ -10,13 +8,9 @@ module.exports = {
     description: "Gets info of user's twitter",
     execute: async (message, args, client) => {
         if (!args[0]) {
-            if (message.senderUsername == (await utils.PoroNumberOne())) {
-                client.privmsg(message.channelName, `.me insert name to get twitter info lol`);
-            } else {
-                return {
-                    text: `insert name to get twitter info lol`,
-                };
-            }
+            return {
+                text: `insert name to get twitter info lol`,
+            };
         }
         const targetUser = args[0] ?? message.senderUsername;
         const { data } = await got(
@@ -43,24 +37,13 @@ module.exports = {
         const accountAge = data.created_at;
         const PUBLICMETRICS = data2.public_metrics;
         if (!regex.racism.test(desc, name, location, accountAge, PUBLICMETRICS)) {
-            if (message.senderUsername == (await utils.PoroNumberOne())) {
-                client.privmsg(
-                    message.channelName,
-                    `.me ${targetUser} (${name})'s twitter account created at ${
-                        accountAge.split('T')[0]
-                    }, ID: ${id}, Location: ${location}, Description: ${desc} [Followers: ${
-                        PUBLICMETRICS.followers_count
-                    } Following: ${PUBLICMETRICS.following_count} ]`
-                );
-            } else {
-                return {
-                    text: `${targetUser} (${name})'s twitter account created at ${
+            return {
+                text: `${targetUser} (${name})'s twitter account created at ${
                         accountAge.split('T')[0]
                     }, ID: ${id}, Location: ${location}, Description: ${desc} [Followers: ${
                         PUBLICMETRICS.followers_count
                     } Following: ${PUBLICMETRICS.following_count} ]`,
-                };
-            }
+            };
         } else {
             const XD =
                 'https://discord.com/api/webhooks/987735146297962497/Kvhez5MjG5Y-XiYQo9EUGbhiVd6UODyOf58WjkAZwRQMglOX_cpiW436mXZLLD8T7oFA';
