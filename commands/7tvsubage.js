@@ -20,7 +20,7 @@ module.exports = {
         timeout: 10000,
       }
     );
-    //console.log(Subage.end_at)
+    //console.log(Subage)
     const ms = new Date().getTime() - Date.parse(Subage.end_at);
     const subDate = humanizeDuration(ms);
 
@@ -36,8 +36,10 @@ module.exports = {
     }
     if (Subage.statuscode !== 404 || 400) {
       const renew = Subage.renew == true ? "renews" : "is ending";
+      const username = await utils.STVIDtoName(Subage.subscription.customer_id)
+      const gifter = Subage.subscription.customer_id !== Subage.subscription.subscriber_id ? `gifted by ${username.login}` : " ";
       return {
-        text: `7tvM ${pronouns} sub ${renew} in ${subDate}`,
+        text: `7tvM ${pronouns} sub ${gifter} ${renew} in ${subDate}`,
       };
     }
   },

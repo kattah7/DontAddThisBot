@@ -85,6 +85,16 @@ exports.NameToID = async (name) => {
     return nameData.body.id;
 };
 
+exports.STVIDtoName = async (id) => {
+    if (!id) return null;
+    const nameData = await got(`https://api.7tv.app/v2/users/${encodeURIComponent(id)}`, {
+        responseType: 'json',
+        throwHttpErrors: false,
+    });
+    if (!nameData.body.id) return null;
+    return nameData.body;
+};
+
 exports.channelEmotes = async (channel) => {
     if (!channel) return null;
     const channelData = await got(`https://api.7tv.app/v2/users/${channel}/emotes`, {
