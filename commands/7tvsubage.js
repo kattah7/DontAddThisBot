@@ -20,7 +20,7 @@ module.exports = {
         timeout: 10000,
       }
     );
-    console.log(Subage)
+    //console.log(Subage)
     const ms = new Date().getTime() - Date.parse(Subage.end_at);
     const subDate = humanizeDuration(ms);
 
