@@ -20,26 +20,21 @@ module.exports = {
         timeout: 10000,
       }
     );
-    //console.log(Subage)
+    console.log(Subage)
     const ms = new Date().getTime() - Date.parse(Subage.end_at);
     const subDate = humanizeDuration(ms);
 
-    if (Subage.status_code == 404) {
+    if (!Subage.active) {
       return {
-        text: `7tvM ${pronouns} sub is currently not active!`,
-      };
-    }
-    if (Subage.status_code == 400) {
-      return {
-        text: `7tvM ${pronouns} user is not found`,
-      };
-    }
-    if (Subage.statuscode !== 404 || 400) {
+        text: `7tvM ${pronouns} sub is currently not active.`
+      }
+    } else {
       const renew = Subage.renew == true ? "renews" : "is ending";
       const username = await utils.STVIDtoName(Subage.subscription.customer_id)
       const gifter = Subage.subscription.customer_id !== Subage.subscription.subscriber_id ? `gifted by ${username.login}` : " ";
+      const age = Subage.age / 30
       return {
-        text: `7tvM ${pronouns} sub ${gifter} ${renew} in ${subDate}`,
+        text: `7tvM ${pronouns} sub ${gifter} ${renew} in ${subDate} [${age} Months]`,
       };
     }
   },

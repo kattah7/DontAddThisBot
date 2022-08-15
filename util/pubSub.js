@@ -5,8 +5,6 @@ const utils = require('./utils.js');
 const { client } = require('./connections.js')
 const RWS = require('reconnecting-websocket');
 const got = require("got");
-const axios = require('axios');
-const humanizeDuration = require("../humanizeDuration");
 
 exports.topics = [];
 exports.connections = [];
