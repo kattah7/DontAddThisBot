@@ -34,7 +34,7 @@ module.exports = {
       const gifter = Subage.subscription.customer_id !== Subage.subscription.subscriber_id ? `gifted by ${username.login}` : " ";
       const age = Subage.age / 30
       return {
-        text: `7tvM ${pronouns} sub ${gifter} ${renew} in ${subDate} [${age} Months]`,
+        text: `7tvM ${pronouns} sub ${gifter} ${renew} in ${subDate} [${age.toFixed(1)} Months]`,
       };
     }
   },
