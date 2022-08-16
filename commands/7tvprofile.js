@@ -34,12 +34,12 @@ module.exports = {
             const globalRoles = await utils.STVGlobalRoles()
             const {id, created_at, editors, emote_sets, owned_emotes, connections, roles} = STVInfo.data.user
             const isDiscordLinked = connections.find(connection => connection.platform == "DISCORD")
-            const ifDiscordLinked = isDiscordLinked ? `${isDiscordLinked.display_name} linkedAt: ${(isDiscordLinked.linked_at).split("T")[0]}` : false
+            const ifDiscordLinked = isDiscordLinked ? `${isDiscordLinked.display_name} Linked Date: ${(isDiscordLinked.linked_at).split("T")[0]}` : false
             const {emotes, capacity} = (await utils.StvChannelEmotes(id)).data.emoteSet
             const userRole = globalRoles.roles.find(role => role.id == roles[0])
             try {
                 return {
-                    text: `7tvM ${targetUser}: ${id} | ${created_at.split("T")[0]} | Editors: ${editors.length} | Emote Sets: ${emote_sets.length} | Owned Emotes: ${owned_emotes.length} | Slots: ${emotes.length}/${capacity} | Roles: ${userRole.name} | isDiscordLinked: ${ifDiscordLinked}`,
+                    text: `7tvM ${targetUser}: ${id} | ${created_at.split("T")[0]} | Editors: ${editors.length} | Emote Sets: ${emote_sets.length} | Owned Emotes: ${owned_emotes.length} | Slots: ${emotes.length}/${capacity} | Roles: ${userRole.name} | Discord Linked: ${ifDiscordLinked}`,
                 }
             } catch (error) {
                 return {
