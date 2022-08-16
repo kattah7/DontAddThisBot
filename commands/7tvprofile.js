@@ -39,7 +39,7 @@ module.exports = {
             const userRole = globalRoles.roles.find(role => role.id == roles[0])
             try {
                 return {
-                    text: `7tvM ${targetUser}: ${id} | ${created_at.split("T")[0]} | Editors: ${editors.length} | Emote Sets: ${emote_sets.length} | Owned Emotes: ${owned_emotes.length} | Slots: ${emotes.length}/${capacity} | Roles: ${userRole.name} | Discord Linked: ${ifDiscordLinked}`,
+                    text: `7tvM ${targetUser}, User ID: ${id} | Registered: ${created_at.split("T")[0]} | Editors: ${editors.length} | Emote Sets: ${emote_sets.length} | Owned Emotes: ${owned_emotes.length} | Slots: ${emotes.length}/${capacity} | Roles: ${userRole.name} | Discord Linked: ${ifDiscordLinked}`,
                 }
             } catch (error) {
                 return {
