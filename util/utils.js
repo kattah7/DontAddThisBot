@@ -346,3 +346,16 @@ exports.V3ChannelEmotes = async (username) => {
     });
     return STVInfo.data.user;
 };
+
+exports.STVGlobalRoles = async () => {
+    const { body: STVRoles } = await got.post(`https://7tv.io/v3/gql`, {
+        throwHttpErrors: false,
+        responseType: 'json',
+        json: {
+            operationName: 'AppState',
+            variables: {},
+            query: "query AppState {\n  globalEmoteSet: namedEmoteSet(name: GLOBAL) {\n    id\n    name\n    emotes {\n      id\n      name\n      flags\n      __typename\n    }\n    capacity\n    __typename\n  }\n  roles: roles {\n    id\n    name\n    allowed\n    denied\n    position\n    color\n    __typename\n  }\n}"
+        }
+    });
+    return STVRoles.data;
+}
