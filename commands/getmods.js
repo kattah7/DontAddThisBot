@@ -27,7 +27,7 @@ module.exports = {
                 })
             .json();
             return {
-                text: `https://haste.fuchsty.com/${key}.txt - [${modsNvipsMapped.length} mods, ${vipsMapped.length} vips]`,
+                text: `https://haste.fuchsty.com/${key}.txt - [${modsMapped.length} mods, ${vipsMapped.length} vips]`,
             }
         } catch (e) {
             console.log(e)
