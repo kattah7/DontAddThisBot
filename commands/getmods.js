@@ -18,14 +18,15 @@ module.exports = {
                 throwHttpErrors: false,
                 responseType: 'json',
             })
-            const getArtist = await fetch(`https://localhost:3003/api/twitch/editors/${targetUser}`, {
+            const getArtist = await fetch(`https://api.poros.lol/api/twitch/artist/${targetUser}`, {
                 method: 'GET',
             })
             const getArtistJSON = await getArtist.json();
             console.log(getArtistJSON)
             const modsMapped = getModsNVips.mods.map(x => x.login + " (" + x.grantedAt.split("T")[0] + ")" + " - " + "[MOD]")
             const vipsMapped = getModsNVips.vips.map(x => x.login + " (" + x.grantedAt.split("T")[0] + ")" + " - " + "[VIP]")
-            const modsNvipsMapped = modsMapped.concat(vipsMapped)
+            const artistMapped = getArtistJSON.artists.map(x => x.login + " (" + x.grantedAt.split("T")[0] + ")" + " - " + "[ARTIST]")
+            const modsNvipsMapped = modsMapped.concat(vipsMapped, artistMapped)
             const { key } = await got
                 .post(`https://haste.fuchsty.com/documents`, {
                     responseType: "json",
@@ -33,7 +34,7 @@ module.exports = {
                 })
             .json();
             return {
-                text: `https://haste.fuchsty.com/${key}.txt - [${modsMapped.length} mods, ${vipsMapped.length} vips]`,
+                text: `https://haste.fuchsty.com/${key}.txt - [${modsMapped.length} mods, ${vipsMapped.length} vips, ${artistMapped.length} artists]`,
             }
         } catch (e) {
             console.log(e)
