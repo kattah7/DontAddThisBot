@@ -22,7 +22,7 @@ module.exports = {
                 method: 'GET',
             })
             const getArtistJSON = await getArtist.json();
-            console.log(getArtistJSON)
+            //console.log(getArtistJSON)
             const modsMapped = getModsNVips.mods.map(x => x.login + " (" + x.grantedAt.split("T")[0] + ")" + " - " + "[MOD]")
             const vipsMapped = getModsNVips.vips.map(x => x.login + " (" + x.grantedAt.split("T")[0] + ")" + " - " + "[VIP]")
             const artistMapped = getArtistJSON.artists.map(x => x.login + " (" + x.grantedAt.split("T")[0] + ")" + " - " + "[ARTIST]")
