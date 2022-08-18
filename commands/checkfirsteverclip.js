@@ -42,7 +42,7 @@ module.exports = {
             },
             json: query,
         });
-        //console.log(edges[0].node)
+        //console.log(pogger[0].data.user.self)
         try {
             const {edges} = pogger[0].data.user.clips
             if (edges.length == 0) {

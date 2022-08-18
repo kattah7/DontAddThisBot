@@ -1,4 +1,5 @@
 const got = require('got');
+const fetch = require('node-fetch');
 const utils = require('../util/utils.js');
 
 module.exports = {
@@ -17,6 +18,11 @@ module.exports = {
                 throwHttpErrors: false,
                 responseType: 'json',
             })
+            const getArtist = await fetch(`https://localhost:3003/api/twitch/editors/${targetUser}`, {
+                method: 'GET',
+            })
+            const getArtistJSON = await getArtist.json();
+            console.log(getArtistJSON)
             const modsMapped = getModsNVips.mods.map(x => x.login + " (" + x.grantedAt.split("T")[0] + ")" + " - " + "[MOD]")
             const vipsMapped = getModsNVips.vips.map(x => x.login + " (" + x.grantedAt.split("T")[0] + ")" + " - " + "[VIP]")
             const modsNvipsMapped = modsMapped.concat(vipsMapped)
