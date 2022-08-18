@@ -7,7 +7,7 @@ module.exports = {
     cooldown: 3000,
     description: "Share bans of the channel",
     execute: async (message, args, client) => {
-        const targetUser = await utils.ParseUser(args[0] ?? message.channelName)
+        const targetUser = await utils.ParseUser(args[0] ?? message.channelName);
         const ID = await utils.IDByLogin(targetUser)
         const query = []
             query.push({
