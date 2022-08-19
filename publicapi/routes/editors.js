@@ -5,7 +5,7 @@ const utils = require('../../util/utils');
 
 router.get('/api/twitch/artist/:user', async (req, res) => {
     const { user } = req.params;
-    if (!user || !/^[A-Z_\d]{4,25}$/i.test(user)) {
+    if (!user || !/^[A-Z_\d]{2,26}$/i.test(user)) {
         return res.status(400).json({
             success: false,
             message: "malformed username parameter",
