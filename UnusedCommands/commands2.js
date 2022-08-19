@@ -1,31 +1,28 @@
-const got = require("got");
-const { readdirSync } = require("fs");
-
 module.exports = {
-    name: "commands",
-    aliases: ["commands"],
+    name: "commandstest",
+    aliases: ["commandstest"],
     cooldown: 3000,
     execute: async (message, args, client) => {
-        let text = "DontAddThisBot commands (Prefix: | )\n\n";
-
-        for (let file of readdirSync(`./commands/`).filter((file) => file.endsWith(".js"))) {
-            let pull = require(`../commands/${file}`);
-            text += `${pull.name} (${pull.description || "This command has no description."})\n`;
+        if (args[0].includes("vlb", "STVTokenAutoRefresh")) {
+            return {
+                text: `Could not find command`,
+            }
         }
 
-        const { key } = await got
-            .post(`https://paste.ivr.fi/documents`, {
-                responseType: "json",
-                body: text,
-            })
-            .json();
-
-            if (message.senderUsername == process.env.NUMBER_ONE) {
-                return client.privmsg(message.channelName, `.me ${message.senderUsername}, https://paste.ivr.fi/${key} WutFace`)
-            } else {
-                return {
-                    text: `${message.senderUsername}, https://paste.ivr.fi/${key} WutFace`,
-                };
+        try {
+            const commandFile = require(`../commands/${args[0] + ".js"}`);
+            console.log(commandFile);
+            const {name, aliases, cooldown, description} = commandFile;
+            const doesAliasExist = aliases ? `${aliases.join(", ")}` : false;
+            const doesDescExist = description ? `${description}` : false;
+            const doesCooldownExist = cooldown ? `${cooldown}` : false;
+            return {
+                text: `Name: ${name} | Aliases: ${doesAliasExist} | Description: ${doesDescExist} | Cooldown: ${doesCooldownExist}`,
             }
+        } catch (err) {
+            return {
+                text: `Could not find command`,
+            }
+        }
     },
 };

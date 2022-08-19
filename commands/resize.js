@@ -3,7 +3,7 @@ const got = require('got');
 module.exports = {
     name: 'ezgif',
     cooldown: 5000,
-    description: 'ezgif twitch, 7tv emotes (Usage: |ezgif (emote) (twitch or 7tv), bttv and ffz not supported KEKW)',
+    description: 'ezgif twitch, 7tv emotes (Usage: |ezgif (emote) (twitch or 7tv), bttv and ffz not supported)',
     execute: async (message, args, client) => {
         if (!args[0]) {
             return {
