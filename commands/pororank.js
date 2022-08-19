@@ -16,7 +16,7 @@ module.exports = {
 
         const kekw = sorted.slice(0, 5000000);
 
-        if (message.channelName == "checkingstreamers") {
+        if (message.channelName == "forsen") {
             if (await utils.ForsenTV(args[0] || message.senderUsername)) {
                 return {
                     text: `banned msg lol`
