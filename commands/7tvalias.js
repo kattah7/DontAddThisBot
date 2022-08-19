@@ -2,7 +2,7 @@ const utils = require("../util/utils.js")
 
 module.exports = {
     name: "7tvalias",
-    aliases: ["alias"],
+    aliases: ["alias", "rename"],
     description: "Alias a 7tv emote",
     cooldown: 3000,
     execute: async(message, args, client) => {
