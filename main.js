@@ -61,6 +61,12 @@ client.on('PRIVMSG', async (message) => {
 
     await userdata.save();
 
+    if (message.channelName == 'turtoise') {
+        if (message.messageText.startsWith('$cookie') && message.senderUserID == '188427533') {
+            client.say(message.channelName, '$give cookie Wisdomism');
+        }
+    }
+
     if (userdata.username !== message.senderUsername) {
         await bot.DB.users
             .updateOne({ id: message.senderUserID }, { $set: { username: message.senderUsername } })
