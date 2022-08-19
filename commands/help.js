@@ -17,7 +17,7 @@ module.exports = {
                 const {name, aliases, cooldown, description} = commandFile;
                 const doesAliasExist = aliases ? `${aliases.join(", ")}` : false;
                 const doesDescExist = description ? `${description}` : false;
-                const doesCooldownExist = cooldown ? `${cooldown}` : false;
+                const doesCooldownExist = cooldown ? `${cooldown / 1000}s` : false;
                 return {
                     text: `Name: ${name} | Aliases: ${doesAliasExist} | Description: ${doesDescExist} | Cooldown: ${doesCooldownExist}`,
                 }
@@ -27,7 +27,7 @@ module.exports = {
                 }
             }
         };
-        
+
         return {
             text: `Check the bot's panels for more info kattahHappy`
         }
