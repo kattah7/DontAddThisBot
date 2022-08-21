@@ -12,6 +12,71 @@ module.exports = {
         }
         const StvID = await utils.stvNameToID(message.channelName);
         const isNull = await utils.StvChannelEmotes(StvID);
+
+        const url = [args];
+        var regex = /https:\/\/(next\.)?7tv\.app\/emotes\/\w{24}/g.test(url);
+        if (!regex) {
+            if (!args[1]) {
+                try {
+                    const searchEmotes = await utils.SearchSTVEmote(args[0]);
+                    const findThatEmote = searchEmotes.data.emotes.items.find((emote) => emote.name === args[0]);
+                    const emoteName = await utils.StvEmoteIDToEmoteName(findThatEmote.id);
+                    const {flags} = emoteName.data.emote
+                    const getInfo = await utils.V3ChannelEmotes(StvID);
+                    const {roles} = getInfo;
+                    const findSubIDinRoles = roles.find((role) => role === "6076a86b09a4c63a38ebe801"); // sub ID
+                    if (!findSubIDinRoles && flags === 256) {
+                        return {
+                            text: `⛔ Cannot add zero-width emote, ${message.channelName} is not a 7tv subscriber.`,
+                        };
+                    }
+                } catch (error) {
+                    return {
+                        text: `Emote not found`,
+                    };
+                }
+            } else {
+                try {
+                    const StvID2 = await utils.stvNameToID(args[1]);
+                    const isNull = await utils.StvChannelEmotes(StvID2);
+                    const findEmoteInChannel2 = isNull.data.emoteSet.emotes.find((emote) => emote.name === args[0]);
+                    const emoteName = await utils.StvEmoteIDToEmoteName(findEmoteInChannel2.id);
+                    const {flags} = emoteName.data.emote
+                    const getInfo = await utils.V3ChannelEmotes(StvID);
+                    const {roles} = getInfo;
+                    const findSubIDinRoles = roles.find((role) => role === "6076a86b09a4c63a38ebe801"); // sub ID
+                    //console.log(emoteName)
+                    if (!findSubIDinRoles && flags === 256) {
+                        return {
+                            text: `⛔ Cannot add zero-width emote, ${message.channelName} is not a 7tv subscriber.`,
+                        };
+                    }
+                } catch (error) {
+                    return {
+                        text: `Emote not found`,
+                    }
+                };
+            }
+        }
+        if (regex) {
+            try {
+                const linkEmote = /https:\/\/(next\.)?7tv\.app\/emotes\/(\w{24})/.exec(url);
+                const emoteName = await utils.StvEmoteIDToEmoteName(linkEmote[2]);
+                const {flags} = emoteName.data.emote
+                const getInfo = await utils.V3ChannelEmotes(StvID);
+                const {roles} = getInfo;
+                const findSubIDinRoles = roles.find((role) => role === "6076a86b09a4c63a38ebe801"); // sub ID
+                if (!findSubIDinRoles && flags === 256) {
+                    return {
+                        text: `⛔ Cannot add zero-width emote, ${message.channelName} is not a 7tv subscriber.`,
+                    };
+                }
+            } catch (error) {
+                return {
+                    text: `Emote not found`,
+                };
+            }
+        }
         if (isNull.data == null) {
             return {
                 text: `⛔ "${message.channelName}" is not a valid channel...`,
