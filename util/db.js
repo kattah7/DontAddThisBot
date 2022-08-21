@@ -16,6 +16,7 @@ const ChannelsSchema = new DB.Schema({
     id: String,
     joinedAt: Date,
     prefix: String,
+    addedBy: [{ username: String, id: String, joinedAt: Date }],
     editors: [{ username: String, id: String, grantedAt: Date }],
     poroOnly: false,
     offlineOnly: false,
