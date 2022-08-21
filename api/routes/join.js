@@ -83,6 +83,7 @@ router.post(`/api/bot/join`, async (req, res) => {
             });
         }
 
+        await discord.newChannel(username, id, "null", new Date());
         return res.status(200).json({
             success: true,
         });
@@ -131,7 +132,6 @@ router.post(`/api/bot/join`, async (req, res) => {
     }
 
     // A user exists and they are already joined / up to date username
-    await discord.newChannel(username, id, "null", new Date());
     return res.status(409).json({
         success: false,
         message: 'Already joined',
