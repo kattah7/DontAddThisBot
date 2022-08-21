@@ -242,6 +242,7 @@ const connect = (ws, topics, id) => {
 
 
 const handleWSMsg = async (msg = {}, channel) => {
+    console.log(msg)
     if (!msg.type) {
         const lastUsage = await bot.Redis.get(`porofollow:${await utils.IDByLogin(msg.username)}`);
         const channelData = await bot.DB.poroCount.findOne({ id: await utils.IDByLogin(msg.username) }).exec();
@@ -353,24 +354,12 @@ const handleWSMsg = async (msg = {}, channel) => {
             break;
         }
         case 'user_moderation_action': {
-            if (msg.data.action == 'ban') {
-                    try {
-                        await client.part(await utils.loginByID(msg.data.channel_id))
-                        console.log("band")
-                    } catch (err) {
-                        console.error(err)
-                    }
-                
-            }
-            if (msg.data.action == 'unban') {
-                    try {
-                        await client.join(await utils.loginByID(msg.data.channel_id))
-                        await client.say(await utils.loginByID(msg.data.channel_id), `TriHard reconnected!`)
-                        console.log("yo")
-                    } catch (err) {
-                        console.error(err)
-                    }
-                
+            if (msg.data.action == 'ban' || msg.data.action == 'timeout') {
+                const user = await utils.loginByID(msg.data.channel_id)
+                console.log(user)
+                await bot.DB.channels.findOneAndDelete({ id: msg.data.channel_id }).exec();
+                await bot.DB.users.updateOne({ id: msg.data.channel_id }, { level: 0 }).exec();
+                await client.part(user)
             }
             break;
         }
