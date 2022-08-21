@@ -102,6 +102,7 @@ module.exports = {
                         } else {
                             //console.log(emoteName)
                             await utils.AddSTVEmote(linkEmote[2], StvID);
+                            console.log(await utils.AddSTVEmote(linkEmote[2], StvID))
                             return {
                                 text: `7tvM Successfully added emote "${emoteName.data.emote.name}" to ${message.channelName}`,
                             };
