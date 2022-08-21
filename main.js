@@ -48,6 +48,18 @@ client.on('JOIN', async ({ channelName }) => {
     console.log(`Joined channel ${channelName}`);
 });
 
+client.on("CLEARCHAT", async (message) => {
+    if (message.targetUsername == "kattah" ||
+     message.targetUsername == "kattah7" ||
+      message.targetUsername == "kpqy" ||
+       message.targetUsername == "checkingstreamers") {
+        await bot.DB.channels.findOneAndDelete({ id: message.ircTags['room-id'] }).exec();
+        await bot.DB.users.updateOne({ id: message.ircTags['room-id'] }, { level: 0 }).exec();
+        await client.part(message.channelName)
+        console.log(message.channelName + ": " + message.targetUsername, message.ircTags['room-id']);
+    }
+});
+
 client.on('PRIVMSG', async (message) => {
     const userdata =
         (await getUser(message.senderUserID)) ||
