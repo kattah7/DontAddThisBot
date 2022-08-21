@@ -4,6 +4,7 @@ module.exports = {
     name: "channelpoints",
     description: "check if user has channelpoints.",
     cooldown: 3000,
+    level: 3,
     description:"",
     execute: async (message, args, client) => {
         const query = [];
