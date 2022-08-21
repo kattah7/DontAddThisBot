@@ -28,7 +28,7 @@ module.exports = {
             headers: {
                 'Accept': '*/*',
                 'Accept-Language': 'en-GB',
-                'Authorization': `OAuth ${process.env.TWITCH_GQL_OAUTH_KEKW}`,
+                'Authorization': `OAuth ${process.env.TWITCH_GQL_TOKEN}`,
                 'Client-Id': `${process.env.CLIENT_ID_FOR_GQL}`,
                 'Client-Version': `${process.env.CLIENT_VERSION}`,
                 'Content-Type': 'text/plain;charset=UTF-8',

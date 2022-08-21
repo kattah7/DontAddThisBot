@@ -45,7 +45,7 @@ module.exports = {
             throwHttpErrors: false,
             responseType: 'json',
             headers: {
-                'Authorization': `OAuth ${process.env.TWITCH_GQL_OAUTH_KEKW}`,
+                'Authorization': `OAuth ${process.env.TWITCH_GQL_TOKEN}`,
                 'Client-Id': `${process.env.CLIENT_ID_FOR_GQL}`,
             },
             json: query

@@ -15,7 +15,7 @@ const refundPoints = async (channelId, redemptionId) => {
         throwHttpErrors: false,
         responseType: 'json',
         headers: {
-            'Authorization': `OAuth ${process.env.TWITCH_GQL_OAUTH_KEKW}`,
+            'Authorization': `OAuth ${process.env.TWITCH_GQL_TOKEN}`,
             'Client-Id': `${process.env.CLIENT_ID_FOR_GQL}`
         },
         json: {
@@ -43,7 +43,7 @@ const cancelRaid = async (channelId) => {
         throwHttpErrors: false,
         responseType: 'json',
         headers: {
-            'Authorization': `OAuth ${process.env.TWITCH_GQL_OAUTH_KEKW}`,
+            'Authorization': `OAuth ${process.env.TWITCH_GQL_TOKEN}`,
             'Client-Id': `${process.env.CLIENT_ID_FOR_GQL}`
         },
         json: {
@@ -69,7 +69,7 @@ const goRaid = async (channelId) => {
         throwHttpErrors: false,
         responseType: 'json',
         headers: {
-            'Authorization': `OAuth ${process.env.TWITCH_GQL_OAUTH_KEKW}`,
+            'Authorization': `OAuth ${process.env.TWITCH_GQL_TOKEN}`,
             'Client-Id': `${process.env.CLIENT_ID_FOR_GQL}`
         },
         json: {
@@ -95,7 +95,7 @@ const annouceNoti = async (msg) => {
         throwHttpErrors: false,
         responseType: 'json',
         headers: {
-            'Authorization': `OAuth ${process.env.TWITCH_GQL_OAUTH_KEKW}`,
+            'Authorization': `OAuth ${process.env.TWITCH_GQL_TOKEN}`,
             'Client-Id': `${process.env.CLIENT_ID_FOR_GQL}`
         },
         json: {
@@ -191,7 +191,7 @@ const connect = (ws, topics, id) => {
         for (const topic of topics) {
             const message = {
                 'data': {
-                    'auth_token': process.env.TWITCH_GQL_OAUTH_KEKW  || process.env.TWITCH_OAUTH,
+                    'auth_token': process.env.TWITCH_GQL_TOKEN || process.env.TWITCH_OAUTH,
                     'topics': [`${topic.sub}.${topic.channel.id}`]
                 },
                 'nonce': topic.nonce,
@@ -242,7 +242,7 @@ const connect = (ws, topics, id) => {
 
 
 const handleWSMsg = async (msg = {}, channel) => {
-    console.log(msg)
+    //console.log(msg)
     if (!msg.type) {
         const lastUsage = await bot.Redis.get(`porofollow:${await utils.IDByLogin(msg.username)}`);
         const channelData = await bot.DB.poroCount.findOne({ id: await utils.IDByLogin(msg.username) }).exec();

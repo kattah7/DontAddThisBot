@@ -31,7 +31,7 @@ module.exports = {
             const { body } = await got.post(`https://gql.twitch.tv/gql`, {
                 headers: {
                     "Client-ID": process.env.CLIENT_ID_FOR_GQL,
-                    Authorization: `OAuth ${process.env.TWITCH_GQL_OAUTH_KEKW}`,
+                    Authorization: `OAuth ${process.env.TWITCH_GQL_TOKEN}`,
                 },
                 json: {
                     operationName: "ViewerCardModLogsMessagesBySender",
