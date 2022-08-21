@@ -1,7 +1,7 @@
 const got = require('got')
 
 module.exports = {
-    name: 'test',
+    name: 'stvtest',
     cooldown: 3000,
     execute: async(message, args, client) => {
         const { body: poggers3 } = await got.post(`https://7tv.io/v3/gql`, {
