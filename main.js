@@ -185,11 +185,6 @@ client.on('PRIVMSG', async (message) => {
                 }
             }
 
-            if (command.numberone) {
-                if ((command.numberone == message.senderUsername) == 'kattah') {
-                    return client.say(message.channelName, 'xd');
-                }
-            }
             const response = await command.execute(message, args, client, userdata);
 
             if (response) {
