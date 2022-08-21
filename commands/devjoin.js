@@ -30,6 +30,13 @@ module.exports = {
                 text: `User ${targetUser} not found. kattahHappy`
             }
         };
+        const targetUserID = await utils.IDByLogin(targetUser);
+        const userDataBlacklisted = await bot.DB.users.findOne({ id: targetUserID }).exec();
+        if (userDataBlacklisted.level === 0) {
+            return {
+                text: `User ${targetUser} is blacklisted. kattahHappy`
+            }
+        }
         const getChannelMods = await client.getMods(targetUser);
         const findSenderUserNameInMods = getChannelMods.find((user) => user == message.senderUsername);
         if (!findSenderUserNameInMods) {
@@ -37,7 +44,6 @@ module.exports = {
                 text: `You can't do that, you must be a moderator. kattahHappy`
             }
         };
-        const targetUserID = await utils.IDByLogin(targetUser);
         const channelData = await bot.DB.channels.findOne({ id: targetUserID }).exec();
         const userData = await bot.DB.users.findOne({ id: targetUserID }).exec();
         // if the channel already exists, return
