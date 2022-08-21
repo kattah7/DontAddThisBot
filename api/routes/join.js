@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { client } = require('../../util/connections')
 const utils = require('../../util/utils');
+const discord = require('../../util/discord')
 
 router.post(`/api/bot/join`, async (req, res) => {
     const { username } = req.query;
@@ -130,6 +131,7 @@ router.post(`/api/bot/join`, async (req, res) => {
     }
 
     // A user exists and they are already joined / up to date username
+    await discord.newChannel(message.senderUsername, message.senderUserID, message.channelName, message.messageText);
     return res.status(409).json({
         success: false,
         message: 'Already joined',
