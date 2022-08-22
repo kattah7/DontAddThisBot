@@ -134,6 +134,13 @@ client.on('PRIVMSG', async (message) => {
                     setTimeout(() => {
                         cooldown.delete(`${command.name}${message.senderUserID}`);
                     }, 3000);
+                } else if (message.channelName == "forsen") {
+                    // users position is within the range of 10
+                    if (cooldown.has(`${command.name}${message.senderUserID}`)) return;
+                    cooldown.set(`${command.name}${message.senderUserID}`, Date.now() + 3000);
+                    setTimeout(() => {
+                        cooldown.delete(`${command.name}${message.senderUserID}`);
+                    }, 10000);
                 } else {
                     // user is not in top 10
                     if (cooldown.has(`${command.name}${message.senderUserID}`)) return;
@@ -214,7 +221,17 @@ client.on('PRIVMSG', async (message) => {
                         console.log(e, "Error while trying to report racism")
                     }
                 }
-                
+
+                if (message.channelName == "forsen") {
+                    if (await utils.ForsenTV(response.text)) {
+                        return client.say(message.channelName, "Ban phrase found in message")
+                    }
+                } else if (message.channelName == "nymn") {
+                    if (await utils.Nymn(response.text)) {
+                        return client.say(message.channelName, "Ban phrase found in message2")
+                    }
+                }
+
                 if (message.senderUsername == await utils.PoroNumberOne()) {
                     return client.privmsg(message.channelName, `.me ${response.text}`)
                 } else {
@@ -224,6 +241,7 @@ client.on('PRIVMSG', async (message) => {
         }
     } catch (err) {
         console.error('Error during command execution:', err);
+        return client.say(message.channelName, 'An error occurred while executing this command. Please try again later.');
     }
 });
 

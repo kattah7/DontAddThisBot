@@ -1,6 +1,6 @@
 module.exports = {
     name: "leaderboard",
-    cooldown: 10000,
+    cooldown: 5000,
     aliases: ["lb"],
     description: "See leaderboard of poro meat",
     poro: true,
