@@ -7,7 +7,7 @@ module.exports = {
     cooldown: 3000,
     description: 'Check available names on Twitch',
     execute: async (message, args, client) => {
-        const targetUser = await utils.ParseUser(args[0]);
+        const targetUser = await utils.ParseUser(args[0] ?? message.senderUsername);
         if (!/^[a-z0-9_]/i.test(targetUser)) {
             return {
                 text: `${targetUser} is not a valid user`,
