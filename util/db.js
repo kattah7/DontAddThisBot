@@ -36,10 +36,13 @@ const UserSchema = new DB.Schema({
     level: Number,
     nameChanges: [{ username: String, changedAt: Date }],
 });
+
+const PrivateSchema = new DB.Schema({
+    code: String,
+    todaysCode: String,
+});
+
 exports.users = DB.model('users', UserSchema);
-
 exports.poroCount = DB.model('poroCount', PoroSchema);
-exports.poroPrestige = DB.model('poroPrestige', PoroSchema);
-exports.joinedAt = DB.model('joinedAt', PoroSchema);
-
 exports.channels = DB.model('channels', ChannelsSchema);
+exports.private = DB.model('private', PrivateSchema);
