@@ -44,8 +44,16 @@ module.exports = {
                             text: `⛔ Emote "${args[1]}" already exists, therefore it cannot be aliased to "${args[1]}"...`,
                         }
                     } else {
-                        await utils.AliasSTVEmote(findEmote.id, StvID, args[1])
-                        //console.log(await utils.AliasSTVEmote(findEmote.id, StvID, args[1]))
+                        const doesSignInRequire = await utils.AliasSTVEmote(findEmote.id, StvID, args[1])
+                        if (doesSignInRequire.data.emoteSet == null) {
+                            switch (doesSignInRequire.errors[0].message) {
+                                case "70401 Sign-In Required": {
+                                    return {
+                                        text: `⛔ ${doesSignInRequire.errors[0].message}`,
+                                    }
+                                }
+                            }
+                        }
                         return {
                             text: `7tvM Emote "${args[0]}" has been successfully aliased to "${args[1]}"`,
                         }

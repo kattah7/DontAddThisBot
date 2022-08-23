@@ -136,7 +136,7 @@ exports.init = async () => {
     listen([{ login: 'pokimane', id: '44445592' }], ['video-playback-by-id', 'broadcast-settings-update'])
     listen([{ login: 'kattah', id: '137199626' }], ['video-playback-by-id', 'broadcast-settings-update', 'community-points-channel-v1', 'raid', 'polls'])
     listen([{ login: 'forsen', id: '22484632' }], ['video-playback-by-id', 'broadcast-settings-update'])
-    listen([{ login: 'dontaddthisbot', id: '790623318' }], ['chatrooms-user-v1', 'follows', 'following', 'twitch-eventsub-subscription-type'])
+    listen([{ login: 'dontaddthisbot', id: '790623318' }], ['chatrooms-user-v1', 'follows', 'following'])
 
 
     const splitTopics = utils.splitArray(this.topics, 50)

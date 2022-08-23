@@ -180,7 +180,7 @@ exports.AliasSTVEmote = async (emote, userID, name) => {
         throwHttpErrors: false,
         responseType: 'json',
         headers: {
-            Authorization: process.env.STV_AUTH,
+            Authorization: process.env.STV_AUTH_TOKEN,
         },
         json: {
             extensions: {},
@@ -203,7 +203,7 @@ exports.AddSTVEmote = async (emote, channel) => {
         throwHttpErrors: false,
         responseType: 'json',
         headers: {
-            Authorization: process.env.STV_AUTH,
+            Authorization: process.env.STV_AUTH_TOKEN,
         },
         json: {
             extensions: {},
@@ -226,7 +226,7 @@ exports.RemoveSTVEmote = async (emote, channel) => {
         throwHttpErrors: false,
         responseType: 'json',
         headers: {
-            Authorization: process.env.STV_AUTH,
+            Authorization: process.env.STV_AUTH_TOKEN,
         },
         json: {
             extensions: {},
@@ -240,7 +240,7 @@ exports.RemoveSTVEmote = async (emote, channel) => {
             type: 'connection_init',
         },
     });
-    return poggers3;
+    return poggers3
 };
 
 exports.SearchSTVEmote = async (emote) => {
@@ -249,7 +249,7 @@ exports.SearchSTVEmote = async (emote) => {
         throwHttpErrors: false,
         responseType: 'json',
         headers: {
-            Authorization: process.env.STV_AUTH,
+            Authorization: process.env.STV_AUTH_TOKEN,
         },
         json: {
             variables: {
@@ -270,7 +270,7 @@ exports.StvEmoteIDToEmoteName = async (emoteID) => {
         throwHttpErrors: false,
         responseType: 'json',
         headers: {
-            Authorization: process.env.STV_AUTH,
+            Authorization: process.env.STV_AUTH_TOKEN,
         },
         json: {
             variables: {
@@ -298,7 +298,7 @@ exports.EmoteSets = async (username) => {
         throwHttpErrors: false,
         responseType: 'json',
         headers: {
-            Authorization: process.env.STV_AUTH,
+            Authorization: process.env.STV_AUTH_TOKEN,
         },
         json: {
             operationName: 'GetUser',
@@ -316,7 +316,7 @@ exports.VThreeEditors = async (username) => {
         throwHttpErrors: false,
         responseType: 'json',
         headers: {
-            Authorization: process.env.STV_AUTH,
+            Authorization: process.env.STV_AUTH_TOKEN,
         },
         json: {
             operationName: 'GetUser',
@@ -334,7 +334,7 @@ exports.V3ChannelEmotes = async (username) => {
         throwHttpErrors: false,
         responseType: 'json',
         headers: {
-            Authorization: process.env.STV_AUTH,
+            Authorization: process.env.STV_AUTH_TOKEN,
         },
         json: {
             operationName: 'GetUser',

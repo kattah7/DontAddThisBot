@@ -45,16 +45,25 @@ module.exports = {
                             }
                     } else {
                         const KEKG = await utils.IDtoEmote(findEmote.id)
-                    await utils.AddSTVEmote(findEmote.id, StvID2)
-                    if (KEKG != args[0]) {
-                        await utils.AliasSTVEmote(findEmote.id, StvID2, args[0])
-                        return {
-                            text: `7tvM Yoinked ${args[0]} into ${message.senderUsername}'s channel & auto aliased it to ${args[0]}`,
+                        const doesSignInRequire = await utils.AddSTVEmote(findEmote.id, StvID2)
+                        if (doesSignInRequire.data.emoteSet == null) {
+                            switch (doesSignInRequire.errors[0].message) {
+                                case "70401 Sign-In Required": {
+                                    return {
+                                        text: `⛔ ${doesSignInRequire.errors[0].message}`,
+                                    }
+                                }
+                            }
                         }
-                    }
-                    return {
-                        text: `7tvM Yoinked ${args[0]} into ${message.senderUsername}'s channel!`,
-                    }
+                        if (KEKG != args[0]) {
+                            await utils.AliasSTVEmote(findEmote.id, StvID2, args[0])
+                            return {
+                                text: `7tvM Yoinked ${args[0]} into ${message.senderUsername}'s channel & auto aliased it to ${args[0]}`,
+                            }
+                        }
+                        return {
+                            text: `7tvM Yoinked ${args[0]} into ${message.senderUsername}'s channel!`,
+                        }
                     }
                 }
             } else {

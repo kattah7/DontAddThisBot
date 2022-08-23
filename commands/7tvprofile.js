@@ -16,7 +16,7 @@ module.exports = {
             throwHttpErrors: false,
             responseType: 'json',
             headers: {
-                Authorization: process.env.STV_AUTH,
+                Authorization: process.env.STV_AUTH_TOKEN,
             },
             json: {
                 operationName: 'GetUser',

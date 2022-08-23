@@ -27,9 +27,18 @@ module.exports = {
                 const channelEmotes = await utils.StvChannelEmotes(StvID)
                 const findEmote = channelEmotes.data.emoteSet.emotes.find((x) => x.name == args[0])
                 if (findEmote) {
-                    await utils.RemoveSTVEmote(findEmote.id, StvID)
+                    const doesSignInRequire = await utils.RemoveSTVEmote(findEmote.id, StvID)
+                    if (doesSignInRequire.data.emoteSet == null) {
+                        switch (doesSignInRequire.errors[0].message) {
+                            case "70401 Sign-In Required": {
+                                return {
+                                    text: `⛔ ${doesSignInRequire.errors[0].message}`,
+                                }
+                            }
+                        }
+                    }
                     return {
-                        text: `7tvM Emote "${args[0]}" has been successfully removed from ${message.channelName}`,
+                        text: `7tvM ${args[0]} has been removed from ${message.channelName}`,
                     }
                 } else {
                     return {
