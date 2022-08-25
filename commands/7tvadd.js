@@ -117,7 +117,7 @@ module.exports = {
                                     }
                                     case "70403 Insufficient Privilege: You must be a subscriber to use zero-width emotes": {
                                         return {
-                                            text: `⛔ the bot isnt a 7tv sub therefore it cant use zero-width emotes PoroSad`,
+                                            text: `⛔ ${doesSignInRequire.errors[0].message}`,
                                         }
                                     }
                                 }
