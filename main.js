@@ -101,7 +101,7 @@ client.on('PRIVMSG', async (message) => {
         return;
     }
 
-    const channelData = await getChannel(message.channelID);
+    const channelData = await getChannel(message.channelName);
     const prefix = channelData.prefix ?? '|';
     if (!message.messageText.startsWith(prefix)) return;
     const args = message.messageText.slice(prefix.length).trim().split(/ +/g);
@@ -227,7 +227,7 @@ client.on('PRIVMSG', async (message) => {
                 }
             }
 
-            const response = await command.execute(message, args, client, userdata);
+            const response = await command.execute(message, args, client, userdata, params);
 
             if (response) {
                 if (response.error) {
@@ -272,8 +272,8 @@ const getUser = async function (id) {
     return await bot.DB.users.findOne({ id: id }).catch((err) => console.log(err));
 };
 
-const getChannel = async function (id) {
-    return await bot.DB.channels.findOne({ id: id }).catch((err) => console.log(err));
+const getChannel = async function (channel) {
+    return await bot.DB.channels.findOne({ username: channel }).catch((err) => console.log(err));
 };
 
 const main = async () => {
