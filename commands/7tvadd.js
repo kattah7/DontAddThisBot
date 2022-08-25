@@ -109,6 +109,11 @@ module.exports = {
                                             text: `⛔ ${doesSignInRequire.errors[0].message}`,
                                         }
                                     }
+                                    case "70403 Insufficient Privilege: emote is private": {
+                                        return {
+                                            text: `⛔ ${doesSignInRequire.errors[0].message}`,
+                                        }
+                                    }
                                 }
                             }
                             return {

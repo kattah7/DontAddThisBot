@@ -359,3 +359,22 @@ exports.STVGlobalRoles = async () => {
     });
     return STVRoles.data;
 }
+
+exports.ChangeSTVEmoteSet = async (uid, emote_set_id, stvid) => {
+    const { body: STVEmoteSet } = await got.post(`https://7tv.io/v3/gql`, {
+        throwHttpErrors: false,
+        responseType: 'json',
+        json: {
+            operationName: 'UpdateUserConnection',
+            variables: {
+                conn_id: uid,
+                d: {
+                    emote_set_id: emote_set_id,
+                },
+                id: stvid,
+            },
+            query: "mutation UpdateUserConnection($id: ObjectID!, $conn_id: String!, $d: UserConnectionUpdate!) {\n  user(id: $id) {\n    connections(id: $conn_id, data: $d) {\n      id\n      platform\n      display_name\n      emote_set_id\n      __typename\n    }\n    __typename\n  }\n}"
+        }
+    });
+    return STVEmoteSet
+}
