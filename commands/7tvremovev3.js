@@ -5,7 +5,7 @@ module.exports = {
     description: 'remove 7tv emotes',
     cooldown: 5000,
     stv: true,
-    execute: async (message, args, client, xd, params) => {
+    execute: async (message, args, client) => {
         function removeEmote (emoteID, setID) {
             utils.RemoveSTVEmote(emoteID, setID);
         };

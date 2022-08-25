@@ -208,7 +208,7 @@ client.on('PRIVMSG', async (message) => {
                 const channelEditors = channelData.editors.find(editors => editors.id === message.senderUserID);
                 const ChannelOwnerEditor = message.senderUsername.toLowerCase() == message.channelName.toLowerCase()
                 if (!channelEditors && !ChannelOwnerEditor) {
-                    client.say(message.channelName, `You do not have permission to use this command. ask the broadcaster nicely to add you as editor :) |editor add ${message.senderUsername}`);
+                    client.say(message.channelName, `You do not have permission to use this command. ask the broadcaster nicely to add you as editor :) ${prefix}editor add ${message.senderUsername}`);
                     return;
                 }
             }
@@ -227,7 +227,7 @@ client.on('PRIVMSG', async (message) => {
                 }
             }
 
-            const response = await command.execute(message, args, client, userdata, params);
+            const response = await command.execute(message, args, client, userdata);
 
             if (response) {
                 if (response.error) {
