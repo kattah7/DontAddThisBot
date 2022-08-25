@@ -242,7 +242,6 @@ const connect = (ws, topics, id) => {
 
 
 const handleWSMsg = async (msg = {}, channel) => {
-    //console.log(msg)
     if (!msg.type) {
         const lastUsage = await bot.Redis.get(`porofollow:${await utils.IDByLogin(msg.username)}`);
         const channelData = await bot.DB.poroCount.findOne({ id: await utils.IDByLogin(msg.username) }).exec();

@@ -101,10 +101,16 @@ client.on('PRIVMSG', async (message) => {
         return;
     }
 
-    const channelData = await getChannel(message.channelName);
+    const channelData = await getChannel(message.channelID);
     const prefix = channelData.prefix ?? '|';
     if (!message.messageText.startsWith(prefix)) return;
     const args = message.messageText.slice(prefix.length).trim().split(/ +/g);
+    const params = {};
+    args.filter(word => word.includes(':')).forEach(param => {
+        const key = param.split(':')[0];
+        const value = param.split(':')[1];
+        params[key] = value === 'true' || value === 'false' ? value === 'true' : value;
+    });
     const cmd = args.length > 0 ? args.shift().toLowerCase() : '';
 
     if (cmd.length == 0) return;
@@ -190,6 +196,23 @@ client.on('PRIVMSG', async (message) => {
                 return;
             }
 
+            if (command.stv) {
+                const StvID = await utils.stvNameToID(message.channelName)
+                const Editors = await utils.VThreeEditors(StvID)
+                const isBotEditor = Editors.find((x) => x.user.id == "629d77a20e60c6d53da64e38") // DontAddThisBot's 7tv id
+                if (!isBotEditor) {
+                    client.say(message.channelName, 'Please grant @DontAddThisBot 7tv editor permissions.');
+                    return;
+                };
+
+                const channelEditors = channelData.editors.find(editors => editors.id === message.senderUserID);
+                const ChannelOwnerEditor = message.senderUsername.toLowerCase() == message.channelName.toLowerCase()
+                if (!channelEditors && !ChannelOwnerEditor) {
+                    client.say(message.channelName, `You do not have permission to use this command. ask the broadcaster nicely to add you as editor :) ${prefix}editor add ${message.senderUsername}`);
+                    return;
+                }
+            }
+
             if (channelData.offlineOnly && !command.offline) {
                 const { data } = await got(`https://api.twitch.tv/helix/streams?user_login=${message.channelName}`, {
                     headers: {
@@ -204,7 +227,7 @@ client.on('PRIVMSG', async (message) => {
                 }
             }
 
-            const response = await command.execute(message, args, client, userdata);
+            const response = await command.execute(message, args, client, userdata, params);
 
             if (response) {
                 if (response.error) {
@@ -249,8 +272,8 @@ const getUser = async function (id) {
     return await bot.DB.users.findOne({ id: id }).catch((err) => console.log(err));
 };
 
-const getChannel = async function (channel) {
-    return await bot.DB.channels.findOne({ username: channel }).catch((err) => console.log(err));
+const getChannel = async function (id) {
+    return await bot.DB.channels.findOne({ id: id }).catch((err) => console.log(err));
 };
 
 const main = async () => {
