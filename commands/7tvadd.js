@@ -102,6 +102,7 @@ module.exports = {
                         } else {
                             //console.log(emoteName)
                             const doesSignInRequire = await utils.AddSTVEmote(linkEmote[2], StvID);
+                            //console.log(doesSignInRequire)
                             if (doesSignInRequire.data.emoteSet == null) {
                                 switch (doesSignInRequire.errors[0].message) {
                                     case "70401 Sign-In Required": {
@@ -112,6 +113,11 @@ module.exports = {
                                     case "70403 Insufficient Privilege: emote is private": {
                                         return {
                                             text: `⛔ ${doesSignInRequire.errors[0].message}`,
+                                        }
+                                    }
+                                    case "70403 Insufficient Privilege: You must be a subscriber to use zero-width emotes": {
+                                        return {
+                                            text: `⛔ the bot isnt a 7tv sub therefore it cant use zero-width emotes PoroSad`,
                                         }
                                     }
                                 }
