@@ -90,7 +90,7 @@ module.exports = {
                         );
                         if (findEmoteInChannel2) {
                             return {
-                                text: `⛔ ${message.channelName} already has ${emoteName.data.emote.name}`,
+                                text: `⛔ ${message.channelName} already has "${emoteName.data.emote.name}"`,
                             };
                         }
                         const xddddd = await utils.StvChannelEmotes(StvID);
