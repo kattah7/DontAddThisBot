@@ -53,7 +53,8 @@ router.post(`/api/bot/join`, async (req, res) => {
                     message: 'Failed to save to datastore.',
                 });
             }
-    
+            
+            await discord.newChannel(username, id, new Date());
             return res.status(200).json({
                 success: true,
             });
