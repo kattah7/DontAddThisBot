@@ -7,7 +7,7 @@ module.exports = {
     stv: true,
     execute: async (message, args, client, xd, params) => {
         function removeEmote (emoteID, setID) {
-            utils.RemoveSTVEmote(emoteID, setID);
+            removeChannelEmote = utils.RemoveSTVEmote(emoteID, setID);
         };
         
         function findEmote (emote) {
@@ -39,6 +39,7 @@ module.exports = {
 
         let findThatEmote = '';
         let sum = 0;
+
         for (const allArgs of args) {
             if (params.set) {
                 findEmoteParam(allArgs.replace(/set:(.*)$/g, ''));
