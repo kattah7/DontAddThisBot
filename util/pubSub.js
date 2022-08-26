@@ -355,9 +355,6 @@ const handleWSMsg = async (msg = {}, channel) => {
         case 'user_moderation_action': {
             if (msg.data.action == 'ban' || msg.data.action == 'timeout') {
                 const user = await utils.loginByID(msg.data.channel_id)
-                console.log(user)
-                await bot.DB.channels.findOneAndDelete({ id: msg.data.channel_id }).exec();
-                await bot.DB.users.updateOne({ id: msg.data.channel_id }, { level: 0 }).exec();
                 await client.part(user)
             }
             break;
