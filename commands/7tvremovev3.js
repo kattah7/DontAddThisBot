@@ -5,17 +5,28 @@ module.exports = {
     description: 'remove 7tv emotes',
     cooldown: 5000,
     stv: true,
-    execute: async (message, args, client) => {
+    execute: async (message, args, client, xd, params) => {
         function removeEmote (emoteID, setID) {
             utils.RemoveSTVEmote(emoteID, setID);
         };
         
         function findEmote (emote) {
-            findThatEmote = channelEmotes.data.emoteSet.emotes.find((x) => x.name == emote);
+            findThatEmoteSet = channelEmotes.find((x) => x.id == StvID);
+            findThatEmote = findThatEmoteSet.emotes.find((x) => x.name == emote);
             sum += 1;
             if (!findThatEmote) { return false; }
-            removeEmote(findThatEmote.id, channelEmotes.data.emoteSet.id);
+            removeEmote(findThatEmote.id, findThatEmoteSet.id);
         };
+
+        function findEmoteParam (emote) {
+            findParamEmoteSet = channelEmotes.find((x) => x.name == params.set);
+            if (!findParamEmoteSet) { return false; }
+            if (emote.length == 0) { return false; }
+            findThatEmote = findParamEmoteSet.emotes.find((x) => x.name == emote);
+            sum += 1;
+            if (!findThatEmote) { return false; }
+            removeEmote(findThatEmote.id, findParamEmoteSet.id);
+        }
 
         if (!args[0]) {
             return {
@@ -24,20 +35,31 @@ module.exports = {
         };
 
         const StvID = await utils.stvNameToID(message.channelName);
-        const channelEmotes = await utils.StvChannelEmotes(StvID);
+        const channelEmotes = await utils.EmoteSets(StvID);
 
         let findThatEmote = '';
         let sum = 0;
         for (const allArgs of args) {
-            findEmote(allArgs);
+            if (params.set) {
+                findEmoteParam(allArgs.replace(/set:(.*)$/g, ''));
+            } else {
+                findEmote(allArgs);
+            }
         };
+
+        if (!findParamEmoteSet) {
+            return {
+                text: `⛔ "${params.set}" is not a valid set`,
+            };
+        }
         
         if (!findThatEmote) {
+            const isParams = params.set ? `"${params.set}" set` : message.channelName;
             return {
-                text: `⛔ I could not find the emote`,
+                text: `⛔ I could not find the emote in ${isParams}`,
             }
         } else {
-            const isTextLong = args.join(" ").length > 450 ? `${sum} emotes` : args.join(", ");
+            const isTextLong = args.join(" ").length > 450 ? `${sum} emotes` : args.join(", ").replace(/set:(.*)$/g, '');
             return {
                 text: `7tvM ${isTextLong} has been removed from ${message.channelName}`,
             }
