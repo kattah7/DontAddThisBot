@@ -53,15 +53,15 @@ module.exports = {
             };
         }
         
+        const isParams = params.set ? `"${params.set}" set` : message.channelName;
         if (!findThatEmote) {
-            const isParams = params.set ? `"${params.set}" set` : message.channelName;
             return {
                 text: `⛔ I could not find the emote in ${isParams}`,
             }
         } else {
             const isTextLong = args.join(" ").length > 450 ? `${sum} emotes` : args.join(", ").replace(/set:(.*)$/g, '');
             return {
-                text: `7tvM ${isTextLong} has been removed from ${message.channelName}`,
+                text: `7tvM ${isTextLong} has been removed from ${isParams}`,
             }
         };
     }
