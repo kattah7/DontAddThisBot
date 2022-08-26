@@ -264,7 +264,8 @@ client.on('PRIVMSG', async (message) => {
         }
     } catch (err) {
         console.error('Error during command execution:', err);
-        return client.say(message.channelName, 'An error occurred while executing this command. Please try again later.');
+        await discord.errorMessage(message.channelName, message.senderUsername, message.messageText);
+        return client.say(message.channelName, 'An error occurred while executing this command, Logged for review.');
     }
 });
 
