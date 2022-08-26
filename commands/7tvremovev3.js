@@ -13,8 +13,8 @@ module.exports = {
         function findEmote (emote) {
             findThatEmoteSet = channelEmotes.find((x) => x.id == StvID);
             findThatEmote = findThatEmoteSet.emotes.find((x) => x.name == emote);
-            sum += 1;
             if (!findThatEmote) { return false; }
+            sum += 1;
             removeEmote(findThatEmote.id, findThatEmoteSet.id);
         };
 
@@ -23,8 +23,8 @@ module.exports = {
             if (!findParamEmoteSet) { return false; }
             if (emote.length == 0) { return false; }
             findThatEmote = findParamEmoteSet.emotes.find((x) => x.name == emote);
-            sum += 1;
             if (!findThatEmote) { return false; }
+            sum += 1;
             removeEmote(findThatEmote.id, findParamEmoteSet.id);
         }
 
@@ -47,22 +47,28 @@ module.exports = {
             }
         };
 
-        if (!findParamEmoteSet) {
-            return {
-                text: `⛔ "${params.set}" is not a valid set`,
-            };
-        }
+        if (params.set) {
+            if (!findParamEmoteSet) {
+                return {
+                    text: `⛔ "${params.set}" is not a valid set`,
+                };
+            }
+        };
         
         const isParams = params.set ? `"${params.set}" set` : message.channelName;
         if (!findThatEmote) {
+            const certainEmotes = args[1] ? `certain emotes` : `"${args[0]}"`;
+            const singleOrMutiple = sum == 1 ? `` : `s`;
             return {
-                text: `⛔ I could not find the emote in ${isParams}`,
+                text: `⛔ I could not find ${certainEmotes} in ${isParams} but removed ${sum} emote${singleOrMutiple}`,
             }
         } else {
-            const isTextLong = args.join(" ").length > 450 ? `${sum} emotes` : args.join(", ").replace(/set:(.*)$/g, '');
+            const isTextLong = args.join(" ").length > 450 ? `${sum} emotes` : `"${args.join(", ").replace(/set:(.*)$/g, '')}"`;
             return {
                 text: `7tvM ${isTextLong} has been removed from ${isParams}`,
             }
         };
+
+        
     }
 };
