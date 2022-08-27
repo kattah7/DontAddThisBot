@@ -60,7 +60,6 @@ client.on("CLEARCHAT", async (message) => {
     }
 });
 
-var block = false;
 client.on('PRIVMSG', async (message) => {
     const userdata =
         (await getUser(message.senderUserID)) ||
@@ -83,10 +82,6 @@ client.on('PRIVMSG', async (message) => {
             const isPrefix = prefix ? `${prefix}` : `|`;
             const isEditors = editors ? `${editors.length}` : `None`;
             client.say(message.channelName, `Prefix on this channel: "${isPrefix}" | Editors: ${isEditors} kattahBRUHH`);
-            block = true;
-                setTimeout(() => {
-                    block = false;
-                }, 5000);
             return;
         }
     }
