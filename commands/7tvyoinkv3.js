@@ -39,7 +39,7 @@ module.exports = {
             findThatEmote = findMainChannel.emotes.find((x) => x.name == emoteID);
             if (!findThatEmote) { return false; }
             find += 1;
-            addEmote(findThatEmote.id, StvID);
+            addEmote(findThatEmote.id, StvID2);
         }
         
         async function addEmote (emoteID, setID) {
@@ -71,7 +71,6 @@ module.exports = {
                 };
             } else {
                 const addEmote = await utils.AddSTVEmote(findThatEmote.id, StvID2);
-                console.log(addEmote);
                 if (addEmote.errors) {
                     return {
                         text: `⛔ ${addEmote.errors[0].extensions.message}`,
