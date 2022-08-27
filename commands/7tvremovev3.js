@@ -6,8 +6,8 @@ module.exports = {
     cooldown: 5000,
     stv: true,
     execute: async (message, args, client, xd, params) => {
-        function removeEmote (emoteID, setID) {
-            removeChannelEmote = utils.RemoveSTVEmote(emoteID, setID);
+        async function removeEmote (emoteID, setID) {
+            removeChannelEmote = await utils.RemoveSTVEmote(emoteID, setID);
         };
         
         function findEmote (emote) {
@@ -64,7 +64,7 @@ module.exports = {
                 text: `⛔ I could not find ${certainEmotes} in ${isParams} but removed ${sum} emote${singleOrMutiple}`,
             }
         } else {
-            const isTextLong = args.join(" ").length > 450 ? `${sum} emotes` : `"${args.join(", ").replace(/set:(.*)$/g, '')}"`;
+            const isTextLong = args[1] ? `${sum} emotes` : `"${args[0]}"`;
             return {
                 text: `7tvM ${isTextLong} has been removed from ${isParams}`,
             }
