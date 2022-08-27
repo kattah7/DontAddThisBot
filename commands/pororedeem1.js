@@ -12,8 +12,13 @@ module.exports = {
                 text: `insert code lol`,
             };
         }
-        const lastUsage = await bot.Redis.get(`pororedeem:${message.senderUserID}`);
         const channelData = await bot.DB.poroCount.findOne({ id: message.senderUserID }).exec();
+        if (!channelData) {
+            return {
+                text: `kattahHappy you arent registered! ${message.senderUsername} type |poro to get started.`,
+            };
+        }
+        const lastUsage = await bot.Redis.get(`pororedeem:${message.senderUserID}`);
         const input = args[0];
         const availableBadges = [process.env.PORO_CODE];
 
