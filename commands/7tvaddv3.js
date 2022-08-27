@@ -9,23 +9,6 @@ module.exports = {
         const StvID = await utils.stvNameToID(message.channelName);
         const channelEmotes = await utils.EmoteSets(StvID);
         const SearchEmote = await utils.SearchSTVEmote(args[0], true);
-
-        if (params.emote == "all") {
-            const SearchEmoteParams = await utils.SearchSTVEmote(args[0], false);
-            if (SearchEmoteParams.errors) {
-                return {
-                    text: `⛔ ${SearchEmoteParams.errors[0].extensions.message}`,
-                };
-            };
-
-            for (const emotes of SearchEmoteParams.data.emotes.items) {
-                utils.AddSTVEmote(emotes.id, StvID);
-            };
-
-            return {
-                text: `7tvM Added all emotes related to "${args[0]}", Note that this may be buggy.`,
-            };
-        }
         
         if (SearchEmote.errors) {
             return {
