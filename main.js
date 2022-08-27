@@ -72,19 +72,6 @@ client.on('PRIVMSG', async (message) => {
         });
 
     await userdata.save();
-    
-    
-    var regex = /^[@dontaddthisbot]{15}$/i  
-    var regex2 = /^[@dontaddthisbot,]{16}$/i;
-    if (regex.test(message.messageText) || regex2.test(message.messageText)) {
-        if (!block) {
-            const { prefix, editors } = await bot.DB.channels.findOne({ id: message.channelID }).exec();
-            const isPrefix = prefix ? `${prefix}` : `|`;
-            const isEditors = editors ? `${editors.length}` : `None`;
-            client.say(message.channelName, `Prefix on this channel: "${isPrefix}" | Editors: ${isEditors} kattahBRUHH`);
-            return;
-        }
-    }
 
     if (message.channelName == 'turtoise') {
         if (message.messageText.startsWith('$cookie') && message.senderUserID == '188427533') {
