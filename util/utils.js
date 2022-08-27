@@ -243,7 +243,7 @@ exports.RemoveSTVEmote = async (emote, channel) => {
     return poggers3
 };
 
-exports.SearchSTVEmote = async (emote) => {
+exports.SearchSTVEmote = async (emote, Boolean) => {
     const { body: poggers4 } = await got.post(`https://7tv.io/v3/gql`, {
         // remove emote
         throwHttpErrors: false,
@@ -255,10 +255,17 @@ exports.SearchSTVEmote = async (emote) => {
             variables: {
                 query: emote,
                 limit: 300,
+                page: 1,
+                filter: {
+                    case_sensitive: true,
+                    category: `TOP`,
+                    exact_match: Boolean,
+                    ignore_tags: true,
+                },
             },
             extensions: {},
             operationName: 'SearchEmotes',
-            query: 'query SearchEmotes($query: String!, $page: Int, $limit: Int) {\n  emotes(query: $query, page: $page, limit: $limit) {\n    count\n    items {\n      id\n      name\n      listed\n      owner {\n        id\n        username\n        display_name\n        tag_color\n        __typename\n      }\n      flags\n      images {\n        name\n        format\n        url\n        width\n        height\n        __typename\n      }\n      __typename\n    }\n    __typename\n  }\n}',
+            query: 'query SearchEmotes($query: String!, $page: Int, $limit: Int, $filter: EmoteSearchFilter) {\n  emotes(query: $query, page: $page, limit: $limit, filter: $filter) {\n    count\n    items {\n      id\n      name\n      listed\n      trending\n      owner {\n        id\n        username\n        display_name\n        tag_color\n        __typename\n      }\n      flags\n      images {\n        name\n        format\n        url\n        width\n        height\n        __typename\n      }\n      __typename\n    }\n    __typename\n  }\n}',
         },
     });
     return poggers4;
