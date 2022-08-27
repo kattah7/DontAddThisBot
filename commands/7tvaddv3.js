@@ -1,7 +1,7 @@
 const utils = require("../util/utils.js");
 
 module.exports = {
-    name: 'addv3',
+    name: 'add',
     description: 'add 7tv emotes',
     cooldown: 5000,
     stv: true,
