@@ -60,6 +60,7 @@ client.on("CLEARCHAT", async (message) => {
     }
 });
 
+var block = false;
 client.on('PRIVMSG', async (message) => {
     const userdata =
         (await getUser(message.senderUserID)) ||
@@ -72,6 +73,21 @@ client.on('PRIVMSG', async (message) => {
         });
 
     await userdata.save();
+    
+    const lowerCase = message.messageText.toLowerCase();
+    if (lowerCase.startsWith("@dontaddthisbot,") || lowerCase.startsWith("@dontaddthisbot")) {
+        if (!block) {
+            const { prefix, editors } = await bot.DB.channels.findOne({ id: message.channelID }).exec();
+            const isPrefix = prefix ? `${prefix}` : `|`;
+            const isEditors = editors ? `${editors.length}` : `None`;
+            client.say(message.channelName, `Prefix on this channel: "${isPrefix}" | Editors: ${isEditors} kattahBRUHH`);
+            block = true;
+                setTimeout(() => {
+                    block = false;
+            }, (5 * 1000));
+            return;
+        };
+    };
 
     if (message.channelName == 'turtoise') {
         if (message.messageText.startsWith('$cookie') && message.senderUserID == '188427533') {
