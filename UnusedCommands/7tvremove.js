@@ -54,6 +54,6 @@ module.exports = {
             return {
                 text: `Please grant @DontAddThisBot as a editor on 7TV 7tvM`
             }
-        };
+        }
     }
 };

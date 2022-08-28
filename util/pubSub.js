@@ -363,7 +363,7 @@ const handleWSMsg = async (msg = {}, channel) => {
             }
             break;
         }
-};
+}
 };
 
 const handleWSResp = (msg) => {

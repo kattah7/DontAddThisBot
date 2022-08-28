@@ -36,7 +36,7 @@ router.post('/api/bot/poro', async (req, res) => {
                 success: false,
                 message: "Failed to update",
             });
-        };
+        }
     } else {
         try {
             await bot.DB.channels.updateOne({ id: id }, { $set: { poroOnly: true } });
@@ -49,7 +49,7 @@ router.post('/api/bot/poro', async (req, res) => {
                 success: false,
                 message: "Failed to update",
             });
-        };
+        }
     }
 
 })

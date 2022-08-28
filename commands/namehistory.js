@@ -60,6 +60,6 @@ module.exports = {
             return {
                 text: `${args[0]}'s name history since affiliate/partner: ${pogger[0].data.user.subscriptionProducts[0].name}`
             }
-        };
+        }
     }
 };

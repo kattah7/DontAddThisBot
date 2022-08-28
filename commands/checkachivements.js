@@ -12,7 +12,7 @@ module.exports = {
             return {
                  text: "malformed username parameter",
             }
-        };
+        }
         const query = [];
         query.push({
             operationName: 'UseQuestsHook',

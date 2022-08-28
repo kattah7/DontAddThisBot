@@ -12,7 +12,7 @@ module.exports = {
             const findThatEmote = findThatEmoteSet.emotes.find((x) => x.name == emote);
             if (!findThatEmote) { return client.say(msg.channelName, `⛔ Emote "${args[0]}" not found in ${msg.channelName}`); }
             aliasEmote(findThatEmote.id, findThatEmoteSet.id, args[1]);
-        };
+        }
 
         function findEmoteParams (emote) {
             const findParamEmoteSet = channelEmotes.find((x) => x.name == params.set);
@@ -35,14 +35,14 @@ module.exports = {
                     return client.say(msg.channelName, `7tvM Emote "${args[0]}" has been aliased to "${args[1]}"`);
                 }
             }
-        };
+        }
 
         if (!args[0] || !args[1]) {
             const doesArgsExist = args[0] ? `alias` : `emote`
             return {
                 text: `7tvM Please specify an ${doesArgsExist}`,
             };
-        };
+        }
 
         var regex = (/^set:(.*)$/g);
         if (regex.test(args[0]) || regex.test(args[1])) {
@@ -50,7 +50,7 @@ module.exports = {
             return {
                 text: `7tvM Please specify an correct ${doesEmoteExist}`,
             }
-        };
+        }
 
         const StvID = await utils.stvNameToID(msg.channelName);
         const channelEmotes = await utils.EmoteSets(StvID);
@@ -58,7 +58,7 @@ module.exports = {
             findEmoteParams(args[0]);
         } else {
             findEmote(args[0]);
-        };
+        }
 
     }
 }

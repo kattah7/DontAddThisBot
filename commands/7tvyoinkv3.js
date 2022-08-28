@@ -10,13 +10,13 @@ module.exports = {
             return {
                 text: "7tvM Please specify an emote",
             }
-        };
+        }
 
         if (!params.from) {
             return {
                 text: "7tvM Please specify a channel",
             };
-        };
+        }
 
         var regex = (/^from:(.*)$/g);
         if (!args[0] || regex.test(args[0])) {
@@ -25,14 +25,14 @@ module.exports = {
             return {
                 text: `${isArgsRegex}`,
             }
-        };
+        }
 
         const StvID = await utils.stvNameToID(params.from);
         if (!StvID) {
             return {
                 text: `⛔ "${params.from}" is not a valid channel`,
             };
-        };
+        }
 
         let find = 0;
         async function findEmote (emoteID) {
@@ -53,7 +53,7 @@ module.exports = {
         if (!/from:(.*)$/g.test(args[1])) {
             for (const allArgs of args) {
                 findEmote(allArgs.replace(/from:(.*)$/g, ''));
-            };
+            }
 
             if (find == 0) {
                 return {
@@ -81,7 +81,7 @@ module.exports = {
                     text: `7tvM Yoinked "${args[0]}" to ${message.channelName} from ${params.from}`,
                 };
             }
-        };
+        }
 
 
     }

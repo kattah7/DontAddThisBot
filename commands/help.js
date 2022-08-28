@@ -26,7 +26,7 @@ module.exports = {
                     text: `Could not find command`,
                 }
             }
-        };
+        }
 
         return {
             text: `Check the bot's panels for more info kattahHappy`

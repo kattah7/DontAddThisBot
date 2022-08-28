@@ -37,7 +37,7 @@ router.post('/api/bot/offline', async (req, res) => {
                 success: false,
                 message: "Failed to update",
             });
-        };
+        }
     } else {
         try {
             await bot.DB.channels.updateOne({ id: id }, { $set: { offlineOnly: true } });
@@ -50,7 +50,7 @@ router.post('/api/bot/offline', async (req, res) => {
                 success: false,
                 message: "Failed to update",
             });
-        };
+        }
     }
 
 })

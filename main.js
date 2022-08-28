@@ -77,6 +77,10 @@ client.on('PRIVMSG', async (message) => {
     const lowerCase = message.messageText.toLowerCase();
     if (lowerCase.startsWith("@dontaddthisbot,") || lowerCase.startsWith("@dontaddthisbot")) {
         if (!block) {
+            const channelData = await getChannel(message.channelName);
+            if (!channelData.id) {
+                await bot.DB.channels.updateOne({ username: message.channelName }, { id: message.ircTags['room-id'] }).exec();
+            }
             const { prefix, editors } = await bot.DB.channels.findOne({ id: message.channelID }).exec();
             const isPrefix = prefix ? `${prefix}` : `|`;
             const isEditors = editors ? `${editors.length}` : `None`;
@@ -86,8 +90,8 @@ client.on('PRIVMSG', async (message) => {
                     block = false;
             }, (5 * 1000));
             return;
-        };
-    };
+        }
+    }
 
     if (message.channelName == 'turtoise') {
         if (message.messageText.startsWith('$cookie') && message.senderUserID == '188427533') {
@@ -220,7 +224,7 @@ client.on('PRIVMSG', async (message) => {
                 if (!isBotEditor) {
                     client.say(message.channelName, 'Please grant @DontAddThisBot 7tv editor permissions.');
                     return;
-                };
+                }
 
                 const channelEditors = channelData.editors.find(editors => editors.id === message.senderUserID);
                 const ChannelOwnerEditor = message.senderUsername.toLowerCase() == message.channelName.toLowerCase()

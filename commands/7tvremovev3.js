@@ -8,7 +8,7 @@ module.exports = {
     execute: async (message, args, client, xd, params) => {
         async function removeEmote (emoteID, setID) {
             removeChannelEmote = await utils.RemoveSTVEmote(emoteID, setID);
-        };
+        }
         
         function findEmote (emote) {
             findThatEmoteSet = channelEmotes.find((x) => x.id == StvID);
@@ -16,7 +16,7 @@ module.exports = {
             if (!findThatEmote) { return false; }
             sum += 1;
             removeEmote(findThatEmote.id, findThatEmoteSet.id);
-        };
+        }
 
         function findEmoteParam (emote) {
             findParamEmoteSet = channelEmotes.find((x) => x.name == params.set);
@@ -32,7 +32,7 @@ module.exports = {
             return {
                 text: "7tvM Please specify an emote",
             }
-        };
+        }
 
         const StvID = await utils.stvNameToID(message.channelName);
         const channelEmotes = await utils.EmoteSets(StvID);
@@ -46,7 +46,7 @@ module.exports = {
             } else {
                 findEmote(allArgs);
             }
-        };
+        }
 
         if (params.set) {
             if (!findParamEmoteSet) {
@@ -54,7 +54,7 @@ module.exports = {
                     text: `⛔ "${params.set}" is not a valid set`,
                 };
             }
-        };
+        }
         
         const isParams = params.set ? `"${params.set}" set` : message.channelName;
         if (!findThatEmote) {
@@ -68,7 +68,7 @@ module.exports = {
             return {
                 text: `7tvM ${isTextLong} has been removed from ${isParams}`,
             }
-        };
+        }
 
         
     }

@@ -13,7 +13,7 @@ module.exports = {
             return {
                 text: `${isArgsRegex}`,
             }
-        };
+        }
 
         const StvID = await utils.stvNameToID(message.channelName);
         const channelEmotes = await utils.EmoteSets(StvID);
@@ -23,7 +23,7 @@ module.exports = {
             return {
                 text: `⛔ ${SearchEmote.errors[0].extensions.message}`,
             };
-        };
+        }
 
         if (params.set) {
             const findParamEmoteSet = channelEmotes.find((x) => x.name == params.set);
@@ -31,7 +31,7 @@ module.exports = {
                 return {
                     text: `⛔ set "${params.set}" Not found.`,
                 };
-            };
+            }
 
             const addEmote = await utils.AddSTVEmote(SearchEmote.data.emotes.items[0].id, findParamEmoteSet.id);
             if (addEmote.errors) {
@@ -42,15 +42,15 @@ module.exports = {
                 return {
                     text: `7tvM "${args[0]}" added to set ${params.set}`,
                 };
-            };
-        };
+            }
+        }
 
         const findChannel = channelEmotes.find((x) => x.id == StvID);
         if (!findChannel) {
             return {
                 text: `⛔ ${message.channelName} Not found.`,
             }
-        };
+        }
 
         const [url] = args;
         if (/https:\/\/(next\.)?7tv\.app\/emotes\/\w{24}/g.test(url)) {
@@ -66,8 +66,8 @@ module.exports = {
                 return {
                     text: `7tvM "${findAddedEmote.name}" added to ${message.channelName}`,
                 };
-            };
-        };
+            }
+        }
 
         const addEmote = await utils.AddSTVEmote(SearchEmote.data.emotes.items[0].id, findChannel.id);
         if (addEmote.errors) {
@@ -78,7 +78,7 @@ module.exports = {
             return {
                 text: `7tvM "${args[0]}" added to ${message.channelName}`,
             };
-        };
+        }
 
     }
 };
