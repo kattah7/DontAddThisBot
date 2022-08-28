@@ -17,7 +17,7 @@ module.exports = {
 
         const StvID = await utils.stvNameToID(message.channelName);
         const channelEmotes = await utils.EmoteSets(StvID);
-        const SearchEmote = await utils.SearchSTVEmote(args[0], true);
+        const SearchEmote = await utils.SearchSTVEmote(args[0], false);
         
         if (SearchEmote.errors) {
             return {
