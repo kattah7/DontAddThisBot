@@ -356,10 +356,7 @@ const handleWSMsg = async (msg = {}, channel) => {
             if (msg.data.action == 'ban' || msg.data.action == 'timeout') {
                 const user = await utils.loginByID(msg.data.channel_id)
                 await client.part(user)
-                const poroData = await bot.DB.poroCount.findOne({ id: msg.data.channel_id }).exec()
-                if (poroData) {
-                    await bot.DB.poroCount.updateOne({ id: msg.data.channel_id }, { $set: { poroCount: poroData.poroCount - 100 } }).exec()
-                }
+                
             }
             break;
         }
