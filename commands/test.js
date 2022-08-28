@@ -5,7 +5,7 @@ module.exports = {
     level: 3,
     description: "Test command",
     execute: async (message, args, client) => {
-        const channels = await bot.DB.channels.find({ isChannel: true }).exec();
+        const channels = await bot.DB.channels.find({  }).exec();
         for (const channel of channels) {
             const channelData = await bot.DB.channels.findOne({ username: channel.username }).exec();
             if (!channelData.isChannel) {
