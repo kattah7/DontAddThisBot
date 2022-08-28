@@ -28,9 +28,7 @@ module.exports = {
         const [url] = args;
         if (/https:\/\/(next\.)?7tv\.app\/emotes\/\w{24}/g.test(url)) {
             const linkEmote = /https:\/\/(next\.)?7tv\.app\/emotes\/(\w{24})/.exec(url);
-            console.log(linkEmote)
             const addEmote = await utils.AddSTVEmote(linkEmote[2], findChannel.id);
-            console.log(addEmote)
             if (addEmote.errors) {
                 return {
                     text: `⛔ ${addEmote.errors[0].extensions.message}`,
