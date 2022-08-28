@@ -5,23 +5,19 @@ module.exports = {
     description: "Part channel command",
     execute: async (message, args, client) => {
         // try to get and delete the channel from the database
-        const channelData = await bot.DB.channels.findOneAndDelete({ id: message.senderUserID }).exec();
-        const poroData = await bot.DB.poroCount.findOne({ id: message.senderUserID }).exec();
-        if (!poroData) {
-            if (channelData) {
-                client.part(message.senderUsername);
+        const channelData = await bot.DB.channels.findOneAndUpdate({ id: message.senderUserID }, { $set: { isChannel: false } }).exec();
+        if (!channelData || !channelData.isChannel) {
+            return { text: `Not in channel #${message.senderUsername}` };
+        }
+
+        if (channelData.isChannel) {
+            try {
+                await client.part(message.senderUsername);
                 return { text: `Parting channel #${message.senderUsername}` };
-            } else {
-                return { text: `Not in channel #${message.senderUsername}` };
+            } catch (error) {
+                return { text: `Error leaving channel #${message.senderUsername}` };
             }
         }
 
-        if (channelData) {
-            client.part(message.senderUsername);
-            await bot.DB.poroCount.updateOne({ id: message.senderUserID }, { $set: { poroCount: poroData.poroCount - 100 } } ).exec();
-            return { text: `Parting channel #${message.senderUsername}` };
-        } else {
-            return { text: `Not in channel #${message.senderUsername}` };
-        }
     },
 };

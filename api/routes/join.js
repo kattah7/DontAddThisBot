@@ -27,6 +27,25 @@ router.post(`/api/bot/join`, async (req, res) => {
     const poro = await bot.DB.poroCount.findOne({ id: id }).exec();
     const user = await bot.DB.channels.findOne({ id: id }).exec();
 
+    if (user) {
+        if (!user.isChannel) {
+            try {
+                await client.join(username);
+                await bot.DB.channels.findOneAndUpdate({ id: id }, { $set: { isChannel: true } }).exec();
+                await client.say(username, `Re-Joined channel, ${username} kattahSpin Also check @DontAddThisBot panels for info! `)
+            } catch (err) {
+                return res.status(500).json({
+                    success: false,
+                    message: 'Failed to join chat.',
+                });
+            }
+
+            return res.status(200).json({
+                success: true,
+            });
+        }
+    }
+
     if (!user) {
         // If the user doesn't exist at all, join the channel.
         if (!poro) {
@@ -46,6 +65,7 @@ router.post(`/api/bot/join`, async (req, res) => {
                     username: username,
                     id: id,
                     joinedAt: new Date(),
+                    isChannel: true,
                 }).save();
             } catch (err) {
                 return res.status(500).json({
@@ -76,6 +96,7 @@ router.post(`/api/bot/join`, async (req, res) => {
                 username: username,
                 id: id,
                 joinedAt: new Date(),
+                isChannel: true,
             }).save();
         } catch (err) {
             return res.status(500).json({

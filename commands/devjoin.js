@@ -7,39 +7,44 @@ module.exports = {
     level: 3,
     description: 'Join channel command',
     execute: async (message, args, client) => {
-        // try to get the channel from the database
-        const channelData = await bot.DB.channels.findOne({ username: args[0].toLowerCase() }).exec();
-
+        const targetUser = await utils.ParseUser(args[0])
+        if (!args[0] || !/^[A-Z_\d]{3,25}$/i.test(targetUser)) {
+            const isArgs = args[0] ? 'malformed username parameter' : 'Please provide a channel name';
+            return {
+                text: isArgs,
+            }
+        }
+        const channelData = await bot.DB.channels.findOne({ id: await utils.IDByLogin(targetUser.toLowerCase()) }).exec();
         // if the channel already exists, return
         if (channelData) {
-            return {
-                text: `Already in channel ${args[0].toLowerCase()}`,
+            if (channelData.isChannel) {
+                return { text: `Already in channel #${targetUser}` };
+            } else {
+                try {
+                    await bot.DB.channels.findOneAndUpdate({ id: await utils.IDByLogin(targetUser.toLowerCase()) }, { $set: { isChannel: true } }).exec();
+                    await client.join(targetUser.toLowerCase());
+                    return { text: `Re-Joining channel #${targetUser}` };
+                } catch (error) {
+                    return { text: `Error joining channel #${targetUser}` };
+                }
+            }
+        } else {
+            try {
+                await client.join(targetUser.toLowerCase());
+            } catch (error) {
+                return { text: `Error joining channel #${targetUser}` };
             };
-        }
-
-        // attempt to join the channel
-        try {
-            await client.join(args[0].toLowerCase());
-        } catch (err) {
-            console.log(err);
-            return {
-                text: 'Failed to join channel PoroSad',
-            };
-        }
-
-        // create the channel
-        const newChannel = new bot.DB.channels({
-            username: args[0].toLowerCase(),
-            id: await utils.IDByLogin(args[0].toLowerCase()),
-            joinedAt: new Date(),
-        });
-
-        // save the channel
-        await newChannel.save();
-
-        // return the response
-        return {
-            text: `Joined channel, ${args[0].toLowerCase()} :)`,
+            const newChannel = new bot.DB.channels({
+                username: targetUser.toLowerCase(),
+                id: await utils.IDByLogin(targetUser.toLowerCase()),
+                joinedAt: Date.now(),
+                isChannel: true,
+            });
+            await newChannel.save();
+            await client.say(targetUser.toLowerCase(), `Joined channel, ${targetUser} kattahSpin Also check @DontAddThisBot panels for info!`);
+            return { text: `Joined channel #${targetUser}` };
         };
+
+
     },
 };

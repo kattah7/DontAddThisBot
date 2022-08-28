@@ -28,6 +28,7 @@ router.get('/api/bot/channel/:user', async (req, res) => {
         editors: mapped,
         offlineOnly: channelInfo.offlineOnly,
         poroOnly: channelInfo.poroOnly,
+        isChannel: channelInfo.isChannel,
     });
 });
 
