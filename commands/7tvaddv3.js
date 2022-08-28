@@ -17,8 +17,35 @@ module.exports = {
 
         const StvID = await utils.stvNameToID(message.channelName);
         const channelEmotes = await utils.EmoteSets(StvID);
+
+        const findChannel = channelEmotes.find((x) => x.id == StvID);
+        if (!findChannel) {
+            return {
+                text: `⛔ ${message.channelName} Not found.`,
+            }
+        }
+
+        const [url] = args;
+        if (/https:\/\/(next\.)?7tv\.app\/emotes\/\w{24}/g.test(url)) {
+            const linkEmote = /https:\/\/(next\.)?7tv\.app\/emotes\/(\w{24})/.exec(url);
+            console.log(linkEmote)
+            const addEmote = await utils.AddSTVEmote(linkEmote[2], findChannel.id);
+            console.log(addEmote)
+            if (addEmote.errors) {
+                return {
+                    text: `⛔ ${addEmote.errors[0].extensions.message}`,
+                };
+            } else {
+                const channelEmotes = addEmote.data.emoteSet.emotes;
+                const findAddedEmote = channelEmotes.find((x) => x.id == linkEmote[2]);
+                return {
+                    text: `7tvM "${findAddedEmote.name}" added to ${message.channelName}`,
+                };
+            }
+        }
+
         const SearchEmote = await utils.SearchSTVEmote(args[0], false);
-        
+
         if (SearchEmote.errors) {
             return {
                 text: `⛔ ${SearchEmote.errors[0].extensions.message}`,
@@ -41,30 +68,6 @@ module.exports = {
             } else {
                 return {
                     text: `7tvM "${args[0]}" added to set ${params.set}`,
-                };
-            }
-        }
-
-        const findChannel = channelEmotes.find((x) => x.id == StvID);
-        if (!findChannel) {
-            return {
-                text: `⛔ ${message.channelName} Not found.`,
-            }
-        }
-
-        const [url] = args;
-        if (/https:\/\/(next\.)?7tv\.app\/emotes\/\w{24}/g.test(url)) {
-            const linkEmote = /https:\/\/(next\.)?7tv\.app\/emotes\/(\w{24})/.exec(url);
-            const addEmote = await utils.AddSTVEmote(linkEmote[2], findChannel.id);
-            if (addEmote.errors) {
-                return {
-                    text: `⛔ ${addEmote.errors[0].extensions.message}`,
-                };
-            } else {
-                const channelEmotes = addEmote.data.emoteSet.emotes;
-                const findAddedEmote = channelEmotes.find((x) => x.id == linkEmote[2]);
-                return {
-                    text: `7tvM "${findAddedEmote.name}" added to ${message.channelName}`,
                 };
             }
         }
