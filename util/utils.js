@@ -13,12 +13,12 @@ exports.loginByID = async (userID) => {
 
 exports.IVR = async (userID) => {
     if (!userID) return null;
-    userData = await got(`https://api.ivr.fi/twitch/resolve/${encodeURIComponent(userID)}`, {
+    userData = await got(`https://api.ivr.fi/v2/twitch/user?id=${encodeURIComponent(userID)}`, {
         responseType: 'json',
         throwHttpErrors: false,
     });
-    if (!userData.body.id) return null;
-    return userData.body;
+    if (!userData.body[0].id) return null;
+    return userData.body[0];
 };
 
 exports.displayName = async (userID) => {
