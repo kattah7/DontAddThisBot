@@ -1,4 +1,3 @@
-const { safeStringify } = require("request/lib/helpers.js");
 const utils = require("../util/utils.js");
 
 module.exports = {
@@ -26,7 +25,6 @@ module.exports = {
                         text: `Rank #${targetUser} not found in database PoroSad`
                     } 
                 }
-                //console.log(nanRank)
                 return {
                     text: `${nanRank[0].username} is rank #${kekw.findIndex((user) => user.username == nanRank[0].username) + 1}/${sorted.length} in the poro leaderboard! kattahBoom`,
                 }
