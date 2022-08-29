@@ -1,0 +1,15 @@
+{
+    "success": true,
+    "username": "kattah",
+    "id": "137199626",
+    "poroCount": 23,
+    "poroPrestige": 0,
+    "joinedAt": "2022-08-11T14:50:57.519Z",
+    "userRank": 3,
+    "totalRank": 12,
+    "cooldowns": {
+        "poro": "isAvailable: false lastUsage: 1661795745257",
+        "poroCdr": "isAvailable: false lastUsage: 1661794019481",
+        "poroRedeem": "isAvailable: false lastUsage: 1661795085352"
+    }
+}
