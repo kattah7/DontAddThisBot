@@ -76,6 +76,19 @@ module.exports = {
                         text: `⛔ ${addEmote.errors[0].extensions.message}`,
                     };
                 }
+                const EmoteIdToName = await utils.IDtoEmote(findThatEmote.id);
+                if (EmoteIdToName != findThatEmote.name) {
+                    const alias = await utils.AliasSTVEmote(findThatEmote.id, StvID2, findThatEmote.name);
+                    if (alias.errors) {
+                        return {
+                            text: `7tvM Yoinked "${EmoteIdToName}" to ${message.channelName} but error auto-aliasing, ⛔ ${alias.errors[0].extensions.message}`,
+                        };
+                    };
+                    
+                    return {
+                        text: `7tvM Yoinked "${EmoteIdToName}" to ${message.channelName} & auto-aliased to "${findThatEmote.name}"`,
+                    }
+                }
 
                 return {
                     text: `7tvM Yoinked "${args[0]}" to ${message.channelName} from ${params.from}`,
