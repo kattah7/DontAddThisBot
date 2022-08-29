@@ -234,6 +234,14 @@ client.on('PRIVMSG', async (message) => {
                 }
             }
 
+            if (command.poroRequire) {
+                const poroData = await bot.DB.poroCount.findOne({ id: message.senderUserID });
+                if (!poroData) {
+                    client.say(message.channelName, `You arent registered @${message.senderUsername}, type ${prefix}poro to get started! kattahHappy`)
+                    return;
+                }
+            }
+
             if (channelData.offlineOnly && !command.offline) {
                 const { data } = await got(`https://api.twitch.tv/helix/streams?user_login=${message.channelName}`, {
                     headers: {
@@ -248,7 +256,7 @@ client.on('PRIVMSG', async (message) => {
                 }
             }
 
-            const response = await command.execute(message, args, client, userdata, params);
+            const response = await command.execute(message, args, client, userdata, params, channelData);
 
             if (response) {
                 if (response.error) {
@@ -302,7 +310,7 @@ const main = async () => {
     const channels = await bot.DB.channels.find({ isChannel: true }).exec();
     for (const channel of channels) {
         try {
-            client.join(channel.username);
+            client.join(channel.username)
         } catch (err) {
             console.error(`Failed to join channel ${channel.username}`, err);
         }
