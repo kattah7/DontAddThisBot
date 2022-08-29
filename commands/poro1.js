@@ -24,7 +24,7 @@ module.exports = {
                 await newChannel.save();
                 await bot.Redis.set(`poro:${message.senderUserID}`, Date.now(), 0);
                 const Info = await utils.IVR(message.senderUserID);
-                console.log(Info)
+                //console.log(Info)
                 await discord.NewPoro(
                     Info.createdAt.split('T')[0],
                     message.senderUserID,
