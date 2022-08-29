@@ -1,6 +1,7 @@
 const humanizeDuration = require('../humanizeDuration');
 const utils = require('../util/utils.js');
 const discord = require('../util/discord.js');
+const { randomInt } = require('crypto');
 
 module.exports = {
     name: 'poro',
@@ -10,7 +11,7 @@ module.exports = {
     execute: async (message, args, client) => {
         const lastUsage = await bot.Redis.get(`poro:${message.senderUserID}`);
         const channelData = await bot.DB.poroCount.findOne({ id: message.senderUserID }).exec();
-        const random = Math.floor(Math.random() * 27) + -5;
+        const random = randomInt(-5, 27);
             if (!channelData) {
                 const newChannel = new bot.DB.poroCount({
                     username: message.senderUsername,
@@ -22,7 +23,8 @@ module.exports = {
 
                 await newChannel.save();
                 await bot.Redis.set(`poro:${message.senderUserID}`, Date.now(), 0);
-                const Info = await utils.IVR(message.senderUsername);
+                const Info = await utils.IVR(message.senderUserID);
+                console.log(Info)
                 await discord.NewPoro(
                     Info.createdAt.split('T')[0],
                     message.senderUserID,
