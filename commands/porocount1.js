@@ -7,35 +7,35 @@ module.exports = {
     aliases: ["poros"],
     description: "check poro count of user",
     poro: true,
-    execute: async (message, args, client) => {
-        const targetUser = await utils.ParseUser(args[0]?.toLowerCase() ?? message.senderUsername)
-        const selfPoroData = await bot.DB.poroCount.findOne({ id: message.senderUserID }).exec();
-        const poroData = await bot.DB.poroCount.findOne({ username: await utils.ParseUser(targetUser) }).exec();
-        const xd = args[0] || selfPoroData
-        if (!xd) {
-            return {
-                text: `You aren't registered PoroSad type |poro to get started!`
-            }
-        }
-            var reg = /^[a-z0-9_#@,]+$/i;
-            if (reg.test(args[0])) {
-            if (!poroData) {
+    execute: async (message, args, client, userdata, params, channelData) => {
+        if (!args[0]) {
+            const selfPoroData = await bot.DB.poroCount.findOne({ id: message.senderUserID });
+            if (!selfPoroData) {
                 return {
-                    text: `${targetUser} not found in database PoroSad`
+                    text: `kattahHappy you arent registered! ${message.senderUsername} type ${channelData.prefix ?? `|`}poro to get started.`,
                 }
             }
-            var today = new Date()
-            const timestamp = new Date(poroData.joinedAt)
-            const diffTime = Math.abs(today - timestamp)
-            const register = humanizeDuration(diffTime)
+
+            const { poroCount, poroPrestige, joinedAt } = selfPoroData;
+            const parsedTime = Math.abs(new Date().getTime() - new Date(joinedAt).getTime());
             return {
-                text: `${targetUser} has ${poroData.poroCount} poro(s) and ${poroData.poroPrestige} prestige. kattahHappy Registered (${register})`
-            }
-            //console.log(poroData.poroCount)
+                text: `${message.senderUsername} has ${poroCount} poro(s) and ${poroPrestige} prestige. kattahHappy Registered (${humanizeDuration(parsedTime)})`,
+            };
         } else {
-            return {
-                text: `message too long or not valid`
+            const targetUser = await utils.ParseUser(args[0]?.toLowerCase());
+            const userPoroData = await bot.DB.poroCount.findOne({ id: await utils.IDByLogin(targetUser) });
+            if (!userPoroData) {
+                return {
+                    text: `kattahHappy @${targetUser} isnt registered!`,
+                };
             }
+
+            const { poroCount, poroPrestige, joinedAt } = userPoroData;
+            const parsedTime = Math.abs(new Date().getTime() - new Date(joinedAt).getTime());
+            return {
+                text: `${targetUser} has ${poroCount} poro(s) and ${poroPrestige} prestige. kattahHappy Registered (${humanizeDuration(parsedTime)})`,
+            };
         }
+        
     }   
 }
