@@ -4,6 +4,7 @@ module.exports = {
   name: "7tvpfp",
   description: "Get user's 7tv profile picture",
   cooldown: 1000,
+  stvOnly: true,
   execute: async(message, args, client) => {
 
     const targetUser = args[0] ?? message.senderUsername

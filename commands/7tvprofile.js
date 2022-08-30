@@ -5,6 +5,7 @@ module.exports = {
     name: '7tv',
     cooldown: 1000,
     description: "Check user's 7tv info YEAHBUT7TV",
+    stvOnly: true,
     execute: async (message, args, client) => {
         if (!/^[A-Z_\d]{2,26}$/i.test(args[0])) {
            return {

@@ -5,6 +5,7 @@ module.exports = {
     cooldown: 3000,
     aliases: ["7tvr"],
     description: "Check 7tvrank of an emote",
+    stvOnly: true,
     execute: async(message, args, client) => {
         const { body: STVEmoteSearch } = await got.post(`https://7tv.io/v3/gql`, { 
             throwHttpErrors: false,

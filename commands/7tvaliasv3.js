@@ -6,6 +6,7 @@ module.exports = {
     aliases: ['rename'],
     cooldown: 5000,
     stv: true,
+    stvOnly: true,
     execute: async (msg, args, client, xd, params) => {
         function findEmote (emote) {
             const findThatEmoteSet = channelEmotes.find((x) => x.id == StvID);

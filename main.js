@@ -217,6 +217,10 @@ client.on('PRIVMSG', async (message) => {
                 return;
             }
 
+            if (channelData.stvOnly && !command.stvOnly) {
+                return;
+            }
+
             if (command.stv) {
                 const StvID = await utils.stvNameToID(message.channelName)
                 const Editors = await utils.VThreeEditors(StvID)

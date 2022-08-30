@@ -5,6 +5,7 @@ module.exports = {
     description: "yoink emotes from channels",
     cooldown: 5000,
     stv: true,
+    stvOnly: true,
     execute: async (message, args, client, xd, params) => {
         if (!args[0]) {
             return {

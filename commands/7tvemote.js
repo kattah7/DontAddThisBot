@@ -5,6 +5,7 @@ module.exports = {
     name: "7tvemote",
     cooldown: 3000,
     description: "Check 7tv emote info",
+    stvOnly: true,
     execute: async(message, args, client) => {
         if (!args[0]) {
             return {

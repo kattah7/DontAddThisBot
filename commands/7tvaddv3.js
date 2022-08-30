@@ -5,6 +5,7 @@ module.exports = {
     description: 'add 7tv emotes',
     cooldown: 5000,
     stv: true,
+    stvOnly: true,
     execute: async (message, args, client, xd, params) => {
         var regex = (/^set:(.*)$/g);
         if (!args[0] || regex.test(args[0])) {

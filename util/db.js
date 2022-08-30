@@ -20,6 +20,7 @@ const ChannelsSchema = new DB.Schema({
     isChannel: Boolean,
     poroOnly: false,
     offlineOnly: false,
+    stvOnly: false,
 });
 
 const PoroSchema = new DB.Schema({

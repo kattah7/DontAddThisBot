@@ -6,6 +6,7 @@ module.exports = {
     aliases: ["editor"],
     cooldown: 3000,
     permission: 2,
+    stvOnly: true,
     async execute(message, args, client) {
         if (!args[0]) {
             return {
