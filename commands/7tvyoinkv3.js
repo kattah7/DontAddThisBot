@@ -1,5 +1,4 @@
 const utils = require("../util/utils.js");
-const got = require("got");
 
 module.exports = {
     name: "yoink",
@@ -51,7 +50,7 @@ module.exports = {
         const channelEmotes2 = await utils.EmoteSets(StvID2);
         const findMainChannel2 = channelEmotes2.find((x) => x.owner.id == StvID2);
         const channelEmotes = await utils.EmoteSets(StvID);
-        const findMainChannel = channelEmotes.find((x) => x.id == StvID);
+        const findMainChannel = channelEmotes.find((x) => x.owner.id == StvID);
 
         if (!/from:(.*)$/g.test(args[1])) {
             for (const allArgs of args) {
