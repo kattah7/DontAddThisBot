@@ -68,11 +68,12 @@ module.exports = {
                 channels2.push(user['to_login']);
             }
         };
-
         const {banned, banReason, id, roles, createdAt} = IVR;
         const compare = channels.filter(x => channels2.includes(x));
-        const paste = await got.post('https://paste.ivr.fi/documents', { body: compare.join('\n') }).json()
-        const isCompareZero = compare.length == 0 ? `You follow ${compare.length} common channels with ${targetUser}. More info ==> https://paste.ivr.fi/raw/${paste.key}` : ``;
+        if (compare.length != 0) {
+            var paste = await got.post('https://paste.ivr.fi/documents', { body: compare.join('\n') }).json()
+        }
+        const isCompareZero = compare.length > 0 ? `You follow ${compare.length} common channels with ${targetUser}. More info ==> https://paste.ivr.fi/raw/${paste.key}` : ``;
         const isBanned = banned ? `⛔ ${banReason};` : ``;
         const whichRoles = roles.isPartner ? `Partner;` : roles.isAffiliate ? `Affiliate;` : `Roles: none;`;
         const isStaff = roles.isStaff ? `Staff;` : ``;
