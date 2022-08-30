@@ -1,7 +1,4 @@
 .env
 node_modules/
-humanizeDuration.js
-twitterClient.js
-regextest.js
 dump.rdb
 util/porocodes.json
