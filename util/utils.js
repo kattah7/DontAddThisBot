@@ -385,3 +385,13 @@ exports.ChangeSTVEmoteSet = async (uid, emote_set_id, stvid) => {
     });
     return STVEmoteSet
 }
+
+exports.TwitchNameToUID = async (username) => {
+    const {body: uid} = await got.get(`https://api.twitch.tv/helix/users?login=${username}`, {
+        headers: {
+            "Client-ID": process.env.CLIENT_ID,
+            Authorization: `Bearer ${process.env.ACCESS_TOKEN}`,
+        },
+    })
+    return uid;
+}
