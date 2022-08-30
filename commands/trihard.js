@@ -5,7 +5,7 @@ module.exports = {
     description:"TriHard",
     execute: async (message, args, client) => {
         return {
-            text: `${message.senderUsername} TriHard`
+            text: `${message.senderUsername} TriHard 7`
         }
     },
 };

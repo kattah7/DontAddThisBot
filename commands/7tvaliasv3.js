@@ -9,10 +9,10 @@ module.exports = {
     stvOnly: true,
     execute: async (msg, args, client, xd, params) => {
         function findEmote (emote) {
-            const findThatEmoteSet = channelEmotes.find((x) => x.id == StvID);
+            const findThatEmoteSet = channelEmotes.find((x) => x.owner.id == StvID);
             const findThatEmote = findThatEmoteSet.emotes.find((x) => x.name == emote);
             if (!findThatEmote) { return client.say(msg.channelName, `⛔ Emote "${args[0]}" not found in ${msg.channelName}`); }
-            aliasEmote(findThatEmote.id, findThatEmoteSet.id, args[1]);
+            aliasEmote(findThatEmote.id, channelEmotes[0].id, args[1]);
         }
 
         function findEmoteParams (emote) {

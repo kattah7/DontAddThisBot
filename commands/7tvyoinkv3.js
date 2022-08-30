@@ -1,4 +1,5 @@
 const utils = require("../util/utils.js");
+const got = require("got");
 
 module.exports = {
     name: "yoink",
@@ -27,7 +28,6 @@ module.exports = {
                 text: `${isArgsRegex}`,
             }
         }
-
         const StvID = await utils.stvNameToID(params.from);
         if (!StvID) {
             return {
@@ -40,7 +40,7 @@ module.exports = {
             findThatEmote = findMainChannel.emotes.find((x) => x.name == emoteID);
             if (!findThatEmote) { return false; }
             find += 1;
-            addEmote(findThatEmote.id, StvID2);
+            addEmote(findThatEmote.id, findMainChannel2.id);
         }
         
         async function addEmote (emoteID, setID) {
@@ -48,6 +48,8 @@ module.exports = {
         }
 
         const StvID2 = await utils.stvNameToID(message.channelName);
+        const channelEmotes2 = await utils.EmoteSets(StvID2);
+        const findMainChannel2 = channelEmotes2.find((x) => x.owner.id == StvID2);
         const channelEmotes = await utils.EmoteSets(StvID);
         const findMainChannel = channelEmotes.find((x) => x.id == StvID);
 
@@ -71,7 +73,7 @@ module.exports = {
                     text: `⛔ "${args[0]}" not found in ${params.from}`,
                 };
             } else {
-                const addEmote = await utils.AddSTVEmote(findThatEmote.id, StvID2);
+                const addEmote = await utils.AddSTVEmote(findThatEmote.id, findMainChannel2.id);
                 if (addEmote.errors) {
                     return {
                         text: `⛔ ${addEmote.errors[0].extensions.message}`,
@@ -79,7 +81,7 @@ module.exports = {
                 }
                 const EmoteIdToName = await utils.IDtoEmote(findThatEmote.id);
                 if (EmoteIdToName != findThatEmote.name) {
-                    const alias = await utils.AliasSTVEmote(findThatEmote.id, StvID2, findThatEmote.name);
+                    const alias = await utils.AliasSTVEmote(findThatEmote.id, findMainChannel2.id, findThatEmote.name);
                     if (alias.errors) {
                         return {
                             text: `7tvM Yoinked "${EmoteIdToName}" to ${message.channelName} but error auto-aliasing, ⛔ ${alias.errors[0].extensions.message}`,

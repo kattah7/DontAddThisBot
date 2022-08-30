@@ -12,7 +12,7 @@ module.exports = {
         }
         
         function findEmote (emote) {
-            findThatEmoteSet = channelEmotes.find((x) => x.id == StvID);
+            findThatEmoteSet = channelEmotes.find((x) => x.owner.id == StvID);
             findThatEmote = findThatEmoteSet.emotes.find((x) => x.name == emote);
             if (!findThatEmote) { return false; }
             sum += 1;

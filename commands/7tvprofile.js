@@ -37,7 +37,7 @@ module.exports = {
             const isDiscordLinked = connections.find(connection => connection.platform == "DISCORD");
             const ifDiscordLinked = isDiscordLinked ? `${isDiscordLinked.display_name} Linked Date: ${(isDiscordLinked.linked_at).split("T")[0]}` : false;
             const channelEmotes = await utils.EmoteSets(id);
-            const findThatEmoteSet = channelEmotes.find((user) => user.id == id);
+            const findThatEmoteSet = channelEmotes.find((user) => user.owner.id == id);
             const { emotes, capacity } = findThatEmoteSet;
             const userRole = globalRoles.roles.find(role => role.id == roles[0]);
             try {

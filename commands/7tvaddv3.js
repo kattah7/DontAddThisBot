@@ -18,7 +18,6 @@ module.exports = {
 
         const StvID = await utils.stvNameToID(message.channelName);
         const channelEmotes = await utils.EmoteSets(StvID);
-
         const findChannel = channelEmotes.find((x) => x.id == StvID);
         if (!findChannel) {
             return {
@@ -29,7 +28,7 @@ module.exports = {
         const [url] = args;
         if (/https:\/\/(next\.)?7tv\.app\/emotes\/\w{24}/g.test(url)) {
             const linkEmote = /https:\/\/(next\.)?7tv\.app\/emotes\/(\w{24})/.exec(url);
-            const addEmote = await utils.AddSTVEmote(linkEmote[2], findChannel.id);
+            const addEmote = await utils.AddSTVEmote(linkEmote[2], channelEmotes[0].id);
             if (addEmote.errors) {
                 return {
                     text: `⛔ ${addEmote.errors[0].extensions.message}`,
@@ -71,7 +70,7 @@ module.exports = {
             }
         }
 
-        const addEmote = await utils.AddSTVEmote(SearchEmote.data.emotes.items[0].id, findChannel.id);
+        const addEmote = await utils.AddSTVEmote(SearchEmote.data.emotes.items[0].id, channelEmotes[0].id);
         if (addEmote.errors) {
             return {
                 text: `⛔ ${addEmote.errors[0].extensions.message}`,
