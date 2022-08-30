@@ -5,7 +5,6 @@ module.exports = {
     description: '7tv only cmds',
     stvOnly: true,
     poro: true,
-    offline: true,
     permission: 2,
     execute: async (message, args, client) => {
         const user = await bot.DB.channels.findOne({ id: message.senderUserID }).exec();
