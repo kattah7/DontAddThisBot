@@ -5,6 +5,7 @@ const utils = require('./utils.js');
 const { client } = require('./connections.js')
 const RWS = require('reconnecting-websocket');
 const got = require("got");
+const rwClient = require("../twitterClient.js");
 
 exports.topics = [];
 exports.connections = [];
@@ -132,6 +133,7 @@ exports.init = async () => {
     // Streamers
     const channels = await bot.DB.channels.find({}).exec();
     listen([{ login: 'xqc', id: '71092938' }], ['video-playback-by-id', 'broadcast-settings-update'])
+    listen([{ login: 'tommyinnit', id: '116228390' }], ['video-playback-by-id', 'broadcast-settings-update'])
     listen([{ login: 'georgy177', id: '135075027' }], ['video-playback-by-id', 'broadcast-settings-update'])
     listen([{ login: 'pokimane', id: '44445592' }], ['video-playback-by-id', 'broadcast-settings-update'])
     listen([{ login: 'kattah', id: '137199626' }], ['video-playback-by-id', 'broadcast-settings-update', 'community-points-channel-v1', 'raid', 'polls'])
@@ -274,6 +276,17 @@ const handleWSMsg = async (msg = {}, channel) => {
         case 'stream-up': {
             if (msg.channelID === '71092938') return annouceNoti(`${await utils.loginByID(msg.channelID)} just went live! gn`)
             if (msg.channelID === '135075027') return annouceNoti(`${await utils.loginByID(msg.channelID)} just went live! ppPoof`)
+            if (msg.channelID === '116228390') {
+                const tweet = async () => {
+                    try {
+                        await rwClient.v1.tweet(`@getair_conditioned #${await utils.loginByID(msg.channelID)} went live`)
+                    } catch (e) {
+                        console.error(e)
+                    }
+                }
+                tweet()
+                return client.privmsg("kattah", `.w getair_conditioned tommyinnit live Pog`);
+            }
             annouceNoti(`${await utils.loginByID(msg.channelID)} went live!`)
             break;
         }
