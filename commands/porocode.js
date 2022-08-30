@@ -1,5 +1,4 @@
 const fs = require('fs/promises');
-const { code } = require('../util/porocodes.json');
 
 module.exports = {
     name: "setcode",
@@ -15,9 +14,9 @@ module.exports = {
         
         var code = {
             code: args.join(" "),
-        }
+        };
+        
         await fs.writeFile('util/porocodes.json', JSON.stringify(code) + '\n', encoding="utf8");
-        console.log(code.code)
         return {
             text: `code set!`,
         };
