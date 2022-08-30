@@ -4,7 +4,7 @@ const got = require("got");
 
 module.exports = {
     name: "info",
-    aliases: [],
+    aliases: ["user"],
     cooldown: 3000,
     description:"Gets basic information of a user",
     execute: async (message, args, client) => {
