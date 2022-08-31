@@ -18,6 +18,11 @@ module.exports = {
                 text: "Usage: |editor add/remove <username>",
             };
         }
+        if (!args[1]) {
+            return {
+                text: "Usage: |editor add/remove <username>",
+            };
+        }
         if (args[1] == message.channelName) {
             return {
                 text: "You can't add yourself to the editor list!",
