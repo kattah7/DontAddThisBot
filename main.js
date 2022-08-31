@@ -288,7 +288,7 @@ client.on('PRIVMSG', async (message) => {
                     }
                 }
 
-                if (message.senderUsername == await utils.PoroNumberOne()) {
+                if (await utils.PoroNumberOne(message.senderUserID)) {
                     return client.privmsg(message.channelName, `.me ${response.text}`)
                 } else {
                     client.say(message.channelName, `${response.text}`);

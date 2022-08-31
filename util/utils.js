@@ -115,13 +115,12 @@ exports.stvNameToID = async (name) => {
     return nameData.body.id;
 };
 
-exports.PoroNumberOne = async () => {
+exports.PoroNumberOne = async (username) => {
     const poroData = await bot.DB.poroCount.find({}).exec();
     const sorted = poroData.sort((a, b) => b.poroPrestige - a.poroPrestige || b.poroCount - a.poroCount);
     const top1 = sorted.slice(0, 10);
-    for (const xd of top1) {
-        return xd.username;
-    }
+    const findTopTen = top1.find((user) => user.id === username);
+    return findTopTen
 };
 
 exports.ParseUser = async (user) => {
