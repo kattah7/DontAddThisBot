@@ -8,6 +8,7 @@ const unban = require('./routes/unban');
 const admin = require('./routes/checkadmin');
 const offline = require('./routes/offlineOnly');
 const poroOnly = require('./routes/poroOnly');
+const stvOnly = require('./routes/stvOnly');
 
 const app = express();
 
@@ -20,6 +21,7 @@ app.use(unban)
 app.use(admin)
 app.use(offline)
 app.use(poroOnly)
+app.use(stvOnly)
 
 app.listen(3002, () => {
     console.log(`Server is running on port 3002`);

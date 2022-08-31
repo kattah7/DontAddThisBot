@@ -7,6 +7,7 @@ module.exports = {
     cooldown: 3000,
     description:"Bot response",
     poro: true,
+    stvOnly: true,
     execute: async (message, args, client) => {
         const {banned, banphrase_data} = await got.post(`https://forsen.tv/api/v1/banphrases/test `, {json: {'message': message.senderUsername}}).json();
         //console.log(banned, banphrase_data)
