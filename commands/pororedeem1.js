@@ -34,7 +34,7 @@ module.exports = {
 
             if (!availableBadges.includes(input)) {
                 return {
-                    text: `${message.senderUsername}, Wrong code :p`,
+                    text: `${message.senderUsername}, Wrong code :p check the site for hint`,
                 };
             }
             await bot.DB.poroCount.updateOne({ id: message.senderUserID }, { $set: { poroCount: channelData.poroCount + 50 } }).exec();
