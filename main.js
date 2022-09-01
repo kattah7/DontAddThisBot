@@ -8,6 +8,7 @@ const utils = require('./util/utils.js');
 const got = require('got');
 const regex = require('./util/regex.js');
 const discord = require('./util/discord.js');
+const { color } = require('./util/botcolor.json');
 
 global.bot = {};
 bot.Redis = require('./util/redis.js');
@@ -289,7 +290,10 @@ client.on('PRIVMSG', async (message) => {
                 }
 
                 if (await utils.PoroNumberOne(message.senderUserID)) {
-                    return client.privmsg(message.channelName, `.me ${response.text}`)
+                    await client.privmsg(message.channelName, `.color ${message.ircTags['color']}`)
+                    await client.me(message.channelName, `${response.text}`)
+                    await client.privmsg(message.channelName, `.color ${color}`)
+                    return;
                 } else {
                     client.say(message.channelName, `${response.text}`);
                 }

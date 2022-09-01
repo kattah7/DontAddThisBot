@@ -1,5 +1,6 @@
 const got = require('got');
 const utils = require('../util/utils.js');
+const fs = require('fs/promises');
 
 module.exports = {
     name: `changecolor`,
@@ -38,6 +39,10 @@ module.exports = {
             await bot.DB.poroCount.updateOne({ id: message.senderUserID }, { $set: { poroCount: channelData.poroCount - 50 } } ).exec();
             await client.privmsg(message.channelName, `/color ${args[0]}`);
             const colorName = await got(`https://www.thecolorapi.com/id?hex=${color.chatColor.replace('#', '')}`).json();
+            var botColor = {
+                color: args[0],
+            };
+            await fs.writeFile('util/botcolor.json', JSON.stringify(botColor) + '\n', encoding="utf8");
             return {
                 text: `Color changed to ${colorName.name.value}! PoroSad [P:${channelData.poroPrestige}] ${channelData.poroCount - 50} meat total! 🥩`
             }
