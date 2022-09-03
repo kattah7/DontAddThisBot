@@ -5,19 +5,11 @@ const client = new ChatClient({
     username: process.env.TWITCH_USERNAME,
     password: process.env.TWITCH_OAUTH,
     rateLimits: 'verifiedBot',
-    connection: {
-        type: "websocket",
-        secure: true,
-    },
-    maxChannelCountPerConnection: 5,
-    connectionRateLimits: {
-        parallelConnections: 20,
-        releaseTime: 50,
-    },
+    ignoreUnhandledPromiseRejections: true
 });
 
 client.use(new AlternateMessageModifier(client));
-client.use(new SlowModeRateLimiter(client, 10));
+client.use(new SlowModeRateLimiter(client, 2));
 client.connect()
 
 module.exports = { client };
