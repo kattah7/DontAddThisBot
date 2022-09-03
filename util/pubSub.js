@@ -369,7 +369,6 @@ const handleWSMsg = async (msg = {}, channel) => {
             if (msg.data.action == 'ban' || msg.data.action == 'timeout') {
                 const user = await utils.loginByID(msg.data.channel_id)
                 await client.part(user)
-                
             }
             break;
         }

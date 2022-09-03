@@ -39,8 +39,8 @@ client.on('ready', () => {
 });
 
 client.on('close', (err) => {
-    if (error != null) {
-        console.error('Client closed due to error', error);
+    if (err != null) {
+        console.error('Client closed due to error', err);
     }
     process.exit(1);
 });
@@ -48,6 +48,10 @@ client.on('close', (err) => {
 client.on('JOIN', async ({ channelName }) => {
     console.log(`Joined channel ${channelName}`);
 });
+
+client.on('PART', async ({ channelName }) => {
+    console.log(`Left channel ${channelName}`);
+})
 
 client.on("CLEARCHAT", async (message) => {
     if (message.targetUsername == "kattah" ||
