@@ -3,6 +3,7 @@ module.exports = {
     aliases: [],
     cooldown: 10000,
     description: 'Pyramid command in chat',
+    permission: 1,
     botPerms: 'vip',
     async execute(message, args, client) {
         const size = args[0];
