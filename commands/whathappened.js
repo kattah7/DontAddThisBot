@@ -16,6 +16,11 @@ module.exports = {
                 text: `Pls insert Day, |wh (month) (date)`
             }
         }
+        if (args[2]) {
+            return {
+                text: `Pls insert only month and date, |wh (month) (date)`
+            }
+        }
         
         const res = await fetch(`https://byabbe.se/on-this-day/${MONTH}/${DAY}/events.json`)
         const user = await res.json();
