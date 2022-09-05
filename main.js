@@ -142,6 +142,7 @@ client.on('PRIVMSG', async (message) => {
     if (cmd.length == 0) return;
 
     let command = commands.get(cmd);
+    if (!command && !aliases.get(cmd)) return;
     if (!command) command = commands.get(aliases.get(cmd));
 
     try {
