@@ -1,23 +1,36 @@
-const got = require("got");
+const fetch = require('node-fetch');
+const utils = require('../util/utils');
+const humanizeDuration = require("../humanizeDuration");
 
 module.exports = {
     name: "firstmod",
     aliases: ["fm"],
     cooldown: 3000,
-    description:"First moderator of the channel",
+    description:"First Mod of the channel",
     execute: async (message, args, client) => {
-        const targetUser = args[0] ?? message.senderUsername;
-        let { body: userData, statusCode } = await got(`https://api.ivr.fi/twitch/modsvips/${targetUser}`, { timeout: 10000, throwHttpErrors: false, responseType: "json" });
-        
-        if (userData.status == 404) {
+        const targetUser = await utils.ParseUser(args[0] ?? message.channelName);
+        const modsApi = await fetch(`https://api.ivr.fi/v2/twitch/modvip/${targetUser}?skipCache=false`, {
+            method: 'GET',
+        });
+
+        const {mods} = await modsApi.json();
+        if (mods == undefined) {
             return {
-                text: 'This channel doesnt have any moderators. PoroSad'
+                text: `${message.senderUsername}, Channel not found.`
             }
-        } else {
-        const vipmod = userData.mods.reduce((r, o) => o.grantedAt < r.grantedAt ? o : r); 
+        };
+
+        if (mods.length == 0) {
+            const isArgs = args[0] ? `${targetUser}` : `This channel`;
             return {
-                text: `${message.senderUsername}, First moderator of this channel is ${vipmod.login} and was modded at ${vipmod.grantedAt.split("T")[0]}. BatChest`,
+                text: `${message.senderUsername}, ${isArgs} has no MODs`
             }
-        }
+        };
+
+        const { login, grantedAt } = mods[0];
+        return {
+            text: `${message.senderUsername}, First MOD of ${targetUser} is ${login} (${humanizeDuration(Date.now() - new Date(grantedAt))})`
+        };
+
     },
 };

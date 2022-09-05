@@ -1,4 +1,6 @@
-const got = require("got");
+const fetch = require('node-fetch');
+const utils = require('../util/utils');
+const humanizeDuration = require("../humanizeDuration");
 
 module.exports = {
     name: "firstvip",
@@ -6,18 +8,29 @@ module.exports = {
     cooldown: 3000,
     description:"First VIP of the channel",
     execute: async (message, args, client) => {
-        const targetUser = args[0] ?? message.senderUsername;
-        let { body: userData, statusCode } = await got(`https://api.ivr.fi/twitch/modsvips/${targetUser}`, { timeout: 10000, throwHttpErrors: false, responseType: "json" });
-        
-        if (userData.status == 404) {
-            return  {
-                text: `This channel doesnt have any VIPS. PoroSad`,
-            }
-        } else {
-            const vipmod2 = userData.vips.reduce((r, o) => o.grantedAt < r.grantedAt ? o : r);
+        const targetUser = await utils.ParseUser(args[0] ?? message.channelName);
+        const vipsApi = await fetch(`https://api.ivr.fi/v2/twitch/modvip/${targetUser}?skipCache=false`, {
+            method: 'GET',
+        });
+
+        const {vips} = await vipsApi.json();
+        if (vips == undefined) {
             return {
-                text: `${message.senderUsername}, First VIP of this channel is ${vipmod2.login} and was VIPed at ${vipmod2.grantedAt.split("T")[0]}. BatChest`,
+                text: `${message.senderUsername}, Channel not found.`
             }
-        }
+        };
+
+        if (vips.length == 0) {
+            const isArgs = args[0] ? `${targetUser}` : `This channel`;
+            return {
+                text: `${message.senderUsername}, ${isArgs} has no VIPs`
+            }
+        };
+
+        const { login, grantedAt } = vips[0];
+        return {
+            text: `${message.senderUsername}, First VIP of ${targetUser} is ${login} (${humanizeDuration(Date.now() - new Date(grantedAt))})`
+        };
+
     },
 };
