@@ -1,6 +1,5 @@
 const got = require('got');
 const humanizeDuration = require('../humanizeDuration');
-const utils = require('../util/utils.js');
 
 module.exports = {
     name: 'juicercheck',
@@ -11,7 +10,6 @@ module.exports = {
     execute: async (message, args, client) => {
         const USERNAME = args[0] ?? message.senderUsername;
         let data = await got(`https://api.ivr.fi/twitch/subage/${USERNAME}/xqc`, { timeout: 10000 }).json();
-
         const followAge = new Date().getTime() - Date.parse(data.followedAt);
                 if (data) {
                     if (data.followedAt == null) {
