@@ -13,6 +13,7 @@ module.exports = {
         if (isNaN(size)) return { text: `size should be a number` };
         if (size > 20) return { text: `the maximum size is 20` };
         if (size < 2) return { text: `the minimum size is 2` };
+        if (!/^[A-Z_\d]/i.test(emote)) return { text: `malformed text parameter` };
 
         for (let i = 1; i <= size; i++) {
             client.say(message.channelName, emote.repeat(i));

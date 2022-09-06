@@ -297,7 +297,9 @@ client.on('PRIVMSG', async (message) => {
                     } catch (e) {
                         Logger.error(e, "Error while trying to report racism")
                     }
-                }
+                };
+
+                if (!/^[A-Z_\d]/i.test(response.text)) return { text: `malformed text parameter` };
 
                 if (message.channelName == "forsen") {
                     if (await utils.ForsenTV(response.text)) {

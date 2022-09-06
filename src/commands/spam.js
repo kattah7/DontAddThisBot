@@ -1,5 +1,3 @@
-const regex = require('../util/regex.js');
-
 module.exports = {
     name: "spam",
     aliases: [],
@@ -15,6 +13,7 @@ module.exports = {
         if (isNaN(count)) return { text: `the spam count should be a number` };
         if (count > 50) return { text: `the maximum spam count is 50` };
         if (count < 2) return { text: `the minimum spam count is 2` };
+        if (!/^[A-Z_\d]/i.test(phrase)) return { text: `malformed text parameter` };
 
         for (let xd = 0; xd < count; xd++) {
             client.say(message.channelName, phrase);
