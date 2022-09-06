@@ -14,6 +14,7 @@ global.bot = {};
 bot.Redis = require('./util/redis.js');
 bot.DB = require('./util/db.js');
 bot.Utils = require('./util');
+Logger = require('./util/logger.js');
 
 require('./api/server');
 require('./publicapi/server');
@@ -29,7 +30,7 @@ for (let file of readdirSync(`./commands/`).filter((file) => file.endsWith('.js'
 }
 
 client.on('ready', () => {
-    console.log('Connected to chat!');
+    Logger.info('Connected to chat!');
     pubsub.init();
     sevenTV.init();
     nodeCron.schedule('5 */2 * * *', () => {
@@ -40,17 +41,17 @@ client.on('ready', () => {
 
 client.on('close', (err) => {
     if (err != null) {
-        console.error('Client closed due to error', err);
+        Logger.error('Client closed due to error', err);
     }
     process.exit(1);
 });
 
 client.on('JOIN', async ({ channelName }) => {
-    console.log(`Joined channel ${channelName}`);
+    Logger.info(`Joined channel ${channelName}`);
 });
 
 client.on('PART', async ({ channelName }) => {
-    console.log(`Left channel ${channelName}`);
+    Logger.info(`Left channel ${channelName}`);
 })
 
 client.on("CLEARCHAT", async (message) => {
@@ -61,7 +62,7 @@ client.on("CLEARCHAT", async (message) => {
         await bot.DB.channels.findOneAndDelete({ id: message.ircTags['room-id'] }).exec();
         await bot.DB.users.updateOne({ id: message.ircTags['room-id'] }, { level: 0 }).exec();
         await client.part(message.channelName)
-        console.log(message.channelName + ": " + message.targetUsername, message.ircTags['room-id']);
+        Logger.info(message.channelName + ": " + message.targetUsername, message.ircTags['room-id']);
     }
 });
 
@@ -259,7 +260,6 @@ client.on('PRIVMSG', async (message) => {
                         'Authorization': `Bearer ${process.env.ACCESS_TOKEN}`,
                     },
                 }).json();
-                //console.log(data);
                 if (data[0] == undefined) {
                 } else if (data[0].type == 'live') {
                     return;
@@ -280,7 +280,7 @@ client.on('PRIVMSG', async (message) => {
                         await discord.racist(message.senderUsername, message.senderUserID, message.channelName, args.join(" "))
                         return client.say(message.channelName, "That message violates the terms of service")
                     } catch (e) {
-                        console.log(e, "Error while trying to report racism")
+                        Logger.error(e, "Error while trying to report racism")
                     }
                 }
 
@@ -305,18 +305,18 @@ client.on('PRIVMSG', async (message) => {
             }
         }
     } catch (err) {
-        console.error('Error during command execution:', err);
+        Logger.error('Error during command execution:', err);
         await discord.errorMessage(message.channelName, message.senderUsername, message.messageText);
         return client.say(message.channelName, 'An error occurred while executing this command, Logged for review.');
     }
 });
 
 const getUser = async function (id) {
-    return await bot.DB.users.findOne({ id: id }).catch((err) => console.log(err));
+    return await bot.DB.users.findOne({ id: id }).catch((err) => Logger.error(err));
 };
 
 const getChannel = async function (channel) {
-    return await bot.DB.channels.findOne({ username: channel }).catch((err) => console.log(err));
+    return await bot.DB.channels.findOne({ username: channel }).catch((err) => Logger.error(err));
 };
 
 const main = async () => {
@@ -325,7 +325,7 @@ const main = async () => {
         try {
             client.join(channel.username)
         } catch (err) {
-            console.error(`Failed to join channel ${channel.username}`, err);
+            Logger.error(`Failed to join channel ${channel.username}`, err);
         }
     }
 };

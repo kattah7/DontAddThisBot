@@ -20,5 +20,5 @@ app.use(userInfo)
 //app.use(editors)
 
 app.listen(3003, () => {
-    console.log(`Public API is running on port 3003`);
+    Logger.info(`Public API is running on port 3003`);
 });

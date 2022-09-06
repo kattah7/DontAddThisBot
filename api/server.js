@@ -24,5 +24,5 @@ app.use(poroOnly)
 app.use(stvOnly)
 
 app.listen(3002, () => {
-    console.log(`Server is running on port 3002`);
+    Logger.info(`Server is running on port 3002`);
 });

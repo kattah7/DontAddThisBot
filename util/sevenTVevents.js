@@ -8,7 +8,7 @@ exports.init = async () => {
         'ready',
         (e) => {
             // Should be "7tv-event-sub.v1" since this is the `v1` endpoint
-            console.log('Ready', e.data);
+            Logger.info('Ready', e.data);
         },
         false
     );
@@ -19,15 +19,15 @@ exports.init = async () => {
             const data = JSON.parse(e.data);
             switch (data.action) {
                 case 'ADD': {
-                    console.log(`Added 7tv emote, ${data.name} by ${data.actor} in ${data.channel}`);
+                    Logger.info(`Added 7tv emote, ${data.name} by ${data.actor} in ${data.channel}`);
                     break;
                 }
                 case 'REMOVE': {
-                    console.log(`Removed 7tv + ${data.name} by ${data.actor} in ${data.channel}`);
+                    Logger.info(`Removed 7tv + ${data.name} by ${data.actor} in ${data.channel}`);
                     break;
                 }
                 case 'UPDATE': {
-                    console.log(
+                    Logger.info(
                         `Updated 7tv emote, ${data.emote.name} to ${data.name} by ${data.actor} in ${data.channel}`
                     );
                     break;
@@ -41,7 +41,7 @@ exports.init = async () => {
         'open',
         (e) => {
             // Connection was opened.
-            console.log('Open', e.data);
+            Logger.info('Open', e.data);
         },
         false
     );
@@ -51,7 +51,7 @@ exports.init = async () => {
         (e) => {
             if (e.readyState === EventSource.CLOSED) {
                 // Connection was closed.
-                console.log('7TV Error', e);
+                Logger.error('7TV Error', e);
             }
         },
         false
@@ -62,7 +62,6 @@ exports.init = async () => {
         (e) => {
             // Heartbeat received.
             lastHeartbeat = Date.now();
-            //console.log("Heartbeat", e.data);
         },
         false
     );

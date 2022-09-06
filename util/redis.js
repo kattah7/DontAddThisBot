@@ -2,11 +2,11 @@ const Redis = require("ioredis");
 const redis = new Redis({});
 
 redis.on("error", (err) => {
-    console.log(`Redis Error: ${err}`);
+    Logger.error(`Redis Error: ${err}`);
 });
 
 redis.on("ready", () => {
-    console.log("Redis Connected");
+    Logger.info("Redis Connected");
 });
 
 module.exports.redis = redis;

@@ -180,15 +180,15 @@ exports.createListener = (channel, sub) => {
 
 const connect = (ws, topics, id) => {
     ws.addEventListener('error', (e) => {
-        console.error(e)
+        Logger.error(e)
     });
 
     ws.addEventListener('close', () => {
-        console.log(`[${id}] PubSub Disconnected`)
+        Logger.info(`[${id}] PubSub Disconnected`)
     });
 
     ws.addEventListener('open', () => {
-        console.log(`[${id}] PubSub Connected`);
+        Logger.info(`[${id}] PubSub Connected`);
 
         for (const topic of topics) {
             const message = {
@@ -215,7 +215,7 @@ const connect = (ws, topics, id) => {
                 break;
 
             case 'MESSAGE':
-                if (!msg.data) return console.error(`No data associated with message [${JSON.stringify(msg)}]`);
+                if (!msg.data) return Logger.error(`No data associated with message [${JSON.stringify(msg)}]`);
 
                 const msgData = JSON.parse(msg.data.message);
                 const msgTopic = msg.data.topic;
@@ -224,12 +224,12 @@ const connect = (ws, topics, id) => {
                 break;
 
             case 'RECONNECT':
-                console.log(`[${id}] PubSub server sent a reconnect message. Restarting the socket`);
+                Logger.info(`[${id}] PubSub server sent a reconnect message. Restarting the socket`);
                 ws.reconnect();
                 break;
 
             default:
-                console.error(`Unknown PubSub Message Type: ${msg.type}`);
+                Logger.error(`Unknown PubSub Message Type: ${msg.type}`);
         }
     });
 
@@ -268,7 +268,7 @@ const handleWSMsg = async (msg = {}, channel) => {
         
         
     }
-    if (!msg.type) return console.error(`Unknown message without type: ${JSON.stringify(msg)}`);
+    if (!msg.type) return Logger.error(`Unknown message without type: ${JSON.stringify(msg)}`);
     
 
     switch (msg.type) {
@@ -281,7 +281,7 @@ const handleWSMsg = async (msg = {}, channel) => {
                     try {
                         await rwClient.v1.tweet(`@getair_conditioned #${await utils.loginByID(msg.channelID)} went live`)
                     } catch (e) {
-                        console.error(e)
+                        Logger.error(e)
                     }
                 }
                 tweet()
@@ -329,7 +329,6 @@ const handleWSMsg = async (msg = {}, channel) => {
                 Authorization: `Bearer ${process.env.ACCESS_TOKEN}`,
                 },
                 }).json();
-                console.log(data)
                 if (data[0] == undefined) {
                     client.say('kattah', `${user} is not streaming! Refunding points...`)
                     refundPoints(redemption.channel_id, redemption.id)
@@ -341,7 +340,7 @@ const handleWSMsg = async (msg = {}, channel) => {
                         await client.privmsg("kattah", `.raid ${user}`)
                         client.say('kattah', `${redemption.user.display_name} redeemed raid on ${user} PogBones !!`)
                     } catch (err) {
-                        console.error(err)
+                        Logger.error(err)
                         client.say('kattah', `${redemption.user.display_name} FailFish error! refunding points`)
                         refundPoints(redemption.channel_id, redemption.id)
                     }
@@ -358,7 +357,7 @@ const handleWSMsg = async (msg = {}, channel) => {
                     client.timeout(await utils.loginByID(redemption.channel_id), randomChatters, 60, `kekw banned by ${redemption.user.display_name}`)
                     await client.say(await utils.loginByID(redemption.channel_id), "PoroSad redeemed! " + randomChatters + " has been banned for 60 seconds")
                 } catch (err) {
-                    console.error(err)
+                    Logger.error(err)
                     client.say(await utils.loginByID(redemption.channel_id), `${redemption.user.display_name} FailFish error! refunding points`)
                     refundPoints(redemption.channel_id, redemption.id)
                 }
@@ -376,12 +375,12 @@ const handleWSMsg = async (msg = {}, channel) => {
 };
 
 const handleWSResp = (msg) => {
-    if (!msg.nonce) return console.error(`Unknown message without nonce: ${JSON.stringify(msg)}`);
+    if (!msg.nonce) return Logger.error(`Unknown message without nonce: ${JSON.stringify(msg)}`);
 
     const topic = this.topics.find(topic => topic.nonce === msg.nonce);
 
     if (msg.error) {
         this.topics.splice(this.topics.indexOf(topic), 1);
-        console.error(`Error occurred while subscribing to topic ${topic.sub} for channel ${topic.channel.login}: ${msg.error}`);
+        Logger.error(`Error occurred while subscribing to topic ${topic.sub} for channel ${topic.channel.login}: ${msg.error}`);
     }
 };
