@@ -1,4 +1,5 @@
 const fs = require('fs/promises');
+const { exec } = require("child_process");
 
 module.exports = {
     name: "setcode",
@@ -17,8 +18,15 @@ module.exports = {
         };
         
         await fs.writeFile('src/util/porocodes.json', JSON.stringify(code) + '\n', encoding="utf8");
-        return {
-            text: `code set!`,
-        };
+        await exec("cd /home/DontAddThisBot && git reset --hard && git pull && yarn", (err) => {
+            if (err) {
+                console.error(err);
+                return {
+                    text: `FeelsDankMan !!! failed to pull commit`,
+                };
+            }
+        });
+        await client.say(message.channelName, "Reset code, restarting.. MrDestructoid");
+        process.exit(0);
     }
 }
