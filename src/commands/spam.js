@@ -14,6 +14,7 @@ module.exports = {
         if (count > 50) return { text: `the maximum spam count is 50` };
         if (count < 2) return { text: `the minimum spam count is 2` };
         if (!/^[A-Z_\d]/i.test(phrase)) return { text: `malformed text parameter` };
+        if (regex.racism.test(phrase)) return { text: `🤨` };
 
         for (let xd = 0; xd < count; xd++) {
             client.say(message.channelName, phrase);

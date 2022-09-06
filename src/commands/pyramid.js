@@ -14,6 +14,7 @@ module.exports = {
         if (size > 20) return { text: `the maximum size is 20` };
         if (size < 2) return { text: `the minimum size is 2` };
         if (!/^[A-Z_\d]/i.test(emote)) return { text: `malformed text parameter` };
+        if (regex.racism.test(emote)) return { text: `🤨` };
 
         for (let i = 1; i <= size; i++) {
             client.say(message.channelName, emote.repeat(i));

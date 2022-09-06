@@ -6,7 +6,6 @@ const pubsub = require('./util/pubSub.js');
 const sevenTV = require('./util/sevenTVevents.js');
 const utils = require('./util/utils.js');
 const got = require('got');
-const regex = require('./util/regex.js');
 const discord = require('./util/discord.js');
 const { color } = require('./util/botcolor.json');
 
@@ -15,6 +14,7 @@ bot.Redis = require('./util/redis.js');
 bot.DB = require('./util/db.js');
 bot.Utils = require('./util');
 Logger = require('./util/logger.js');
+regex = require('./util/regex.js');
 
 require('./api/server');
 require('./publicapi/server');
