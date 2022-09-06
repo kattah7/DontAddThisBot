@@ -4,8 +4,8 @@
   "description": "\"# DontAddThisBot\"",
   "main": "main.js",
   "scripts": {
-    "start": "sudo /etc/init.d/mongodb start && node main.js",
-    "dev": "nodemon main.js",
+    "start": "sudo /etc/init.d/mongodb start && node src/main.js",
+    "dev": "nodemon src/main.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint --ext js '**/*' ",
     "lint:fix": "eslint --ext js '**/*' --fix"
