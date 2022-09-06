@@ -53,6 +53,7 @@ client.on('JOIN', async ({ channelName }) => {
 client.on("NOTICE", async (msg) => {
     if (msg.messageID == 'msg_banned') {
         Logger.warn(`Banned from channel ${msg.channelName}`);
+        await bot.DB.channels.updateOne({ username: msg.channelName }, { isChannel: false }).catch((err) => Logger.error(err));
     }
 });
 

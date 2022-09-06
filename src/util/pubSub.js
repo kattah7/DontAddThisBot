@@ -365,10 +365,20 @@ const handleWSMsg = async (msg = {}, channel) => {
             break;
         }
         case 'user_moderation_action': {
-            if (msg.data.action == 'ban' || msg.data.action == 'timeout') {
-                const user = await utils.loginByID(msg.data.channel_id)
-                await client.part(user)
-            }
+            const inData = await bot.DB.channels.findOne({ id: msg.data.channel_id });
+            if (!inData) return;
+            const user = await utils.loginByID(msg.data.channel_id);
+            if (msg.data.action == 'timeout') {
+                await client.part(user);
+            } else if (msg.data.action == 'ban') {
+                await client.part(user);
+                await bot.DB.channels.updateOne({ id: msg.data.channel_id }, { isChannel: false }).catch((err) => Logger.error(err));
+            } else if (msg.data.action == 'untimeout') {
+                await client.join(user);
+            } else if (msg.data.action == 'unban') {
+                await client.join(user);
+                await bot.DB.channels.updateOne({ id: msg.data.channel_id }, { isChannel: true }).catch((err) => Logger.error(err));
+            };
             break;
         }
 }
