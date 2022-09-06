@@ -50,9 +50,15 @@ client.on('JOIN', async ({ channelName }) => {
     Logger.info(`Joined channel ${channelName}`);
 });
 
+client.on("NOTICE", async (msg) => {
+    if (msg.messageID == 'msg_banned') {
+        Logger.warn(`Banned from channel ${msg.channelName}`);
+    }
+});
+
 client.on('PART', async ({ channelName }) => {
     Logger.info(`Left channel ${channelName}`);
-})
+});
 
 client.on("CLEARCHAT", async (message) => {
     if (message.targetUsername == "kattah" ||
