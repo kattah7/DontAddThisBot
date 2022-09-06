@@ -6,6 +6,8 @@ const { client } = require('./connections.js')
 const RWS = require('reconnecting-websocket');
 const got = require("got");
 const rwClient = require("./twitterClient.js");
+const discord = require('./discord.js');
+const humanizeDuration = require('./humanizeDuration.js');
 
 exports.topics = [];
 exports.connections = [];
@@ -365,13 +367,15 @@ const handleWSMsg = async (msg = {}, channel) => {
             break;
         }
         case 'user_moderation_action': {
+            console.log(msg);
             const inData = await bot.DB.channels.findOne({ id: msg.data.channel_id });
             if (!inData) return;
             const user = await utils.loginByID(msg.data.channel_id);
+            const IVR = await utils.IVR(msg.data.channel_id);
             if (msg.data.action == 'timeout') {
                 await client.part(user);
             } else if (msg.data.action == 'ban') {
-                await client.part(user);
+                client.part(user);
                 await bot.DB.channels.updateOne({ id: msg.data.channel_id }, { isChannel: false }).catch((err) => Logger.error(err));
             } else if (msg.data.action == 'untimeout') {
                 await client.join(user);
@@ -379,6 +383,10 @@ const handleWSMsg = async (msg = {}, channel) => {
                 await client.join(user);
                 await bot.DB.channels.updateOne({ id: msg.data.channel_id }, { isChannel: true }).catch((err) => Logger.error(err));
             };
+
+            const duration = msg.data.expires_in_ms ? `Duration: ${humanizeDuration(msg.data.expires_in_ms)}` : `Duration: false`;
+            const color = msg.data.action == 'timeout' || msg.data.action == 'ban' ? 15548997 : 5763719;
+            await discord.BAND(user, (msg.data.action).toUpperCase(), duration, color, IVR.logo);
             break;
         }
 }
