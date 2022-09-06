@@ -8,8 +8,6 @@ module.exports = {
     poro: true,
     stvOnly: true,
     execute: async (message, args, client) => {
-        //console.log(banned, banphrase_data)
-
         const poroData = await bot.DB.channels.count({ isChannel: true }).exec();
         const poroData2 = await bot.DB.users.count({}).exec();
         return {

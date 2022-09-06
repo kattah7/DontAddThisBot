@@ -90,7 +90,7 @@ exports.newChannel = async (username, userID, message) => {
     });
 };
 
-exports.errorMessage = async (channel, username, message) => {
+exports.errorMessage = async (channel, username, message, error) => {
     const WebHook =`https://discord.com/api/webhooks/${process.env.ERROR}`;
     const WebhookMsg = {
         embeds: [
@@ -101,7 +101,7 @@ exports.errorMessage = async (channel, username, message) => {
                     name: 'Error',
                     con_url: 'https://i.nuuls.com/g8l2r.png',
                 },
-            description: `${message}`,
+            description: `${message}, ${error}`,
             timestamp: new Date(),
             footer: {
                 text: 'Pulled time',

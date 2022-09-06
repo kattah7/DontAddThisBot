@@ -50,13 +50,6 @@ client.on('JOIN', async ({ channelName }) => {
     Logger.info(`Joined channel ${channelName}`);
 });
 
-client.on("NOTICE", async (msg) => {
-    if (msg.messageID == 'msg_banned') {
-        Logger.warn(`Banned from channel ${msg.channelName}`);
-        await bot.DB.channels.updateOne({ username: msg.channelName }, { isChannel: false }).catch((err) => Logger.error(err));
-    }
-});
-
 client.on('PART', async ({ channelName }) => {
     Logger.info(`Left channel ${channelName}`);
 });
@@ -71,6 +64,21 @@ client.on("CLEARCHAT", async (message) => {
         await client.part(message.channelName)
         Logger.info(message.channelName + ": " + message.targetUsername, message.ircTags['room-id']);
     }
+});
+
+client.on("NOTICE", async ({ channelName, messageID }) => {
+    if (!messageID) return;
+
+    if (messageID == "msg_rejected_mandatory") {
+        client.say(channelName, `That message violates the channel's moderation settings`);
+        return;
+    } else if (messageID == 'msg_banned') {
+        Logger.warn(`Banned from channel ${channelName}`);
+        await bot.DB.channels.updateOne({ username: channelName }, { isChannel: false }).catch((err) => Logger.error(err));
+    } else if (messageID == 'msg_channel_suspended') {
+        Logger.warn(`Suspended channel ${channelName}`);
+    }
+    
 });
 
 var block = false;
@@ -307,14 +315,17 @@ client.on('PRIVMSG', async (message) => {
                     await client.privmsg(message.channelName, `.color ${color}`)
                     return;
                 } else {
-                    client.say(message.channelName, `${response.text}`);
+                    await client.say(message.channelName, `${response.text}`);
                 }
             }
         }
-    } catch (err) {
-        Logger.error('Error during command execution:', err);
-        await discord.errorMessage(message.channelName, message.senderUsername, message.messageText);
-        return client.say(message.channelName, 'An error occurred while executing this command, Logged for review.');
+    } catch (ex) {
+        if (ex.message.match(/@msg-id=msg_rejected_mandatory/)) {
+            return;
+        }
+        Logger.error('Error during command execution:', ex);
+        await discord.errorMessage(message.channelName, message.senderUsername, message.messageText, ex.message);
+        return client.say(message.channelName, `Error: ${ex.message}; Logged for review`);
     }
 });
 

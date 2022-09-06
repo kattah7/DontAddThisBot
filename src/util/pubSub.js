@@ -367,7 +367,6 @@ const handleWSMsg = async (msg = {}, channel) => {
             break;
         }
         case 'user_moderation_action': {
-            console.log(msg);
             const inData = await bot.DB.channels.findOne({ id: msg.data.channel_id });
             if (!inData) return;
             const user = await utils.loginByID(msg.data.channel_id);
