@@ -16,7 +16,7 @@ module.exports = {
             code: args.join(" "),
         };
         
-        await fs.writeFile('util/porocodes.json', JSON.stringify(code) + '\n', encoding="utf8");
+        await fs.writeFile('src/util/porocodes.json', JSON.stringify(code) + '\n', encoding="utf8");
         return {
             text: `code set!`,
         };
