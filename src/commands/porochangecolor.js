@@ -42,9 +42,9 @@ module.exports = {
             var botColor = {
                 color: args[0],
             };
-            await fs.writeFile('util/botcolor.json', JSON.stringify(botColor) + '\n', encoding="utf8");
+            await fs.writeFile('src/util/botcolor.json', JSON.stringify(botColor) + '\n', encoding="utf8");
             return {
-                text: `Color changed to ${colorName.name.value}! PoroSad [P:${channelData.poroPrestige}] ${channelData.poroCount - 50} meat total! 🥩`
+                text: `Color changed to ${args[0]}! PoroSad [P:${channelData.poroPrestige}] ${channelData.poroCount - 50} meat total! 🥩`
             }
         }
     }
