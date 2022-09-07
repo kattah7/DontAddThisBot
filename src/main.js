@@ -299,8 +299,6 @@ client.on('PRIVMSG', async (message) => {
                     }
                 };
 
-                if (!/^[A-Z_\d]/i.test(response.text)) return { text: `malformed text parameter` };
-
                 if (message.channelName == "forsen") {
                     if (await utils.ForsenTV(response.text)) {
                         return client.say(message.channelName, "Ban phrase found in message")
