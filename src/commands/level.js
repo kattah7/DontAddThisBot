@@ -1,5 +1,3 @@
-const utils = require("../util/utils.js");
-
 module.exports = {
     name: "level",
     description: "Shows the user's level.",
@@ -11,21 +9,14 @@ module.exports = {
         const data = await bot.DB.users.findOne({ username: user }).exec();
 
         if (!data) {
-            if (message.senderUsername == await utils.PoroNumberOne()) {
-                client.privmsg(message.channelName, `.me ${user} has not been seen before.`)
-            } else {
-                return {
-                    text: `${user} has not been seen before.`,
-                };
-            }
+            return {
+                text: `${user} has not been seen before.`,
+            };
         } else {
-            if (message.senderUsername == await utils.PoroNumberOne()) {
-                client.privmsg(message.channelName, `.me ${user} is level ${data.level} (${bot.Utils.misc.levels[data.level]})`)
-            } else {
-                return {
+            return {
                     text: `${user} is level ${data.level} (${bot.Utils.misc.levels[data.level]})`,
-                };
-            }
+            };
         }
+
     },
 };

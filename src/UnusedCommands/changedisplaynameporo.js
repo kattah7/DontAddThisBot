@@ -13,22 +13,14 @@ module.exports = {
         console.log(banned, banphrase_data)
         if (banned == false) {
             if (!args[0]) {
-                if (message.senderUsername == await utils.PoroNumberOne()) {
-                    return client.privmsg(message.channelName, `.me put a display name lol`)
-                } else {
-                    return {
-                        text: `put a display name lol`
-                    } 
-                }
+                return {
+                    text: `put a display name lol`
+                } 
             } 
             
              if (!/^[dontaddthisbot]{14}$/i.test(args[0])) {
-                if (message.senderUsername == await utils.PoroNumberOne()) {
-                    return client.privmsg(message.channelName, `.me you can only change the display name`)
-                } else {
-                    return {
-                        text: `you can only change the display name`
-                    }
+                return {
+                    text: `you can only change the display name`
                 }
             }
             if (channelData.poroCount < 50) {
