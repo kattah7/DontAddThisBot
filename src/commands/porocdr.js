@@ -13,7 +13,7 @@ module.exports = {
                 if (new Date().getTime() - new Date(lastUsage).getTime() < 1000 * 60 * 60 * 3) {
                     const ms = new Date(lastUsage).getTime() - new Date().getTime() + 1000 * 60 * 60 * 3;
                     return {
-                        text: `Please wait ${humanizeDuration(ms)} before doing another cooldown reset! kattahDespair`,
+                        text: `Please wait ${humanizeDuration(ms)} before doing another cooldown reset! kattahDanceButFast`,
                     };
                 }
             }
@@ -24,7 +24,7 @@ module.exports = {
         await bot.Redis.del(`poro:${message.senderUserID}`);
         // deletes the timer for poro redis timer
         return {
-            text: `Timer Reset! ${message.senderUsername} (-5) kattahDance total [P:${channelData.poroPrestige}] ${channelData.poroCount - 5} meat`
+            text: `Timer Reset! ${message.senderUsername} (-5) kattahDanceButFast total [P:${channelData.poroPrestige}] ${channelData.poroCount - 5} meat`
         }
     }
 };
