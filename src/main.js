@@ -17,7 +17,7 @@ Logger = require('./util/logger.js');
 regex = require('./util/regex.js');
 
 require('./api/server');
-require('./publicapi/server');
+require('./publicapi/server.js');
 
 const commands = new Map();
 const aliases = new Map();

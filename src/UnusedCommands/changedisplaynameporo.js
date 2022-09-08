@@ -22,7 +22,8 @@ module.exports = {
                 return {
                     text: `you can only change the display name`
                 }
-            }
+            };
+            
             if (channelData.poroCount < 50) {
                 if (message.senderUsername == await utils.PoroNumberOne()) {
                     return client.privmsg(message.channelName, `.me Not enough poro meat! ${message.senderUsername} kattahHappy You need 50 poro meat | ${channelData.poroCount} meat total! 🥩`)
