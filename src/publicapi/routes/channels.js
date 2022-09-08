@@ -5,14 +5,14 @@ const fetch = require('node-fetch')
 router.get('/api/bot/channels', async (req, res) => {
     const channels = await bot.DB.channels.find({ isChannel: true }).exec();
     const mapped = channels.map(x => x.username)
-    // const streams = await fetch(`https://api.twitch.tv/helix/streams?user_login=${mapped.join('&user_login=')}`, {
-    //         headers: {
-    //             'Client-ID': process.env.CLIENT_ID,
-    //             'Authorization': `Bearer ${process.env.ACCESS_TOKEN}`
-    //         }
-    //     }).then((res) => res.json());
-    // const streamers = streams.data.map((stream) => stream.user_name);
-    // const chooseOneStream = streamers[Math.floor(Math.random() * streamers.length)] ?? null;
+    const streams = await fetch(`https://api.twitch.tv/helix/streams?user_login=turtoise`, {
+            headers: {
+                'Client-ID': process.env.CLIENT_ID,
+                'Authorization': `Bearer ${process.env.ACCESS_TOKEN}`
+            }
+        }).then((res) => res.json());
+    const streamers = streams.data.map((stream) => stream.user_name);
+    const chooseOneStream = streamers[Math.floor(Math.random() * streamers.length)] ?? null;
     const poroData = await bot.DB.poroCount.find({}).exec();
     const todaysCode = await bot.DB.private.findOne({ code: "code" }).exec();
 
@@ -26,7 +26,7 @@ router.get('/api/bot/channels', async (req, res) => {
         channels: mapped,
         totalPoros: sum,
         todaysCode: todaysCode.todaysCode,
-        embedStream: "turtoise"
+        embedStream: chooseOneStream
     });
 })
 
