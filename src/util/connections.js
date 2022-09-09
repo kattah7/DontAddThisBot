@@ -9,7 +9,7 @@ const client = new ChatClient({
 });
 
 client.use(new AlternateMessageModifier(client));
-client.use(new SlowModeRateLimiter(client, 2));
+client.use(new SlowModeRateLimiter(client, 10));
 client.connect()
 
 module.exports = { client };
