@@ -21,12 +21,9 @@ module.exports = {
             const streamers = streams.data.map((stream) => stream.user_name);
             const chooseOneStream = streamers[Math.floor(Math.random() * streamers.length)] ?? null;
             channels2.push(chooseOneStream)
-            if (chooseOneStream == null) {
-                getEmebed();
-                return;
-            }
-            console.log(channels2)
+            return chooseOneStream != null ? chooseOneStream : getEmebed();
         }
         await getEmebed();
+        console.log(channels2.find(x => x != null))
     }
 }

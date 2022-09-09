@@ -70,7 +70,6 @@ module.exports = {
         if (Amount >= sendAmount) { // if senderID has enough poro to send
         if (Amount >= 100) { // if senderID's poro count is greater than or equal to 100 then don't allow them to receive poro
             await bot.DB.poroCount.updateOne({ id: message.senderUserID }, { $set: { poroCount: Amount - sendAmount } }, {multi: true} ).exec();
-            console.log(recieverID)
             client.say(message.channelName, `${message.senderUsername}, You have ${Amount - sendAmount} now and ${args[0]} has ${Amount2 + sendAmount}`)
             const XD = 'https://discord.com/api/webhooks/997686324490424411/LSonbJ2jlJm0IIPUmavKP5S7LCz01V1SIVM4QhR5gwpe1mFHTgi6AQ3lxt797i1pqLaM'
             const msg2 = {
@@ -98,7 +97,7 @@ module.exports = {
             {"method":"POST", 
             "headers": {"content-type": "application/json"},
             "body": JSON.stringify(msg2)})
-            .then(a=>a.json()).then(console.log)
+            .then(a=>a.json())
             if (recieverID) {
                 await bot.DB.poroCount.updateOne({ id: recieverID }, { $set: { poroCount: Amount2 + sendAmount } }, {multi: true} ).exec();
             }
