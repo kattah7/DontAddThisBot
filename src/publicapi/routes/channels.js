@@ -22,8 +22,8 @@ router.get('/api/bot/channels', async (req, res) => {
     }
 
     const channels = await bot.DB.channels.find({ isChannel: true }).exec();
-    shuffle(channels.username);
-    const mapped = channels.username.map(x => x)
+    shuffle(channels);
+    const mapped = channels.map(x => x.username)
     const randomSliced = mapped.splice(Math.floor(Math.random() * mapped.length), 100);
     const streams = await fetch(`https://api.twitch.tv/helix/streams?user_login=${randomSliced.join('&user_login=')}`, {
             headers: {
