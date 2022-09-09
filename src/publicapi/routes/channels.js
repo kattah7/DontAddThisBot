@@ -1,9 +1,11 @@
 const express = require('express');
 const router = express.Router();
 const fetch = require('node-fetch')
+const { Shuffle } = require('../../util/utils.js');
 
 router.get('/api/bot/channels', async (req, res) => {
     const channels = await bot.DB.channels.find({ isChannel: true }).exec();
+    Shuffle(channels.username);
     const mapped = channels.map(x => x.username)
     const randomSliced = mapped.splice(Math.floor(Math.random() * mapped.length), 100);
     const streams = await fetch(`https://api.twitch.tv/helix/streams?user_login=${randomSliced.join('&user_login=')}`, {
