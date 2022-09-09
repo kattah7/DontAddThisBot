@@ -5,8 +5,8 @@ const fetch = require('node-fetch')
 router.get('/api/bot/channels', async (req, res) => {
     const channels = await bot.DB.channels.find({ isChannel: true }).exec();
     const mapped = channels.map(x => x.username)
-    const sliced = mapped.slice(0, 100)
-    const streams = await fetch(`https://api.twitch.tv/helix/streams?user_login=${sliced.join('&user_login=')}`, {
+    const randomSpliced = mapped.splice(Math.floor(Math.random() * mapped.length), 100);
+    const streams = await fetch(`https://api.twitch.tv/helix/streams?user_login=${randomSpliced.join('&user_login=')}`, {
             headers: {
                 'Client-ID': process.env.CLIENT_ID,
                 'Authorization': `Bearer ${process.env.ACCESS_TOKEN}`
