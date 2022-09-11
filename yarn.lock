@@ -1934,7 +1934,7 @@ node-cron@^3.0.0:
   dependencies:
     uuid "8.3.2"
 
-node-fetch@2, node-fetch@2.6.7:
+node-fetch@2, node-fetch@2.6.7, node-fetch@^2.6.1:
   version "2.6.7"
   resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.6.7.tgz#24de9fba827e3b4ae44dc8b20256a379160052ad"
   integrity sha512-ZjMPFEfVx5j+y2yF35Kzx5sF7kDzxuDj6ziH4FFbOp87zKDZNx8yExJIb05OGF4Nlt9IHFIMBkRl41VdvcNdbQ==
@@ -2587,6 +2587,13 @@ text-table@^0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/text-table/-/text-table-0.2.0.tgz#7f5ee823ae805207c00af2df4a84ec3fcfa570b4"
   integrity sha512-N+8UisAXDGk8PFXP4HAzVR9nbfmVJ3zYLAWiTIoqC5v5isinhr+r5uaO8+7r3BMfuNIufIsA7RdpVgacC2cSpw==
+
+tmi-emote-parse@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/tmi-emote-parse/-/tmi-emote-parse-2.0.0.tgz#37acc1bde6ca6f677a49f60c2ebe88d5fabcd534"
+  integrity sha512-nCYFhp9XPvpks/yE3uCBVKgrB44a/VpwbQVbA1Q0v7qz+7tePT/EOn6nT3MvQ1LYHCOrFvrl5pybqb+ZkiZTIQ==
+  dependencies:
+    node-fetch "^2.6.1"
 
 to-regex-range@^5.0.1:
   version "5.0.1"

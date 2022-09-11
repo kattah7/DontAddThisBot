@@ -1,7 +1,7 @@
 module.exports = {
-    name: "setlevel",
+    name: 'setlevel',
     description: "Sets the user's level.",
-    level: 3,
+    level: 2,
     cooldown: 5000,
     async execute(message, args, client, userdata) {
         if (!args[0]) {
