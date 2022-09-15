@@ -1,23 +1,25 @@
 const got = require('got');
-const fetch = require('node-fetch');
 const utils = require('../util/utils.js');
 
 module.exports = {
-    name: "modvip",
-    aliases: ["mv"],
+    name: 'modvip',
+    aliases: ['mv'],
     cooldown: 3000,
     async execute(message, args, client) {
         const targetUser = await utils.ParseUser(args[0] ?? message.channelName);
         if (!/^[A-Z_\d]{2,26}$/i.test(targetUser)) {
             return {
-                 text: "malformed username parameter",
-            }
+                text: 'malformed username parameter',
+            };
         }
         try {
-            const { body: getModsNVips } = await got.get(`https://api.ivr.fi/v2/twitch/modvip/${targetUser}?skipCache=false`, {
-                throwHttpErrors: false,
-                responseType: 'json',
-            })
+            const { body: getModsNVips } = await got.get(
+                `https://api.ivr.fi/v2/twitch/modvip/${targetUser}?skipCache=false`,
+                {
+                    throwHttpErrors: false,
+                    responseType: 'json',
+                }
+            );
             const userID = await utils.IDByLogin(targetUser);
             const query = [];
             query.push({
@@ -46,26 +48,37 @@ module.exports = {
                 },
                 json: query,
             });
-            const {artists} = pogger[0].data;
-            const artistsMapped = artists.edges.map(({node, grantedAt}) => ({id: node.id, login: node.login, displayName: node.displayName, grantedAt: grantedAt}));
-            const modsMapped = getModsNVips.mods.map(x => x.login + " (" + x.grantedAt.split("T")[0] + ")" + " - " + "[MOD]")
-            const vipsMapped = getModsNVips.vips.map(x => x.login + " (" + x.grantedAt.split("T")[0] + ")" + " - " + "[VIP]")
-            const artistMapped = artistsMapped.map(x => x.login + " (" + x.grantedAt.split("T")[0] + ")" + " - " + "[ARTIST]")
-            const modsNvipsMapped = modsMapped.concat(vipsMapped, artistMapped)
+            const { artists } = pogger[0].data;
+            const artistsMapped = artists.edges.map(({ node, grantedAt }) => ({
+                id: node.id,
+                login: node.login,
+                displayName: node.displayName,
+                grantedAt: grantedAt,
+            }));
+            const modsMapped = getModsNVips.mods.map(
+                (x) => x.login + ' (' + x.grantedAt.split('T')[0] + ')' + ' - ' + '[MOD]'
+            );
+            const vipsMapped = getModsNVips.vips.map(
+                (x) => x.login + ' (' + x.grantedAt.split('T')[0] + ')' + ' - ' + '[VIP]'
+            );
+            const artistMapped = artistsMapped.map(
+                (x) => x.login + ' (' + x.grantedAt.split('T')[0] + ')' + ' - ' + '[ARTIST]'
+            );
+            const modsNvipsMapped = modsMapped.concat(vipsMapped, artistMapped);
             const { key } = await got
                 .post(`https://haste.fuchsty.com/documents`, {
-                    responseType: "json",
-                    body: modsNvipsMapped.join("\n"),
+                    responseType: 'json',
+                    body: modsNvipsMapped.join('\n'),
                 })
-            .json();
+                .json();
             return {
                 text: `https://haste.fuchsty.com/${key}.txt - [${modsMapped.length} mods, ${vipsMapped.length} vips, ${artistMapped.length} artists]`,
-            }
+            };
         } catch (e) {
-            console.log(e)
+            console.log(e);
             return {
-                text: "error",
-            }
+                text: 'error',
+            };
         }
-    }
-}
+    },
+};
