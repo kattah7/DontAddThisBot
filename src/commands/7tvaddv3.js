@@ -16,7 +16,7 @@ module.exports = {
             }
         }
 
-        const StvID = await utils.stvNameToID(message.channelName);
+        const StvID = await utils.stvNameToID(message.channelID);
         const channelEmotes = await utils.EmoteSets(StvID);
         const findChannel = channelEmotes.find((x) => x.owner.id == StvID);
         if (!findChannel) {

@@ -25,7 +25,7 @@ module.exports = {
                 "operationName": "WatchEmoteSetMin",
                 "query": "subscription WatchEmoteSetMin($id: ObjectID!, $init: Boolean) {\n  emoteSet(id: $id, init: $init) {\n    id\n    name\n    capacity\n    emotes {\n      id\n      name\n      __typename\n    }\n    owner {\n      id\n      display_name\n      tag_color\n      avatar_url\n      __typename\n    }\n    __typename\n  }\n}",
                 "variables": {
-                    "id": await utils.stvNameToID(message.channelName),
+                    "id": await utils.stvNameToID(message.channelID),
                     init: true
                 }
             }

@@ -244,7 +244,7 @@ client.on('PRIVMSG', async (message) => {
             }
 
             if (command.stv) {
-                const StvID = await utils.stvNameToID(message.channelName)
+                const StvID = await utils.stvNameToID(message.channelID)
                 const Editors = await utils.VThreeEditors(StvID)
                 const isBotEditor = Editors.find((x) => x.user.id == "629d77a20e60c6d53da64e38") // DontAddThisBot's 7tv id
                 if (!isBotEditor) {

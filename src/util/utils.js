@@ -107,12 +107,12 @@ exports.channelEmotes = async (channel) => {
 
 exports.stvNameToID = async (name) => {
     if (!name) return null;
-    const nameData = await got(`https://api.7tv.app/v2/users/${encodeURIComponent(name)}`, {
+    const nameData = await got(`https://7tv.io/v3/users/twitch/${encodeURIComponent(name)}`, {
         responseType: 'json',
         throwHttpErrors: false,
     });
     if (!nameData.body.id) return null;
-    return nameData.body.id;
+    return nameData.body.user.id;
 };
 
 exports.PoroNumberOne = async (username) => {

@@ -27,7 +27,9 @@ module.exports = {
                 text: `${isArgsRegex}`,
             }
         }
-        const StvID = await utils.stvNameToID(params.from);
+
+        const UID = await utils.IDByLogin(params.from)
+        const StvID = await utils.stvNameToID(UID);
         if (!StvID) {
             return {
                 text: `⛔ "${params.from}" is not a valid channel`,
@@ -46,7 +48,7 @@ module.exports = {
             addThatEmote = await utils.AddSTVEmote(emoteID, setID);
         }
 
-        const StvID2 = await utils.stvNameToID(message.channelName);
+        const StvID2 = await utils.stvNameToID(message.channelID);
         const channelEmotes2 = await utils.EmoteSets(StvID2);
         const findMainChannel2 = channelEmotes2.find((x) => x.owner.id == StvID2);
         const channelEmotes = await utils.EmoteSets(StvID);

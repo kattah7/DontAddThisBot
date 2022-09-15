@@ -53,7 +53,7 @@ module.exports = {
             }
         }
 
-        const StvID = await utils.stvNameToID(msg.channelName);
+        const StvID = await utils.stvNameToID(msg.channelID);
         const channelEmotes = await utils.EmoteSets(StvID);
         if (params.set) {
             findEmoteParams(args[0]);

@@ -11,7 +11,8 @@ module.exports = {
     const targetUser = await utils.ParseUser(args[0] ?? message.senderUsername);
     const pronouns =
       targetUser.toLowerCase() == message.senderUsername ? "Your" : "Their";
-    const StvID = await utils.stvNameToID(targetUser);
+    const UID = await utils.IDByLogin(targetUser);
+    const StvID = await utils.stvNameToID(UID);
     //console.log(StvID)
     const { body: Subage } = await got.get(
       `https://egvault.7tv.io/v1/subscriptions/${StvID}`,
