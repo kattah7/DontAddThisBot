@@ -1,5 +1,6 @@
 const got = require('got');
-const utils = require('../util/utils.js');
+const { integrity } = require('../token/integrity.js');
+const { gql } = require('../token/gql.js');
 
 module.exports = {
     name: 'unrestrict',
@@ -10,13 +11,9 @@ module.exports = {
     botPerms: 'mod',
     async execute(message, args, client) {
         if (!args[0]) {
-            if (message.senderUsername == (await utils.PoroNumberOne())) {
-                client.privmsg(message.channelName, `.me insert name to unrestrict lol`);
-            } else {
-                return {
-                    text: `insert name to unrestrict lol`,
-                };
-            }
+            return {
+                text: `insert name to unrestrict lol`,
+            };
         }
         const targetUser = args[0] ?? message.senderUsername;
         let { body: userData, statusCode } = await got(`https://api.ivr.fi/v2/twitch/user?login=${targetUser}`, {
@@ -44,21 +41,14 @@ module.exports = {
             },
         });
 
-        got.post('https://gql.twitch.tv/gql', {
-            throwHttpErrors: false,
-            responseType: 'json',
+        await gql.post('https://gql.twitch.tv/gql', {
             headers: {
-                'Authorization': `OAuth ${process.env.TWITCH_GQL_TOKEN}`,
-                'Client-Id': `${process.env.CLIENT_ID_FOR_GQL}`,
+                'client-integrity': await integrity(),
             },
             json: query,
         });
-        if (message.senderUsername == (await utils.PoroNumberOne())) {
-            client.privmsg(message.channelName, `.me Un-restricted ${targetUser}`);
-        } else {
-            return {
-                text: `Un-restricted ${targetUser}`,
-            };
-        }
+        return {
+            text: `Un-restricted ${targetUser}`,
+        };
     },
 };

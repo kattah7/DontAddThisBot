@@ -1,4 +1,6 @@
 const got = require('got');
+const { integrity } = require('../token/integrity.js');
+const { gql } = require('../token/gql.js');
 
 module.exports = {
     name: 'restrict',
@@ -39,12 +41,9 @@ module.exports = {
             },
         });
 
-        got.post('https://gql.twitch.tv/gql', {
-            throwHttpErrors: false,
-            responseType: 'json',
+        await gql.post('https://gql.twitch.tv/gql', {
             headers: {
-                'Authorization': `OAuth ${process.env.TWITCH_GQL_TOKEN}`,
-                'Client-Id': `${process.env.CLIENT_ID_FOR_GQL}`,
+                'client-integrity': await integrity(),
             },
             json: query,
         });
