@@ -1,18 +1,18 @@
-const got = require("got");
+const got = require('got');
 
 module.exports = {
-    name: "eval",
-    description: "eval something",
-    aliases: ["ev"],
-    level: 3,
+    name: 'eval',
+    description: 'eval something',
+    aliases: ['ev'],
+    kattah: true,
     async execute(message, args, client) {
         try {
             let ev;
-            if (args[0].startsWith("http")) {
+            if (args[0].startsWith('http')) {
                 const res = await got(args[0]);
-                ev = await eval("(async () => {" + res.body.replace(/„|“/gm, '"') + "})()");
+                ev = await eval('(async () => {' + res.body.replace(/„|“/gm, '"') + '})()');
             } else {
-                ev = await eval("(async () => {" + args.join(" ").replace(/„|“/gm, '"') + "})()");
+                ev = await eval('(async () => {' + args.join(' ').replace(/„|“/gm, '"') + '})()');
             }
             if (!ev) return null;
             return { text: String(ev) };

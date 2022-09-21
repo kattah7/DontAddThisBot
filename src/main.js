@@ -8,6 +8,7 @@ const utils = require('./util/utils.js');
 const got = require('got');
 const discord = require('./util/discord.js');
 const { color } = require('./util/botcolor.json');
+const { exec } = require('child_process');
 
 global.bot = {};
 bot.Redis = require('./util/redis.js');
@@ -54,31 +55,34 @@ client.on('PART', async ({ channelName }) => {
     Logger.info(`Left channel ${channelName}`);
 });
 
-client.on("CLEARCHAT", async (message) => {
-    if (message.targetUsername == "kattah" ||
-     message.targetUsername == "kattah7" ||
-      message.targetUsername == "kpqy" ||
-       message.targetUsername == "checkingstreamers") {
+client.on('CLEARCHAT', async (message) => {
+    if (
+        message.targetUsername == 'kattah' ||
+        message.targetUsername == 'kattah7' ||
+        message.targetUsername == 'kpqy' ||
+        message.targetUsername == 'checkingstreamers'
+    ) {
         await bot.DB.channels.findOneAndDelete({ id: message.ircTags['room-id'] }).exec();
         await bot.DB.users.updateOne({ id: message.ircTags['room-id'] }, { level: 0 }).exec();
-        await client.part(message.channelName)
-        Logger.info(message.channelName + ": " + message.targetUsername, message.ircTags['room-id']);
+        await client.part(message.channelName);
+        Logger.info(message.channelName + ': ' + message.targetUsername, message.ircTags['room-id']);
     }
 });
 
-client.on("NOTICE", async ({ channelName, messageID }) => {
+client.on('NOTICE', async ({ channelName, messageID }) => {
     if (!messageID) return;
 
-    if (messageID == "msg_rejected_mandatory") {
+    if (messageID == 'msg_rejected_mandatory') {
         client.say(channelName, `That message violates the channel's moderation settings`);
         return;
     } else if (messageID == 'msg_banned') {
         Logger.warn(`Banned from channel ${channelName}`);
-        await bot.DB.channels.updateOne({ username: channelName }, { isChannel: false }).catch((err) => Logger.error(err));
+        await bot.DB.channels
+            .updateOne({ username: channelName }, { isChannel: false })
+            .catch((err) => Logger.error(err));
     } else if (messageID == 'msg_channel_suspended') {
         Logger.warn(`Suspended channel ${channelName}`);
     }
-    
 });
 
 var block = false;
@@ -94,22 +98,27 @@ client.on('PRIVMSG', async (message) => {
         });
 
     await userdata.save();
-    
+
     const lowerCase = message.messageText.toLowerCase();
-    if (lowerCase.startsWith("@dontaddthisbot,") || lowerCase.startsWith("@dontaddthisbot")) {
+    if (lowerCase.startsWith('@dontaddthisbot,') || lowerCase.startsWith('@dontaddthisbot')) {
         if (!block) {
             const channelData = await getChannel(message.channelName);
             if (!channelData.id) {
-                await bot.DB.channels.updateOne({ username: message.channelName }, { id: message.ircTags['room-id'] }).exec();
+                await bot.DB.channels
+                    .updateOne({ username: message.channelName }, { id: message.ircTags['room-id'] })
+                    .exec();
             }
             const { prefix, editors } = await bot.DB.channels.findOne({ id: message.channelID }).exec();
             const isPrefix = prefix ? `${prefix}` : `|`;
             const isEditors = editors ? `${editors.length}` : `None`;
-            client.say(message.channelName, `Prefix on this channel: "${isPrefix}" | Editors: ${isEditors} kattahBRUHH`);
+            client.say(
+                message.channelName,
+                `Prefix on this channel: "${isPrefix}" | Editors: ${isEditors} kattahBRUHH`
+            );
             block = true;
-                setTimeout(() => {
-                    block = false;
-            }, (5 * 1000));
+            setTimeout(() => {
+                block = false;
+            }, 5 * 1000);
             return;
         }
     }
@@ -148,7 +157,7 @@ client.on('PRIVMSG', async (message) => {
     if (!message.messageText.startsWith(prefix)) return;
     const args = message.messageText.slice(prefix.length).trim().split(/ +/g);
     const params = {};
-    args.filter(word => word.includes(':')).forEach(param => {
+    args.filter((word) => word.includes(':')).forEach((param) => {
         const key = param.split(':')[0];
         const value = param.split(':')[1];
         params[key] = value === 'true' || value === 'false' ? value === 'true' : value;
@@ -183,7 +192,7 @@ client.on('PRIVMSG', async (message) => {
                     setTimeout(() => {
                         cooldown.delete(`${command.name}${message.senderUserID}`);
                     }, 3000);
-                } else if (message.channelName == "forsen") {
+                } else if (message.channelName == 'forsen') {
                     // users position is within the range of 10
                     if (cooldown.has(`${command.name}${message.senderUserID}`)) return;
                     cooldown.set(`${command.name}${message.senderUserID}`, Date.now() + 3000);
@@ -218,6 +227,12 @@ client.on('PRIVMSG', async (message) => {
                 }
             }
 
+            if (command.kattah) {
+                if (message.senderUsername !== 'kattah') {
+                    return;
+                }
+            }
+
             if (command.botPerms) {
                 const displayNamekek = await utils.displayName('dontaddthisbot');
                 if (
@@ -244,18 +259,21 @@ client.on('PRIVMSG', async (message) => {
             }
 
             if (command.stv) {
-                const StvID = await utils.stvNameToID(message.channelID)
-                const Editors = await utils.VThreeEditors(StvID)
-                const isBotEditor = Editors.find((x) => x.user.id == "629d77a20e60c6d53da64e38") // DontAddThisBot's 7tv id
+                const StvID = await utils.stvNameToID(message.channelID);
+                const Editors = await utils.VThreeEditors(StvID);
+                const isBotEditor = Editors.find((x) => x.user.id == '629d77a20e60c6d53da64e38'); // DontAddThisBot's 7tv id
                 if (!isBotEditor) {
                     client.say(message.channelName, 'Please grant @DontAddThisBot 7tv editor permissions.');
                     return;
                 }
 
-                const channelEditors = channelData.editors.find(editors => editors.id === message.senderUserID);
-                const ChannelOwnerEditor = message.senderUsername.toLowerCase() == message.channelName.toLowerCase()
+                const channelEditors = channelData.editors.find((editors) => editors.id === message.senderUserID);
+                const ChannelOwnerEditor = message.senderUsername.toLowerCase() == message.channelName.toLowerCase();
                 if (!channelEditors && !ChannelOwnerEditor) {
-                    client.say(message.channelName, `You do not have permission to use this command. ask the broadcaster nicely to add you as editor :) ${prefix}editor add ${message.senderUsername}`);
+                    client.say(
+                        message.channelName,
+                        `You do not have permission to use this command. ask the broadcaster nicely to add you as editor :) ${prefix}editor add ${message.senderUsername}`
+                    );
                     return;
                 }
             }
@@ -263,7 +281,10 @@ client.on('PRIVMSG', async (message) => {
             if (command.poroRequire) {
                 const poroData = await bot.DB.poroCount.findOne({ id: message.senderUserID });
                 if (!poroData) {
-                    client.say(message.channelName, `You arent registered @${message.senderUsername}, type ${prefix}poro to get started! kattahHappy`)
+                    client.say(
+                        message.channelName,
+                        `You arent registered @${message.senderUsername}, type ${prefix}poro to get started! kattahHappy`
+                    );
                     return;
                 }
             }
@@ -290,29 +311,34 @@ client.on('PRIVMSG', async (message) => {
                     }, 2000);
                 }
 
-                if (regex.racism.test(args.join(" ") || response.text)) {
+                if (regex.racism.test(args.join(' ') || response.text)) {
                     try {
-                        await discord.racist(message.senderUsername, message.senderUserID, message.channelName, args.join(" "))
-                        return client.say(message.channelName, "That message violates the terms of service")
+                        await discord.racist(
+                            message.senderUsername,
+                            message.senderUserID,
+                            message.channelName,
+                            args.join(' ')
+                        );
+                        return client.say(message.channelName, 'That message violates the terms of service');
                     } catch (e) {
-                        Logger.error(e, "Error while trying to report racism")
+                        Logger.error(e, 'Error while trying to report racism');
                     }
-                };
+                }
 
-                if (message.channelName == "forsen") {
+                if (message.channelName == 'forsen') {
                     if (await utils.ForsenTV(response.text)) {
-                        return client.say(message.channelName, "Ban phrase found in message")
+                        return client.say(message.channelName, 'Ban phrase found in message');
                     }
-                } else if (message.channelName == "nymn") {
+                } else if (message.channelName == 'nymn') {
                     if (await utils.Nymn(response.text)) {
-                        return client.say(message.channelName, "Ban phrase found in message2")
+                        return client.say(message.channelName, 'Ban phrase found in message2');
                     }
                 }
 
                 if (await utils.PoroNumberOne(message.senderUserID)) {
-                    await client.privmsg(message.channelName, `.color ${message.ircTags['color']}`)
-                    await client.me(message.channelName, `${response.text}`)
-                    await client.privmsg(message.channelName, `.color ${color}`)
+                    await client.privmsg(message.channelName, `.color ${message.ircTags['color']}`);
+                    await client.me(message.channelName, `${response.text}`);
+                    await client.privmsg(message.channelName, `.color ${color}`);
                     return;
                 } else {
                     await client.say(message.channelName, `${response.text}`);
@@ -321,6 +347,8 @@ client.on('PRIVMSG', async (message) => {
         }
     } catch (ex) {
         if (ex.message.match(/@msg-id=msg_rejected_mandatory/)) {
+            return;
+        } else if (exec.message.match(/Timed out after waiting for response for 2000 milliseconds/)) {
             return;
         }
         Logger.error('Error during command execution:', ex);
@@ -341,7 +369,7 @@ const main = async () => {
     const channels = await bot.DB.channels.find({ isChannel: true }).exec();
     for (const channel of channels) {
         try {
-            client.join(channel.username)
+            client.join(channel.username);
         } catch (err) {
             Logger.error(`Failed to join channel ${channel.username}`, err);
         }
