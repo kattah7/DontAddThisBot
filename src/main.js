@@ -311,7 +311,10 @@ client.on('PRIVMSG', async (message) => {
                     }, 2000);
                 }
 
-                if (regex.racism.test(args.join(' ') || response.text)) {
+                if (
+                    regex.racism.test(args.join(' ') || response.text) ||
+                    regex.slurs.test(args.join(' ') || response.text)
+                ) {
                     try {
                         await discord.racist(
                             message.senderUsername,
