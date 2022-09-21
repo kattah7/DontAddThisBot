@@ -111,10 +111,7 @@ client.on('PRIVMSG', async (message) => {
             const { prefix, editors } = await bot.DB.channels.findOne({ id: message.channelID }).exec();
             const isPrefix = prefix ? `${prefix}` : `|`;
             const isEditors = editors ? `${editors.length}` : `None`;
-            client.say(
-                message.channelName,
-                `Prefix on this channel: "${isPrefix}" | Editors: ${isEditors} kattahBRUHH`
-            );
+            client.say(message.channelName, `Prefix on this channel: "${isPrefix}" | Editors: ${isEditors} kattahYE`);
             block = true;
             setTimeout(() => {
                 block = false;
