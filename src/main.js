@@ -109,7 +109,7 @@ client.on('WHISPER', async ({ messageText, senderUsername, senderUserID }) => {
                 const isWarnedAlready = await bot.DB.moderation.findOne({ StvID: stvID });
                 if (!isWarnedAlready) {
                     const warnUser = new bot.DB.moderation({
-                        username: parseUser,
+                        username: parseUser.toLowerCase(),
                         id: uid,
                         StvID: stvID,
                         warnings: [
