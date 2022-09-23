@@ -92,7 +92,9 @@ client.on('WHISPER', async ({ messageText, senderUsername, senderUserID }) => {
                 emoteInfo.owner.id === '000000000000000000000000'
                     ? 'Deleted User'
                     : findBadApple
-                    ? `${emoteInfo.owner.username} is a bad apple! monkaS Total of ${findBadApple.warnings.length}; https://paste.ivr.fi/${paste.key}`
+                    ? `${emoteInfo.owner.username} is a bad apple! monkaS Total of ${
+                          findBadApple.warnings.length
+                      } warning${findBadApple.warnings.length > 1 ? `s` : ``}; https://paste.ivr.fi/${paste.key}`
                     : `${emoteInfo.owner.username} is not a bad apple :)`
             );
         }
