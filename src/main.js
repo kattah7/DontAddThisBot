@@ -464,9 +464,11 @@ client.on('PRIVMSG', async (message) => {
             }
         }
     } catch (ex) {
-        if (ex.message.match(/@msg-id=msg_rejected_mandatory/)) {
-            return;
-        } else if (exec.message.match(/Timed out after waiting for response for 2000 milliseconds/)) {
+        if (
+            ex.message.match(
+                /@msg-id=msg_rejected_mandatory|Timed out after waiting for response for 2000 milliseconds/
+            )
+        ) {
             return;
         }
         Logger.error('Error during command execution:', ex);
