@@ -120,7 +120,7 @@ exports.PoroNumberOne = async (username) => {
     const sorted = poroData.sort((a, b) => b.poroPrestige - a.poroPrestige || b.poroCount - a.poroCount);
     const top1 = sorted.slice(0, 10);
     const findTopTen = top1.find((user) => user.id === username);
-    return findTopTen
+    return findTopTen;
 };
 
 exports.ParseUser = async (user) => {
@@ -239,7 +239,7 @@ exports.RemoveSTVEmote = async (emote, channel) => {
             type: 'connection_init',
         },
     });
-    return poggers3
+    return poggers3;
 };
 
 exports.SearchSTVEmote = async (emote, Boolean) => {
@@ -360,11 +360,11 @@ exports.STVGlobalRoles = async () => {
         json: {
             operationName: 'AppState',
             variables: {},
-            query: "query AppState {\n  globalEmoteSet: namedEmoteSet(name: GLOBAL) {\n    id\n    name\n    emotes {\n      id\n      name\n      flags\n      __typename\n    }\n    capacity\n    __typename\n  }\n  roles: roles {\n    id\n    name\n    allowed\n    denied\n    position\n    color\n    __typename\n  }\n}"
-        }
+            query: 'query AppState {\n  globalEmoteSet: namedEmoteSet(name: GLOBAL) {\n    id\n    name\n    emotes {\n      id\n      name\n      flags\n      __typename\n    }\n    capacity\n    __typename\n  }\n  roles: roles {\n    id\n    name\n    allowed\n    denied\n    position\n    color\n    __typename\n  }\n}',
+        },
     });
     return STVRoles.data;
-}
+};
 
 exports.ChangeSTVEmoteSet = async (uid, emote_set_id, stvid) => {
     const { body: STVEmoteSet } = await got.post(`https://7tv.io/v3/gql`, {
@@ -379,26 +379,28 @@ exports.ChangeSTVEmoteSet = async (uid, emote_set_id, stvid) => {
                 },
                 id: stvid,
             },
-            query: "mutation UpdateUserConnection($id: ObjectID!, $conn_id: String!, $d: UserConnectionUpdate!) {\n  user(id: $id) {\n    connections(id: $conn_id, data: $d) {\n      id\n      platform\n      display_name\n      emote_set_id\n      __typename\n    }\n    __typename\n  }\n}"
-        }
+            query: 'mutation UpdateUserConnection($id: ObjectID!, $conn_id: String!, $d: UserConnectionUpdate!) {\n  user(id: $id) {\n    connections(id: $conn_id, data: $d) {\n      id\n      platform\n      display_name\n      emote_set_id\n      __typename\n    }\n    __typename\n  }\n}',
+        },
     });
-    return STVEmoteSet
-}
+    return STVEmoteSet;
+};
 
-exports.Shuffle = async (array) => {
-        let currentIndex = array.length,  randomIndex;
-      
-        // While there remain elements to shuffle.
-        while (currentIndex != 0) {
-      
-          // Pick a remaining element.
-          randomIndex = Math.floor(Math.random() * currentIndex);
-          currentIndex--;
-      
-          // And swap it with the current element.
-          [array[currentIndex], array[randomIndex]] = [
-            array[randomIndex], array[currentIndex]];
-        }
-      
-        return array;
-}
+exports.StvInformation = async (userID) => {
+    if (!userID) return null;
+    const nameData = await got(`https://7tv.io/v3/users/twitch/${encodeURIComponent(userID)}`, {
+        responseType: 'json',
+        throwHttpErrors: false,
+    });
+    if (!nameData.body.id) return null;
+    return nameData.body;
+};
+
+exports.StvEmoteInformation = async (emoteID) => {
+    if (!emoteID) return null;
+    const emote = await got(`https://7tv.io/v3/emotes/${encodeURIComponent(emoteID)}`, {
+        responseType: 'json',
+        throwHttpErrors: false,
+    });
+    if (emote.body.id === '000000000000000000000000') return null;
+    return emote.body;
+};
