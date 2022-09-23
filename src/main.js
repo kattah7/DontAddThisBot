@@ -145,7 +145,7 @@ client.on('WHISPER', async ({ messageText, senderUsername, senderUserID }) => {
             const [warn, user] = args;
             if (!user) return client.whisper(senderUsername, 'Please provide a user');
             const parseUser = await utils.ParseUser(user);
-            const findUser = await bot.DB.moderation.findOne({ username: parseUser });
+            const findUser = await bot.DB.moderation.findOne({ username: parseUser.toLowerCase() });
             if (!findUser) return client.whisper(senderUsername, `User "${parseUser}" not found`);
             const { username, id, StvID, warnings } = findUser;
             // list all warnings and user info nicely and post it to paste.ivr.fi with got post
