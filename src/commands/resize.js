@@ -31,7 +31,7 @@ module.exports = {
                 const { emote_set } = await fetch(`https://7tv.io/v3/users/twitch/${message.channelID}`).then((res) =>
                     res.json()
                 );
-                const findEmote = emote_set['emote'].find((e) => e['name'] === args[0]);
+                const findEmote = emote_set['emotes'].find((e) => e['name'] === args[0]);
                 if (!findEmote) {
                     const searchEmote = await utils.SearchSTVEmote(args[0], false);
                     if (searchEmote.errors) {
