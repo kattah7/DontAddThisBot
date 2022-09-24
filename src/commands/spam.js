@@ -15,11 +15,11 @@ module.exports = {
         if (count < 2) return { text: `the minimum spam count is 2` };
         if (!/^[A-Z_\d]/i.test(phrase)) return { text: `malformed text parameter` };
         if (regex.racism.test(phrase)) return { text: `🤨` };
-        if (regex.nonEnglish.test(emote))
+        if (regex.nonEnglish.test(phrase))
             return {
                 text: `malformed text parameter`,
             };
-        if (regex.slurs.test(emote)) {
+        if (regex.slurs.test(phrase)) {
             return {
                 text: `malformed text parameter`,
             };
