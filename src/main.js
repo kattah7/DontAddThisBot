@@ -38,6 +38,8 @@ client.on('ready', () => {
     main();
 });
 
+client.on('372', (msg) => Logger.info(`Server MOTD is: ${msg.ircParameters[1]}`));
+
 client.on('close', (err) => {
     if (err != null) {
         Logger.error('Client closed due to error', err);
