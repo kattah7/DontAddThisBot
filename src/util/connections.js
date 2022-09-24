@@ -7,7 +7,7 @@ const client = new ChatClient({
     rateLimits: 'verifiedBot',
     ignoreUnhandledPromiseRejections: true,
     connectionRateLimits: {
-        parallelConnections: 6,
+        parallelConnections: 100,
         releaseTime: 1000,
     },
 });
