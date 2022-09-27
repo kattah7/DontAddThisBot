@@ -1,5 +1,6 @@
 const { integrity } = require('../token/integrity.js');
 const { gql } = require('../token/gql.js');
+const fetch = require('node-fetch');
 
 module.exports = {
     name: 'announce',
@@ -9,34 +10,25 @@ module.exports = {
     aliases: ['ann'],
     botPerms: 'mod',
     async execute(message, args) {
-        if (args[0] == '.me') {
+        if (!args[0]) {
             return {
-                text: `kekw`,
+                text: 'Please put a message to announce',
             };
         }
-        const query = [];
-        query.push({
-            operationName: 'SendAnnouncementMessage',
-            variables: {
-                input: {
-                    channelID: `${message.channelID}`,
-                    message: `${args.join(' ')}`,
-                    color: 'PRIMARY',
+        await fetch(
+            `https://api.twitch.tv/helix/chat/announcements?broadcaster_id=${message.channelID}&moderator_id=790623318`,
+            {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${process.env.ACCESS_TOKEN}`,
+                    'Client-ID': `gp762nuuoqcoxypju8c569th9wz7q5`,
+                    'Content-Type': 'application/json',
                 },
-            },
-            extensions: {
-                persistedQuery: {
-                    version: 1,
-                    sha256Hash: 'f9e37b572ceaca1475d8d50805ae64d6eb388faf758556b2719f44d64e5ba791',
-                },
-            },
-        });
-
-        await gql.post({
-            headers: {
-                'client-integrity': await integrity(),
-            },
-            json: query,
-        });
+                body: JSON.stringify({
+                    message: args.join(' '),
+                    color: 'purple',
+                }),
+            }
+        );
     },
 };
