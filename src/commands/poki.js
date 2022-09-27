@@ -29,5 +29,9 @@ module.exports = {
             message.channelName,
             `zz zz 109 110 111 112 113 114 115 116 117 118 119 120 121 122 123 124 125 126 127 128 test13 129 130 131 zz zz`
         );
+        await client.say(
+            message.channelName,
+            `zz 132 133 134 135 136 137 138 139 140 141 142 143 145 146 147 148 149 150 151 152 153 154 test15 155 156 zz zz`
+        );
     },
 };
