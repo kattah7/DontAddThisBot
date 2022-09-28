@@ -2,6 +2,7 @@ const humanizeDuration = require('../util/humanizeDuration');
 const { code } = require('../util/porocodes.json');
 
 module.exports = {
+    tags: 'poro',
     name: 'redeem',
     cooldown: 5000,
     description: 'Redeem poro meat with speical codes',
@@ -26,21 +27,27 @@ module.exports = {
         if (lastUsage) {
             if (new Date().getTime() - new Date(lastUsage).getTime() < 1000 * 60 * 60 * 24) {
                 const ms = new Date(lastUsage).getTime() - new Date().getTime() + 1000 * 60 * 60 * 24;
-                    return {
-                        text: `${message.senderUsername}, You have already redeemed the code! Come back in ${humanizeDuration(ms)} for daily codes`,
-                    };
-                }
-            };
-
-            if (!availableBadges.includes(input)) {
                 return {
-                    text: `${message.senderUsername}, Wrong code :p check the site for hint`,
+                    text: `${
+                        message.senderUsername
+                    }, You have already redeemed the code! Come back in ${humanizeDuration(ms)} for daily codes`,
                 };
             }
-            await bot.DB.poroCount.updateOne({ id: message.senderUserID }, { $set: { poroCount: channelData.poroCount + 50 } }).exec();
-            await bot.Redis.set(`pororedeem:${message.senderUserID}`, Date.now(), 0);
+        }
+
+        if (!availableBadges.includes(input)) {
             return {
-                text: `Code Redeemed! ${message.senderUsername} (+50) kattahDance2 total [P:${channelData.poroPrestige}] ${channelData.poroCount + 50} meat`
-            }
+                text: `${message.senderUsername}, Wrong code :p check the site for hint`,
+            };
+        }
+        await bot.DB.poroCount
+            .updateOne({ id: message.senderUserID }, { $set: { poroCount: channelData.poroCount + 50 } })
+            .exec();
+        await bot.Redis.set(`pororedeem:${message.senderUserID}`, Date.now(), 0);
+        return {
+            text: `Code Redeemed! ${message.senderUsername} (+50) kattahDance2 total [P:${channelData.poroPrestige}] ${
+                channelData.poroCount + 50
+            } meat`,
+        };
     },
 };

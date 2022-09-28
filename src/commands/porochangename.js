@@ -3,10 +3,10 @@ const { integrity } = require('../token/integrity.js');
 const { gql } = require('../token/gql.js');
 
 module.exports = {
+    tags: 'poro',
     name: 'changename',
     description: "Change the bot's name with 50 poro pts",
     cooldown: 5000,
-    aliases: [],
     poro: true,
     poroRequire: true,
     execute: async (message, args, client) => {
