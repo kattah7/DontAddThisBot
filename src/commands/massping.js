@@ -1,8 +1,8 @@
 const got = require('got');
 
 module.exports = {
+    tags: 'moderation',
     name: 'massping',
-    aliases: [],
     cooldown: 3000,
     permission: 2,
     description: ':tf:',

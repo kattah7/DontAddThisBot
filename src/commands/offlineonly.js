@@ -1,38 +1,37 @@
 module.exports = {
-    name: "offlineonly",
+    tags: 'moderation',
+    name: 'offlineonly',
     cooldown: 3000,
-    description: "Make the bot only type when channel is offline",
+    description: 'Make the bot only type when channel is offline',
     permission: 2,
     stvOnly: true,
     poro: true,
     offline: true,
-    execute: async(message, args, client) => {
+    execute: async (message, args, client) => {
         const user = await bot.DB.channels.findOne({ id: message.senderUserID }).exec();
         if (user.offlineOnly) {
             try {
-                await bot.DB.channels.updateOne({ id: message.senderUserID }, { $set: { offlineOnly: false } } ).exec();
+                await bot.DB.channels.updateOne({ id: message.senderUserID }, { $set: { offlineOnly: false } }).exec();
                 return {
                     text: `${message.senderUsername} is now online only`,
                 };
             } catch (err) {
                 return {
-                    text: "Failed to update database",
+                    text: 'Failed to update database',
                 };
             }
-            
         }
         if (!user.offlineOnly) {
             try {
-                await bot.DB.channels.updateOne({ id: message.senderUserID }, { $set: { offlineOnly: true } } ).exec();
+                await bot.DB.channels.updateOne({ id: message.senderUserID }, { $set: { offlineOnly: true } }).exec();
                 return {
                     text: `${message.senderUsername} is now offline only`,
                 };
             } catch (err) {
                 return {
-                    text: "Failed to update database",
+                    text: 'Failed to update database',
                 };
             }
         }
-        
-    }
-}
+    },
+};

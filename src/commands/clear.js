@@ -1,4 +1,5 @@
 module.exports = {
+    tags: 'moderation',
     name: 'clear',
     description: 'Clears the chat',
     cooldown: 5000,

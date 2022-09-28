@@ -1,6 +1,6 @@
 module.exports = {
+    tags: 'moderation',
     name: 'spam',
-    aliases: [],
     cooldown: 5000,
     permission: 1, //1 = mod, 2 = broadcaster
     description: 'Spams message in chat',
@@ -15,11 +15,7 @@ module.exports = {
         if (count < 2) return { text: `the minimum spam count is 2` };
         if (!/^[A-Z_\d]/i.test(phrase)) return { text: `malformed text parameter` };
         if (regex.racism.test(phrase)) return { text: `🤨` };
-        if (regex.nonEnglish.test(phrase))
-            return {
-                text: `malformed text parameter`,
-            };
-        if (regex.slurs.test(phrase)) {
+        if (regex.nonEnglish.test(phrase) || regex.slurs.test(phrase)) {
             return {
                 text: `malformed text parameter`,
             };

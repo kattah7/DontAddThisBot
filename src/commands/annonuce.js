@@ -1,8 +1,7 @@
-const { integrity } = require('../token/integrity.js');
-const { gql } = require('../token/gql.js');
 const fetch = require('node-fetch');
 
 module.exports = {
+    tags: 'moderation',
     name: 'announce',
     description: 'annoucement in chat (Requires Mod)',
     cooldown: 3000,
