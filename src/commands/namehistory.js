@@ -1,6 +1,7 @@
 const got = require('got');
 
 module.exports = {
+    tags: 'stats',
     name: 'history',
     cooldown: 5000,
     description: 'Check name history',

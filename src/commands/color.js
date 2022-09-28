@@ -1,8 +1,8 @@
 const got = require('got');
 
 module.exports = {
+    tags: 'stats',
     name: 'color',
-    aliases: [],
     cooldown: 3000,
     description: "Gets user's chat color",
     execute: async (message, args, client) => {

@@ -1,8 +1,8 @@
 const got = require('got');
 
 module.exports = {
+    tags: 'stats',
     name: 'bio',
-    aliases: [],
     cooldown: 3000,
     description: "Check user's bio",
     execute: async (message, args, client) => {

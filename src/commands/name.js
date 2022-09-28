@@ -2,8 +2,8 @@ const axios = require('axios');
 const utils = require('../util/utils.js');
 
 module.exports = {
+    tags: 'stats',
     name: 'name',
-    aliases: [],
     cooldown: 3000,
     description: 'Check available names on Twitch',
     execute: async (message, args, client) => {

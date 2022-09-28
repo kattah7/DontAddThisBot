@@ -1,19 +1,21 @@
 const got = require('got');
+const { ParseUser } = require('../util/utils.js');
 
 module.exports = {
+    tags: 'stats',
     name: 'twitchcon',
     cooldown: 3000,
     description: 'check if user has twitchcon badge.',
     aliases: ['tc'],
     execute: async (message, args, client) => {
-        const targetUser = args[0] ?? message.senderUsername;
+        const targetUser = await ParseUser((args[0] ?? message.senderUsername).toLowerCase());
         const query = [];
         query.push({
             operationName: 'ViewerCard',
             variables: {
                 channelID: '137199626',
                 channelLogin: `kattah`,
-                giftRecipientLogin: `${targetUser.toLowerCase().replace(/[#|@]/, '')}`,
+                giftRecipientLogin: `${targetUser}`,
                 hasChannelID: 'true',
                 isViewerBadgeCollectionEnabled: 'true',
                 withStandardGifting: 'true',

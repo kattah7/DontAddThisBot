@@ -1,14 +1,15 @@
-const utils = require("../util/utils.js");
+const utils = require('../util/utils.js');
 
 module.exports = {
-    name: "DontAddThisBot",
+    tags: 'stats',
+    name: 'DontAddThisBot',
     cooldown: 3000,
-    description: "bot info",
-    aliases: ["datb", "dontaddthisbot"],
+    description: 'bot info',
+    aliases: ['datb', 'dontaddthisbot'],
     poro: true,
-    execute: async(message, args, client) => {
+    execute: async (message, args, client) => {
         return {
-            text: `DontAddThisBot is a multi-channel variety and utility bot made by @Kattah`
-        }
-    }
-}
+            text: `DontAddThisBot is a multi-channel variety and utility bot made by @Kattah`,
+        };
+    },
+};

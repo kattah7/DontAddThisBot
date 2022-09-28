@@ -1,8 +1,8 @@
 const got = require('got');
 
 module.exports = {
+    tags: 'stats',
     name: 'topgames',
-    aliases: [],
     cooldown: 3000,
     description: 'Live playercount of top games on steam',
     execute: async (message, args, client) => {
@@ -27,7 +27,6 @@ module.exports = {
         const data2 = userData2.response.player_count;
         const data3 = userData3.response.player_count;
 
-        
         return {
             text: `TOP STEAM GAMES BatChest Lost Ark: ${data1} players :o CS:GO: ${data2} players :o Dota 2: ${data3} players :o`,
         };

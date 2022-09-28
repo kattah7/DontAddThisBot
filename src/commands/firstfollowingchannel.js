@@ -1,6 +1,7 @@
 const got = require('got');
 
 module.exports = {
+    tags: 'stats',
     name: 'fcf',
     cooldown: 3000,
     description: 'Check your first follower.',

@@ -1,8 +1,8 @@
 const got = require('got');
 
 module.exports = {
+    tags: 'stats',
     name: 'twitter',
-    aliases: [],
     cooldown: 1000,
     description: "Gets info of user's twitter",
     execute: async (message, args, client) => {
@@ -37,10 +37,10 @@ module.exports = {
         const PUBLICMETRICS = data2.public_metrics;
         return {
             text: `${targetUser} (${name})'s twitter account created at ${
-                        accountAge.split('T')[0]
-                    }, ID: ${id}, Location: ${location}, Description: ${desc} [Followers: ${
-                        PUBLICMETRICS.followers_count
-                    } Following: ${PUBLICMETRICS.following_count} ]`,
+                accountAge.split('T')[0]
+            }, ID: ${id}, Location: ${location}, Description: ${desc} [Followers: ${
+                PUBLICMETRICS.followers_count
+            } Following: ${PUBLICMETRICS.following_count} ]`,
         };
     },
 };

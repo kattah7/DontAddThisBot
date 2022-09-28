@@ -1,8 +1,8 @@
 const got = require('got');
 
 module.exports = {
+    tags: 'stats',
     name: 'chatstats',
-    aliases: [],
     cooldown: 3000,
     description: 'Get channel emote, top chatter, top hastags and top command stats',
     execute: async (message, args, client) => {

@@ -1,8 +1,8 @@
 const got = require('got');
 
 module.exports = {
+    tags: 'stats',
     name: 'bot',
-    aliases: [],
     cooldown: 3000,
     description: 'Check if user is a verified bot',
     execute: async (message, args, client) => {

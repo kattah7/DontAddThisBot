@@ -1,7 +1,8 @@
 module.exports = {
-    name: "level",
+    tags: 'stats',
+    name: 'level',
     description: "Shows the user's level.",
-    aliases: ["lvl"],
+    aliases: ['lvl'],
     cooldown: 5000,
     async execute(message, args, client, userdata) {
         const user = args[0] ? args[0].toLowerCase() : message.senderUsername;
@@ -14,9 +15,8 @@ module.exports = {
             };
         } else {
             return {
-                    text: `${user} is level ${data.level} (${bot.Utils.misc.levels[data.level]})`,
+                text: `${user} is level ${data.level} (${bot.Utils.misc.levels[data.level]})`,
             };
         }
-
     },
 };

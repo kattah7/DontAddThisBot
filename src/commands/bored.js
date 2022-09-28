@@ -2,8 +2,8 @@ const got = require('got');
 const humanizeDuration = require('../util/humanizeDuration');
 
 module.exports = {
+    tags: 'stats',
     name: 'bored',
-    aliases: [],
     cooldown: 3000,
     description: 'Get stuff to do every 12 hours',
     execute: async (message, args, client) => {

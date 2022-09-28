@@ -1,8 +1,8 @@
 const got = require('got');
 
 module.exports = {
+    tags: 'stats',
     name: 'uid',
-    aliases: [],
     cooldown: 3000,
     description: 'Gets user ID of a targeted user',
     execute: async (message, args, client) => {

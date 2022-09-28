@@ -1,6 +1,7 @@
 const got = require('got');
 
 module.exports = {
+    tags: 'stats',
     name: 'karma',
     cooldown: 3000,
     aliases: ['redditkarma', 'rk'],

@@ -2,6 +2,7 @@ const got = require('got');
 const utils = require('../util/utils.js');
 
 module.exports = {
+    tags: 'stats',
     name: 'modvip',
     aliases: ['mv'],
     cooldown: 3000,

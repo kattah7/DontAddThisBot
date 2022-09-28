@@ -1,11 +1,12 @@
 module.exports = {
-    name: "trihard",
-    aliases: ["TriHard"],
+    tags: 'stats',
+    name: 'trihard',
+    aliases: ['TriHard'],
     cooldown: 3000,
-    description:"TriHard",
+    description: 'TriHard',
     execute: async (message, args, client) => {
         return {
-            text: `${message.senderUsername} TriHard`
-        }
+            text: `${message.senderUsername} TriHard`,
+        };
     },
 };
