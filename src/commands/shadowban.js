@@ -41,12 +41,14 @@ module.exports = {
             },
         });
 
-        await gql.post('https://gql.twitch.tv/gql', {
-            headers: {
-                'client-integrity': await integrity(),
-            },
-            json: query,
-        });
+        await gql
+            .post('https://gql.twitch.tv/gql', {
+                headers: {
+                    'client-integrity': await integrity(),
+                },
+                json: query,
+            })
+            .then((res) => console.log(res.body[0]));
         return {
             text: `Restricted ${targetUser}`,
         };
