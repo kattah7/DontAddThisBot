@@ -2,6 +2,7 @@ const fetch = require('node-fetch');
 const utils = require('../util/utils');
 
 module.exports = {
+    tags: '7tv',
     name: 'ezgif',
     cooldown: 5000,
     aliases: ['resize'],
