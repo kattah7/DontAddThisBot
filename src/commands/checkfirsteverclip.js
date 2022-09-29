@@ -1,4 +1,4 @@
-const got = require('got');
+const { GetClips } = require('../token/gql');
 const utils = require('../util/utils.js');
 
 module.exports = {
@@ -14,38 +14,9 @@ module.exports = {
                 text: 'malformed username parameter',
             };
         }
-        const query = [];
-        query.push({
-            operationName: 'ClipsManagerTable_User',
-            variables: {
-                limit: 20,
-                login: targetUser,
-                criteria: {
-                    curatorID: UserID,
-                    period: `ALL_TIME`,
-                    sort: `CREATED_AT_ASC`,
-                },
-            },
-            extensions: {
-                persistedQuery: {
-                    version: 1,
-                    sha256Hash: '604a53d7404bda99ce534bff450d46140354d1b4716b8cf81be372689928c1a0',
-                },
-            },
-        });
-
-        const { body: pogger } = await got.post('https://gql.twitch.tv/gql', {
-            throwHttpErrors: false,
-            responseType: 'json',
-            headers: {
-                'Authorization': `OAuth ${process.env.TWITCH_GQL_TOKEN}`,
-                'Client-Id': `${process.env.CLIENT_ID_FOR_GQL}`,
-            },
-            json: query,
-        });
-        //console.log(pogger[0].data.user.self)
+        const pogger = await GetClips(targetUser, UserID);
         try {
-            const { edges } = pogger[0].data.user.clips;
+            const { edges } = pogger.data.user.clips;
             if (edges.length == 0) {
                 return {
                     text: `${targetUser} has never clipped before :p`,

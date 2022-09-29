@@ -1,4 +1,4 @@
-const got = require('got');
+const { GetBadges } = require('../token/gql.js');
 const { ParseUser } = require('../util/utils.js');
 
 module.exports = {
@@ -9,45 +9,19 @@ module.exports = {
     aliases: ['tc'],
     execute: async (message, args, client) => {
         const targetUser = await ParseUser((args[0] ?? message.senderUsername).toLowerCase());
-        const query = [];
-        query.push({
-            operationName: 'ViewerCard',
-            variables: {
-                channelID: '137199626',
-                channelLogin: `kattah`,
-                giftRecipientLogin: `${targetUser}`,
-                hasChannelID: 'true',
-                isViewerBadgeCollectionEnabled: 'true',
-                withStandardGifting: 'true',
-            },
-            extensions: {
-                persistedQuery: {
-                    version: 1,
-                    sha256Hash: '9afddab81b8b216f9370f3f96662d4cefe9eb5312dc4c133ace70fa0a24ec2af',
-                },
-            },
-        });
+        const { activeTargetUser, channelViewer } = (await GetBadges(targetUser)).data;
 
-        const { body: pogger, statusCode2 } = await got.post('https://gql.twitch.tv/gql', {
-            throwHttpErrors: false,
-            responseType: 'json',
-            headers: {
-                'Authorization': `OAuth ${process.env.TWITCH_GQL_TOKEN}`,
-                'Client-Id': `${process.env.CLIENT_ID_FOR_GQL}`,
-            },
-            json: query,
-        });
-        if (pogger[0].data.activeTargetUser == null) {
+        if (activeTargetUser == null) {
             return {
                 text: `${targetUser} is not a valid username??`,
             };
         }
-        if (pogger[0].data.channelViewer.earnedBadges == null) {
+        if (channelViewer.earnedBadges == null) {
             return {
                 text: `${targetUser} is not going to TwitchCon 2022 PoroSad maybe next year`,
             };
         }
-        const tc = pogger[0].data.channelViewer.earnedBadges.find((badge) => badge.setID === 'twitchconNA2022');
+        const tc = channelViewer.earnedBadges.find((badge) => badge.setID === 'twitchconNA2022');
         if (tc) {
             return {
                 text: `${targetUser} is going to TwitchCon 2022 San Diego! PogChamp`,

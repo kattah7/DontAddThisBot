@@ -1,4 +1,4 @@
-const got = require('got');
+const { Achievements } = require('../token/gql');
 const utils = require('../util/utils.js');
 
 module.exports = {
@@ -14,32 +14,9 @@ module.exports = {
                 text: 'malformed username parameter',
             };
         }
-        const query = [];
-        query.push({
-            operationName: 'UseQuestsHook',
-            variables: {
-                channelID: UserID,
-            },
-            extensions: {
-                persistedQuery: {
-                    version: 1,
-                    sha256Hash: 'e8b929fa512631579421bb08114072c1cd3be15095034ac0649d726bcffb8404',
-                },
-            },
-        });
-
-        const { body: pogger } = await got.post('https://gql.twitch.tv/gql', {
-            throwHttpErrors: false,
-            responseType: 'json',
-            headers: {
-                'Authorization': `OAuth ${process.env.TWITCH_GQL_TOKEN}`,
-                'Client-Id': `${process.env.CLIENT_ID_FOR_GQL}`,
-            },
-            json: query,
-        });
-        //console.log(pogger[0].errors[0].message)
+        const pogger = await Achievements(UserID);
         try {
-            const { itBegins, pathToAffiliate } = pogger[0].data.user.quests;
+            const { itBegins, pathToAffiliate } = pogger.data.user.quests;
             const isAffiliate = pathToAffiliate.completedAt ? `${pathToAffiliate.completedAt.split('T')[0]}` : false;
             if (itBegins.completedAt == null) {
                 return {
