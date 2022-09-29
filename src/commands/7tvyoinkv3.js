@@ -14,51 +14,51 @@ module.exports = {
             };
         }
 
-        const url = [args];
-        if (/https:\/\/(next\.)?7tv\.app\/emote-sets\/\w{24}/g.test(url)) {
-            const linkEmote = /https:\/\/(next\.)?7tv\.app\/emote-sets\/(\w{24})/.exec(url);
-            const getEmoteSet = await utils.StvGetEmoteSet(linkEmote[2]);
-            if (getEmoteSet.errors) {
-                return {
-                    text: `⛔ ${getEmoteSet.errors[0].message}`,
-                };
-            }
-            if (getEmoteSet.data.emoteSet.id === '000000000000000000000000') {
-                return {
-                    text: `⛔ Unknown emote set`,
-                };
-            }
-            console.log(getEmoteSet.data.emoteSet.emotes.length);
-            const channelStvID = await utils.getUserCapacity(message.channelID);
-            const makeSet = await utils.StvCreateEmoteSet(
-                `${getEmoteSet.data.emoteSet.owner.username}'s Emotes`,
-                channelStvID.id
-            );
-            if (channelStvID.connections[0].emote_capacity > 250) {
-                await utils.StvChangeEmoteSetCapacity(
-                    makeSet.data.createEmoteSet.id,
-                    channelStvID.connections[0].emote_capacity
-                );
-            }
-            await client.say(message.channelName, `kattahSpin Yoinking emotes...`);
-            await utils.StvUpdateEmoteSet(message.channelID, channelStvID.id, makeSet.data.createEmoteSet.id);
-            let emoteCount = 0;
-            for (const emotes of getEmoteSet.data.emoteSet.emotes) {
-                const addEmote = await utils.AddSTVEmote(emotes.id, makeSet.data.createEmoteSet.id);
-                emoteCount += 1;
-                if (addEmote.errors) {
-                    if (addEmote.errors[0].extensions.code == 704620) {
-                        return {
-                            text: `7tvM Couldn't add every emotes due to capacity but added ${emoteCount} emotes from the set "${getEmoteSet.data.emoteSet.name}"`,
-                        };
-                    }
-                }
-            }
+        // const url = [args];
+        // if (/https:\/\/(next\.)?7tv\.app\/emote-sets\/\w{24}/g.test(url)) {
+        //     const linkEmote = /https:\/\/(next\.)?7tv\.app\/emote-sets\/(\w{24})/.exec(url);
+        //     const getEmoteSet = await utils.StvGetEmoteSet(linkEmote[2]);
+        //     if (getEmoteSet.errors) {
+        //         return {
+        //             text: `⛔ ${getEmoteSet.errors[0].message}`,
+        //         };
+        //     }
+        //     if (getEmoteSet.data.emoteSet.id === '000000000000000000000000') {
+        //         return {
+        //             text: `⛔ Unknown emote set`,
+        //         };
+        //     }
+        //     console.log(getEmoteSet.data.emoteSet.emotes.length);
+        //     const channelStvID = await utils.getUserCapacity(message.channelID);
+        //     const makeSet = await utils.StvCreateEmoteSet(
+        //         `${getEmoteSet.data.emoteSet.owner.username}'s Emotes`,
+        //         channelStvID.id
+        //     );
+        //     if (channelStvID.connections[0].emote_capacity > 250) {
+        //         await utils.StvChangeEmoteSetCapacity(
+        //             makeSet.data.createEmoteSet.id,
+        //             channelStvID.connections[0].emote_capacity
+        //         );
+        //     }
+        //     await client.say(message.channelName, `kattahSpin Yoinking emotes...`);
+        //     await utils.StvUpdateEmoteSet(message.channelID, channelStvID.id, makeSet.data.createEmoteSet.id);
+        //     let emoteCount = 0;
+        //     for (const emotes of getEmoteSet.data.emoteSet.emotes) {
+        //         const addEmote = await utils.AddSTVEmote(emotes.id, makeSet.data.createEmoteSet.id);
+        //         emoteCount += 1;
+        //         if (addEmote.errors) {
+        //             if (addEmote.errors[0].extensions.code == 704620) {
+        //                 return {
+        //                     text: `7tvM Couldn't add every emotes due to capacity but added ${emoteCount} emotes from the set "${getEmoteSet.data.emoteSet.name}"`,
+        //                 };
+        //             }
+        //         }
+        //     }
 
-            return {
-                text: `7tvM Added ${getEmoteSet.data.emoteSet.emotes.length} emotes from "${getEmoteSet.data.emoteSet.name}"`,
-            };
-        }
+        //     return {
+        //         text: `7tvM Added ${getEmoteSet.data.emoteSet.emotes.length} emotes from "${getEmoteSet.data.emoteSet.name}"`,
+        //     };
+        // }
 
         if (!params.from) {
             return {
