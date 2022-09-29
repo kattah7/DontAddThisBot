@@ -46,14 +46,18 @@ module.exports = {
                 if (addEmote.errors) {
                     if (addEmote.errors[0].extensions.code == 704620) {
                         return {
-                            text: `7tvM Couldn't add every emotes due to capacity but added emotes from the set "${getEmoteSet.data.emoteSet.name}"`,
+                            text: `7tvM Couldn't add every emotes due to capacity but added ${getEmoteSet.data.emoteSet.emotes.length()} emotes from the set "${
+                                getEmoteSet.data.emoteSet.name
+                            }"`,
                         };
                     }
                 }
             }
 
             return {
-                text: `7tvM Added emotes from "${getEmoteSet.data.emoteSet.name}"`,
+                text: `7tvM Added ${getEmoteSet.data.emoteSet.emotes.length()} emotes from "${
+                    getEmoteSet.data.emoteSet.name
+                }"`,
             };
         }
 
