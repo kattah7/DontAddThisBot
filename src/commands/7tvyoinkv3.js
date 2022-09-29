@@ -14,6 +14,45 @@ module.exports = {
             };
         }
 
+        const url = [args];
+        if (/https:\/\/(next\.)?7tv\.app\/emote-sets\/\w{24}/g.test(url)) {
+            const linkEmote = /https:\/\/(next\.)?7tv\.app\/emote-sets\/(\w{24})/.exec(url);
+            const getEmoteSet = await utils.StvGetEmoteSet(linkEmote[2]);
+            if (getEmoteSet.errors) {
+                return {
+                    text: `⛔ ${getEmoteSet.errors[0].message}`,
+                };
+            }
+            if (getEmoteSet.data.emoteSet.id === '000000000000000000000000') {
+                return {
+                    text: `⛔ Unknown emote set`,
+                };
+            }
+            const channelStvID = await utils.getUserCapacity(message.channelID);
+            const makeSet = await utils.StvCreateEmoteSet(getEmoteSet.data.emoteSet.name, channelStvID.id);
+            if (channelStvID.connections[0].emote_capacity > 250) {
+                await utils.StvChangeEmoteSetCapacity(
+                    makeSet.data.createEmoteSet.id,
+                    channelStvID.connections[0].emote_capacity
+                );
+            }
+            await utils.StvUpdateEmoteSet(message.channelID, channelStvID.id, makeSet.data.createEmoteSet.id);
+            for (const emotes of getEmoteSet.data.emoteSet.emotes) {
+                const addEmote = await utils.AddSTVEmote(emotes.id, makeSet.data.createEmoteSet.id);
+                if (addEmote.errors) {
+                    if (addEmote.errors[0].extensions.code == 704620) {
+                        return {
+                            text: `7tvM Couldn't add every emotes due to capacity but added emotes from the set "${getEmoteSet.data.emoteSet.name}"`,
+                        };
+                    }
+                }
+            }
+
+            return {
+                text: `7tvM Added emotes from "${getEmoteSet.data.emoteSet.name}"`,
+            };
+        }
+
         if (!params.from) {
             return {
                 text: '7tvM Please specify a channel',
