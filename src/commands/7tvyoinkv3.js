@@ -29,7 +29,10 @@ module.exports = {
                 };
             }
             const channelStvID = await utils.getUserCapacity(message.channelID);
-            const makeSet = await utils.StvCreateEmoteSet(getEmoteSet.data.emoteSet.name, channelStvID.id);
+            const makeSet = await utils.StvCreateEmoteSet(
+                `${getEmoteSet.data.emoteSet.owner.username}'s Emotes`,
+                channelStvID.id
+            );
             if (channelStvID.connections[0].emote_capacity > 250) {
                 await utils.StvChangeEmoteSetCapacity(
                     makeSet.data.createEmoteSet.id,
