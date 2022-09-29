@@ -1,5 +1,5 @@
-const got = require('got');
 const utils = require('../util/utils.js');
+const { ChangeColor } = require('../token/helix');
 const fs = require('fs/promises');
 
 module.exports = {
@@ -40,19 +40,17 @@ module.exports = {
             await bot.DB.poroCount
                 .updateOne({ id: message.senderUserID }, { $set: { poroCount: channelData.poroCount - 50 } })
                 .exec();
-            await client.privmsg(message.channelName, `/color ${args[0]}`);
-            const colorName = await got(
-                `https://www.thecolorapi.com/id?hex=${color.chatColor.replace('#', '')}`
-            ).json();
+            await ChangeColor(args[0]);
+            await client.say(
+                message.channelName,
+                `Color changed to ${args[0]}! PoroSad [P:${channelData.poroPrestige}] ${
+                    channelData.poroCount - 50
+                } meat total! 🥩`
+            );
             var botColor = {
                 color: args[0],
             };
             await fs.writeFile('src/util/botcolor.json', JSON.stringify(botColor) + '\n', (encoding = 'utf8'));
-            return {
-                text: `Color changed to ${args[0]}! PoroSad [P:${channelData.poroPrestige}] ${
-                    channelData.poroCount - 50
-                } meat total! 🥩`,
-            };
         }
     },
 };

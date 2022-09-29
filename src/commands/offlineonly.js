@@ -13,7 +13,7 @@ module.exports = {
             try {
                 await bot.DB.channels.updateOne({ id: message.senderUserID }, { $set: { offlineOnly: false } }).exec();
                 return {
-                    text: `${message.senderUsername} is now online only`,
+                    text: `${message.senderUsername} is now online & offline only`,
                 };
             } catch (err) {
                 return {

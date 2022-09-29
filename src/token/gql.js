@@ -11,4 +11,25 @@ const gql = got.extend({
     },
 });
 
-module.exports = { gql };
+exports.ViewerList = async (channel) => {
+    // make gql request
+    const data = await gql
+        .post({
+            json: [
+                {
+                    operationName: 'CommunityTab',
+                    variables: {
+                        login: channel,
+                    },
+                    extensions: {
+                        persistedQuery: {
+                            version: 1,
+                            sha256Hash: '2e71a3399875770c1e5d81a9774d9803129c44cf8f6bad64973aa0d239a88caf',
+                        },
+                    },
+                },
+            ],
+        })
+        .json();
+    return data[0].data.user.channel;
+};

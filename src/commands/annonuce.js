@@ -1,4 +1,4 @@
-const fetch = require('node-fetch');
+const { Announce } = require('../token/helix');
 
 module.exports = {
     tags: 'moderation',
@@ -14,20 +14,14 @@ module.exports = {
                 text: 'Please put a message to announce',
             };
         }
-        await fetch(
-            `https://api.twitch.tv/helix/chat/announcements?broadcaster_id=${message.channelID}&moderator_id=790623318`,
-            {
-                method: 'POST',
-                headers: {
-                    'Authorization': `Bearer ${process.env.ACCESS_TOKEN}`,
-                    'Client-ID': `gp762nuuoqcoxypju8c569th9wz7q5`,
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    message: args.join(' '),
-                    color: 'purple',
-                }),
-            }
-        );
+        const msg = args.join(' ');
+        if (regex.racism.test(msg)) return { text: `🤨` };
+        if (regex.nonEnglish.test(msg) || regex.slurs.test(msg)) {
+            return {
+                text: `malformed text parameter`,
+            };
+        }
+
+        await Announce(message.channelID, msg);
     },
 };

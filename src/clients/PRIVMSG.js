@@ -1,9 +1,9 @@
 const { client } = require('../util/connections.js');
 const { readdirSync } = require('fs');
 const utils = require('../util/utils.js');
-const got = require('got');
 const discord = require('../util/discord.js');
 const { color } = require('../util/botcolor.json');
+const { ChangeColor, GetStreams } = require('../token/helix');
 
 const PRIVMSG = async function () {
     const commands = new Map();
@@ -224,17 +224,9 @@ const PRIVMSG = async function () {
                 }
 
                 if (channelData.offlineOnly && !command.offline) {
-                    const { data } = await got(
-                        `https://api.twitch.tv/helix/streams?user_login=${message.channelName}`,
-                        {
-                            headers: {
-                                'Client-ID': process.env.CLIENT_ID,
-                                'Authorization': `Bearer ${process.env.ACCESS_TOKEN}`,
-                            },
-                        }
-                    ).json();
-                    if (data[0] == undefined) {
-                    } else if (data[0].type == 'live') {
+                    const data = (await GetStreams(message.channelName, true))[0];
+                    if (data == undefined) {
+                    } else if (data.type == 'live') {
                         return;
                     }
                 }
@@ -276,9 +268,9 @@ const PRIVMSG = async function () {
                     }
 
                     if (await utils.PoroNumberOne(message.senderUserID)) {
-                        await client.privmsg(message.channelName, `.color ${message.ircTags['color']}`);
+                        await ChangeColor(message.ircTags['color']);
                         await client.me(message.channelName, `${response.text}`);
-                        await client.privmsg(message.channelName, `.color ${color}`);
+                        await ChangeColor(color);
                         return;
                     } else {
                         await client.say(message.channelName, `${response.text}`);

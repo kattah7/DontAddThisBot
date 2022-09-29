@@ -1,5 +1,5 @@
-const got = require('got');
 const humanizeDuration = require('../util/humanizeDuration');
+const { GetGames, GetStreams } = require('../token/helix');
 
 module.exports = {
     tags: 'stats',
@@ -14,19 +14,9 @@ module.exports = {
             };
         }
 
-        const { data } = await got(`https://api.twitch.tv/helix/games?name=${args.join(' ')}`, {
-            headers: {
-                'Client-ID': process.env.CLIENT_ID,
-                'Authorization': `Bearer ${process.env.ACCESS_TOKEN}`,
-            },
-        }).json();
+        const { id } = (await GetGames(args.join(' ')))[0];
+        const data2 = await GetStreams(100, id);
 
-        const { data: data2 } = await got(`https://api.twitch.tv/helix/streams?first=100&game_id=${data[0].id}`, {
-            headers: {
-                'Client-ID': process.env.CLIENT_ID,
-                'Authorization': `Bearer ${process.env.ACCESS_TOKEN}`,
-            },
-        }).json();
         var random = data2[Math.floor(Math.random() * data2.length)];
         const ms = new Date().getTime() - Date.parse(random.started_at);
 
