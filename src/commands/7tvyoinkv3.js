@@ -28,6 +28,7 @@ module.exports = {
                     text: `⛔ Unknown emote set`,
                 };
             }
+            console.log(getEmoteSet.data.emoteSet.emotes.length);
             const channelStvID = await utils.getUserCapacity(message.channelID);
             const makeSet = await utils.StvCreateEmoteSet(
                 `${getEmoteSet.data.emoteSet.owner.username}'s Emotes`,
@@ -41,23 +42,21 @@ module.exports = {
             }
             await client.say(message.channelName, `kattahSpin Yoinking emotes...`);
             await utils.StvUpdateEmoteSet(message.channelID, channelStvID.id, makeSet.data.createEmoteSet.id);
+            let emoteCount = 0;
             for (const emotes of getEmoteSet.data.emoteSet.emotes) {
                 const addEmote = await utils.AddSTVEmote(emotes.id, makeSet.data.createEmoteSet.id);
+                emoteCount += 1;
                 if (addEmote.errors) {
                     if (addEmote.errors[0].extensions.code == 704620) {
                         return {
-                            text: `7tvM Couldn't add every emotes due to capacity but added ${getEmoteSet.data.emoteSet.emotes.length()} emotes from the set "${
-                                getEmoteSet.data.emoteSet.name
-                            }"`,
+                            text: `7tvM Couldn't add every emotes due to capacity but added ${emoteCount} emotes from the set "${getEmoteSet.data.emoteSet.name}"`,
                         };
                     }
                 }
             }
 
             return {
-                text: `7tvM Added ${getEmoteSet.data.emoteSet.emotes.length()} emotes from "${
-                    getEmoteSet.data.emoteSet.name
-                }"`,
+                text: `7tvM Added ${getEmoteSet.data.emoteSet.emotes.length} emotes from "${getEmoteSet.data.emoteSet.name}"`,
             };
         }
 
