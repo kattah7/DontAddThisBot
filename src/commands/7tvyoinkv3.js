@@ -39,6 +39,7 @@ module.exports = {
                     channelStvID.connections[0].emote_capacity
                 );
             }
+            await client.say(message.channelName, `kattahSpin Yoinking emotes...`);
             await utils.StvUpdateEmoteSet(message.channelID, channelStvID.id, makeSet.data.createEmoteSet.id);
             for (const emotes of getEmoteSet.data.emoteSet.emotes) {
                 const addEmote = await utils.AddSTVEmote(emotes.id, makeSet.data.createEmoteSet.id);
