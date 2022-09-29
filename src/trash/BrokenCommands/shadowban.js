@@ -1,6 +1,6 @@
 const got = require('got');
-const { integrity } = require('../token/integrity.js');
-const { gql } = require('../token/gql.js');
+const { integrity } = require('../../token/integrity.js');
+const { gql } = require('../../token/gql.js');
 
 module.exports = {
     tags: 'moderation',

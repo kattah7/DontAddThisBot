@@ -5,7 +5,7 @@ const { readdirSync } = require('fs');
 router.get('/api/bot/commands/moderation', async (req, res) => {
     let commands = [];
     for (let file of readdirSync('./src/commands').filter((file) => file.endsWith('.js'))) {
-        let pull = require(`../../../commands/${file}`);
+        let pull = require(`../../../../commands/${file}`);
         const { tags, name, aliases, cooldown, description, permission, botPerms } = pull;
         if (tags == 'moderation') {
             commands.push({

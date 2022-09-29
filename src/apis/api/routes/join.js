@@ -1,15 +1,15 @@
 const express = require('express');
 const router = express.Router();
-const { client } = require('../../util/connections')
-const utils = require('../../util/utils');
-const discord = require('../../util/discord')
+const { client } = require('../../../util/connections');
+const utils = require('../../../util/utils');
+const discord = require('../../../util/discord');
 
 router.post(`/api/bot/join`, async (req, res) => {
     const { username } = req.query;
     if (!username || !/^[A-Z_\d]{4,25}$/i.test(username)) {
         return res.status(400).json({
             success: false,
-            message: "malformed username parameter",
+            message: 'malformed username parameter',
         });
     }
     // Look up their ID
@@ -20,7 +20,7 @@ router.post(`/api/bot/join`, async (req, res) => {
     if (actualUser.level == 0) {
         return res.status(403).json({
             success: false,
-            message: "Forbidden",
+            message: 'Forbidden',
         });
     }
 
@@ -32,7 +32,10 @@ router.post(`/api/bot/join`, async (req, res) => {
             try {
                 await client.join(username);
                 await bot.DB.channels.findOneAndUpdate({ id: id }, { $set: { isChannel: true } }).exec();
-                await client.say(username, `Re-Joined channel, ${username} kattahSpin Also check @DontAddThisBot panels for info! `)
+                await client.say(
+                    username,
+                    `Re-Joined channel, ${username} kattahSpin Also check @DontAddThisBot panels for info! `
+                );
             } catch (err) {
                 return res.status(500).json({
                     success: false,
@@ -51,14 +54,17 @@ router.post(`/api/bot/join`, async (req, res) => {
         if (!poro) {
             try {
                 await client.join(username);
-                await client.say(username, `Joined channel, ${username} kattahSpin Also check @DontAddThisBot panels for info!`);
+                await client.say(
+                    username,
+                    `Joined channel, ${username} kattahSpin Also check @DontAddThisBot panels for info!`
+                );
             } catch (err) {
                 return res.status(500).json({
                     success: false,
                     message: 'Failed to join chat.',
                 });
             }
-    
+
             // Save to DB
             try {
                 await new bot.DB.channels({
@@ -73,16 +79,19 @@ router.post(`/api/bot/join`, async (req, res) => {
                     message: 'Failed to save to datastore.',
                 });
             }
-            
+
             await discord.newChannel(username, id, new Date());
             return res.status(200).json({
                 success: true,
             });
-        } 
+        }
         try {
             await client.join(username);
-            await client.say(username, `Joined channel, ${username} kattahSpin Also check @DontAddThisBot panels for info!`);
-            await bot.DB.poroCount.updateOne({ id: id }, { $set: { poroCount: poro.poroCount + 100 } } ).exec();
+            await client.say(
+                username,
+                `Joined channel, ${username} kattahSpin Also check @DontAddThisBot panels for info!`
+            );
+            await bot.DB.poroCount.updateOne({ id: id }, { $set: { poroCount: poro.poroCount + 100 } }).exec();
         } catch (err) {
             return res.status(500).json({
                 success: false,
