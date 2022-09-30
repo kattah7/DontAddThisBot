@@ -51,8 +51,14 @@ const PrivateSchema = new DB.Schema({
     todaysCode: String,
 });
 
+const CodeSchema = new DB.Schema({
+    hint: String,
+    code: String
+})
+
 exports.users = DB.model('users', UserSchema);
 exports.poroCount = DB.model('poroCount', PoroSchema);
 exports.channels = DB.model('channels', ChannelsSchema);
 exports.private = DB.model('private', PrivateSchema);
 exports.moderation = DB.model('moderation', ModerationSchema);
+exports.codes = DB.model('code', CodeSchema);
