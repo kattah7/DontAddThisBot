@@ -1,13 +1,13 @@
 const got = require('got');
-const { integrity } = require('../token/integrity.js');
-const { gql } = require('../token/gql.js');
+const { integrity } = require('../../token/integrity.js');
+const { gql } = require('../../token/gql.js');
 
 module.exports = {
+    tags: 'moderation',
     name: 'restrict',
     description: 'restrict a user (Requires Mod)',
     cooldown: 1500,
     permission: 1,
-    aliases: [],
     botPerms: 'mod',
     async execute(message, args, client) {
         if (!args[0]) {
@@ -41,12 +41,14 @@ module.exports = {
             },
         });
 
-        await gql.post('https://gql.twitch.tv/gql', {
-            headers: {
-                'client-integrity': await integrity(),
-            },
-            json: query,
-        });
+        await gql
+            .post('https://gql.twitch.tv/gql', {
+                headers: {
+                    'client-integrity': await integrity(),
+                },
+                json: query,
+            })
+            .then((res) => console.log(res.body[0]));
         return {
             text: `Restricted ${targetUser}`,
         };

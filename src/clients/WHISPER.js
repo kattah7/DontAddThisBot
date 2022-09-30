@@ -55,7 +55,9 @@ const WHISPER = async function () {
                 const parseUser = await utils.ParseUser(user);
                 try {
                     const uid = await utils.IDByLogin(parseUser);
+                    if (uid == null) return client.whisper(senderUsername, 'Unknown user on Twitch');
                     const stvID = await utils.stvNameToID(uid);
+                    if (stvID == null) return client.whisper(senderUsername, 'Unknown user on 7TV');
                     const isWarnedAlready = await bot.DB.moderation.findOne({ StvID: stvID });
                     if (!isWarnedAlready) {
                         const warnUser = new bot.DB.moderation({

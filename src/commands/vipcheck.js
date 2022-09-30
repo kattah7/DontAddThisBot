@@ -1,36 +1,38 @@
 const fetch = require('node-fetch');
 const utils = require('../util/utils');
-const humanizeDuration = require("../util/humanizeDuration");
+const humanizeDuration = require('../util/humanizeDuration');
 
 module.exports = {
-    name: "firstvip",
-    aliases: ["fv"],
+    tags: 'stats',
+    name: 'firstvip',
+    aliases: ['fv'],
     cooldown: 3000,
-    description:"First VIP of the channel",
+    description: 'First VIP of the channel',
     execute: async (message, args, client) => {
         const targetUser = await utils.ParseUser(args[0] ?? message.channelName);
         const vipsApi = await fetch(`https://api.ivr.fi/v2/twitch/modvip/${targetUser}?skipCache=false`, {
             method: 'GET',
         });
 
-        const {vips} = await vipsApi.json();
+        const { vips } = await vipsApi.json();
         if (vips == undefined) {
             return {
-                text: `${message.senderUsername}, Channel not found.`
-            }
-        };
+                text: `${message.senderUsername}, Channel not found.`,
+            };
+        }
 
         if (vips.length == 0) {
             const isArgs = args[0] ? `${targetUser}` : `This channel`;
             return {
-                text: `${message.senderUsername}, ${isArgs} has no VIPs`
-            }
-        };
+                text: `${message.senderUsername}, ${isArgs} has no VIPs`,
+            };
+        }
 
         const { login, grantedAt } = vips[0];
         return {
-            text: `${message.senderUsername}, First VIP of ${targetUser} is ${login} (${humanizeDuration(Date.now() - new Date(grantedAt))})`
+            text: `${message.senderUsername}, First VIP of ${targetUser} is ${login} (${humanizeDuration(
+                Date.now() - new Date(grantedAt)
+            )})`,
         };
-
     },
 };

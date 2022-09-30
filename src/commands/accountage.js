@@ -1,8 +1,8 @@
 const got = require('got');
 
 module.exports = {
+    tags: 'stats',
     name: 'accage',
-    aliases: [],
     cooldown: 3000,
     description: 'Check account age of a user or yourself',
     execute: async (message, args, client) => {

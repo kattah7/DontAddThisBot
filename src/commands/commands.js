@@ -1,6 +1,7 @@
 module.exports = {
-    name: "commands",
-    aliases: ["commands"],
+    tags: 'stats',
+    name: 'commands',
+    aliases: ['commands'],
     cooldown: 3000,
     execute: async (message, args, client) => {
         return {

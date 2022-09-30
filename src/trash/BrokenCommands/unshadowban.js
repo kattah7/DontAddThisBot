@@ -1,13 +1,13 @@
 const got = require('got');
-const { integrity } = require('../token/integrity.js');
-const { gql } = require('../token/gql.js');
+const { integrity } = require('../../token/integrity.js');
+const { gql } = require('../../token/gql.js');
 
 module.exports = {
+    tags: 'moderation',
     name: 'unrestrict',
     description: 'Unshadowban a user (Requires Mod)',
     cooldown: 1500,
     permission: 1,
-    aliases: [],
     botPerms: 'mod',
     async execute(message, args, client) {
         if (!args[0]) {

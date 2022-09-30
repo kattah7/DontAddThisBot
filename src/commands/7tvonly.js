@@ -1,4 +1,5 @@
 module.exports = {
+    tags: 'moderation',
     name: '7tvonly',
     aliases: ['7tvonly'],
     cooldown: 3000,
@@ -10,30 +11,28 @@ module.exports = {
         const user = await bot.DB.channels.findOne({ id: message.senderUserID }).exec();
         if (!user.stvOnly) {
             try {
-                await bot.DB.channels.updateOne({ id: message.senderUserID }, { $set: { stvOnly: true } } ).exec();
+                await bot.DB.channels.updateOne({ id: message.senderUserID }, { $set: { stvOnly: true } }).exec();
                 return {
                     text: `${message.senderUsername} is now 7tvM cmds only`,
                 };
             } catch (err) {
                 return {
-                    text: "Failed to update database",
+                    text: 'Failed to update database',
                 };
             }
-        };
+        }
 
         if (user.stvOnly) {
             try {
-                await bot.DB.channels.updateOne({ id: message.senderUserID }, { $set: { stvOnly: false } } ).exec();
+                await bot.DB.channels.updateOne({ id: message.senderUserID }, { $set: { stvOnly: false } }).exec();
                 return {
                     text: `${message.senderUsername} is now All-Commands`,
                 };
             } catch (err) {
                 return {
-                    text: "Failed to update database",
+                    text: 'Failed to update database',
                 };
             }
-            
         }
-
-    }
-}
+    },
+};

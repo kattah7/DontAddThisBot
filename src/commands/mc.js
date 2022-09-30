@@ -1,13 +1,12 @@
 const got = require('got');
 
 module.exports = {
+    tags: 'stats',
     name: 'mc',
-    aliases: [],
     cooldown: 3000,
     description: "Gets user's minecraft account age and first name",
     execute: async (message, args, client) => {
         const targetUser = args[0] ?? message.senderUsername;
-        const targetChannel = args[1] ?? message.channelName;
         let { body: userData, statusCode } = await got(
             `https://api.mojang.com/users/profiles/minecraft/${targetUser}?at=0`,
             { timeout: 10000, throwHttpErrors: false, responseType: 'json' }
@@ -20,7 +19,6 @@ module.exports = {
             throwHttpErrors: false,
             responseType: 'json',
         });
-        //console.log(data)
 
         const firstname = data.username_history[0].username;
         const undefined = data.uuid;

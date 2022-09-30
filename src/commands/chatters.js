@@ -1,7 +1,7 @@
 const got = require('got');
-const utils = require('../util/utils.js');
 
 module.exports = {
+    tags: 'stats',
     name: 'chatters',
     cooldown: 3000,
     description: 'Check active/viewerlist count',
@@ -33,8 +33,8 @@ module.exports = {
         }
         return {
             text: `${targetUser} currently has ${
-                    users.length
-                } users chatted, ${BRUH.chatter_count.toLocaleString()} users in viewerlist.`,
+                users.length
+            } users chatted, ${BRUH.chatter_count.toLocaleString()} users in viewerlist.`,
         };
     },
 };

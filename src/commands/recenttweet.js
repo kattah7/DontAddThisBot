@@ -2,6 +2,7 @@ const got = require('got');
 const humanizeDuration = require('../util/humanizeDuration');
 
 module.exports = {
+    tags: 'stats',
     name: 'recenttweet',
     aliases: ['rt'],
     cooldown: 5000,
@@ -28,8 +29,8 @@ module.exports = {
         const ms = new Date().getTime() - Date.parse(data2[0].created_at);
         return {
             text: `Recent Tweet: ${data2[0].text} (Posted ${humanizeDuration(
-                        ms
-                    )} ago) | twitter.com/${targetUser}/status/${data2[0].id}`,
+                ms
+            )} ago) | twitter.com/${targetUser}/status/${data2[0].id}`,
         };
     },
 };

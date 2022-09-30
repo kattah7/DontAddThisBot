@@ -1,6 +1,6 @@
 module.exports = {
+    tags: 'moderation',
     name: 'pyramid',
-    aliases: [],
     cooldown: 10000,
     description: 'Pyramid command in chat',
     permission: 1,

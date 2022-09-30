@@ -1,19 +1,24 @@
-const utils = require("../util/utils.js");
+const utils = require('../util/utils.js');
 
 module.exports = {
+    tags: '7tv',
     name: 'add',
     description: 'add 7tv emotes',
     cooldown: 5000,
     stv: true,
     stvOnly: true,
     execute: async (message, args, client, xd, params) => {
-        var regex = (/^set:(.*)$/g);
+        var regex = /^set:(.*)$/g;
         if (!args[0] || regex.test(args[0])) {
             const channelData = await bot.DB.channels.findOne({ id: message.channelID }).exec();
-            const isArgsRegex = args[0] ? regex.test(args[0]) || args[1] ? `⛔ Usage ${(channelData.prefix) ?? `|`}add <emote> <set:name>` : `⛔ Please specify an correct emote` : `⛔ Please specify an emote`;
+            const isArgsRegex = args[0]
+                ? regex.test(args[0]) || args[1]
+                    ? `⛔ Usage ${channelData.prefix ?? `|`}add <emote> <set:name>`
+                    : `⛔ Please specify an correct emote`
+                : `⛔ Please specify an emote`;
             return {
                 text: `${isArgsRegex}`,
-            }
+            };
         }
 
         const StvID = await utils.stvNameToID(message.channelID);
@@ -22,7 +27,7 @@ module.exports = {
         if (!findChannel) {
             return {
                 text: `⛔ ${message.channelName} Not found.`,
-            }
+            };
         }
 
         const [url] = args;
@@ -80,6 +85,5 @@ module.exports = {
                 text: `7tvM "${args[0]}" added to ${message.channelName}`,
             };
         }
-
-    }
+    },
 };

@@ -404,3 +404,92 @@ exports.StvEmoteInformation = async (emoteID) => {
     if (emote.body.id === '000000000000000000000000') return null;
     return emote.body;
 };
+
+exports.StvCreateEmoteSet = async (name, userID) => {
+    const { body: STVEmoteSet } = await got.post(`https://7tv.io/v3/gql`, {
+        throwHttpErrors: false,
+        responseType: 'json',
+        headers: {
+            Authorization: process.env.STV_AUTH_TOKEN,
+        },
+        json: {
+            operationName: 'CreateEmoteSet',
+            variables: {
+                data: {
+                    name: name,
+                },
+                user_id: userID,
+            },
+            query: 'mutation CreateEmoteSet($user_id: ObjectID!, $data: CreateEmoteSetInput!) {\n  createEmoteSet(user_id: $user_id, data: $data) {\n    id\n    name\n    capacity\n    owner {\n      id\n      display_name\n      tag_color\n      avatar_url\n      __typename\n    }\n    emotes {\n      id\n      name\n      __typename\n    }\n    __typename\n  }\n}',
+        },
+    });
+    return STVEmoteSet;
+};
+
+exports.StvGetEmoteSet = async (userID) => {
+    const { body: STVEmoteSet } = await got.post(`https://7tv.io/v3/gql`, {
+        throwHttpErrors: false,
+        responseType: 'json',
+        json: {
+            operationName: 'GetEmoteSet',
+            variables: {
+                id: userID,
+            },
+            query: 'query GetEmoteSet($id: ObjectID!, $formats: [ImageFormat!]) {\n  emoteSet(id: $id) {\n    id\n    name\n    capacity\n    emotes {\n      id\n      name\n      emote {\n        id\n        name\n        flags\n        listed\n        trending\n        images(formats: $formats) {\n          name\n          format\n          url\n          __typename\n        }\n        owner {\n          id\n          display_name\n          tag_color\n          roles\n          __typename\n        }\n        __typename\n      }\n      __typename\n    }\n    owner {\n      id\n      username\n      display_name\n      tag_color\n      avatar_url\n      roles\n      editors {\n        id\n        permissions\n        __typename\n      }\n      connections {\n        emote_slots\n        __typename\n      }\n      __typename\n    }\n    __typename\n  }\n}',
+        },
+    });
+    return STVEmoteSet;
+};
+
+exports.StvUpdateEmoteSet = async (twitchID, userID, emoteSetID) => {
+    const { body: STVEmoteSet } = await got.post(`https://7tv.io/v3/gql`, {
+        throwHttpErrors: false,
+        responseType: 'json',
+        headers: {
+            Authorization: process.env.STV_AUTH_TOKEN,
+        },
+        json: {
+            operationName: 'UpdateUserConnection',
+            variables: {
+                conn_id: twitchID,
+                id: userID,
+                d: {
+                    emote_set_id: emoteSetID,
+                },
+            },
+            query: 'mutation UpdateUserConnection($id: ObjectID!, $conn_id: String!, $d: UserConnectionUpdate!) {\n  user(id: $id) {\n    connections(id: $conn_id, data: $d) {\n      id\n      platform\n      display_name\n      emote_set_id\n      __typename\n    }\n    __typename\n  }\n}',
+        },
+    });
+    return STVEmoteSet;
+};
+
+exports.StvChangeEmoteSetCapacity = async (userID, Number) => {
+    const { body: STVEmoteSet } = await got.post(`https://7tv.io/v3/gql`, {
+        throwHttpErrors: false,
+        responseType: 'json',
+        headers: {
+            Authorization: process.env.STV_AUTH_TOKEN,
+        },
+        json: {
+            operationName: 'DeleteEmoteSet',
+            variables: {
+                id: userID,
+                data: {
+                    capacity: Number,
+                },
+            },
+            query: 'mutation DeleteEmoteSet($id: ObjectID!, $data: UpdateEmoteSetInput!) {\n  emoteSet(id: $id) {\n    update(data: $data) {\n      id\n      name\n      __typename\n    }\n    __typename\n  }\n}',
+        },
+    });
+    return STVEmoteSet;
+};
+
+exports.getUserCapacity = async (name) => {
+    if (!name) return null;
+    const nameData = await got(`https://7tv.io/v3/users/twitch/${encodeURIComponent(name)}`, {
+        responseType: 'json',
+        throwHttpErrors: false,
+    });
+    if (!nameData.body.id) return null;
+    return nameData.body.user;
+};

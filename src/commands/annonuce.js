@@ -1,7 +1,7 @@
-const { integrity } = require('../token/integrity.js');
-const { gql } = require('../token/gql.js');
+const { Announce } = require('../token/helix');
 
 module.exports = {
+    tags: 'moderation',
     name: 'announce',
     description: 'annoucement in chat (Requires Mod)',
     cooldown: 3000,
@@ -9,34 +9,19 @@ module.exports = {
     aliases: ['ann'],
     botPerms: 'mod',
     async execute(message, args) {
-        if (args[0] == '.me') {
+        if (!args[0]) {
             return {
-                text: `kekw`,
+                text: 'Please put a message to announce',
             };
         }
-        const query = [];
-        query.push({
-            operationName: 'SendAnnouncementMessage',
-            variables: {
-                input: {
-                    channelID: `${message.channelID}`,
-                    message: `${args.join(' ')}`,
-                    color: 'PRIMARY',
-                },
-            },
-            extensions: {
-                persistedQuery: {
-                    version: 1,
-                    sha256Hash: 'f9e37b572ceaca1475d8d50805ae64d6eb388faf758556b2719f44d64e5ba791',
-                },
-            },
-        });
+        const msg = args.join(' ');
+        if (regex.racism.test(msg)) return { text: `🤨` };
+        if (regex.nonEnglish.test(msg) || regex.slurs.test(msg)) {
+            return {
+                text: `malformed text parameter`,
+            };
+        }
 
-        await gql.post({
-            headers: {
-                'client-integrity': await integrity(),
-            },
-            json: query,
-        });
+        await Announce(message.channelID, msg);
     },
 };
