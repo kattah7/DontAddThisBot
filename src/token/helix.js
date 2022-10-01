@@ -22,7 +22,7 @@ exports.GetGames = async (name) => {
     return data;
 };
 
-exports.GetStreams = async (number, game) => {
+exports.GetFirstStreams = async (number, game) => {
     const { data } = await helix.get(`streams?first=${number}&game_id=${game}`).json();
     return data;
 };
@@ -49,5 +49,10 @@ exports.GetClips = async (channel) => {
 exports.GetStreams = async (channel, Boolean) => {
     // true = login, false = id
     const { data } = await helix.get(`streams?user_${Boolean ? 'login' : 'id'}=${channel}`).json();
+    return data;
+};
+
+exports.GetTopGames = async (amount) => {
+    const { data } = await helix.get(`games/top?first=${amount}`).json();
     return data;
 };
