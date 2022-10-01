@@ -1,7 +1,7 @@
 module.exports = {
     tags: 'stats',
     name: 'whathappen',
-    aliases: ['whathappened', 'wh'],
+    aliases: ['wh'],
     cooldown: 3000,
     description:
         'Tells you what happened on that date of history.[Usage |wh (month) (day), |whathappened (month) (day), |whathappen (month) (day) ',

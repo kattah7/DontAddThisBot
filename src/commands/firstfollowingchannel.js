@@ -6,7 +6,6 @@ module.exports = {
     name: 'fcf',
     cooldown: 3000,
     description: 'Check your first follower.',
-    aliases: ['firstchannelfollower'],
     execute: async (message, args, client) => {
         const targetUser = await ParseUser(args[0] ?? message.senderUsername);
         const { data } = await GetFirstFollows(targetUser);

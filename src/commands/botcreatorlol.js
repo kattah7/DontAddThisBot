@@ -1,11 +1,9 @@
-const utils = require('../util/utils.js');
-
 module.exports = {
     tags: 'stats',
-    name: 'DontAddThisBot',
+    name: 'datb',
     cooldown: 3000,
     description: 'bot info',
-    aliases: ['datb', 'dontaddthisbot'],
+    aliases: ['dontaddthisbot'],
     poro: true,
     execute: async (message, args, client) => {
         return {
