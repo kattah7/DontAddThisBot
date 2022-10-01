@@ -3,6 +3,7 @@ module.exports = {
     name: 'datb',
     cooldown: 3000,
     description: 'bot info',
+    aliases: ['dontaddthisbot'],
     poro: true,
     execute: async (message, args, client) => {
         return {
