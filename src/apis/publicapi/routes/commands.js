@@ -47,7 +47,7 @@ router.get('/api/bot/commands', async (req, res) => {
     }
     return res.status(200).json({
         success: true,
-        commands: [{ stv: stvCommands, mods: moderationCommands, poro: poroCommands, stats: statsCommands }],
+        commands: { stv: stvCommands, mods: moderationCommands, poro: poroCommands, stats: statsCommands },
     });
 });
 
