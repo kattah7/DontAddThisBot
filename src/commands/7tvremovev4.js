@@ -4,7 +4,7 @@ const { RemoveSTVEmote } = require('../token/stvGQL');
 module.exports = {
     tags: '7tv',
     name: 'remove',
-    description: 'remove 7tv emotes, |remove <emotes...mutiple>',
+    description: 'remove 7tv emotes, |remove (emotes...mutiple)',
     cooldown: 5000,
     stv: true,
     stvOnly: true,

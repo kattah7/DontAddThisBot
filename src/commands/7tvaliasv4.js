@@ -4,7 +4,7 @@ const { AliasSTVEmote } = require('../token/stvGQL');
 module.exports = {
     tags: '7tv',
     name: `alias`,
-    description: `alias 7tv emotes, |alias <emote> <name>`,
+    description: `alias 7tv emotes, |alias (emote) (name)`,
     aliases: ['rename'],
     cooldown: 5000,
     stv: true,

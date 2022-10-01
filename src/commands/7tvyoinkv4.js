@@ -5,7 +5,7 @@ const { ParseUser, IDByLogin } = require('../util/utils');
 module.exports = {
     tags: '7tv',
     name: 'yoink',
-    description: 'yoink 7tv emotes, Usage: |yoink <emotes...mutiple> from:<channel>',
+    description: 'yoink 7tv emotes, Usage: |yoink (emotes...mutiple) from:(channel)',
     cooldown: 5000,
     stv: true,
     stvOnly: true,
