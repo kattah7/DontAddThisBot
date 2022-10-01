@@ -1,5 +1,5 @@
 const got = require('got');
-const utils = require('../util/utils.js');
+const utils = require('../../util/utils.js');
 
 module.exports = {
     tags: '7tv',
