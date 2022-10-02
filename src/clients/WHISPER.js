@@ -1,10 +1,11 @@
 const { client } = require('../util/connections.js');
-const utils = require('../util/utils');
+const { StvInformation, StvEmoteInformation } = require('../token/stvREST.js');
+const { ParseUser, IDByLogin, stvNameToID } = require('../util/utils.js');
 const got = require('got');
 
 const WHISPER = async function () {
     client.on('WHISPER', async ({ messageText, senderUsername, senderUserID }) => {
-        const { user } = await utils.StvInformation(senderUserID);
+        const { user } = await StvInformation(senderUserID);
         const values = {
             '60724f65e93d828bf8858789': 0, // Moderator
             '631ef5ea03e9beb96f849a7e': 1, // Evenet coordinator
@@ -19,7 +20,7 @@ const WHISPER = async function () {
             const [url] = args;
             if (/https:\/\/(next\.)?7tv\.app\/emotes\/\w{24}/g.test(url)) {
                 const linkEmote = /https:\/\/(next\.)?7tv\.app\/emotes\/(\w{24})/.exec(url);
-                const emoteInfo = await utils.StvEmoteInformation(linkEmote[2]);
+                const emoteInfo = await StvEmoteInformation(linkEmote[2]);
                 if (emoteInfo == null) return client.whisper(senderUsername, 'Unknown emote');
                 const findBadApple = await bot.DB.moderation.findOne({ StvID: emoteInfo.owner.id }).exec();
                 if (findBadApple) {
@@ -52,11 +53,11 @@ const WHISPER = async function () {
                 if (!user) return client.whisper(senderUsername, 'Please provide a user');
                 if (args[1] == 'warn') return client.whisper(senderUsername, 'Usage warn <user> <reason>');
                 if (!args[2]) return client.whisper(senderUsername, 'Please provide a reason');
-                const parseUser = await utils.ParseUser(user);
+                const parseUser = await ParseUser(user);
                 try {
-                    const uid = await utils.IDByLogin(parseUser);
+                    const uid = await IDByLogin(parseUser);
                     if (uid == null) return client.whisper(senderUsername, 'Unknown user on Twitch');
-                    const stvID = await utils.stvNameToID(uid);
+                    const stvID = await stvNameToID(uid);
                     if (stvID == null) return client.whisper(senderUsername, 'Unknown user on 7TV');
                     const isWarnedAlready = await bot.DB.moderation.findOne({ StvID: stvID });
                     if (!isWarnedAlready) {
@@ -94,7 +95,7 @@ const WHISPER = async function () {
             } else if (args[0] === 'info') {
                 const [warn, user] = args;
                 if (!user) return client.whisper(senderUsername, 'Please provide a user');
-                const parseUser = await utils.ParseUser(user);
+                const parseUser = await ParseUser(user);
                 const findUser = await bot.DB.moderation.findOne({ username: parseUser.toLowerCase() });
                 if (!findUser) return client.whisper(senderUsername, `User "${parseUser}" not found`);
                 const { username, id, StvID, warnings } = findUser;
