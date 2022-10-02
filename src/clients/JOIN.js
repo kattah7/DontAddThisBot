@@ -6,7 +6,7 @@ const JOIN = async function () {
     client.on('JOIN', async ({ channelName }) => {
         Logger.info(`Joined channel ${channelName}`);
         const channelID = await IDByLogin(channelName);
-        createListener([`790623318.${[channelID]}`], ['chat_moderator_actions']);
+        await createListener([`790623318.${[channelID]}`], ['chat_moderator_actions']);
     });
 };
 
