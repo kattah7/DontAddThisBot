@@ -55,7 +55,7 @@ module.exports = {
 
         let pushEmotes = [];
         let pushAliases = [];
-        let errorMessage = new Set('');
+        let errorMessage = '';
         let errorCode = 0;
         await Promise.all(
             findEmotes.map(async (x) => {
@@ -91,7 +91,7 @@ module.exports = {
         if (pushEmotes.length === 0) {
             if (errorCode) {
                 return {
-                    text: `⛔ ${errorMessage}`,
+                    text: `⛔ ${new Set(errorMessage)}`,
                 };
             }
 
