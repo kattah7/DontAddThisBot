@@ -4,6 +4,7 @@ const utils = require('../util/utils.js');
 const discord = require('../util/discord.js');
 const { color } = require('../util/botcolor.json');
 const { ChangeColor, GetStreams } = require('../token/helix');
+const { ForsenTV, Nymn } = require('../token/pajbot.js');
 
 const PRIVMSG = async function () {
     const commands = new Map();
@@ -258,11 +259,11 @@ const PRIVMSG = async function () {
                     }
 
                     if (message.channelName == 'forsen') {
-                        if (await utils.ForsenTV(response.text)) {
+                        if (await ForsenTV(response.text)) {
                             return client.say(message.channelName, 'Ban phrase found in message');
                         }
                     } else if (message.channelName == 'nymn') {
-                        if (await utils.Nymn(response.text)) {
+                        if (await Nymn(response.text)) {
                             return client.say(message.channelName, 'Ban phrase found in message2');
                         }
                     }
