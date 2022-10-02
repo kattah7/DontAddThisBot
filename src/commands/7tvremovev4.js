@@ -25,7 +25,13 @@ module.exports = {
         const { emote_set } = user;
         const isItNovember = new Date().getMonth() === 10 ? '7tvH' : '7tvM';
         const emotes = new Set(args);
-        const findEmotes = emote_set.emotes.filter((x) => emotes.has(x.name));
+        const findEmotes = emote_set.emotes?.filter((x) => emotes.has(x.name));
+        if (!findEmotes) {
+            return {
+                text: `⛔ This set has no emotes at all`,
+            };
+        }
+
         if (findEmotes.length === 0) {
             return {
                 text: `⛔ No emotes found, please try again until 7tv caches the emotes (10-30s)`,

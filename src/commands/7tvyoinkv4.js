@@ -41,7 +41,12 @@ module.exports = {
         }
         const { emote_set } = channelStv;
         const emotes = new Set(args);
-        const findEmotes = emote_set.emotes.filter((x) => emotes.has(x.name));
+        const findEmotes = emote_set.emotes?.filter((x) => emotes.has(x.name));
+        if (!findEmotes) {
+            return {
+                text: `⛔ That channel's emote set has no emotes at all`,
+            };
+        }
         if (findEmotes.length === 0) {
             return {
                 text: `⛔ No emotes found, please try again until 7tv caches the emotes (10-30s)`,
