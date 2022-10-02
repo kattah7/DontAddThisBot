@@ -1,5 +1,5 @@
-const { getUser } = require('../token/stvREST');
-const { AddSTVEmote } = require('../token/stvGQL');
+const { getUser, GetEmotes } = require('../token/stvREST');
+const { AddSTVEmote, AliasSTVEmote } = require('../token/stvGQL');
 const { ParseUser, IDByLogin } = require('../util/utils');
 
 module.exports = {
@@ -53,24 +53,53 @@ module.exports = {
             };
         }
 
-        const getEmoteIDsAndAdd = findEmotes.map((x) => AddSTVEmote(x.id, user.emote_set.id));
-        const resolved = await Promise.all(getEmoteIDsAndAdd);
-        let amount = 0;
-        if (resolved[0].data.emoteSet !== null) {
-            amount = resolved.length;
+        let pushEmotes = [];
+        let pushAliases = [];
+        let errorMessage = new Set('');
+        let errorCode = 0;
+        await Promise.all(
+            findEmotes.map(async (x) => {
+                const addEmote = await AddSTVEmote(x.id, user.emote_set.id);
+                if (addEmote?.data?.emoteSet != null) {
+                    pushEmotes.push(x.name);
+                } else {
+                    errorCode = addEmote.errors[0].extensions.code;
+                    errorMessage = `${addEmote.errors[0]?.extensions?.message}`;
+                }
+                const emote = await GetEmotes(x.id);
+                if (emote.name != x.name) {
+                    const aliasEmote = await AliasSTVEmote(x.id, user.emote_set.id, x.name);
+                    if (aliasEmote?.data?.emoteSet != null) {
+                        pushAliases.push(x.name);
+                    }
+                }
+            })
+        );
+
+        if (findEmotes.length === 1) {
+            if (errorMessage) {
+                return {
+                    text: `⛔ ${errorMessage}`,
+                };
+            }
         }
 
-        if (amount === 0) {
+        if (pushEmotes.length === 0) {
+            if (errorCode) {
+                return {
+                    text: `⛔ ${errorMessage}`,
+                };
+            }
+
             return {
-                text: `⛔ No emotes added`,
+                text: `⛔ No emotes found, please try again until 7tv caches the emotes (10-30s)`,
             };
         }
 
-        const isItNovember = new Date().getMonth() === 10 ? '7tvH' : '7tvM';
         return {
-            text: `${isItNovember} ${amount === 1 ? `"${findEmotes[0].name}"` : `${amount} emotes`} yoinked to ${
-                message.channelName
-            } from ${channel}`,
+            text: `✅ Added ${pushEmotes.length} emotes from ${channel} to your emote set${
+                pushAliases.length > 0 ? `, and auto-aliased ${pushAliases.length} emote` : ''
+            }`,
         };
     },
 };
