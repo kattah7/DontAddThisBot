@@ -37,6 +37,7 @@ exports.IDByLogin = async (username) => {
         responseType: 'json',
         throwHttpErrors: false,
     });
+    if (body.length === 0) return null;
     if (!body[0].id) return null;
     return body[0].id;
 };
