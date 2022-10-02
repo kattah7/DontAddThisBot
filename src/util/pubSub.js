@@ -447,7 +447,8 @@ const handleWSResp = (msg) => {
 
     const topic = this.topics.find((topic) => topic.nonce === msg.nonce);
 
-    if (msg.error) {
+    if (msg.error && msg.error !== 'ERR_BADAUTH') {
+        // just ignore this shitty error
         this.topics.splice(this.topics.indexOf(topic), 1);
         Logger.error(
             `Error occurred while subscribing to topic ${topic.sub} for channel ${topic.channel.login}: ${msg.error}`
