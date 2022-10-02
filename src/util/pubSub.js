@@ -134,7 +134,6 @@ const listen = (channels, subs) => {
 
 exports.init = async () => {
     // Streamers
-    const channels = await bot.DB.channels.find({}).exec();
     listen([{ login: 'xqc', id: '71092938' }], ['video-playback-by-id', 'broadcast-settings-update']);
     listen([{ login: 'tommyinnit', id: '116228390' }], ['video-playback-by-id', 'broadcast-settings-update']);
     listen([{ login: 'georgy177', id: '135075027' }], ['video-playback-by-id', 'broadcast-settings-update']);
@@ -144,7 +143,7 @@ exports.init = async () => {
         ['video-playback-by-id', 'broadcast-settings-update', 'community-points-channel-v1', 'raid', 'polls']
     );
     listen([{ login: 'forsen', id: '22484632' }], ['video-playback-by-id', 'broadcast-settings-update']);
-    listen([{ login: 'dontaddthisbot', id: '790623318' }], ['chatrooms-user-v1', 'follows', 'following']);
+    listen([{ id: '790623318' }], ['chatrooms-user-v1', 'follows', 'following']); // dontaddthisbot
 
     const splitTopics = utils.splitArray(this.topics, 50);
 
@@ -163,8 +162,8 @@ exports.createListener = (channel, sub) => {
     if (c) {
         const message = {
             data: {
-                auth_token: process.env.TWITCH_OAUTH,
-                topics: [`${sub}.${channel.id}`],
+                auth_token: process.env.TWITCH_GQL_TOKEN,
+                topics: [`${sub}.${channel}`],
             },
             nonce: nonce,
             type: 'LISTEN',
@@ -411,6 +410,33 @@ const handleWSMsg = async (msg = {}, channel) => {
                 : `Duration: false`;
             const color = msg.data.action == 'timeout' || msg.data.action == 'ban' ? 15548997 : 5763719;
             await discord.BAND(user, msg.data.action.toUpperCase(), duration, color, IVR.logo);
+            break;
+        }
+        case 'moderator_removed': {
+            const user = await utils.loginByID(msg.channelID);
+            const IVR = await utils.IVR(msg.channelID);
+            await discord.BAND(user, 'UNMODDED', '', 15548997, IVR.logo);
+            break;
+        }
+
+        case 'moderator_added': {
+            const user = await utils.loginByID(msg.channelID);
+            const IVR = await utils.IVR(msg.channelID);
+            await discord.BAND(user, 'MODDED', '', 5763719, IVR.logo);
+            break;
+        }
+
+        case 'vip_removed': {
+            const user = await utils.loginByID(msg.channelID);
+            const IVR = await utils.IVR(msg.channelID);
+            await discord.BAND(user, 'UNVIPED', '', 7419530, IVR.logo);
+            break;
+        }
+
+        case 'vip_added': {
+            const user = await utils.loginByID(msg.channelID);
+            const IVR = await utils.IVR(msg.channelID);
+            await discord.BAND(user, 'VIPED', '', 7419530, IVR.logo);
             break;
         }
     }
