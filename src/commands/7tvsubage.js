@@ -1,6 +1,7 @@
-const got = require('got');
 const humanizeDuration = require('../util/humanizeDuration.js');
-const utils = require('../util/utils.js');
+const { ParseUser, IDByLogin } = require('../util/utils.js');
+const { getUser, getUsernameByStvID } = require('../token/stvREST');
+const { egVault } = require('../token/stvEGVAULT');
 
 module.exports = {
     tags: '7tv',
@@ -9,34 +10,35 @@ module.exports = {
     description: "Check user's 7tv subage YEAHBUT7TV",
     stvOnly: true,
     execute: async (message, args, client) => {
-        const targetUser = await utils.ParseUser(args[0] ?? message.senderUsername);
-        const pronouns = targetUser.toLowerCase() == message.senderUsername ? 'Your' : 'Their';
-        const UID = await utils.IDByLogin(targetUser);
-        const StvID = await utils.stvNameToID(UID);
-        //console.log(StvID)
-        const { body: Subage } = await got.get(`https://egvault.7tv.io/v1/subscriptions/${StvID}`, {
-            responseType: 'json',
-            throwHttpErrors: false,
-            timeout: 10000,
-        });
-        //console.log(Subage)
-        const ms = new Date().getTime() - Date.parse(Subage.end_at);
-        const subDate = humanizeDuration(ms);
-
-        if (!Subage.active) {
+        const targetUser = await ParseUser(args[0] ?? message.senderUsername);
+        const uid = await IDByLogin(targetUser);
+        if (uid === null) {
             return {
-                text: `7tvM ${pronouns} sub is currently not active.`,
+                text: `Unknown user`,
             };
-        } else {
-            const renew = Subage.renew == true ? 'renews' : 'is ending';
-            const username = await utils.STVIDtoName(Subage.subscription.customer_id);
-            const gifter =
-                Subage.subscription.customer_id !== Subage.subscription.subscriber_id
-                    ? `gifted by ${username.login}`
-                    : ' ';
-            const age = Subage.age / 30;
+        }
+
+        const result = await getUser(uid);
+        if (result === null) {
             return {
-                text: `7tvM ${pronouns} sub ${gifter} ${renew} in ${subDate} [${age.toFixed(1)} Months]`,
+                text: `${args[0] ? 'User is' : 'You are'} not a 7tv user`,
+            };
+        }
+
+        const { active, end_at, renew, subscription, age } = await egVault(result.user.id);
+        const { customer_id, subscriber_id } = subscription;
+        if (active) {
+            const ms = new Date().getTime() - Date.parse(end_at);
+            const subDate = humanizeDuration(ms);
+            const isRenew = renew == true ? 'renews' : 'is ending';
+            const username = await getUsernameByStvID(customer_id);
+            const gifter = customer_id !== subscriber_id ? `gifted by ${username.display_name}` : ' ';
+            const subAge = age / 30;
+            const isItNovember = new Date().getMonth() === 10 ? '7tvH' : '7tvM';
+            return {
+                text: `${isItNovember} ${targetUser} sub ${gifter} ${isRenew} in ${subDate} [${subAge.toFixed(
+                    1
+                )} Months]`,
             };
         }
     },
