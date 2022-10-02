@@ -91,7 +91,7 @@ module.exports = {
         if (pushEmotes.length === 0) {
             if (errorCode) {
                 return {
-                    text: `⛔ ${new Set(errorMessage)}`,
+                    text: `⛔ ${errorMessage}`,
                 };
             }
 
