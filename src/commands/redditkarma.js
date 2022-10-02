@@ -1,4 +1,4 @@
-const got = require('got');
+const { UserInfo } = require('../token/redditGQL.js');
 
 module.exports = {
     tags: 'stats',
@@ -12,28 +12,15 @@ module.exports = {
                 text: `You need to specify a username!`,
             };
         }
-        const { body: xdpoggers } = await got.post('https://gql.reddit.com', {
-            throwHttpErrors: true,
-            responseType: 'json',
-            headers: {
-                Authorization: process.env.REDDIT_AUTH,
-            },
-            json: {
-                id: 'db6eb1356b13',
-                variables: {
-                    name: args[0],
-                },
-            },
-        });
 
-        const xqcL = xdpoggers.data.redditorInfoByName;
-        if (xqcL == null) {
+        const { redditorInfoByName } = await UserInfo(args[0]);
+        if (!redditorInfoByName.karma) {
             return {
                 text: `${args[0]} not found BatChest`,
             };
         } else {
             return {
-                text: `${args[0]} has total ${xqcL.karma.total} karma on Reddit BatChest`,
+                text: `${args[0]} has total ${redditorInfoByName.karma.total} karma on Reddit BatChest`,
             };
         }
     },
