@@ -1,5 +1,5 @@
 const fetch = require('node-fetch');
-const utils = require('../util/utils');
+const { SearchSTVEmote } = require('../token/stvGQL');
 
 module.exports = {
     tags: '7tv',
@@ -34,7 +34,7 @@ module.exports = {
                 );
                 const findEmote = emote_set['emotes'].find((e) => e['name'] === args[0]);
                 if (!findEmote) {
-                    const searchEmote = await utils.SearchSTVEmote(args[0], false);
+                    const searchEmote = await SearchSTVEmote(args[0], false);
                     if (searchEmote.errors) {
                         return {
                             text: `⛔ ${searchEmote.errors[0].extensions.message}`,
