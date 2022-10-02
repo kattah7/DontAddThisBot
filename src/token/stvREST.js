@@ -39,3 +39,13 @@ exports.StvEmoteInformation = async (emoteID) => {
     if (emote.body.id === '000000000000000000000000') return null;
     return emote.body;
 };
+
+exports.GetEmotes = async (emoteID) => {
+    if (!emoteID) return null;
+    const emote = await got(`https://7tv.io/v3/emotes/${encodeURIComponent(emoteID)}`, {
+        responseType: 'json',
+        throwHttpErrors: false,
+    });
+    if (emote.body.id === '000000000000000000000000') return null;
+    return emote.body;
+};

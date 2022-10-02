@@ -1,4 +1,4 @@
-const { getUser } = require('../token/stvREST');
+const { getUser, GetEmotes } = require('../token/stvREST');
 const { AddSTVEmote, SearchSTVEmote } = require('../token/stvGQL');
 
 module.exports = {
@@ -34,10 +34,9 @@ module.exports = {
                     text: `⛔ ${addEmote.errors[0].extensions.message}`,
                 };
             } else {
-                const channelEmotes = emote_set.emotes;
-                const findAddedEmote = channelEmotes.find((x) => x.id == linkEmote[2]);
+                const { name } = await GetEmotes(linkEmote[2]);
                 return {
-                    text: `${isItNovember} "${findAddedEmote.name}" added to ${message.channelName}`,
+                    text: `${isItNovember} "${name}" added to ${message.channelName}`,
                 };
             }
         }

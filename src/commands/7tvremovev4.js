@@ -28,7 +28,7 @@ module.exports = {
         const findEmotes = emote_set.emotes.filter((x) => emotes.has(x.name));
         if (findEmotes.length === 0) {
             return {
-                text: `⛔ No emotes found`,
+                text: `⛔ No emotes found, please try again until 7tv caches the emotes (10-30s)`,
             };
         }
         const getEmoteIDsAndRemove = findEmotes.map((x) => RemoveSTVEmote(x.id, emote_set.id));
@@ -38,7 +38,7 @@ module.exports = {
             amount = resolved.length;
         }
         return {
-            text: `${isItNovember} ${amount === 1 ? `"${args[0]}"` : `${amount} emotes`} removed from ${
+            text: `${isItNovember} ${amount <= 1 ? `"${args[0]}"` : `${amount} emotes`} removed from ${
                 message.channelName
             }`,
         };

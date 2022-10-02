@@ -44,7 +44,7 @@ module.exports = {
         const findEmotes = emote_set.emotes.filter((x) => emotes.has(x.name));
         if (findEmotes.length === 0) {
             return {
-                text: `⛔ No emotes found`,
+                text: `⛔ No emotes found, please try again until 7tv caches the emotes (10-30s)`,
             };
         }
 

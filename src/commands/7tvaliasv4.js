@@ -26,7 +26,7 @@ module.exports = {
         const findThatEmote = emote_set.emotes.find((x) => x.name === args[0]);
         if (!findThatEmote) {
             return {
-                text: `⛔ Emote not found`,
+                text: `⛔ Emote not found, please try again until 7tv caches the emotes (10-30s)`,
             };
         }
 
