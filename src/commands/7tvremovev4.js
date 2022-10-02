@@ -23,7 +23,6 @@ module.exports = {
         }
 
         const { emote_set } = user;
-        const isItNovember = new Date().getMonth() === 10 ? '7tvH' : '7tvM';
         const emotes = new Set(args);
         const findEmotes = emote_set.emotes?.filter((x) => emotes.has(x.name));
         if (!findEmotes) {
@@ -44,9 +43,7 @@ module.exports = {
             amount = resolved.length;
         }
         return {
-            text: `${isItNovember} ${amount <= 1 ? `"${args[0]}"` : `${amount} emotes`} removed from ${
-                message.channelName
-            }`,
+            text: `7tvH ${amount <= 1 ? `"${args[0]}"` : `${amount} emotes`} removed from ${message.channelName}`,
         };
     },
 };

@@ -23,7 +23,6 @@ module.exports = {
         }
 
         const { emote_set } = xd;
-        const isItNovember = new Date().getMonth() === 10 ? '7tvH' : '7tvM';
 
         const [url] = args;
         if (/https:\/\/(next\.)?7tv\.app\/emotes\/\w{24}/g.test(url)) {
@@ -36,7 +35,7 @@ module.exports = {
             } else {
                 const { name } = await GetEmotes(linkEmote[2]);
                 return {
-                    text: `${isItNovember} "${name}" added to ${message.channelName}`,
+                    text: `7tvH "${name}" added to ${message.channelName}`,
                 };
             }
         }
@@ -55,7 +54,7 @@ module.exports = {
                 };
             } else {
                 return {
-                    text: `${isItNovember} "${name}" added to ${message.channelName}`,
+                    text: `7tvH "${name}" added to ${message.channelName}`,
                 };
             }
         }

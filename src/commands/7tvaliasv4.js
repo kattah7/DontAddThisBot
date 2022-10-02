@@ -30,7 +30,6 @@ module.exports = {
             };
         }
 
-        const isItNovember = new Date().getMonth() === 10 ? '7tvH' : '7tvM';
         const alias = await AliasSTVEmote(findThatEmote.id, emote_set.id, args[1]);
         if (alias.errors) {
             return {
@@ -38,7 +37,7 @@ module.exports = {
             };
         } else {
             return {
-                text: `${isItNovember} "${findThatEmote.name}" renamed to "${args[1]}"`,
+                text: `7tvH "${findThatEmote.name}" renamed to "${args[1]}"`,
             };
         }
     },
