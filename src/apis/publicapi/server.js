@@ -7,17 +7,15 @@ const leaderboard = require('./routes/leaderboard');
 const poroCount = require('./routes/poroCount');
 const userInfo = require('./routes/users');
 const commands = require('./routes/commands');
+const grafana = require('./routes/grafana');
 
 const app = express();
 
 app.use(morgan('dev'));
 app.use(cors());
-app.use(channelInfo);
-app.use(channels);
-app.use(leaderboard);
-app.use(poroCount);
-app.use(userInfo);
-app.use(commands);
+for (const API of [channelInfo, channels, leaderboard, poroCount, userInfo, commands, grafana]) {
+    app.use(API);
+}
 
 app.listen(3003, () => {
     Logger.info(`Public API is running on port 3003`);

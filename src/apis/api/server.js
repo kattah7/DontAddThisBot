@@ -14,14 +14,9 @@ const app = express();
 
 app.use(morgan('dev'));
 app.use(cors());
-app.use(part);
-app.use(join);
-app.use(ban);
-app.use(unban);
-app.use(admin);
-app.use(offline);
-app.use(poroOnly);
-app.use(stvOnly);
+for (const api of [part, join, ban, unban, admin, offline, poroOnly, stvOnly]) {
+    app.use(api);
+}
 
 app.listen(3002, () => {
     Logger.info(`Internal API Running on 3002`);
