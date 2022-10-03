@@ -18,7 +18,7 @@ module.exports = {
         const a = parseInt(hex.substring(6, 8), 16) / 255;
 
         return {
-            text: `r: ${r}, g: ${g}, b: ${b}, a: ${a.toFixed(2)}`,
+            text: `r: ${r}, g: ${g}, b: ${b}${isNaN(a.toFixed(2)) ? '' : `, a: ${a.toFixed(2)}`}`,
         };
     },
 };
