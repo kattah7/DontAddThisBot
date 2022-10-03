@@ -12,14 +12,13 @@ module.exports = {
         }
 
         const hex = args[0].replace('#', '');
-        // get RGBA
         const r = parseInt(hex.substring(0, 2), 16);
         const g = parseInt(hex.substring(2, 4), 16);
         const b = parseInt(hex.substring(4, 6), 16);
         const a = parseInt(hex.substring(6, 8), 16) / 255;
 
         return {
-            text: `RGB: (R:${r}, G:${g}, B:${b}, A:${a.toFixed(2)})`,
+            text: `r: ${r}, g: ${g}, b: ${b}, a: ${a.toFixed(2)}`,
         };
     },
 };
