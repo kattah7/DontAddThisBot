@@ -8,7 +8,7 @@ const got = require('got');
 const rwClient = require('./twitterClient.js');
 const discord = require('./discord.js');
 const humanizeDuration = require('./humanizeDuration.js');
-const { GetStreams } = require('../token/helix');
+const { GetStreams, Announce } = require('../token/helix');
 
 exports.topics = [];
 exports.connections = [];
@@ -61,60 +61,6 @@ const cancelRaid = async (channelId) => {
                 persistedQuery: {
                     version: 1,
                     sha256Hash: '42a2a699ac85256d72fff2471c75803f7ffbc767ba790725de5ad5d6e0163648', // kekw2
-                },
-            },
-        },
-    });
-    return body;
-};
-
-const goRaid = async (channelId) => {
-    const { body } = await got.post('https://gql.twitch.tv/gql', {
-        throwHttpErrors: false,
-        responseType: 'json',
-        headers: {
-            'Authorization': `OAuth ${process.env.TWITCH_GQL_TOKEN}`,
-            'Client-Id': `${process.env.CLIENT_ID_FOR_GQL}`,
-        },
-        json: {
-            operationName: 'GoRaid',
-            variables: {
-                input: {
-                    sourceID: channelId,
-                },
-            },
-            extensions: {
-                persistedQuery: {
-                    version: 1,
-                    sha256Hash: '878ca88bed0c5a5f0687ad07562cffc0bf6a3136f15e5015c0f5f5f7f367f70a', // kekw2
-                },
-            },
-        },
-    });
-    return body;
-};
-
-const annouceNoti = async (msg) => {
-    const { body } = await got.post('https://gql.twitch.tv/gql', {
-        throwHttpErrors: false,
-        responseType: 'json',
-        headers: {
-            'Authorization': `OAuth ${process.env.TWITCH_GQL_TOKEN}`,
-            'Client-Id': `${process.env.CLIENT_ID_FOR_GQL}`,
-        },
-        json: {
-            operationName: 'SendAnnouncementMessage',
-            variables: {
-                input: {
-                    channelID: `137199626`,
-                    message: msg,
-                    color: 'PRIMARY',
-                },
-            },
-            extensions: {
-                persistedQuery: {
-                    version: 1,
-                    sha256Hash: 'f9e37b572ceaca1475d8d50805ae64d6eb388faf758556b2719f44d64e5ba791',
                 },
             },
         },
@@ -283,46 +229,36 @@ const handleWSMsg = async (msg = {}, channel) => {
     switch (msg.type) {
         case 'stream-up': {
             if (msg.channelID === '71092938')
-                return annouceNoti(`${await utils.loginByID(msg.channelID)} just went live! gn`);
+                return Announce(137199626, `${await utils.loginByID(msg.channelID)} just went live! gn`);
             if (msg.channelID === '135075027')
-                return annouceNoti(`${await utils.loginByID(msg.channelID)} just went live! ppPoof`);
+                return Announce(137199626, `${await utils.loginByID(msg.channelID)} just went live! ppPoof`);
             if (msg.channelID === '116228390') {
-                const tweet = async () => {
-                    try {
-                        await rwClient.v1.tweet(
-                            `@getair_conditioned #${await utils.loginByID(msg.channelID)} went live`
-                        );
-                    } catch (e) {
-                        Logger.error(e);
-                    }
-                };
-                tweet();
                 return client.privmsg('kattah', `.w getair_conditioned tommyinnit live Pog`);
             }
-            annouceNoti(`${await utils.loginByID(msg.channelID)} went live!`);
+            Announce(137199626, `${await utils.loginByID(msg.channelID)} went live!`);
             break;
         }
 
         case 'stream-down': {
             if (msg.channelID === '71092938')
-                return annouceNoti(`${await utils.loginByID(msg.channelID)} went offline! gm`);
+                return Announce(137199626, `${await utils.loginByID(msg.channelID)} went offline! gm`);
             if (msg.channelID === '71092938')
-                return annouceNoti(`${await utils.loginByID(msg.channelID)} went offline! UwUDespair`);
-            annouceNoti(`${await utils.loginByID(msg.channelID)} went offline!`);
+                return Announce(137199626, `${await utils.loginByID(msg.channelID)} went offline! UwUDespair`);
+            Announce(137199626, `${await utils.loginByID(msg.channelID)} went offline!`);
             break;
         }
 
         case 'broadcast_settings_update': {
             if (msg.game_id !== msg.old_game_id) {
                 if (msg.channel === 'xqc' || msg.channel === 'forsen')
-                    return annouceNoti(`${msg.channel} changed to new game: ${msg.game} gn`);
-                annouceNoti(`${msg.channel} changed to new game: ${msg.game}`);
+                    return Announce(137199626, `${msg.channel} changed to new game: ${msg.game} gn`);
+                Announce(137199626, `${msg.channel} changed to new game: ${msg.game}`);
             }
 
             if (msg.status !== msg.old_status) {
                 if (msg.channel === 'xqc' || msg.channel === 'forsen')
-                    return annouceNoti(`${msg.channel} changed to new title: ${msg.status} gn`);
-                annouceNoti(`${msg.channel} changed to new title: ${msg.status}`);
+                    return Announce(137199626, `${msg.channel} changed to new title: ${msg.status} gn`);
+                Announce(137199626, `${msg.channel} changed to new title: ${msg.status}`);
             }
             break;
         }
