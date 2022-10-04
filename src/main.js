@@ -21,7 +21,7 @@ regex = require('./util/regex.js');
 require('./apis/api/server');
 require('./apis/publicapi/server.js');
 
-client.on('ready', () => {
+client.on('ready', async () => {
     Logger.info('Connected to chat!');
     pubsub.init();
     sevenTV.init();
@@ -29,13 +29,9 @@ client.on('ready', () => {
         // every 2 hours at :05
         client.say('kattah', '!cookie');
     });
-    JOIN();
-    PART();
-    WHISPER();
-    CLEARCHAT();
-    NOTICE();
-    PRIVMSG();
-    main();
+    for (const execute of [JOIN, PART, WHISPER, CLEARCHAT, NOTICE, PRIVMSG, main]) {
+        await execute();
+    }
 });
 
 client.on('372', (msg) => Logger.info(`Server MOTD is: ${msg.ircParameters[1]}`));
