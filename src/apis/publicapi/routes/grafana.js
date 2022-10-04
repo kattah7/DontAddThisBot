@@ -1,17 +1,23 @@
 const express = require('express');
 const router = express.Router();
-const client = require('prom-client');
-const register = new client.Registry();
+const prom = require('prom-client');
+const register = new prom.Registry();
+const { client } = require('../../../util/connections.js');
 
-const channelsLengthGauge = new client.Gauge({
+const channelsLengthGauge = new prom.Gauge({
     name: 'channels',
     help: 'Number of channels',
 });
-const totalPoros = new client.Gauge({
+const totalPoros = new prom.Gauge({
     name: 'total_poros',
     help: 'Total number of poros',
 });
-for (const metrics of [channelsLengthGauge, totalPoros]) {
+const messageMetric = new prom.Counter({
+    name: 'messages',
+    help: 'Number of messages',
+});
+
+for (const metrics of [channelsLengthGauge, totalPoros, messageMetric]) {
     register.registerMetric(metrics);
 }
 
@@ -19,7 +25,7 @@ register.setDefaultLabels({
     app: 'DontAddThisBot',
 });
 
-client.collectDefaultMetrics({ register });
+prom.collectDefaultMetrics({ register });
 
 setInterval(async () => {
     const channels = await bot.DB.channels.count({ isChannel: true }).exec();
@@ -31,6 +37,10 @@ setInterval(async () => {
     channelsLengthGauge.set(channels);
     totalPoros.set(sum);
 }, 100);
+
+client.on('message', () => {
+    messageMetric.inc(1);
+});
 
 router.get('/metrics', async (req, res) => {
     res.setHeader('Content-Type', register.contentType);
