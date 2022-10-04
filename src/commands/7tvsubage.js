@@ -26,19 +26,20 @@ module.exports = {
         }
 
         const { active, end_at, renew, subscription, age } = await egVault(result.user.id);
-        const { customer_id, subscriber_id } = subscription;
         if (active) {
+            const { customer_id, subscriber_id } = subscription;
             const ms = new Date().getTime() - Date.parse(end_at);
             const subDate = humanizeDuration(ms);
             const isRenew = renew == true ? 'renews' : 'is ending';
             const username = await getUsernameByStvID(customer_id);
             const gifter = customer_id !== subscriber_id ? `gifted by ${username.display_name}` : ' ';
             const subAge = age / 30;
-            const isItNovember = new Date().getMonth() === 10 ? '7tvH' : '7tvM';
             return {
-                text: `${isItNovember} ${targetUser} sub ${gifter} ${isRenew} in ${subDate} [${subAge.toFixed(
-                    1
-                )} Months]`,
+                text: `7tvH ${targetUser} sub ${gifter} ${isRenew} in ${subDate} [${subAge.toFixed(1)} Months]`,
+            };
+        } else {
+            return {
+                text: `7tvH ${targetUser} is not a 7tv sub`,
             };
         }
     },
