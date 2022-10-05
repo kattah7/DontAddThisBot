@@ -27,7 +27,7 @@ module.exports = {
                 text: `Please provide a valid amount. PoroSad`,
             };
         }
-        const parseUser = await utils.ParseUser(args[0]);
+        const parseUser = await utils.ParseUser(args[0].toLowerCase());
         const recieverID = await utils.IDByLogin(parseUser);
         if (!recieverID) {
             // if user not found on twitch
