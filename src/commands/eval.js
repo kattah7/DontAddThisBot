@@ -6,6 +6,7 @@ module.exports = {
     aliases: ['ev'],
     kattah: true,
     async execute(message, args, client) {
+        if (args.includes('sudo')) return;
         try {
             let ev;
             if (args[0].startsWith('http')) {
