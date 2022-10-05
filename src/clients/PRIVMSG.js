@@ -34,7 +34,7 @@ const PRIVMSG = async function () {
         const lowerCase = message.messageText.toLowerCase();
         if (lowerCase.startsWith('@dontaddthisbot,') || lowerCase.startsWith('@dontaddthisbot')) {
             if (!block) {
-                const channelData = await getChannel(message.channelName);
+                const channelData = await getChannel(message.channelID);
                 if (!channelData.id) {
                     await bot.DB.channels
                         .updateOne({ username: message.channelName }, { id: message.ircTags['room-id'] })
@@ -84,7 +84,7 @@ const PRIVMSG = async function () {
             return;
         }
 
-        const channelData = await getChannel(message.channelName);
+        const channelData = await getChannel(message.channelID);
         const prefix = channelData.prefix ?? '|';
         if (!message.messageText.startsWith(prefix)) return;
         const args = message.messageText.slice(prefix.length).trim().split(/ +/g);
@@ -296,8 +296,8 @@ const PRIVMSG = async function () {
         return await bot.DB.users.findOne({ id: id }).catch((err) => Logger.error(err));
     };
 
-    const getChannel = async function (channel) {
-        return await bot.DB.channels.findOne({ username: channel }).catch((err) => Logger.error(err));
+    const getChannel = async function (id) {
+        return await bot.DB.channels.findOne({ id: id }).catch((err) => Logger.error(err));
     };
 };
 
