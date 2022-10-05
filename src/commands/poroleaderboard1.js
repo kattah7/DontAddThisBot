@@ -14,9 +14,9 @@ module.exports = {
         const top5Text = top5
             .map(
                 (user, index) =>
-                    `${index == 0 ? `🥇` : index == 1 ? `🥈` : index == 2 ? `🥉` : index == 3 ? `` : ``} \u200B${
-                        user.username
-                    }\u200B - [P:${user.poroPrestige}] ${user.poroCount}`
+                    `${index == 0 ? `🥇` : index == 1 ? `🥈` : index == 2 ? `🥉` : ``} ${
+                        user.username[0]
+                    }\u{E0000}${user.username.slice(1)} - [P:${user.poroPrestige}] ${user.poroCount}`
             )
             .join(' | ');
 
