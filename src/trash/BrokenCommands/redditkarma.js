@@ -1,4 +1,4 @@
-const { UserInfo } = require('../token/redditGQL.js');
+const { UserInfo } = require('../../token/redditGQL.js');
 
 module.exports = {
     tags: 'stats',
