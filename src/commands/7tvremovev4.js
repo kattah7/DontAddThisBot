@@ -1,5 +1,5 @@
 const { getUser } = require('../token/stvREST');
-const { RemoveSTVEmote } = require('../token/stvGQL');
+const { RemoveSTVEmote, GetAllEmoteSets } = require('../token/stvGQL');
 
 module.exports = {
     tags: '7tv',
@@ -15,33 +15,38 @@ module.exports = {
             };
         }
 
-        const user = await getUser(message.channelID);
-        if (user === null) {
+        const channelInfo = await getUser(message.channelID);
+        if (channelInfo === null) {
             return {
                 text: `⛔ Unknown user`,
             };
         }
 
-        const { emote_set } = user;
-        const emotes = new Set(args);
-        const findEmotes = emote_set.emotes?.filter((x) => emotes.has(x.name));
-        if (!findEmotes) {
+        const { emote_set, user } = channelInfo;
+        if (!emote_set) {
             return {
-                text: `⛔ This set has no emotes at all`,
+                text: `⛔ No emote set found`,
             };
         }
 
-        if (findEmotes.length === 0) {
+        const { data } = await GetAllEmoteSets(user.id);
+        const findThatEmoteSet = data.user.emote_sets.find((set) => set.id === emote_set.id);
+        const emotes = new Set(args);
+        const findEmotes = findThatEmoteSet.emotes?.filter((x) => emotes.has(x.name));
+
+        if (findEmotes?.length === 0) {
             return {
-                text: `⛔ No emotes found, please try again until 7tv caches the emotes (10-30s)`,
+                text: `⛔ No emotes found`,
             };
         }
+
         const getEmoteIDsAndRemove = findEmotes.map((x) => RemoveSTVEmote(x.id, emote_set.id));
         let amount = 0;
         const resolved = await Promise.all(getEmoteIDsAndRemove);
         if (resolved[0].data.emoteSet !== null) {
             amount = resolved.length;
         }
+
         return {
             text: `7tvH ${amount <= 1 ? `"${args[0]}"` : `${amount} emotes`} removed from ${message.channelName}`,
         };

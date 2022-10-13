@@ -83,3 +83,15 @@ exports.RemoveSTVEmote = async (emote, channel) => {
     const removeEmote = await makeRequest(query);
     return removeEmote;
 };
+
+exports.GetAllEmoteSets = async (channel) => {
+    const query = {
+        operationName: 'GetUserEmoteData',
+        query: 'query GetUserEmoteData($id: ObjectID!, $formats: [ImageFormat!]) {\n  user(id: $id) {\n    emote_sets {\n      id\n      name\n      capacity\n      emotes {\n        id\n        name\n        actor {\n          id\n          username\n          display_name\n          avatar_url\n          tag_color\n          __typename\n        }\n        emote {\n          id\n          name\n          lifecycle\n          flags\n          listed\n          trending\n          images(formats: $formats) {\n            name\n            format\n            url\n            __typename\n          }\n          owner {\n            id\n            display_name\n            tag_color\n            __typename\n          }\n          __typename\n        }\n        __typename\n      }\n      owner {\n        id\n        display_name\n        tag_color\n        avatar_url\n        __typename\n      }\n      __typename\n    }\n    __typename\n  }\n}',
+        variables: {
+            id: channel,
+        },
+    };
+    const allEmoteSets = await makeRequest(query);
+    return allEmoteSets;
+};

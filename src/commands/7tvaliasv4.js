@@ -1,5 +1,5 @@
 const { getUser } = require('../token/stvREST');
-const { AliasSTVEmote } = require('../token/stvGQL');
+const { AliasSTVEmote, GetAllEmoteSets } = require('../token/stvGQL');
 
 module.exports = {
     tags: '7tv',
@@ -15,18 +15,26 @@ module.exports = {
                 text: `⛔ Please specify an ${args[0] ? `alias` : `emote`}`,
             };
         }
-        const user = await getUser(message.channelID);
-        if (user === null) {
+        const channelInfo = await getUser(message.channelID);
+        if (channelInfo === null) {
             return {
                 text: `⛔ Unknown user`,
             };
         }
 
-        const { emote_set } = user;
-        const findThatEmote = emote_set.emotes?.find((x) => x.name === args[0]);
+        const { emote_set, user } = channelInfo;
+        if (!emote_set) {
+            return {
+                text: `⛔ No emote set found`,
+            };
+        }
+
+        const { data } = await GetAllEmoteSets(user.id);
+        const findThatEmoteSet = data.user.emote_sets.find((set) => set.id === emote_set.id);
+        const findThatEmote = findThatEmoteSet.emotes?.find((x) => x.name === args[0]);
         if (!findThatEmote) {
             return {
-                text: `⛔ Emote not found, please try again until 7tv caches the emotes (10-30s)`,
+                text: `⛔ Emote not found`,
             };
         }
 
