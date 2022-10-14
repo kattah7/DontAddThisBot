@@ -1,22 +1,12 @@
-const { exec } = require("child_process");
+const CODE_LENGTH = 6;
+const CODE_CHARS = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
-module.exports = {
-    name: 'test123123',
-    cooldown: 5000,
-    description: 'Test',
-    execute: async(message, args, client) => {
-        const storageMB = await exec("cd /home/justlog/logs && du -d 1 h", (err) => {
-            if (err) {
-                Logger.error(err);
-                return {
-                    text: `error`,
-                };
-            }
-        });
-
-        return {
-            text: `Storage: ${storageMB}`,
-        }
-
+for (let i = 0; i < CODE_CHARS.length ** CODE_LENGTH; i++) {
+    let code = '';
+    let j = i;
+    for (let k = 0; k < CODE_LENGTH; k++) {
+        code += CODE_CHARS[j % CODE_CHARS.length];
+        j = Math.floor(j / CODE_CHARS.length);
     }
+    console.log(code);
 }
