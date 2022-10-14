@@ -57,7 +57,7 @@ const PRIVMSG = async function () {
 
         if (message.channelName == 'turtoise') {
             if (message.messageText.startsWith('$cookie') && message.senderUserID == '188427533') {
-                client.say(message.channelName, '$give cookie Wisdomism');
+                client.say(message.channelName, '$cookie gift Wisdomism');
                 return;
             }
         }
