@@ -1,5 +1,6 @@
 const got = require('got');
 const utils = require('../util/utils.js');
+const { GetAllEmoteSets } = require('../token/stvGQL.js');
 
 module.exports = {
     tags: '7tv',
@@ -18,15 +19,12 @@ module.exports = {
         const { body: STVInfo } = await got.post(`https://7tv.io/v3/gql`, {
             throwHttpErrors: false,
             responseType: 'json',
-            headers: {
-                Authorization: process.env.STV_AUTH_TOKEN,
-            },
             json: {
                 operationName: 'GetUser',
                 variables: {
                     id: await utils.stvNameToID(UID),
                 },
-                query: 'query GetUser($id: ObjectID!) {\n  user(id: $id) {\n    ...USER_FRAGMENT\n    __typename\n  }\n}\n\nfragment USER_FRAGMENT on User {\n  id\n  username\n  display_name\n  created_at\n  avatar_url\n  tag_color\n  biography\n  editors {\n    user {\n      id\n      username\n      display_name\n      avatar_url\n      tag_color\n      __typename\n    }\n    __typename\n  }\n  roles\n  emote_sets {\n    id\n    name\n    capacity\n    emotes {\n      id\n      name\n      emote {\n        id\n        name\n        lifecycle\n        flags\n        listed\n        images(formats: [WEBP]) {\n          name\n          format\n          url\n          __typename\n        }\n        owner {\n          id\n          display_name\n          tag_color\n          __typename\n        }\n        __typename\n      }\n      __typename\n    }\n    owner {\n      id\n      display_name\n      tag_color\n      avatar_url\n      __typename\n    }\n    __typename\n  }\n  connections {\n    id\n    display_name\n    platform\n    linked_at\n    emote_slots\n    emote_set_id\n    __typename\n  }\n  owned_emotes {\n    id\n    name\n    images(formats: [WEBP]) {\n      name\n      format\n      url\n      __typename\n    }\n    listed\n    __typename\n  }\n  __typename\n}',
+                query: 'query GetUser($id: ObjectID!) {\n  user(id: $id) {\n    id\n    username\n    display_name\n    created_at\n    avatar_url\n    style {\n      color\n      __typename\n    }\n    biography\n    editors {\n      id\n      permissions\n      visible\n      user {\n        id\n        username\n        display_name\n        avatar_url\n        style {\n          color\n          __typename\n        }\n        __typename\n      }\n      __typename\n    }\n    roles\n    connections {\n      id\n      username\n      display_name\n      platform\n      linked_at\n      emote_capacity\n      emote_set_id\n      __typename\n    }\n    __typename\n  }\n}',
             },
         });
         if (STVInfo.data == null) {
@@ -35,28 +33,19 @@ module.exports = {
             };
         } else {
             const globalRoles = await utils.STVGlobalRoles();
-            const { id, created_at, editors, emote_sets, owned_emotes, connections, roles } = STVInfo.data.user;
+            const { id, created_at, editors, connections, roles } = STVInfo.data.user;
             const isDiscordLinked = connections.find((connection) => connection.platform == 'DISCORD');
             const ifDiscordLinked = isDiscordLinked
                 ? `${isDiscordLinked.display_name} Linked Date: ${isDiscordLinked.linked_at.split('T')[0]}`
                 : false;
-            const channelEmotes = await utils.EmoteSets(id);
-            const findThatEmoteSet = channelEmotes.find((user) => user.owner.id == id);
-            const { emotes, capacity } = findThatEmoteSet;
+            const { data } = await GetAllEmoteSets(id);
+            const { emotes, capacity } = data.user.emote_sets[0];
             const userRole = globalRoles.roles.find((role) => role.id == roles[0]);
-            try {
-                return {
-                    text: `7tvM ${targetUser}, User ID: ${id} | Registered: ${created_at.split('T')[0]} | Editors: ${
-                        editors.length
-                    } | Emote Sets: ${emote_sets.length} | Owned Emotes: ${owned_emotes.length} | Slots: ${
-                        emotes.length
-                    }/${capacity} | Roles: ${userRole.name} | Discord Linked: ${ifDiscordLinked}`,
-                };
-            } catch (error) {
-                return {
-                    text: `PoroSad error! try again later`,
-                };
-            }
+            return {
+                text: `7tvH ${targetUser}, User ID: ${id} | Registered: ${created_at.split('T')[0]} | Editors: ${
+                    editors.length
+                } | Slots: ${emotes.length}/${capacity} | Roles: ${userRole.name} | Discord Linked: ${ifDiscordLinked}`,
+            };
         }
     },
 };
