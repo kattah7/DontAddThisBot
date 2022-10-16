@@ -195,7 +195,7 @@ const PRIVMSG = async function () {
 
                 if (command.stv) {
                     const StvID = await utils.stvNameToID(message.channelID);
-                    const { user } = await GetEditorOfChannels();
+                    const { user } = await GetEditorOfChannels('629d77a20e60c6d53da64e38');
                     const isBotEditor = user.editor_of.find((x) => x.user.id == StvID); // DontAddThisBot's 7tv id
                     if (!isBotEditor) {
                         client.say(message.channelName, 'Please grant @DontAddThisBot 7tv editor permissions.');
