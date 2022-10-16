@@ -96,12 +96,12 @@ exports.GetAllEmoteSets = async (channel) => {
     return allEmoteSets;
 };
 
-exports.GetEditorOfChannels = async () => {
+exports.GetEditorOfChannels = async (stvID) => {
     const query = {
         operationName: 'GetUserEditorOf',
         query: 'query GetUserEditorOf($id: ObjectID!) {\n  user(id: $id) {\n    id\n    editor_of {\n      user {\n        id\n        username\n        display_name\n        roles\n        style {\n          color\n          __typename\n        }\n        avatar_url\n        __typename\n      }\n      __typename\n    }\n    __typename\n  }\n}',
         variables: {
-            id: '629d77a20e60c6d53da64e38',
+            id: stvID,
         },
     };
     const { data } = await makeRequest(query);
