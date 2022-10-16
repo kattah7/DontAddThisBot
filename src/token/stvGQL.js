@@ -47,7 +47,7 @@ exports.SearchSTVEmote = async (emote, Boolean) => {
             },
         },
         operationName: 'SearchEmotes',
-        query: 'query SearchEmotes($query: String!, $page: Int, $limit: Int, $filter: EmoteSearchFilter) {\n  emotes(query: $query, page: $page, limit: $limit, filter: $filter) {\n    count\n    items {\n      id\n      name\n      listed\n      trending\n      owner {\n        id\n        username\n        display_name\n        tag_color\n        __typename\n      }\n      flags\n      images {\n        name\n        format\n        url\n        width\n        height\n        __typename\n      }\n      __typename\n    }\n    __typename\n  }\n}',
+        query: 'query SearchEmotes($query: String!, $page: Int, $limit: Int, $filter: EmoteSearchFilter) {\n  emotes(query: $query, page: $page, limit: $limit, filter: $filter) {\n    count\n    items {\n      id\n      name\n      listed\n      trending\n      owner {\n        id\n        username\n        display_name\n        style {\n          color\n          __typename\n        }\n        __typename\n      }\n      flags\n      host {\n        url\n        files {\n          name\n          format\n          width\n          height\n          __typename\n        }\n        __typename\n      }\n      __typename\n    }\n    __typename\n  }\n}',
     };
     const searchEmote = await makeRequest(query);
     return searchEmote;
@@ -87,11 +87,23 @@ exports.RemoveSTVEmote = async (emote, channel) => {
 exports.GetAllEmoteSets = async (channel) => {
     const query = {
         operationName: 'GetUserEmoteData',
-        query: 'query GetUserEmoteData($id: ObjectID!, $formats: [ImageFormat!]) {\n  user(id: $id) {\n    emote_sets {\n      id\n      name\n      capacity\n      emotes {\n        id\n        name\n        actor {\n          id\n          username\n          display_name\n          avatar_url\n          tag_color\n          __typename\n        }\n        emote {\n          id\n          name\n          lifecycle\n          flags\n          listed\n          trending\n          images(formats: $formats) {\n            name\n            format\n            url\n            __typename\n          }\n          owner {\n            id\n            display_name\n            tag_color\n            __typename\n          }\n          __typename\n        }\n        __typename\n      }\n      owner {\n        id\n        display_name\n        tag_color\n        avatar_url\n        __typename\n      }\n      __typename\n    }\n    __typename\n  }\n}',
+        query: 'query GetUserEmoteData($id: ObjectID!, $formats: [ImageFormat!]) {\n  user(id: $id) {\n    emote_sets {\n      id\n      name\n      capacity\n      emotes {\n        id\n        name\n        actor {\n          id\n          username\n          display_name\n          avatar_url\n          style {\n            color\n            __typename\n          }\n          __typename\n        }\n        data {\n          id\n          name\n          lifecycle\n          listed\n          flags\n          host {\n            url\n            files(formats: $formats) {\n              name\n              format\n              __typename\n            }\n            __typename\n          }\n          owner {\n            id\n            display_name\n            style {\n              color\n              __typename\n            }\n            __typename\n          }\n          __typename\n        }\n        __typename\n      }\n      owner {\n        id\n        display_name\n        style {\n          color\n          __typename\n        }\n        avatar_url\n        __typename\n      }\n      __typename\n    }\n    __typename\n  }\n}',
         variables: {
             id: channel,
         },
     };
     const allEmoteSets = await makeRequest(query);
     return allEmoteSets;
+};
+
+exports.GetEditorOfChannels = async () => {
+    const query = {
+        operationName: 'GetUserEditorOf',
+        query: 'query GetUserEditorOf($id: ObjectID!) {\n  user(id: $id) {\n    id\n    editor_of {\n      user {\n        id\n        username\n        display_name\n        roles\n        style {\n          color\n          __typename\n        }\n        avatar_url\n        __typename\n      }\n      __typename\n    }\n    __typename\n  }\n}',
+        variables: {
+            id: '629d77a20e60c6d53da64e38',
+        },
+    };
+    const { data } = await makeRequest(query);
+    return data;
 };
