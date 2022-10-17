@@ -126,16 +126,15 @@ exports.BAND = async (channel, action, message, color, pfp) => {
     const WebhookMsg = {
         embeds: [
             {
+                author: {
+                    name: action,
+                },
+                title: `${action} in #${channel}`,
+                description: `${message}`,
+                color: color,
                 thumbnail: {
                     url: pfp,
                 },
-                color: color,
-                title: `${action} in ${channel}`,
-                author: {
-                    name: action,
-                    con_url: 'https://i.nuuls.com/g8l2r.png',
-                },
-                description: `${message}`,
                 timestamp: new Date(),
                 footer: {
                     text: 'Pulled time',
