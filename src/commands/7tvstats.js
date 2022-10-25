@@ -22,9 +22,9 @@ module.exports = {
             const top5Text = listTop5Emotes
                 .map(
                     (emote, index) =>
-                        `${index == 0 ? `🥇` : index == 1 ? `🥈` : index == 2 ? `🥉` : ``} ${emote.name} (Usage: ${
-                            emote.usage
-                        })`
+                        `${index == 0 ? `🥇` : index == 1 ? `🥈` : index == 2 ? `🥉` : ``} ${
+                            emote.name
+                        } (Usage: ${emote.usage.toLocaleString()})`
                 )
                 .join(' | ');
 
