@@ -67,7 +67,7 @@ const PRIVMSG = async function () {
                 // wait 1 second and say chat goodnight
                 setTimeout(() => {
                     client.say(message.channelName, 'asd');
-                }, 50);
+                }, 55);
                 return;
             }
         }
