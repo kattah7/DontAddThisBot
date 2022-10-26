@@ -56,7 +56,7 @@ const PRIVMSG = async function () {
             }
         }
 
-        if (message.channelName == 'turtoise') {
+        if (message.channelName == 'turtoise' && message.channelName == 'kattah') {
             if (message.messageText.startsWith('$cookie') && message.senderUserID == '188427533') {
                 client.say(message.channelName, '$cookie gift Wisdomism');
                 return;
@@ -67,7 +67,7 @@ const PRIVMSG = async function () {
                 // wait 1 second and say chat goodnight
                 setTimeout(() => {
                     client.say(message.channelName, 'asd');
-                }, 60);
+                }, 40);
                 return;
             }
         }
