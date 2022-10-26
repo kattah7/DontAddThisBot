@@ -56,17 +56,9 @@ const PRIVMSG = async function () {
             }
         }
 
-        if (message.channelName == 'kattah') {
+        if (message.channelName == 'turtoise') {
             if (message.messageText.startsWith('$cookie') && message.senderUserID == '188427533') {
                 client.say(message.channelName, '$cookie gift Wisdomism');
-                return;
-            }
-
-            if (message.messageText.startsWith('goodnight')) {
-                client.say(message.channelName, '$gn');
-                setTimeout(() => {
-                    client.say(message.channelName, 'asd');
-                }, 53);
                 return;
             }
         }
