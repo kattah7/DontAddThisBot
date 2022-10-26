@@ -1,5 +1,6 @@
 require('dotenv').config();
 const fetch = require('node-fetch');
+const { getPFP } = require('./../util/utils');
 
 exports.NewPoro = async (AccAge, UID, username, channel, description, logo) => {
     const WebHook = `https://discord.com/api/webhooks/${process.env.PORO_DISCORD}`;
@@ -149,4 +150,41 @@ exports.BAND = async (channel, action, message, color, pfp) => {
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify(WebhookMsg),
     });
+};
+
+exports.PoroGive = async (sender, senderID, channelName, args, recieverID, sendAmount, Amount, Amount2) => {
+    const XD = `https://discord.com/api/webhooks/${process.env.POROGIVE}`;
+    const msg2 = {
+        embeds: [
+            {
+                color: 0x0099ff,
+                title: `${sender}(ID:${senderID}) has given ${
+                    args[0]
+                }(ID:${recieverID}) ${sendAmount} poro in #${channelName} ${Amount - sendAmount} ==> ${
+                    Amount2 + sendAmount
+                }`,
+                author: {
+                    name: 'Poro Logs',
+                    icon_url: `${await getPFP(sender)}`,
+                },
+                thumbnail: {
+                    url: `${await getPFP(args)}`,
+                },
+                image: {
+                    url: `${await getPFP(channelName)}`,
+                },
+                timestamp: new Date(),
+                footer: {
+                    text: 'Pulled time',
+                    icon_url:
+                        'https://static-cdn.jtvnw.net/jtv_user_pictures/89049925-b020-436f-bf9e-6262c0bc6419-profile_image-600x600.png ',
+                },
+            },
+        ],
+    };
+    fetch(XD + '?wait=true', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify(msg2),
+    }).then((a) => a.json());
 };

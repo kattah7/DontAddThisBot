@@ -6,21 +6,19 @@ module.exports = {
     poro: true,
     poroRequire: true,
     execute: async (message, args, client) => {
-        const channelData = await bot.DB.poroCount.findOne({ id: message.senderUserID }).exec();
-        if (channelData.poroCount < 5000) {
+        const { senderUserID, senderUsername } = message;
+        const channelData = await bot.DB.poroCount.findOne({ id: senderUserID }).exec();
+        const { poroCount, poroPrestige } = channelData;
+        if (poroCount < 5000) {
             return {
-                text: `Not enough poro meat! ${message.senderUsername} kattahHappy You need 5,000 poro meat :tf: | [P:${channelData.poroPrestige}] ${channelData.poroCount} meat total! 🥩`,
+                text: `Not enough poro meat! ${senderUsername} kattahHappy You need 5,000 poro meat :tf: | [P:${poroPrestige}] ${poroCount} meat total! 🥩`,
             };
-        } else if (channelData.poroCount >= 5000) {
-            await bot.DB.poroCount
-                .updateOne({ id: message.senderUserID }, { $set: { poroCount: channelData.poroCount - 5000 } })
-                .exec();
-            await bot.DB.poroCount
-                .updateOne({ id: message.senderUserID }, { $set: { poroPrestige: channelData.poroPrestige + 1 } })
-                .exec();
+        } else if (poroCount >= 5000) {
+            await bot.DB.poroCount.updateOne({ id: senderUserID }, { $set: { poroCount: poroCount - 5000 } }).exec();
+            await bot.DB.poroCount.updateOne({ id: senderUserID }, { $set: { poroPrestige: poroPrestige + 1 } }).exec();
             return {
-                text: `${message.senderUsername}, PartyHat Congratulations! | [P:${channelData.poroPrestige + 1}] ${
-                    channelData.poroCount - 5000
+                text: `${senderUsername}, PartyHat Congratulations! | [P:${poroPrestige + 1}] ${
+                    poroCount - 5000
                 } meat total! 🥩`,
             };
         }

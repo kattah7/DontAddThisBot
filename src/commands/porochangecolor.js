@@ -31,21 +31,19 @@ module.exports = {
             };
         }
 
-        const channelData = await bot.DB.poroCount.findOne({ id: message.senderUserID }).exec();
+        const { senderUserID, senderUsername, channelName } = message;
+        const channelData = await bot.DB.poroCount.findOne({ id: senderUserID }).exec();
+        const { poroCount, poroPrestige } = channelData;
         if (channelData.poroCount < 50) {
             return {
-                text: `Not enough poro meat! ${message.senderUsername} kattahHappy You need 50 poro meat | [P:${channelData.poroPrestige}] ${channelData.poroCount} meat total! 🥩`,
+                text: `Not enough poro meat! ${senderUsername} kattahHappy You need 50 poro meat | [P:${poroPrestige}] ${poroCount} meat total! 🥩`,
             };
         } else {
-            await bot.DB.poroCount
-                .updateOne({ id: message.senderUserID }, { $set: { poroCount: channelData.poroCount - 50 } })
-                .exec();
+            await bot.DB.poroCount.updateOne({ id: senderUserID }, { $set: { poroCount: poroCount - 50 } }).exec();
             await ChangeColor(args[0]);
             await client.say(
-                message.channelName,
-                `Color changed to ${args[0]}! PoroSad [P:${channelData.poroPrestige}] ${
-                    channelData.poroCount - 50
-                } meat total! 🥩`
+                channelName,
+                `Color changed to ${args[0]}! PoroSad [P:${poroPrestige}] ${poroCount - 50} meat total! 🥩`
             );
             var botColor = {
                 color: args[0],

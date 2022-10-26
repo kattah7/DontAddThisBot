@@ -14,7 +14,7 @@ module.exports = {
 
         const sorted = poroData.sort((a, b) => b.poroPrestige - a.poroPrestige || b.poroCount - a.poroCount);
 
-        const kekw = sorted.slice(0, 5000000);
+        const totalSliced = sorted.slice(0, 5000000);
 
         if (!isNaN(args[0])) {
             //console.log(Number(args[0]) - 1, Number(args[0]))
@@ -36,8 +36,8 @@ module.exports = {
             };
         }
         return {
-            text: `${targetUser} is rank #${kekw.findIndex((user) => user.username == targetUser) + 1}/${
-                kekw.length
+            text: `${targetUser} is rank #${totalSliced.findIndex((user) => user.username == targetUser) + 1}/${
+                totalSliced.length
             } in the poro leaderboard! kattahBoom`,
         };
     },

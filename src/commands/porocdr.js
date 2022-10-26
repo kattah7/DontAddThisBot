@@ -8,8 +8,10 @@ module.exports = {
     poro: true,
     poroRequire: true,
     execute: async (message, args, client) => {
-        const lastUsage = await bot.Redis.get(`porocdr:${message.senderUserID}`);
-        const channelData = await bot.DB.poroCount.findOne({ id: message.senderUserID }).exec();
+        const { senderUserID, senderUsername } = message;
+        const lastUsage = await bot.Redis.get(`porocdr:${senderUserID}`);
+        const channelData = await bot.DB.poroCount.findOne({ id: senderUserID }).exec();
+        const { poroCount, poroPrestige } = channelData;
         if (lastUsage && channelData) {
             if (new Date().getTime() - new Date(lastUsage).getTime() < 1000 * 60 * 60 * 3) {
                 const ms = new Date(lastUsage).getTime() - new Date().getTime() + 1000 * 60 * 60 * 3;
@@ -18,18 +20,16 @@ module.exports = {
                 };
             }
         }
-        await bot.DB.poroCount
-            .updateOne({ id: message.senderUserID }, { $set: { poroCount: channelData.poroCount - 5 } })
-            .exec();
+        await bot.DB.poroCount.updateOne({ id: senderUserID }, { $set: { poroCount: poroCount - 5 } }).exec();
         // -5 poros if user types cdr
-        await bot.Redis.set(`porocdr:${message.senderUserID}`, Date.now(), 0);
+        await bot.Redis.set(`porocdr:${senderUserID}`, Date.now(), 0);
         // resets porocdr redis timer
-        await bot.Redis.del(`poro:${message.senderUserID}`);
+        await bot.Redis.del(`poro:${senderUserID}`);
         // deletes the timer for poro redis timer
         return {
-            text: `Timer Reset! ${message.senderUsername} (-5) kattahDanceButFast total [P:${
-                channelData.poroPrestige
-            }] ${channelData.poroCount - 5} meat`,
+            text: `Timer Reset! ${senderUsername} (-5) kattahDanceButFast total [P:${poroPrestige}] ${
+                poroCount - 5
+            } meat`,
         };
     },
 };

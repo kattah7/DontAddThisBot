@@ -9,11 +9,12 @@ module.exports = {
     description: 'check poro count of user',
     poro: true,
     execute: async (message, args, client, userdata, params, channelData) => {
+        const { senderUserID, senderUsername } = message;
         if (!args[0]) {
-            const selfPoroData = await bot.DB.poroCount.findOne({ id: message.senderUserID });
+            const selfPoroData = await bot.DB.poroCount.findOne({ id: senderUserID });
             if (!selfPoroData) {
                 return {
-                    text: `kattahHappy you arent registered! ${message.senderUsername} type ${
+                    text: `kattahHappy you arent registered! ${senderUsername} type ${
                         channelData.prefix ?? `|`
                     }poro to get started.`,
                 };
@@ -22,9 +23,7 @@ module.exports = {
             const { poroCount, poroPrestige, joinedAt } = selfPoroData;
             const parsedTime = Math.abs(new Date().getTime() - new Date(joinedAt).getTime());
             return {
-                text: `${
-                    message.senderUsername
-                } has ${poroCount} poro(s) and ${poroPrestige} prestige. kattahHappy Registered (${humanizeDuration(
+                text: `${senderUsername} has ${poroCount} poro(s) and ${poroPrestige} prestige. kattahHappy Registered (${humanizeDuration(
                     parsedTime
                 )})`,
             };

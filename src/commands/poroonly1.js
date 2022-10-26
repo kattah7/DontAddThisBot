@@ -8,12 +8,13 @@ module.exports = {
     poro: true,
     offline: true,
     execute: async (message, args, client) => {
-        const user = await bot.DB.channels.findOne({ id: message.senderUserID }).exec();
+        const { senderUserID, senderUsername } = message;
+        const user = await bot.DB.channels.findOne({ id: senderUserID }).exec();
         if (user.poroOnly) {
             try {
-                await bot.DB.channels.updateOne({ id: message.senderUserID }, { $set: { poroOnly: false } }).exec();
+                await bot.DB.channels.updateOne({ id: senderUserID }, { $set: { poroOnly: false } }).exec();
                 return {
-                    text: `#${message.senderUsername} is now all cmds`,
+                    text: `#${senderUsername} is now all cmds`,
                 };
             } catch (err) {
                 return {
@@ -23,9 +24,9 @@ module.exports = {
         }
         if (!user.poroOnly) {
             try {
-                await bot.DB.channels.updateOne({ id: message.senderUserID }, { $set: { poroOnly: true } }).exec();
+                await bot.DB.channels.updateOne({ id: senderUserID }, { $set: { poroOnly: true } }).exec();
                 return {
-                    text: `#${message.senderUsername} is now poro cmds only`,
+                    text: `#${senderUsername} is now poro cmds only`,
                 };
             } catch (err) {
                 return {
