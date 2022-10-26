@@ -26,11 +26,11 @@ module.exports = {
             }
             return {
                 text: `${nanRank[0].username} is rank #${
-                    kekw.findIndex((user) => user.username == nanRank[0].username) + 1
+                    totalSliced.findIndex((user) => user.username == nanRank[0].username) + 1
                 }/${sorted.length} in the poro leaderboard! kattahBoom`,
             };
         }
-        if (kekw.findIndex((user) => user.username == targetUser) + 1 == 0) {
+        if (totalSliced.findIndex((user) => user.username == targetUser) + 1 == 0) {
             return {
                 text: `${targetUser} not found in database PoroSad`,
             };
