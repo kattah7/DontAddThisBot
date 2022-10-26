@@ -65,9 +65,7 @@ const PRIVMSG = async function () {
             if (message.messageText.startsWith('goodnight')) {
                 client.say(message.channelName, '$gn');
                 // wait 1 second and say chat goodnight
-                setTimeout(() => {
-                    client.say(message.channelName, 'asd');
-                }, 1000);
+                client.say('kattah', 'asd');
                 return;
             }
         }
