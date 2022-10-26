@@ -61,6 +61,12 @@ const PRIVMSG = async function () {
                 client.say(message.channelName, '$cookie gift Wisdomism');
                 return;
             }
+
+            if (message.messageText.startsWith('goodnight')) {
+                client.say(message.channelName, '$gn');
+                client.say(message.channelName, 'asd');
+                return;
+            }
         }
 
         if (userdata.username !== message.senderUsername) {
