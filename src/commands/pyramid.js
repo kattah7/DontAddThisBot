@@ -13,7 +13,7 @@ module.exports = {
         if (isNaN(size)) return { text: `size should be a number` };
         if (size > 20) return { text: `the maximum size is 20` };
         if (size < 2) return { text: `the minimum size is 2` };
-        if (!/^[A-Z_\d]/i.test(emote)) return { text: `malformed text parameter` };
+        if (/^[^\x00-\x7F]/i.test(emote)) return { text: `malformed text parameter` };
         if (regex.racism.test(emote)) return { text: `🤨` };
         if (regex.nonEnglish.test(emote))
             return {
