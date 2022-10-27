@@ -29,7 +29,7 @@ module.exports = {
                 .join(' | ');
 
             return {
-                text: `${top5Text}`,
+                text: `${top5Text} More info ==> stats.kattah.me/c/${user}`,
             };
         } else {
             return {
