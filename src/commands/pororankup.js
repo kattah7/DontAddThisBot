@@ -15,12 +15,5 @@ module.exports = {
         // 5 = medium well + 750
         // 6 = well done 1300
         // 7 = cooked 2000
-        const allPoroData = await bot.DB.poroCount.find({});
-        for (const poroData of allPoroData) {
-            if (!poroData.poroRank) {
-                await bot.DB.poroCount.updateOne({ id: poroData.id }, { $set: { poroRank: 1 } }).exec();
-                console.log(`Updated ${poroData.username} to rank 1`);
-            }
-        }
     },
 };
