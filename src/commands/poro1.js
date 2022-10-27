@@ -20,10 +20,6 @@ module.exports = {
             7: 'Cooked',
         };
 
-        function isRandom(random, min, max) {
-            return random > min && random < max;
-        }
-
         const { senderUserID, senderUsername, channelName, messageText } = message;
         const lastUsage = await bot.Redis.get(`poro:${senderUserID}`);
         const channelData = await bot.DB.poroCount.findOne({ id: senderUserID }).exec();
@@ -76,19 +72,19 @@ module.exports = {
         ).toLocaleString()} meat total!`;
         await bot.Redis.set(`poro:${senderUserID}`, Date.now(), 0);
 
-        if (isRandom(random, 5, 9)) {
+        if (random >= 5 && random <= 9) {
             return {
                 text: `Poro slaughtered! ${senderUsername} --> Tenderloin Poro kattahStare (+${random}) PoroSad ${totalPorosWithRandom}`,
             };
-        } else if (isRandom(random, 10, 15)) {
+        } else if (random >= 10 && random <= 15) {
             return {
                 text: `Poro slaughtered! ${senderUsername} --> Wagyu Poro 🤤 (+${random}) kattahHappy ${totalPorosWithRandom}`,
             };
-        } else if (isRandom(random, -1, -5)) {
+        } else if (random <= -1 && random >= -5) {
             return {
                 text: `Poro slaughtered! ${senderUsername} --> Rotten Poro DansGame (${random}) kattahBAT ${totalPorosWithRandom}`,
             };
-        } else if (isRandom(random, 1, 4)) {
+        } else if (random >= 1 && random <= 4) {
             return {
                 text: `Poro slaughtered! ${senderUsername} --> Sirloin Poro OpieOP (+${random}) PoroSad ${totalPorosWithRandom}`,
             };
@@ -96,7 +92,7 @@ module.exports = {
             return {
                 text: `Poro gone! ${senderUsername} --> Poro ran away haHAA (±${random}) kattahDespair ${totalPorosWithRandom}`,
             };
-        } else if (isRandom(random, 16, 27)) {
+        } else if (random >= 16) {
             return {
                 text: `Poro slaughtered! ${senderUsername} --> LEGENDARY PORO VisLaud (+${random}) kattahXd ${totalPorosWithRandom}`,
             };
