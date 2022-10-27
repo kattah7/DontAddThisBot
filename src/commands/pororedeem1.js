@@ -9,6 +9,16 @@ module.exports = {
     poro: true,
     poroRequire: true,
     execute: async (message, args, client) => {
+        const displayPoroRankByName = {
+            1: 'Raw',
+            2: 'Rare',
+            3: 'Medium Rare',
+            4: 'Medium',
+            5: 'Medium Well',
+            6: 'Well Done',
+            7: 'Cooked',
+        };
+
         const { senderUserID, senderUsername, channelName } = message;
         if (!args[0]) {
             return {
@@ -16,12 +26,12 @@ module.exports = {
             };
         }
         const channelData = await bot.DB.poroCount.findOne({ id: senderUserID }).exec();
-        const { poroCount, poroPrestige } = channelData;
         if (!channelData) {
             return {
                 text: `kattahHappy you arent registered! ${senderUsername} type |poro to get started.`,
             };
         }
+        const { poroCount, poroPrestige, poroRank } = channelData;
         const lastUsage = await bot.Redis.get(`pororedeem:${senderUserID}`);
         const input = args[0];
         const availableBadges = [code];
@@ -48,9 +58,9 @@ module.exports = {
         await bot.DB.poroCount.updateOne({ id: senderUserID }, { $set: { poroCount: poroCount + 50 } }).exec();
         await bot.Redis.set(`pororedeem:${senderUserID}`, Date.now(), 0);
         return {
-            text: `Code Redeemed! ${senderUsername} (+50) kattahDance2 total [P:${poroPrestige}] ${
-                poroCount + 50
-            } meat`,
+            text: `Code Redeemed! ${senderUsername} (+50) kattahDance2 total [P${poroPrestige}: ${
+                displayPoroRankByName[poroRank]
+            }] ${poroCount + 50} meat`,
         };
     },
 };

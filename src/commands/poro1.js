@@ -10,6 +10,16 @@ module.exports = {
     description: 'Get poro meat every 2 hour',
     poro: true,
     execute: async (message, args, client) => {
+        const displayPoroRankByName = {
+            1: 'Raw',
+            2: 'Rare',
+            3: 'Medium Rare',
+            4: 'Medium',
+            5: 'Medium Well',
+            6: 'Well Done',
+            7: 'Cooked',
+        };
+
         function isRandom(random, min, max) {
             return random >= min && random <= max;
         }
@@ -25,6 +35,7 @@ module.exports = {
                 joinedAt: new Date(),
                 poroCount: 10,
                 poroPrestige: 0,
+                poroRank: 1,
             });
 
             await newChannel.save();
@@ -44,8 +55,10 @@ module.exports = {
             };
         }
 
-        const { poroCount, poroPrestige } = channelData;
-        const totalPoros = `[P:${poroPrestige}] ${poroCount.toLocaleString()} meat total!`;
+        const { poroCount, poroPrestige, poroRank } = channelData;
+        const totalPoros = `[P${poroPrestige}: ${
+            displayPoroRankByName[poroRank]
+        }] ${poroCount.toLocaleString()} meat total!`;
         if (lastUsage || channelData) {
             if (new Date().getTime() - new Date(lastUsage).getTime() < 1000 * 60 * 60 * 2) {
                 const ms = new Date(lastUsage).getTime() - new Date().getTime() + 1000 * 60 * 60 * 2;
@@ -58,7 +71,9 @@ module.exports = {
         }
 
         await bot.DB.poroCount.updateOne({ id: senderUserID }, { $set: { poroCount: poroCount + random } }).exec();
-        const totalPorosWithRandom = `[P:${poroPrestige}] ${(poroCount + random).toLocaleString()} meat total!`;
+        const totalPorosWithRandom = `[P${poroPrestige}: ${displayPoroRankByName[poroRank]}] ${(
+            poroCount + random
+        ).toLocaleString()} meat total!`;
         await bot.Redis.set(`poro:${senderUserID}`, Date.now(), 0);
 
         if (isRandom(random, 5, 9)) {

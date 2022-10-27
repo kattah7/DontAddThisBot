@@ -11,6 +11,16 @@ module.exports = {
     poro: true,
     poroRequire: true,
     execute: async (message, args, client) => {
+        const displayPoroRankByName = {
+            1: 'Raw',
+            2: 'Rare',
+            3: 'Medium Rare',
+            4: 'Medium',
+            5: 'Medium Well',
+            6: 'Well Done',
+            7: 'Cooked',
+        };
+
         if (!args[0]) {
             return {
                 text: `Please insert a color! kattahBAT`,
@@ -33,17 +43,19 @@ module.exports = {
 
         const { senderUserID, senderUsername, channelName } = message;
         const channelData = await bot.DB.poroCount.findOne({ id: senderUserID }).exec();
-        const { poroCount, poroPrestige } = channelData;
+        const { poroCount, poroPrestige, poroRank } = channelData;
         if (channelData.poroCount < 50) {
             return {
-                text: `Not enough poro meat! ${senderUsername} kattahHappy You need 50 poro meat | [P:${poroPrestige}] ${poroCount} meat total! 🥩`,
+                text: `Not enough poro meat! ${senderUsername} kattahHappy You need 50 poro meat | [P${poroPrestige}: ${displayPoroRankByName[poroRank]}] ${poroCount} meat total! 🥩`,
             };
         } else {
             await bot.DB.poroCount.updateOne({ id: senderUserID }, { $set: { poroCount: poroCount - 50 } }).exec();
             await ChangeColor(args[0]);
             await client.say(
                 channelName,
-                `Color changed to ${args[0]}! PoroSad [P:${poroPrestige}] ${poroCount - 50} meat total! 🥩`
+                `Color changed to ${args[0]}! PoroSad [P${poroPrestige}: ${displayPoroRankByName[poroRank]}] ${
+                    poroCount - 50
+                } meat total! 🥩`
             );
             var botColor = {
                 color: args[0],

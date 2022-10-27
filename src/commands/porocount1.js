@@ -9,40 +9,43 @@ module.exports = {
     description: 'check poro count of user',
     poro: true,
     execute: async (message, args, client, userdata, params, channelData) => {
+        const displayPoroRankByName = {
+            1: 'Raw',
+            2: 'Rare',
+            3: 'Medium Rare',
+            4: 'Medium',
+            5: 'Medium Well',
+            6: 'Well Done',
+            7: 'Cooked',
+        };
+
         const { senderUserID, senderUsername } = message;
-        if (!args[0]) {
-            const selfPoroData = await bot.DB.poroCount.findOne({ id: senderUserID });
-            if (!selfPoroData) {
-                return {
-                    text: `kattahHappy you arent registered! ${senderUsername} type ${
-                        channelData.prefix ?? `|`
-                    }poro to get started.`,
-                };
-            }
-
-            const { poroCount, poroPrestige, joinedAt } = selfPoroData;
-            const parsedTime = Math.abs(new Date().getTime() - new Date(joinedAt).getTime());
+        const targetUser = await utils.ParseUser(args[0]?.toLowerCase() ?? senderUsername);
+        const selfPoroData = await bot.DB.poroCount.findOne({ id: await utils.IDByLogin(targetUser) });
+        if (!selfPoroData) {
+            const pronouns =
+                args.length > 0
+                    ? `kattahHappy @${targetUser} isnt registered!`
+                    : `kattahHappy you arent registered! ${senderUsername} type ${
+                          channelData.prefix ?? `|`
+                      }poro to get started.`;
             return {
-                text: `${senderUsername} has ${poroCount} poro(s) and ${poroPrestige} prestige. kattahHappy Registered (${humanizeDuration(
-                    parsedTime
-                )})`,
-            };
-        } else {
-            const targetUser = await utils.ParseUser(args[0]?.toLowerCase());
-            const userPoroData = await bot.DB.poroCount.findOne({ id: await utils.IDByLogin(targetUser) });
-            if (!userPoroData) {
-                return {
-                    text: `kattahHappy @${targetUser} isnt registered!`,
-                };
-            }
-
-            const { poroCount, poroPrestige, joinedAt } = userPoroData;
-            const parsedTime = Math.abs(new Date().getTime() - new Date(joinedAt).getTime());
-            return {
-                text: `${targetUser} has ${poroCount} poro(s) and ${poroPrestige} prestige. kattahHappy Registered (${humanizeDuration(
-                    parsedTime
-                )})`,
+                text: pronouns,
             };
         }
+
+        const { poroCount, poroPrestige, joinedAt, poroRank } = selfPoroData;
+        const parsedTime = Math.abs(new Date().getTime() - new Date(joinedAt).getTime());
+        const successPronouns =
+            args.length > 0
+                ? `${targetUser} => [P${poroPrestige}: ${
+                      displayPoroRankByName[poroRank]
+                  }] ${poroCount} poro(s). kattahHappy Registered (${humanizeDuration(parsedTime)})`
+                : `${senderUsername} => [P${poroPrestige}: ${
+                      displayPoroRankByName[poroRank]
+                  }] ${poroCount} poro(s). kattahHappy Registered (${humanizeDuration(parsedTime)})`;
+        return {
+            text: successPronouns,
+        };
     },
 };

@@ -8,10 +8,20 @@ module.exports = {
     poro: true,
     poroRequire: true,
     execute: async (message, args, client) => {
+        const displayPoroRankByName = {
+            1: 'Raw',
+            2: 'Rare',
+            3: 'Medium Rare',
+            4: 'Medium',
+            5: 'Medium Well',
+            6: 'Well Done',
+            7: 'Cooked',
+        };
+
         const { senderUserID, senderUsername } = message;
         const lastUsage = await bot.Redis.get(`porocdr:${senderUserID}`);
         const channelData = await bot.DB.poroCount.findOne({ id: senderUserID }).exec();
-        const { poroCount, poroPrestige } = channelData;
+        const { poroCount, poroPrestige, poroRank } = channelData;
         if (lastUsage && channelData) {
             if (new Date().getTime() - new Date(lastUsage).getTime() < 1000 * 60 * 60 * 3) {
                 const ms = new Date(lastUsage).getTime() - new Date().getTime() + 1000 * 60 * 60 * 3;
@@ -27,9 +37,9 @@ module.exports = {
         await bot.Redis.del(`poro:${senderUserID}`);
         // deletes the timer for poro redis timer
         return {
-            text: `Timer Reset! ${senderUsername} (-5) kattahDanceButFast total [P:${poroPrestige}] ${
-                poroCount - 5
-            } meat`,
+            text: `Timer Reset! ${senderUsername} (-5) kattahDanceButFast total [P${poroPrestige}: ${
+                displayPoroRankByName[poroRank]
+            }] ${poroCount - 5} meat`,
         };
     },
 };
