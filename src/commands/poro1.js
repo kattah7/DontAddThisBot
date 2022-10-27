@@ -21,7 +21,7 @@ module.exports = {
         };
 
         function isRandom(random, min, max) {
-            return random >= min && random <= max;
+            return random > min && random < max;
         }
 
         const { senderUserID, senderUsername, channelName, messageText } = message;
