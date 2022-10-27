@@ -29,6 +29,7 @@ const PoroSchema = new DB.Schema({
     joinedAt: Date,
     poroCount: Number,
     poroPrestige: Number,
+    poroRank: Number,
 });
 
 const UserSchema = new DB.Schema({
