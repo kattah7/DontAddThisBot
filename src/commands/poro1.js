@@ -10,6 +10,10 @@ module.exports = {
     description: 'Get poro meat every 2 hour',
     poro: true,
     execute: async (message, args, client) => {
+        function isRandom(random, min, max) {
+            return random >= min && random <= max;
+        }
+
         const { senderUserID, senderUsername, channelName, messageText } = message;
         const lastUsage = await bot.Redis.get(`poro:${senderUserID}`);
         const channelData = await bot.DB.poroCount.findOne({ id: senderUserID }).exec();
@@ -56,9 +60,6 @@ module.exports = {
         await bot.DB.poroCount.updateOne({ id: senderUserID }, { $set: { poroCount: poroCount + random } }).exec();
         const totalPorosWithRandom = `[P:${poroPrestige}] ${(poroCount + random).toLocaleString()} meat total!`;
         await bot.Redis.set(`poro:${senderUserID}`, Date.now(), 0);
-        function isRandom(random, min, max) {
-            return random >= min && random <= max;
-        }
 
         if (isRandom(random, 5, 9)) {
             return {
