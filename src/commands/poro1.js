@@ -13,7 +13,6 @@ module.exports = {
         const { senderUserID, senderUsername, channelName, messageText } = message;
         const lastUsage = await bot.Redis.get(`poro:${senderUserID}`);
         const channelData = await bot.DB.poroCount.findOne({ id: senderUserID }).exec();
-        const { poroCount, poroPrestige } = channelData;
         const random = randomInt(-5, 27);
         if (!channelData) {
             const newChannel = new bot.DB.poroCount({
@@ -41,6 +40,7 @@ module.exports = {
             };
         }
 
+        const { poroCount, poroPrestige } = channelData;
         const totalPoros = `[P:${poroPrestige}] ${poroCount.toLocaleString()} meat total!`;
         if (lastUsage || channelData) {
             if (new Date().getTime() - new Date(lastUsage).getTime() < 1000 * 60 * 60 * 2) {
