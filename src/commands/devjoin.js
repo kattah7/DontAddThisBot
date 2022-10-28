@@ -41,7 +41,7 @@ module.exports = {
                 isChannel: true,
             });
             await newChannel.save();
-            await client.say(targetUser.toLowerCase(), `Joined channel, ${targetUser} kattahSpin Also check @DontAddThisBot panels for info!`);
+            await client.say(targetUser.toLowerCase(), `Joined channel, ${targetUser} kattahPoro Also check @DontAddThisBot panels for info!`);
             return { text: `Joined channel #${targetUser}` };
         };
 
