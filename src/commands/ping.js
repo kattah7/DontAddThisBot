@@ -12,7 +12,7 @@ module.exports = {
         const poroData = await bot.DB.channels.count({ isChannel: true }).exec();
         const poroData2 = await bot.DB.users.count({}).exec();
         return {
-            text: `${message.senderUsername}, TriHard 🏓 BOT UPTIME: ${humanizeDuration(
+            text: `${message.senderUsername}, kattahPoro 🏓 BOT UPTIME: ${humanizeDuration(
                 process.uptime() * 1000
             )} | Channels: ${poroData} | Seen Users: ${poroData2}`,
         };
