@@ -37,7 +37,7 @@ module.exports = {
         await bot.Redis.del(`poro:${senderUserID}`);
         // deletes the timer for poro redis timer
         return {
-            text: `Timer Reset! ${senderUsername} (-5) kattahDanceButFast total [P${poroPrestige}: ${
+            text: `Timer Reset! ${senderUsername} (-5) kattahPoro total [P${poroPrestige}: ${
                 displayPoroRankByName[poroRank]
             }] ${poroCount - 5} meat`,
         };
