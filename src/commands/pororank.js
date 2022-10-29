@@ -13,7 +13,7 @@ module.exports = {
         const poroData = await bot.DB.poroCount.find({}).exec();
 
         const sorted = poroData
-            .filter((a) => a.poroPrestige > 0)
+            .filter((a) => a.poroPrestige < 0)
             .sort((a, b) => b.poroPrestige - a.poroPrestige || b.poroRank - a.poroRank || b.poroCount - a.poroCount);
 
         const totalSliced = sorted.slice(0, 5000000);
