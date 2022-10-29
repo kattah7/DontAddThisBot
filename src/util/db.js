@@ -16,6 +16,7 @@ const ChannelsSchema = new DB.Schema({
     id: String,
     joinedAt: Date,
     prefix: String,
+    commandsUsed: [{ command: String, Usage: Number, lastUsage: Date }],
     editors: [{ username: String, id: String, grantedAt: Date }],
     isChannel: Boolean,
     poroOnly: false,
@@ -37,6 +38,7 @@ const UserSchema = new DB.Schema({
     username: String,
     firstSeen: Date,
     level: Number,
+    commandsUsed: [{ command: String, Usage: Number, lastUsage: Date }],
     nameChanges: [{ username: String, changedAt: Date }],
 });
 

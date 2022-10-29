@@ -251,6 +251,39 @@ exports.handler = async (commands, aliases, message, client) => {
                     }
                 }
 
+                if (response.text) {
+                    // if command is already in user db then update the usage count
+                    const targetUser = await bot.DB.users.findOne({ id: message.senderUserID });
+                    const commandUsed = targetUser.commandsUsed.find((x) => x.command == command.name);
+                    if (commandUsed) {
+                        await bot.DB.users.updateOne(
+                            { 'id': message.senderUserID, 'commandsUsed.command': command.name },
+                            { $inc: { 'commandsUsed.$.Usage': 1 }, $set: { 'commandsUsed.$.lastUsage': Date.now() } }
+                        );
+                        await bot.DB.channels.updateOne(
+                            { 'id': message.channelID, 'commandsUsed.command': command.name },
+                            { $inc: { 'commandsUsed.$.Usage': 1 }, $set: { 'commandsUsed.$.lastUsage': Date.now() } }
+                        );
+                    } else {
+                        await bot.DB.users.updateOne(
+                            { id: message.senderUserID },
+                            {
+                                $addToSet: {
+                                    commandsUsed: [{ command: command.name, Usage: 1, lastUsage: Date.now() }],
+                                },
+                            }
+                        );
+                        await bot.DB.channels.updateOne(
+                            { id: message.channelID },
+                            {
+                                $addToSet: {
+                                    commandsUsed: [{ command: command.name, Usage: 1, lastUsage: Date.now() }],
+                                },
+                            }
+                        );
+                    }
+                }
+
                 if (await utils.PoroNumberOne(message.senderUserID)) {
                     await ChangeColor(message.ircTags['color']);
                     await client.me(message.channelName, `${response.text}`);
