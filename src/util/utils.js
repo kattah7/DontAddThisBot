@@ -88,8 +88,17 @@ exports.stvNameToID = async (name) => {
 
 exports.PoroNumberOne = async (username) => {
     const poroData = await bot.DB.poroCount.find({}).exec();
-    const sorted = poroData.sort((a, b) => b.poroPrestige - a.poroPrestige || b.poroRank - a.poroRank);
-    const top1 = sorted.slice(0, 10);
+    poroData.sort((a, b) => {
+        if (a.prestige > b.prestige) return -1;
+        if (a.prestige < b.prestige) return 1;
+        if (a.rank > b.rank) return -1;
+        if (a.rank < b.rank) return 1;
+        if (a.count > b.count) return -1;
+        if (a.count < b.count) return 1;
+        return 0;
+    });
+    const poroRank = poroData.findIndex((x) => x.username === username) + 1;
+    const top1 = poroRank.slice(0, 10);
     const findTopTen = top1.find((user) => user.id === username);
     return findTopTen;
 };
