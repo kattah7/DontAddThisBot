@@ -13,7 +13,7 @@ module.exports = {
             try {
                 await bot.DB.channels.updateOne({ id: message.senderUserID }, { $set: { stvOnly: true } }).exec();
                 return {
-                    text: `${message.senderUsername} is now 7tvM cmds only`,
+                    text: `${message.senderUsername} is now 7tvH cmds only`,
                 };
             } catch (err) {
                 return {
