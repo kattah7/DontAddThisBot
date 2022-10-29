@@ -3,13 +3,7 @@ const nodeCron = require('node-cron');
 const { client } = require('./util/connections.js');
 const pubsub = require('./util/pubSub.js');
 const sevenTV = require('./util/sevenTVevents.js');
-const { JOIN } = require('./clients/JOIN.js');
-const { PART } = require('./clients/PART.js');
-const { WHISPER } = require('./clients/WHISPER.js');
-const { CLEARCHAT } = require('./clients/CLEARCHAT.js');
-const { NOTICE } = require('./clients/NOTICE.js');
-const { PRIVMSG } = require('./clients/PRIVMSG.js');
-const { main } = require('./clients/JoinChannels.js');
+const { Twitch } = require('./clients/twitch.js');
 
 global.bot = {};
 bot.Redis = require('./util/redis.js');
@@ -29,9 +23,7 @@ client.on('ready', async () => {
         // every 2 hours at :05
         client.say('kattah', '!cookie');
     });
-    for (const execute of [JOIN, PART, WHISPER, CLEARCHAT, NOTICE, PRIVMSG, main]) {
-        await execute();
-    }
+    Twitch();
 });
 
 client.on('372', (msg) => Logger.info(`Server MOTD is: ${msg.ircParameters[1]}`));
