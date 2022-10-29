@@ -30,7 +30,7 @@ module.exports = {
                         user.username[0]
                     }\u{E0000}${user.username.slice(1)} - [P${user.poroPrestige}: ${
                         displayPoroRankByName[user.poroRank]
-                    }] ${user.poroCount}`
+                    }] ${user.poroCount.toLocaleString()} `
             )
             .join(' | ');
 
