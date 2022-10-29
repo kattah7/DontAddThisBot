@@ -12,12 +12,12 @@ module.exports = {
 
         const poroData = await bot.DB.poroCount.find({}).exec();
         poroData.sort((a, b) => {
-            if (a.prestige > b.prestige) return -1;
-            if (a.prestige < b.prestige) return 1;
-            if (a.rank > b.rank) return -1;
-            if (a.rank < b.rank) return 1;
-            if (a.count > b.count) return -1;
-            if (a.count < b.count) return 1;
+            if (a.poroPrestige > b.poroPrestige) return -1;
+            if (a.poroPrestige < b.poroPrestige) return 1;
+            if (a.poroRank > b.poroRank) return -1;
+            if (a.poroRank < b.poroRank) return 1;
+            if (a.poroCount > b.poroCount) return -1;
+            if (a.poroCount < b.poroCount) return 1;
             return 0;
         });
         const poroRank = poroData.findIndex((x) => x.username === username) + 1;
