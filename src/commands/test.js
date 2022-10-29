@@ -1,3 +1,5 @@
+const { loginByID } = require('../util/utils');
+
 module.exports = {
     name: 'test',
     cooldown: 5000,
@@ -6,9 +8,7 @@ module.exports = {
     execute: async (message, args, client) => {
         const userDB = await bot.DB.channels.find({});
         for (const user of userDB) {
-            if (!user.id) {
-                console.log(user.username);
-            }
+            console.log(await loginByID(user.id));
         }
     },
 };
