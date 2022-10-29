@@ -18,9 +18,7 @@ module.exports = {
 
         const poroData = await bot.DB.poroCount.find({}).exec();
         const allUserLength = Number(poroData.length);
-        const sorted = poroData.sort(
-            (a, b) => b.poroPrestige - a.poroPrestige || b.poroRank - a.poroRank || b.poroCount - a.poroCount
-        );
+        const sorted = poroData.sort((a, b) => b.poroPrestige - a.poroPrestige || b.poroRank - a.poroRank);
 
         const top5 = sorted.slice(allUserLength - 5, allUserLength);
         const top5String = top5

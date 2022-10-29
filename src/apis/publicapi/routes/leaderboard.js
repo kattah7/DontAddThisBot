@@ -4,7 +4,7 @@ const router = express.Router();
 router.get('/api/bot/leaderboard', async (req, res) => {
     const poroData = await bot.DB.poroCount.find({}).exec();
     const topUsers = poroData
-        .sort((a, b) => b.poroPrestige - a.poroPrestige || b.poroRank - a.poroRank || b.poroCount - a.poroCount)
+        .sort((a, b) => b.poroPrestige - a.poroPrestige || b.poroRank - a.poroRank)
         .slice(0, 10)
         .map((user) => `[P:${user.poroPrestige}] ${user.username} - ${user.poroCount}`);
 
