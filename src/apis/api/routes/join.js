@@ -34,7 +34,7 @@ router.post(`/api/bot/join`, async (req, res) => {
                 await bot.DB.channels.findOneAndUpdate({ id: id }, { $set: { isChannel: true } }).exec();
                 await client.say(
                     username,
-                    `Re-Joined channel, ${username} kattahSpin Also check @DontAddThisBot panels for info! `
+                    `Re-Joined channel, ${username} kattahPoro Also check @DontAddThisBot panels for info! `
                 );
             } catch (err) {
                 return res.status(500).json({
@@ -56,7 +56,7 @@ router.post(`/api/bot/join`, async (req, res) => {
                 await client.join(username);
                 await client.say(
                     username,
-                    `Joined channel, ${username} kattahSpin Also check @DontAddThisBot panels for info!`
+                    `Joined channel, ${username} kattahPoro Also check @DontAddThisBot panels for info!`
                 );
             } catch (err) {
                 return res.status(500).json({
@@ -89,7 +89,7 @@ router.post(`/api/bot/join`, async (req, res) => {
             await client.join(username);
             await client.say(
                 username,
-                `Joined channel, ${username} kattahSpin Also check @DontAddThisBot panels for info!`
+                `Joined channel, ${username} kattahPoro Also check @DontAddThisBot panels for info!`
             );
             await bot.DB.poroCount.updateOne({ id: id }, { $set: { poroCount: poro.poroCount + 100 } }).exec();
         } catch (err) {
