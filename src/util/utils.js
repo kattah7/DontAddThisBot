@@ -88,7 +88,7 @@ exports.stvNameToID = async (name) => {
 
 exports.PoroNumberOne = async (username) => {
     const poroData = await bot.DB.poroCount.find({}).exec();
-    const sorted = poroData.sort((a, b) => b.poroPrestige - a.poroPrestige || b.poroRank - a.poroRank);
+    const sorted = poroData.sort((a, b) => b.poroPrestige - a.poroPrestige || b.poroCount - a.poroCount);
     const top1 = sorted.slice(0, 10);
     const findTopTen = top1.find((user) => user.id === username);
     return findTopTen;

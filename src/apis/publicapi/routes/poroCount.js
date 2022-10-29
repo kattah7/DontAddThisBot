@@ -22,7 +22,7 @@ router.get('/api/bot/porocount/:user', async (req, res) => {
     const poroData = await bot.DB.poroCount.find({}).exec();
     const userRank =
         poroData
-            .sort((a, b) => b.poroPrestige - a.poroPrestige || b.poroRank - a.poroRank)
+            .sort((a, b) => b.poroPrestige - a.poroPrestige || b.poroCount - a.poroCount)
             .findIndex((user) => user.username == req.params.user) + 1;
     const poroLastUsage = await bot.Redis.get(`poro:${UID}`);
     const poroCdrLastUsage = await bot.Redis.get(`porocdr:${UID}`);
