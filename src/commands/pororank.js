@@ -11,18 +11,12 @@ module.exports = {
         const targetUser = await utils.ParseUser(args[0]?.toLowerCase() ?? message.senderUsername);
 
         const poroData = await bot.DB.poroCount.find({}).exec();
-        poroData.sort((a, b) => {
-            if (a.poroPrestige > b.poroPrestige) return -1;
-            if (a.poroPrestige < b.poroPrestige) return 1;
-            if (a.poroRank > b.poroRank) return -1;
-            if (a.poroRank < b.poroRank) return 1;
-            if (a.poroCount > b.poroCount) return -1;
-            if (a.poroCount < b.poroCount) return 1;
-            return 0;
-        });
-        const poroRank = poroData.findIndex((x) => x.username === username) + 1;
 
-        const totalSliced = poroRank.slice(0, 5000000);
+        const sorted = poroData.sort(
+            (a, b) => b.poroPrestige - a.poroPrestige || b.poroRank - a.poroRank || b.poroCount - a.poroCount
+        );
+
+        const totalSliced = sorted.slice(0, 5000000);
 
         if (!isNaN(args[0])) {
             //console.log(Number(args[0]) - 1, Number(args[0]))
