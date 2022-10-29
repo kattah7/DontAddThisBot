@@ -29,28 +29,31 @@ module.exports = {
                 text: "You can't add yourself to the editor list!",
             };
         }
-        const uid = await utils.IDByLogin(await utils.ParseUser(args[1].toLowerCase()));
+
+        const user = args[1].toLowerCase();
+        const uid = await utils.IDByLogin(await utils.ParseUser(user));
         if (uid == null) {
             return {
-                text: `Could not find user "${args[1].toLowerCase()}"`,
+                text: `Could not find user "${user}"`,
             };
         }
+
         if (args[0] == 'add') {
             const channel = await bot.DB.channels.findOne({ username: message.channelName }).exec();
-            const tc = channel.editors.find((badge) => badge.id === uid);
-            if (tc) {
+            const findChannelEditors = channel.editors.find((editors) => editors.id === uid);
+            if (findChannelEditors) {
                 return {
-                    text: `User "${args[1].toLowerCase()}" is already an editor...`,
+                    text: `User "${user}" is already an editor...`,
                 };
             } else {
                 await bot.DB.channels
                     .updateOne(
-                        { username: message.channelName },
+                        { id: message.channelID },
                         {
                             $addToSet: {
                                 editors: [
                                     {
-                                        username: await utils.ParseUser(args[1].toLowerCase()),
+                                        username: await utils.ParseUser(user),
                                         id: uid,
                                         grantedAt: new Date(),
                                     },
@@ -60,23 +63,21 @@ module.exports = {
                     )
                     .exec();
                 return {
-                    text: `Added "${args[1].toLowerCase()}" as an editor in this channel!`,
+                    text: `Added "${user}" as an editor in this channel!`,
                 };
             }
         }
         if (args[0] == 'remove') {
-            const channel = await bot.DB.channels.findOne({ username: message.channelName }).exec();
+            const channel = await bot.DB.channels.findOne({ id: message.channelID }).exec();
             const tc = channel.editors.find((badge) => badge.id === uid);
             if (!tc) {
                 return {
-                    text: `User "${args[1].toLowerCase()}" is not an editor...`,
+                    text: `User "${user}" is not an editor...`,
                 };
             } else {
-                await bot.DB.channels
-                    .updateOne({ username: message.channelName }, { $pull: { editors: { id: uid } } })
-                    .exec();
+                await bot.DB.channels.updateOne({ id: message.channelID }, { $pull: { editors: { id: uid } } }).exec();
                 return {
-                    text: `Removed "${args[1].toLowerCase()}" as an editor in this channel!`,
+                    text: `Removed "${user}" as an editor in this channel!`,
                 };
             }
         }
