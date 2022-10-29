@@ -17,10 +17,12 @@ module.exports = {
         };
 
         const poroData = await bot.DB.poroCount.find({}).exec();
+        // sort porodata by highest poroprestige and poro rank
+        const topUsers = poroData.sort(
+            (a, b) => b.poroPrestige - a.poroPrestige || b.poroRank - a.poroRank > b.poroCount - a.poroCount
+        );
 
-        const sorted = poroData.sort((a, b) => b.poroPrestige - a.poroPrestige || b.poroRank - a.poroRank);
-
-        const top5 = sorted.slice(0, 5);
+        const top5 = topUsers.slice(0, 5);
         const top5Text = top5
             .map(
                 (user, index) =>
