@@ -25,7 +25,9 @@ const getTimers = () => {
                     Date: reminder_date,
                     current_price,
                 } = await JSON.parse(removeAllSlashes)[0];
-                console.log(id);
+                if (!id) {
+                    return;
+                }
                 const { data } = await fetch(
                     `https://buff.163.com/api/market/goods/sell_order?game=csgo&goods_id=${id}&page_num=1&sort_by=default&mode=&allow_tradable_cooldown=1&_=1667085434023`,
                     {
