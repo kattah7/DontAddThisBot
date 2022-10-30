@@ -13,7 +13,7 @@ const getTimers = () => {
 
         const getRedisKeysAndValues = async () => {
             const getAllRedisKeys = await redis.keys('*');
-            const filterRedisKeys = await getAllRedisKeys.filter((key) => key.includes('buff'));
+            const filterRedisKeys = await getAllRedisKeys.filter((key) => key.includes('buff:'));
             console.log(filterRedisKeys);
             filterRedisKeys.forEach(async (key) => {
                 const value = await redis.get(key);
