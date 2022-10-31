@@ -1,5 +1,6 @@
 const { joiner } = require('../connections.js');
 const sql = require('../data/db.js');
+const Logger = require('../.././src/util/logger');
 
 async function PART() {
     joiner.on('PART', async ({ channelName, partedUsername }) => {
