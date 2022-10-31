@@ -3,7 +3,6 @@ const sql = require('../data/db.js');
 
 async function PART() {
     joiner.on('PART', async ({ channelName, partedUsername }) => {
-        console.log(`${partedUsername} parted #${channelName}`);
         if (partedUsername === 'justinfan12312') {
             return;
         }
@@ -20,7 +19,6 @@ async function PART() {
                         filteredChannelNames
                     )}' WHERE username = '${partedUsername}'`
                 );
-                console.log(`Updated ${partedUsername}'s channels.`);
             };
             sqlQueryRemoveChannelFromArray();
         }

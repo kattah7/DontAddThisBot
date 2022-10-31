@@ -3,7 +3,6 @@ const sql = require('../data/db.js');
 
 const JOIN = async function () {
     joiner.on('JOIN', async ({ joinedUsername, channelName }) => {
-        console.log(`${joinedUsername} joined ${channelName}`);
         if (joinedUsername === 'justinfan12312') {
             return;
         }
