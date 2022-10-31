@@ -1,59 +1,44 @@
-const got = require('got');
 const humanizeDuration = require('../util/humanizeDuration');
 const utils = require('../util/utils.js');
+const fetch = require('node-fetch');
 
 module.exports = {
     tags: 'stats',
     name: 'juicercheck',
-    cooldown: 10000,
+    cooldown: 5000,
     description: 'checks if a user is a juicer',
     poro: true,
     execute: async (message, args, client) => {
-        const USERNAME = await utils.ParseUser(args[0] ?? message.senderUsername);
-        let data = await got(`https://api.ivr.fi/twitch/subage/${USERNAME}/xqc`, { timeout: 10000 }).json();
-        const followAge = new Date().getTime() - Date.parse(data.followedAt);
-        if (data) {
-            if (data.followedAt == null) {
-                if (data.cumulative.months == 0) {
-                    return {
-                        text: `${USERNAME} WAS NEVER SUBBED & FOLLOWING EZ`,
-                    };
-                } else if (data.subscribed == true) {
-                    return {
-                        text: `${USERNAME} is subbed to xQc for ${data.cumulative.months} months & not following. xqcL`,
-                    };
-                } else if (data.cumulative.months > 0) {
-                    return {
-                        text: `${USERNAME} is previously subbed to xQc for ${data.cumulative.months} months & not following. xqcL`,
-                    };
-                }
-            } else if (data.cumulative.months == 0) {
-                if (data.cumulative.months == 0) {
-                    return {
-                        text: `${USERNAME} was never subbed to xQc & following for ${humanizeDuration(followAge)} xqcL`,
-                    };
-                }
-            } else if (data.cumulative.months > 0) {
-                if (data.subscribed == false) {
-                    return {
-                        text: `${USERNAME} was previously subbed to xQc for ${
-                            data.cumulative.months
-                        } months & following for ${humanizeDuration(followAge)} xqcL`,
-                    };
-                } else if (data.subscribed == true) {
-                    return {
-                        text: `${USERNAME} is subbed to xQc for ${
-                            data.cumulative.months
-                        } months & following for ${humanizeDuration(followAge)} xqcL`,
-                    };
-                }
-            } else if (data.hidden == true) {
-                return {
-                    text: `${USERNAME}'s subscription is hidden, Try hovering over their sub badge. Following for ${humanizeDuration(
-                        followAge
-                    )} xqcL`,
-                };
-            }
+        const targetUser = await utils.ParseUser(args[0] ?? message.senderUsername);
+        const data = await fetch(`https://api.ivr.fi/v2/twitch/subage/${targetUser}/xqc`, {
+            method: 'GET',
+        }).then((res) => res.json());
+        const { statusHidden, followedAt, streak, cumulative, meta, error } = data;
+        if (error) {
+            return {
+                text: `⁉ ${error?.message}` ?? 'Something went wrong',
+            };
+        }
+
+        const followAge = humanizeDuration(new Date().getTime() - Date.parse(followedAt));
+        if (statusHidden) {
+            const isFollowing = followedAt ? `(Followed ${followAge})` : '';
+            return {
+                text: `${targetUser}'s subage is hidden pepeLaugh TeaTime ${isFollowing}`,
+            };
+        }
+
+        if (cumulative === null) {
+            const isFollowing = followedAt ? `(Followed ${followAge}) xqcL` : '';
+            return {
+                text: `${targetUser} is not subbed to xQc EZ ${isFollowing}`,
+            };
+        } else if (cumulative?.months) {
+            const isFollowing = followedAt ? `(Followed ${followAge}) xqcL` : '';
+            const isSubbed = meta === null ? 'was previously' : 'is currently';
+            return {
+                text: `${targetUser} ${isSubbed} subbed to xQc for ${cumulative.months} months WutFace ${isFollowing}`,
+            };
         }
     },
 };

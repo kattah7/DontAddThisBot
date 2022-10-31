@@ -1,63 +1,44 @@
-const got = require('got');
+const fetch = require('node-fetch');
 const humanizeDuration = require('../util/humanizeDuration');
 const utils = require('../util/utils.js');
 
 module.exports = {
     tags: 'stats',
     name: 'bajcheck',
-    cooldown: 10000,
+    cooldown: 5000,
     description: 'checks if a user is a baj',
     poro: true,
     execute: async (message, args, client) => {
-        const USERNAME = args[0] ?? message.senderUsername;
-        const parsed = await utils.ParseUser(USERNAME);
-        let data = await got(`https://api.ivr.fi/twitch/subage/${parsed}/forsen`, { timeout: 10000 }).json();
+        const targetUser = await utils.ParseUser(args[0] ?? message.senderUsername);
+        const data = await fetch(`https://api.ivr.fi/v2/twitch/subage/${targetUser}/forsen`, {
+            method: 'GET',
+        }).then((res) => res.json());
+        const { statusHidden, followedAt, streak, cumulative, meta, error } = data;
+        if (error) {
+            return {
+                text: `⁉ ${error?.message}` ?? 'Something went wrong eShrug',
+            };
+        }
 
-        const followAge = new Date().getTime() - Date.parse(data.followedAt);
-        if (data) {
-            if (data.followedAt == null) {
-                if (data.cumulative.months == 0) {
-                    return {
-                        text: `${parsed} WAS NEVER SUBBED & FOLLOWING forsenBased`,
-                    };
-                } else if (data.subscribed == true) {
-                    return {
-                        text: `${parsed} is subbed to forsen for ${data.cumulative.months} months & not following. forsenE`,
-                    };
-                } else if (data.cumulative.months > 0) {
-                    return {
-                        text: `${parsed} is previously subbed to forsen for ${data.cumulative.months} months & not following. forsenWhat`,
-                    };
-                }
-            } else if (data.cumulative.months == 0) {
-                if (data.cumulative.months == 0) {
-                    return {
-                        text: `${parsed} was never subbed to forsen & following for ${humanizeDuration(
-                            followAge
-                        )} forsenWhat`,
-                    };
-                }
-            } else if (data.cumulative.months > 0) {
-                if (data.subscribed == false) {
-                    return {
-                        text: `${parsed} was previously subbed to forsen for ${
-                            data.cumulative.months
-                        } months & following for ${humanizeDuration(followAge)} forsenWhat`,
-                    };
-                } else if (data.subscribed == true) {
-                    return {
-                        text: `${parsed} is subbed to forsen for ${
-                            data.cumulative.months
-                        } months & following for ${humanizeDuration(followAge)} forsenE`,
-                    };
-                }
-            } else if (data.hidden == true) {
-                return {
-                    text: `${parsed}'s subscription is hidden, Try hovering over their sub badge. Following for ${humanizeDuration(
-                        followAge
-                    )} forsenE`,
-                };
-            }
+        const followAge = humanizeDuration(new Date().getTime() - Date.parse(followedAt));
+        if (statusHidden) {
+            const isFollowing = followedAt ? `(Followed ${followAge})` : '';
+            return {
+                text: `${targetUser}'s subage is hidden eShrug ${isFollowing}`,
+            };
+        }
+
+        if (cumulative === null) {
+            const isFollowing = followedAt ? `(Followed ${followAge}) forsenE` : '';
+            return {
+                text: `${targetUser} is not subbed to Forsen EZ ${isFollowing}`,
+            };
+        } else if (cumulative?.months) {
+            const isFollowing = followedAt ? `(Followed ${followAge}) forsenScoots` : '';
+            const isSubbed = meta === null ? 'was previously' : 'is currently';
+            return {
+                text: `${targetUser} ${isSubbed} subbed to Forsen for ${cumulative.months} months PagChomp ${isFollowing}`,
+            };
         }
     },
 };
