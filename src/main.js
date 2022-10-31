@@ -4,6 +4,7 @@ const { client } = require('./util/connections.js');
 const pubsub = require('./util/pubSub.js');
 const sevenTV = require('./util/sevenTVevents.js');
 const { Twitch } = require('./clients/twitch.js');
+const { joiner } = require('../joiner/main.js');
 
 global.bot = {};
 bot.Redis = require('./util/redis.js');
@@ -24,6 +25,7 @@ client.on('ready', async () => {
         client.say('kattah', '!cookie');
     });
     Twitch();
+    joiner();
 });
 
 client.on('372', (msg) => Logger.info(`Server MOTD is: ${msg.ircParameters[1]}`));

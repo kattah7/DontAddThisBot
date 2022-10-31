@@ -40,6 +40,7 @@
     "node-fetch": "2",
     "nodemon": "^2.0.19",
     "perf_hooks": "0.0.1",
+    "pg": "^8.8.0",
     "prettyjson": "^1.2.5",
     "prom-client": "14.0.1",
     "reconnecting-websocket": "^4.4.0",
