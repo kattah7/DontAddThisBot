@@ -9,7 +9,10 @@ async function PART() {
 
         const showTables = await sql.query(`SELECT * FROM channels WHERE username = '${partedUsername}'`);
         if (showTables.rows.length === 0) {
-            console.log(`No channels found for ${partedUsername}.`);
+            await sql.query(
+                `INSERT INTO channels (username, channelName) VALUES ('${partedUsername}', '["${channelName}"]')`
+            );
+            Logger.info(`Freshly Added Parted ${partedUsername} to ${channelName}`);
         } else {
             const sqlQueryRemoveChannelFromArray = async () => {
                 const channelNames = [...new Set(showTables.rows[0].channelname)];
@@ -19,6 +22,7 @@ async function PART() {
                         filteredChannelNames
                     )}' WHERE username = '${partedUsername}'`
                 );
+                Logger.info(`Removed ${channelName} from ${partedUsername}'s channels.`);
             };
             sqlQueryRemoveChannelFromArray();
         }

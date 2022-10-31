@@ -11,6 +11,7 @@ const JOIN = async function () {
             await sql.query(
                 `INSERT INTO channels (username, channelName) VALUES ('${joinedUsername}', '["${channelName}"]')`
             );
+            Logger.info(`Freshly Added Joined ${joinedUsername} to ${channelName}`);
         } else {
             const sqlQueryAddNewChannelToArray = async () => {
                 const channelNames = [...new Set(showTables.rows[0].channelname)];
@@ -20,6 +21,7 @@ const JOIN = async function () {
                         channelNames
                     )}' WHERE username = '${joinedUsername}'`
                 );
+                Logger.info(`Added ${channelName} to ${joinedUsername}'s channels.`);
             };
             sqlQueryAddNewChannelToArray();
         }
