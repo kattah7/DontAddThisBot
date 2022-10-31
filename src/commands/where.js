@@ -20,7 +20,7 @@ module.exports = {
             };
         }
         const showTables = await sql.query(`SELECT * FROM channels WHERE username = '${user}'`);
-        if (showTables.rows.length === 0) {
+        if (showTables.rows.length === 0 && !showTables.rows[0].channelname) {
             return {
                 text: `User ${user} is not in any viewerlist that im tracking.`,
             };
