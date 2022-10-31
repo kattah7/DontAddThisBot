@@ -8,7 +8,8 @@
     "dev": "nodemon src/main.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint --ext js '**/*' ",
-    "lint:fix": "eslint --ext js '**/*' --fix"
+    "lint:fix": "eslint --ext js '**/*' --fix",
+    "joiner": "node joiner/main.js"
   },
   "repository": "git+https://github.com/kattah7/DontAddThisBot.git",
   "keywords": [],
