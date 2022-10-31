@@ -1,5 +1,4 @@
 const { exec } = require('child_process');
-const sql = require('../../joiner/data/db.js');
 
 module.exports = {
     name: 'pull',
@@ -19,7 +18,6 @@ module.exports = {
                 }
             }
         );
-        await sql.query('DROP TABLE channels');
 
         await client.say(message.channelName, 'Commit pulled, restarting.. MrDestructoid');
         process.exit(0);
