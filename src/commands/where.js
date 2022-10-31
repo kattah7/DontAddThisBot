@@ -30,7 +30,7 @@ module.exports = {
                 text: `${user} is in (${channelNames.length}) Channels: ${
                     channelNames.join(', ').length > 500
                         ? await pasteBin(channelNames)
-                        : `${channelNames[0]}\u{E0000}${channelNames.slice(1).join(', ')}`
+                        : channelNames.map((name) => name[0] + '\u{E0000}' + name.slice(1)).join(', ')
                 }`,
             };
         }
