@@ -12,7 +12,8 @@ module.exports = {
             const { key } = await got.post('https://paste.ivr.fi/documents', { body: channels.join('\n') }).json();
             return `https://paste.ivr.fi/${key}`;
         }
-        const user = await ParseUser(args[0]);
+        const targetUser = (args[0] ?? message.senderUsername).toLowerCase();
+        const user = await ParseUser(targetUser);
         if (user === 'kattah') {
             return {
                 text: `no i dont think so`,
