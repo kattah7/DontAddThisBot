@@ -28,7 +28,9 @@ module.exports = {
             const channelNames = [...new Set(showTables.rows[0].channelname)];
             return {
                 text: `${user} is in (${channelNames.length}) Channels: ${
-                    channelNames.join(', ').length > 500 ? await pasteBin(channelNames) : channelNames.join(', ')
+                    channelNames.join(', ').length > 500
+                        ? await pasteBin(channelNames)
+                        : `${channelNames[0]}\u{E0000}${channelNames.slice(1).join(', ')}`
                 }`,
             };
         }
