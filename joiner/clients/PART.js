@@ -10,14 +10,14 @@ async function PART() {
         Logger.info(`Parted ${partedUsername} from ${channelName}`);
         const showTables = await sql.query(`SELECT * FROM channels WHERE username = '${partedUsername}'`);
         if (showTables.rows.length === 0) {
-            sql.query(`INSERT INTO channels (username, channelName) VALUES ('${partedUsername}', '[]')`);
+            await sql.query(`INSERT INTO channels (username, channelName) VALUES ('${partedUsername}', '[]')`);
             Logger.info(`Freshly Added Parted ${partedUsername} to ${channelName}`);
         } else {
             const sqlQueryRemoveChannelFromArray = async () => {
                 const channelNames = [...new Set(showTables.rows[0].channelname)];
                 const filteredChannelNames = channelNames.filter((channel) => channel !== channelName);
                 const newChannelNames = JSON.stringify([...new Set(filteredChannelNames)]);
-                sql.query(
+                await sql.query(
                     `UPDATE channels SET channelName = '${newChannelNames}' WHERE username = '${partedUsername}'`
                 );
                 Logger.info(`Removed ${channelName} from ${partedUsername}'s channels.`);
