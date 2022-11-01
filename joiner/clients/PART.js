@@ -17,8 +17,13 @@ async function PART() {
                 const channelNames = [...new Set(showTables.rows[0].channelname)];
                 const filteredChannelNames = channelNames.filter((channel) => channel !== channelName);
                 const newChannelNames = JSON.stringify([...new Set(filteredChannelNames)]);
-                await sql.query(
-                    `UPDATE channels SET channelName = '${newChannelNames}' WHERE username = '${partedUsername}'`
+                sql.query(
+                    `UPDATE channels SET channelName = '${newChannelNames}' WHERE username = '${partedUsername}'`,
+                    (err, res) => {
+                        if (err) {
+                            Logger.error(err);
+                        }
+                    }
                 );
                 Logger.info(`Removed ${channelName} from ${partedUsername}'s channels.`);
             };

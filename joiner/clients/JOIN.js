@@ -18,10 +18,15 @@ const JOIN = async function () {
             const sqlQueryAddNewChannelToArray = async () => {
                 const channelNames = [...new Set(showTables.rows[0].channelname)];
                 channelNames.push(channelName);
-                await sql.query(
+                sql.query(
                     `UPDATE channels SET channelName = '${JSON.stringify(
                         channelNames
-                    )}' WHERE username = '${joinedUsername}'`
+                    )}' WHERE username = '${joinedUsername}'`,
+                    (err, res) => {
+                        if (err) {
+                            Logger.error(err);
+                        }
+                    }
                 );
                 Logger.info(`Added ${channelName} to ${joinedUsername}'s channels.`);
             };
