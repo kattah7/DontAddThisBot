@@ -8,9 +8,9 @@ const JOIN = async function () {
             return;
         }
         Logger.info(`Joined ${joinedUsername} to ${channelName}`);
-        const showTables = await sql.query(`SELECT * FROM channels WHERE username = '${joinedUsername}'`);
+        const showTables = sql.query(`SELECT * FROM channels WHERE username = '${joinedUsername}'`);
         if (showTables.rows.length === 0) {
-            await sql.query(
+            sql.query(
                 `INSERT INTO channels (username, channelName) VALUES ('${joinedUsername}', '["${channelName}"]')`
             );
             Logger.info(`Freshly Added Joined ${joinedUsername} to ${channelName}`);
@@ -21,13 +21,7 @@ const JOIN = async function () {
                 sql.query(
                     `UPDATE channels SET channelName = '${JSON.stringify(
                         channelNames
-                    )}' WHERE username = '${joinedUsername}'`,
-                    (err, res) => {
-                        if (err) {
-                            Logger.error(err);
-                        }
-                        console.log(res.rows);
-                    }
+                    )}' WHERE username = '${joinedUsername}'`
                 );
                 Logger.info(`Added ${channelName} to ${joinedUsername}'s channels.`);
             };
