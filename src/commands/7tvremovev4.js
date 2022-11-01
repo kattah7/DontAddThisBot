@@ -48,7 +48,7 @@ module.exports = {
         }
 
         return {
-            text: `7tvH ${amount <= 1 ? `"${args[0]}"` : `${amount} emotes`} removed from ${message.channelName}`,
+            text: `7tvM ${amount <= 1 ? `"${args[0]}"` : `${amount} emotes`} removed from ${message.channelName}`,
         };
     },
 };

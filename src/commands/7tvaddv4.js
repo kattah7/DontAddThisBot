@@ -35,7 +35,7 @@ module.exports = {
             } else {
                 const { name } = await GetEmotes(linkEmote[2]);
                 return {
-                    text: `7tvH "${name}" added to ${message.channelName}`,
+                    text: `7tvM "${name}" added to ${message.channelName}`,
                 };
             }
         }
@@ -54,7 +54,7 @@ module.exports = {
                 };
             } else {
                 return {
-                    text: `7tvH "${name}" added to ${message.channelName}`,
+                    text: `7tvM "${name}" added to ${message.channelName}`,
                 };
             }
         }

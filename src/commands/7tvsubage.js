@@ -35,11 +35,11 @@ module.exports = {
             const gifter = customer_id !== subscriber_id ? `gifted by ${username.display_name}` : ' ';
             const subAge = age / 30;
             return {
-                text: `7tvH ${targetUser} sub ${gifter} ${isRenew} in ${subDate} [${subAge.toFixed(1)} Months]`,
+                text: `7tvM ${targetUser} sub ${gifter} ${isRenew} in ${subDate} [${subAge.toFixed(1)} Months]`,
             };
         } else {
             return {
-                text: `7tvH ${targetUser} is not a 7tv sub`,
+                text: `7tvM ${targetUser} is not a 7tv sub`,
             };
         }
     },

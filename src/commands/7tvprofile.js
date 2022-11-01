@@ -44,7 +44,7 @@ module.exports = {
             const { emotes, capacity } = data.user.emote_sets[0];
             const userRole = globalRoles.roles.find((role) => role.id == roles[0]);
             return {
-                text: `7tvH ${targetUser}, User ID: ${id} | Registered: ${created_at.split('T')[0]} | Editors: ${
+                text: `7tvM ${targetUser}, User ID: ${id} | Registered: ${created_at.split('T')[0]} | Editors: ${
                     editors.length
                 } | Slots: ${emotes.length}/${capacity} | Roles: ${userRole.name} | Discord Linked: ${ifDiscordLinked}`,
             };

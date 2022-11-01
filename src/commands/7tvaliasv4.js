@@ -45,7 +45,7 @@ module.exports = {
             };
         } else {
             return {
-                text: `7tvH "${findThatEmote.name}" renamed to "${args[1]}"`,
+                text: `7tvM "${findThatEmote.name}" renamed to "${args[1]}"`,
             };
         }
     },

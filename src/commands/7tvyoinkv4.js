@@ -83,7 +83,7 @@ module.exports = {
                 };
             } else {
                 return {
-                    text: `7tvH Added ${pushEmotes[0]} to your emote set`,
+                    text: `7tvM Added ${pushEmotes[0]} to your emote set`,
                 };
             }
         }
@@ -101,7 +101,7 @@ module.exports = {
         }
 
         return {
-            text: `7tvH Added ${pushEmotes.length} emotes from ${channel} to your emote set${
+            text: `7tvM Added ${pushEmotes.length} emotes from ${channel} to your emote set${
                 pushAliases.length > 0 ? `, and auto-aliased ${pushAliases.length} emote` : ''
             }`,
         };
