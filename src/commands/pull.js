@@ -8,9 +8,8 @@ module.exports = {
     kattah: true,
     description: 'Pulls the latest commit from github. (Kattah only)',
     execute: async (message, args, client) => {
-        await sql.query('DROP TABLE channels');
         await exec(
-            'cd /home/DontAddThisBot && git reset --hard && git pull && yarn && mongodump --db=dontaddthisbot --out=dump/ && pm2 restart joiner2',
+            'cd /home/DontAddThisBot && git reset --hard && git pull && yarn && mongodump --db=dontaddthisbot --out=dump/',
             (err) => {
                 if (err) {
                     console.error(err);
