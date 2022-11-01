@@ -13,7 +13,7 @@ module.exports = {
                 text: `Usage: !welcome <message>`,
             };
         }
-        const targetUser = ParseUser(args[0].toLowerCase());
+        const targetUser = await ParseUser(args[0].toLowerCase());
         const { channelName } = message;
         client.say(message.channelName, `https://www.twitchdatabase.com/following/${targetUser}`);
         client.say(message.channelName, `https://twitchtracker.com/${targetUser}`);
