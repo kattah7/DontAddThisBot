@@ -52,6 +52,7 @@ router.get('/api/bot/porocount/:user', async (req, res) => {
         id: poroCount.id,
         poroCount: poroCount.poroCount,
         poroPrestige: poroCount.poroPrestige,
+        poroRank: poroCount.poroRank,
         joinedAt: poroCount.joinedAt,
         userRank: userRank,
         totalRank: poroData.length,
