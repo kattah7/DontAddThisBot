@@ -1,5 +1,5 @@
 const { Pool } = require('pg');
-const { postgres } = require('../../config.json');
+const { postgres } = require('../../../../../config.json');
 
 const sql = new Pool({
     user: 'postgres',

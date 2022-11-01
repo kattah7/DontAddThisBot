@@ -1,6 +1,6 @@
 const { joiner } = require('../connections.js');
 const sql = require('../data/db.js');
-const Logger = require('../.././src/util/logger');
+const Logger = require('../../../../util/logger');
 
 const JOIN = async function () {
     joiner.on('JOIN', async ({ joinedUsername, channelName }) => {
