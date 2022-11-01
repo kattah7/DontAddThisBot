@@ -1,5 +1,4 @@
 const { exec } = require('child_process');
-const sql = require('../../joiner/data/db.js');
 
 module.exports = {
     name: 'pull',
