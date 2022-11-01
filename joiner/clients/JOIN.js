@@ -4,24 +4,28 @@ const Logger = require('../.././src/util/logger');
 
 const JOIN = async function () {
     joiner.on('JOIN', async ({ joinedUsername, channelName }) => {
+        Logger.warn(`Joined ${joinedUsername} to ${channelName}`);
         if (joinedUsername === 'justinfan12312') {
             return;
         }
-        Logger.info(`Joined ${joinedUsername} to ${channelName}`);
 
-        const showTables = await sql.query(`SELECT * FROM channels WHERE username = '${joinedUsername}'`);
+        delete require.cache[require.resolve('../data/users.json')];
+        const { tracking_users } = require('../data/users.json');
 
-        if (showTables.rows.length === 0) {
-            await sql.query(
-                `INSERT INTO channels (username, channelName) VALUES ('${joinedUsername}', '["${channelName}"]')`
-            );
-            Logger.info(`Freshly Added Joined ${joinedUsername} to ${channelName}`);
-        } else {
-            await new Promise((r) => setTimeout(r, 1000));
-            await sql.query(
-                `UPDATE channels SET channelName = jsonb_set(channelName, '{${showTables.rows[0].channelname.length}}', '"${channelName}"') WHERE username = '${joinedUsername}'`
-            );
-            Logger.info(`Added ${channelName} to ${joinedUsername}'s channels.`);
+        if (tracking_users.includes(joinedUsername)) {
+            Logger.info(`Joined ${joinedUsername} to ${channelName}`);
+            const showTables = await sql.query(`SELECT * FROM channels WHERE username = '${joinedUsername}'`);
+            if (showTables.rows.length === 0) {
+                await sql.query(
+                    `INSERT INTO channels (username, channelName) VALUES ('${joinedUsername}', '["${channelName}"]')`
+                );
+                Logger.info(`Freshly Added Joined ${joinedUsername} to ${channelName}`);
+            } else {
+                await sql.query(
+                    `UPDATE channels SET channelName = jsonb_set(channelName, '{${showTables.rows[0].channelname.length}}', '"${channelName}"') WHERE username = '${joinedUsername}'`
+                );
+                Logger.info(`Added ${channelName} to ${joinedUsername}'s channels.`);
+            }
         }
     });
 };

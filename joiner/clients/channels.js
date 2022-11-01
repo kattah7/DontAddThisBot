@@ -11,7 +11,7 @@ async function joinChannels() {
         };
 
         while (Object.keys(game_pagination.pagination).length != 0) {
-            await new Promise((r) => setTimeout(r, 1200));
+            await new Promise((r) => setTimeout(r, 8));
             let response = await fetch(
                 `https://api.twitch.tv/helix/streams?first=100&after=${game_pagination.pagination.cursor}`,
                 {
@@ -24,6 +24,7 @@ async function joinChannels() {
             );
             let json = await response.json();
             game_pagination = json;
+            let channels = [];
             for (const streamer of json.data) {
                 if (streamer['viewer_count'] > joiner.desired_viewcount) {
                     console.log(
@@ -31,8 +32,10 @@ async function joinChannels() {
                     );
                     continue;
                 }
-                pool.join(streamer['user_login']);
+
+                channels.push(streamer['user_login']);
             }
+            await pool.joinAll(channels);
         }
     }
     get_channels();
