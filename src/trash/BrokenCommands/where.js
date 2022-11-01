@@ -1,6 +1,6 @@
 const sql = require('../../joiner/data/db.js');
-const { ParseUser } = require('../util/utils');
-const { UserInfo } = require('../token/helix.js');
+const { ParseUser } = require('../../util/utils');
+const { UserInfo } = require('../../token/helix.js');
 const got = require('got');
 const fs = require('fs/promises');
 
