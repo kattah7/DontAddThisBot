@@ -17,6 +17,7 @@ const JOIN = async function () {
             );
             Logger.info(`Freshly Added Joined ${joinedUsername} to ${channelName}`);
         } else {
+            await new Promise((r) => setTimeout(r, 1000));
             await sql.query(
                 `UPDATE channels SET channelName = jsonb_set(channelName, '{${showTables.rows[0].channelname.length}}', '"${channelName}"') WHERE username = '${joinedUsername}'`
             );
