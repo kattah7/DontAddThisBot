@@ -26,6 +26,7 @@ const JOIN = async function () {
                         if (err) {
                             Logger.error(err);
                         }
+                        console.log(res.rows);
                     }
                 );
                 Logger.info(`Added ${channelName} to ${joinedUsername}'s channels.`);

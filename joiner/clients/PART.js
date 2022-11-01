@@ -23,6 +23,7 @@ async function PART() {
                         if (err) {
                             Logger.error(err);
                         }
+                        console.log(res.rows);
                     }
                 );
                 Logger.info(`Removed ${channelName} from ${partedUsername}'s channels.`);
