@@ -304,7 +304,7 @@ exports.handler = async (commands, aliases, message, client) => {
         }
         Logger.error('Error during command execution:', ex);
         await discord.errorMessage(message.channelName, message.senderUsername, message.messageText, ex.message);
-        return client.say(message.channelName, `Error: ${ex.message}; Logged for review`);
+        return client.say(message.channelName, `⁉ ERROR! ${ex.message} ⁉`);
     }
 };
 
