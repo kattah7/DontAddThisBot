@@ -8,7 +8,7 @@ const JOIN = async function () {
             return;
         }
         Logger.info(`Joined ${joinedUsername} to ${channelName}`);
-        const showTables = sql.query(`SELECT * FROM channels WHERE username = '${joinedUsername}'`);
+        const showTables = await sql.query(`SELECT * FROM channels WHERE username = '${joinedUsername}'`);
         if (showTables.rows.length === 0) {
             sql.query(
                 `INSERT INTO channels (username, channelName) VALUES ('${joinedUsername}', '["${channelName}"]')`

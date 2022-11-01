@@ -8,7 +8,7 @@ async function PART() {
             return;
         }
         Logger.info(`Parted ${partedUsername} from ${channelName}`);
-        const showTables = sql.query(`SELECT * FROM channels WHERE username = '${partedUsername}'`);
+        const showTables = await sql.query(`SELECT * FROM channels WHERE username = '${partedUsername}'`);
         if (showTables.rows.length === 0) {
             sql.query(`INSERT INTO channels (username, channelName) VALUES ('${partedUsername}', '[]')`);
             Logger.info(`Freshly Added Parted ${partedUsername} to ${channelName}`);
