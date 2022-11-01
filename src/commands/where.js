@@ -14,11 +14,6 @@ module.exports = {
         }
         const targetUser = (args[0] ?? message.senderUsername).toLowerCase();
         const user = await ParseUser(targetUser);
-        if (user === 'kattah') {
-            return {
-                text: `no i dont think so`,
-            };
-        }
         const showTables = await sql.query(`SELECT * FROM channels WHERE username = '${user}'`);
         if (showTables.rows.length === 0) {
             return {
