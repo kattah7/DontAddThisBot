@@ -7,6 +7,7 @@ const JOIN = async function () {
         if (joinedUsername === 'justinfan12312') {
             return;
         }
+        Logger.info(`Joined ${joinedUsername} to ${channelName}`);
         const showTables = await sql.query(`SELECT * FROM channels WHERE username = '${joinedUsername}'`);
         if (showTables.rows.length === 0) {
             await sql.query(
