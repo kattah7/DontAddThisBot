@@ -209,7 +209,8 @@ exports.handler = async (commands, aliases, message, client) => {
 
             if (channelData.offlineOnly && !command.offline) {
                 const data = (await GetStreams(message.channelName, true))[0];
-                if (data.type == 'live') {
+                if (data == undefined) {
+                } else if (data.type == 'live') {
                     return;
                 }
             }
