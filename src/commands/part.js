@@ -1,11 +1,13 @@
 module.exports = {
-    name: "part",
+    name: 'part',
     aliases: [],
     cooldown: 3000,
-    description: "Part channel command",
+    description: 'Part channel command',
     execute: async (message, args, client) => {
         // try to get and delete the channel from the database
-        const channelData = await bot.DB.channels.findOneAndUpdate({ id: message.senderUserID }, { $set: { isChannel: false } }).exec();
+        const channelData = await bot.DB.channels
+            .findOneAndUpdate({ id: message.senderUserID }, { $set: { isChannel: false } })
+            .exec();
         if (!channelData || !channelData.isChannel) {
             return { text: `Not in channel #${message.senderUsername}` };
         }
@@ -18,6 +20,5 @@ module.exports = {
                 return { text: `Error leaving channel #${message.senderUsername}` };
             }
         }
-
     },
 };

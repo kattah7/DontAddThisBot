@@ -27,8 +27,8 @@ module.exports = {
         const favorite = data1.data[0].favoritedCount;
         return {
             text: `${name} currently has ${playing} PLAYERS, ${visit} total visits and favorited by ${favorite} Players. CREATED: ${
-                    data1.data[0].created.split('T')[0]
-                }, LAST UPDATED: ${data1.data[0].updated.split('T')[0]} LuL`,
+                data1.data[0].created.split('T')[0]
+            }, LAST UPDATED: ${data1.data[0].updated.split('T')[0]} LuL`,
         };
     },
 };

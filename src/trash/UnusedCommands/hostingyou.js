@@ -4,7 +4,7 @@ module.exports = {
     name: 'hostingyou',
     cooldown: 3000,
     description: 'Check if someone is hosting you',
-    execute: async(message, args, client) => {
+    execute: async (message, args, client) => {
         const query = [];
         query.push({
             operationName: 'HostingYouQuery',
@@ -28,6 +28,6 @@ module.exports = {
             },
             json: query,
         });
-        console.log(pogger[0].data.user.hostedBy.edges)
-    }
-}
+        console.log(pogger[0].data.user.hostedBy.edges);
+    },
+};

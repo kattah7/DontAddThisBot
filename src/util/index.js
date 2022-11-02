@@ -1,1 +1,1 @@
-exports.misc = require("./misc");
+exports.misc = require('./misc');

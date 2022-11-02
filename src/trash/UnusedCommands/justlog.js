@@ -27,7 +27,7 @@
 //                 channels.push(user['to_login']);
 //             }
 //         };
-        
+
 //         console.log(channels)
 //         for (const channel of channels) {
 //             await client.say("checkingstreamers", `!justlog part ${channel}`)

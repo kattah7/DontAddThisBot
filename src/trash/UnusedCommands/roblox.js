@@ -34,8 +34,8 @@ module.exports = {
         } else {
             return {
                 text: `${targetUser}'s Roblox display name is ${display}, Created ${age.split('T')[0]}, Status: ${
-                        userData.IsOnline ? 'Online ✅' : 'Offline ❌'
-                    }, Banned: ${data.isBanned ? 'TRUE ✅' : 'False ❌'}`,
+                    userData.IsOnline ? 'Online ✅' : 'Offline ❌'
+                }, Banned: ${data.isBanned ? 'TRUE ✅' : 'False ❌'}`,
             };
         }
     },

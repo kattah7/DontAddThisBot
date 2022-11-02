@@ -17,7 +17,7 @@ module.exports = {
                 text: `⛔ "${message.channelName}" is not a valid channel...`,
             };
         }
-        const Editors = await utils.VThreeEditors(StvID)
+        const Editors = await utils.VThreeEditors(StvID);
         const isBotEditor = Editors.find((x) => x.user.id == '629d77a20e60c6d53da64e38'); // DontAddThisBot's 7tv id
         if (isBotEditor) {
             const channel = await bot.DB.channels.findOne({ username: message.channelName }).exec();
@@ -105,20 +105,20 @@ module.exports = {
                             //console.log(doesSignInRequire)
                             if (doesSignInRequire.data.emoteSet == null) {
                                 switch (doesSignInRequire.errors[0].message) {
-                                    case "70401 Sign-In Required": {
+                                    case '70401 Sign-In Required': {
                                         return {
                                             text: `⛔ ${doesSignInRequire.errors[0].message}`,
-                                        }
+                                        };
                                     }
-                                    case "70403 Insufficient Privilege: emote is private": {
+                                    case '70403 Insufficient Privilege: emote is private': {
                                         return {
                                             text: `⛔ ${doesSignInRequire.errors[0].message}`,
-                                        }
+                                        };
                                     }
-                                    case "70403 Insufficient Privilege: You must be a subscriber to use zero-width emotes": {
+                                    case '70403 Insufficient Privilege: You must be a subscriber to use zero-width emotes': {
                                         return {
                                             text: `⛔ ${doesSignInRequire.errors[0].message}`,
-                                        }
+                                        };
                                     }
                                 }
                             }
@@ -150,10 +150,10 @@ module.exports = {
                                 const doesSignInRequire = await utils.AddSTVEmote(findThatEmote.id, StvID);
                                 if (doesSignInRequire.data.emoteSet == null) {
                                     switch (doesSignInRequire.errors[0].message) {
-                                        case "70401 Sign-In Required": {
+                                        case '70401 Sign-In Required': {
                                             return {
                                                 text: `⛔ ${doesSignInRequire.errors[0].message}`,
-                                            }
+                                            };
                                         }
                                     }
                                 }
@@ -170,13 +170,16 @@ module.exports = {
                                     text: `⛔ ${message.channelName}'s emote slots is full`,
                                 };
                             } else {
-                                const doesSignInRequire = await utils.AddSTVEmote(searchEmotes.data.emotes.items[0].id, StvID);
+                                const doesSignInRequire = await utils.AddSTVEmote(
+                                    searchEmotes.data.emotes.items[0].id,
+                                    StvID
+                                );
                                 if (doesSignInRequire.data.emoteSet == null) {
                                     switch (doesSignInRequire.errors[0].message) {
-                                        case "70401 Sign-In Required": {
+                                        case '70401 Sign-In Required': {
                                             return {
                                                 text: `⛔ ${doesSignInRequire.errors[0].message}`,
-                                            }
+                                            };
                                         }
                                     }
                                 }

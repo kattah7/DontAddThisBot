@@ -4,11 +4,11 @@ const util = require('util');
 
 const loggerLevels = {
     colors: {
-        info: "green",
-        error: "underline bold red",
-        debug: "bold magenta",
-        warn: "yellow",
-    }
+        info: 'green',
+        error: 'underline bold red',
+        debug: 'bold magenta',
+        warn: 'yellow',
+    },
 };
 
 const logFormat = printf(({ level, message, timestamp }) => {
@@ -22,14 +22,14 @@ const winston = createLogger({
             return info;
         })(),
         timestamp({
-            format: "DD.MM.YY HH:mm:ss.SSS",
+            format: 'DD.MM.YY HH:mm:ss.SSS',
         }),
         colorize(),
         logFormat
     ),
     transports: [
         new transports.Console({
-            stderrLevels: ["error"],
+            stderrLevels: ['error'],
         }),
     ],
 });
@@ -39,7 +39,7 @@ if (process.env.loglevel) {
     winston.transports[0].level = process.env.loglevel;
     winston.info(`Setting loglevel to ${winston.transports[0].level}`);
 } else {
-    winston.transports[0].level = "info";
+    winston.transports[0].level = 'info';
     winston.info(`Setting loglevel to ${winston.transports[0].level}`);
 }
 

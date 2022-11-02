@@ -6,22 +6,22 @@ router.post('/api/bot/offline', async (req, res) => {
     if (!id) {
         return res.status(404).json({
             success: false,
-            message: "malformed id parameter",
+            message: 'malformed id parameter',
         });
     }
     const actualUser = await bot.DB.users.findOne({ id: id }).exec();
     if (actualUser.level == 0) {
         return res.status(403).json({
             success: false,
-            message: "Forbidden",
+            message: 'Forbidden',
         });
     }
-    
+
     const channel = await bot.DB.channels.findOne({ id: id }).exec();
     if (!channel) {
         return res.status(404).json({
             success: false,
-            message: "channel not found",
+            message: 'channel not found',
         });
     }
 
@@ -35,7 +35,7 @@ router.post('/api/bot/offline', async (req, res) => {
         } catch (err) {
             return res.status(500).json({
                 success: false,
-                message: "Failed to update",
+                message: 'Failed to update',
             });
         }
     } else {
@@ -48,11 +48,10 @@ router.post('/api/bot/offline', async (req, res) => {
         } catch (err) {
             return res.status(500).json({
                 success: false,
-                message: "Failed to update",
+                message: 'Failed to update',
             });
         }
     }
-
-})
+});
 
 module.exports = router;

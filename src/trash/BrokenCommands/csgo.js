@@ -24,7 +24,7 @@
 //             if (user.errors[0].code == "CollectorResultStatus::NotFound") {
 //                 return {
 //                     text: `${args.join(" ")} Not found :( , Please use Steam ID, Steam Community URL, Steam Vanity Username, etc.`,
-//                 };  
+//                 };
 //             } else if (user.errors[0].code == "CollectorResultStatus::Private") {
 //                 return {
 //                     text: `${args.join(" ")} Profile is private :p , Please enable game settings under privacy settings`,
@@ -39,7 +39,6 @@
 //             const deaths = user.data.segments[0].stats.deaths.displayValue;
 //             const kd = user.data.segments[0].stats.kd.displayValue;
 
-            
 //             return {
 //                 text: `${args.join(" ")} has ${playtime} in CSGO LuL ${matches} Rounds [W:${losses} L:${wins}] LuL ${kd} K/D [K:${kills} D:${deaths}]`,
 //             };
