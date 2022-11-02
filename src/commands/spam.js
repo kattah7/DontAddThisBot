@@ -23,6 +23,7 @@ module.exports = {
 
         for (let xd = 0; xd < count; xd++) {
             client.say(message.channelName, phrase);
+            await new Promise((resolve) => setTimeout(resolve, 30));
         }
     },
 };
