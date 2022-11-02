@@ -1,6 +1,6 @@
 const { joiner: pool } = require('../connections');
 const fetch = require('node-fetch');
-const { joiner } = require('../../config.json');
+const { joiner } = require('../../../../../config.json');
 
 async function joinChannels() {
     async function get_channels() {
