@@ -1,4 +1,11 @@
-!*.js
-node_modules
+!*.js node_modules
 build
 coverage
+src/trash
+yarn.lock
+.eslintrc.yml
+README.md
+config.json
+dump
+scripts
+package.json

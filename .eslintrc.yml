@@ -1,8 +1,16 @@
 env:
-  browser: true
-  es2021: true
+    browser: true
+    es6: true
+    node: true,
 extends: eslint:recommended
 parserOptions:
-  ecmaVersion: latest
-  sourceType: module
-rules: {}
+    ecmaVersion: latest
+    sourceType: module
+rules: { no-unused-vars: off }
+globals:
+    bot: readonly
+    Logger: readonly
+    regex: readonly
+    client: readonly
+    args: readonly
+    userdata: readonly
