@@ -9,6 +9,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint --ext js '**/*' ",
     "lint:fix": "eslint --ext js '**/*' --fix",
+    "prettier": "prettier --check './**/*.{js,ts}'",
+    "prettier:fix": "prettier --write './**/*.{js,ts}'",
     "joiner": "node joiner/main.js"
   },
   "repository": "git+https://github.com/kattah7/DontAddThisBot.git",
