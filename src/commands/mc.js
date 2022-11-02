@@ -7,10 +7,11 @@ module.exports = {
     description: "Gets user's minecraft account age and first name",
     execute: async (message, args, client) => {
         const targetUser = args[0] ?? message.senderUsername;
-        let { body: userData, statusCode } = await got(
-            `https://api.mojang.com/users/profiles/minecraft/${targetUser}?at=0`,
-            { timeout: 10000, throwHttpErrors: false, responseType: 'json' }
-        );
+        let { body: userData } = await got(`https://api.mojang.com/users/profiles/minecraft/${targetUser}?at=0`, {
+            timeout: 10000,
+            throwHttpErrors: false,
+            responseType: 'json',
+        });
 
         const id = userData.id;
 

@@ -5,7 +5,6 @@ module.exports = {
     description: 'check if user has channelpoints.',
     cooldown: 3000,
     level: 3,
-    description: '',
     execute: async (message, args, client) => {
         const pogger = await ChannelPoints(args[0]);
         const channelPoints = pogger.data.community.channel.communityPointsSettings.customRewards;

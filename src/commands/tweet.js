@@ -8,12 +8,12 @@ module.exports = {
     description: 'Tweet anything :) Check out your tweet twitter.com/twitchsayschat ',
     execute: async (message, args, client) => {
         const targetUser = message.senderUsername;
-        let { body: userData, statusCode } = await got(`https://api.ivr.fi/twitch/resolve/${targetUser}`, {
+        let { body: userData } = await got(`https://api.ivr.fi/twitch/resolve/${targetUser}`, {
             timeout: 10000,
             throwHttpErrors: false,
             responseType: 'json',
         });
-        //console.log(userData)
+
         const name = userData.displayName;
         const tweet = async () => {
             try {

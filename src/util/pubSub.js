@@ -204,8 +204,7 @@ const handleWSMsg = async (msg = {}, channel) => {
         }
         if (lastUsage || channelData) {
             if (new Date().getTime() - new Date(lastUsage).getTime() < 1000 * 60 * 60 * 60 * 60 * 60) {
-                const ms = new Date(lastUsage).getTime() - new Date().getTime() + 1000 * 60 * 60 * 60 * 60 * 60;
-                client.say('dontaddthisbot', `nice try`);
+                await client.say('dontaddthisbot', `nice try`);
             }
         }
 

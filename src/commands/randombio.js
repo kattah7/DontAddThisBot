@@ -1,4 +1,3 @@
-const got = require('got');
 const { UserInfo } = require('../token/helix');
 const { ViewerList } = require('../token/gql');
 

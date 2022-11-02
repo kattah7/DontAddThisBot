@@ -2,7 +2,7 @@ const utils = require('../../util/utils.js');
 const discord = require('../../util/discord.js');
 const { color } = require('../../util/botcolor.json');
 const { ChangeColor, GetStreams } = require('../../token/helix');
-const { ForsenTV, Nymn } = require('../../token/pajbot.js');
+const { ForsenTV } = require('../../token/pajbot.js');
 const { GetEditorOfChannels } = require('../../token/stvGQL.js');
 const cooldown = new Map();
 var block = false;
@@ -209,8 +209,7 @@ exports.handler = async (commands, aliases, message, client) => {
 
             if (channelData.offlineOnly && !command.offline) {
                 const data = (await GetStreams(message.channelName, true))[0];
-                if (data == undefined) {
-                } else if (data.type == 'live') {
+                if (data.type == 'live') {
                     return;
                 }
             }
@@ -243,10 +242,6 @@ exports.handler = async (commands, aliases, message, client) => {
 
                 if (message.channelName == 'forsen') {
                     if (await ForsenTV(response.text)) {
-                        return client.say(message.channelName, 'Ban phrase found in message');
-                    }
-                } else if (message.channelName == 'nymn') {
-                    if (await Nymn(response.text)) {
                         return client.say(message.channelName, 'Ban phrase found in message');
                     }
                 }

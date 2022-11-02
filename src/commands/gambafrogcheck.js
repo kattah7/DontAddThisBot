@@ -48,7 +48,7 @@ module.exports = {
                     }
                 }
             } else if (data.cumulative.months > 0) {
-                var date1 = new Date();
+                const date1 = new Date();
                 const date2 = new Date(data.followedAt); // 2022/1/19
                 const diffTime = Math.abs(date2 - date1);
                 const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
@@ -68,7 +68,7 @@ module.exports = {
                         };
                     }
                 } else if (data.subscribed == true) {
-                    var date1 = new Date();
+                    const date1 = new Date();
                     const date2 = new Date(data.followedAt); // 2022/1/19
                     const diffTime = Math.abs(date2 - date1);
                     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
@@ -88,7 +88,7 @@ module.exports = {
                     }
                 }
             } else if (data.hidden == true) {
-                var date1 = new Date();
+                const date1 = new Date();
                 const date2 = new Date(data.followedAt); // 2022/1/19
                 const diffTime = Math.abs(date2 - date1);
                 const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));

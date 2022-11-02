@@ -19,7 +19,7 @@ module.exports = {
             7: 'Cooked',
         };
 
-        const { senderUserID, senderUsername } = message;
+        const { senderUsername } = message;
         const targetUser = await utils.ParseUser(args[0]?.toLowerCase() ?? senderUsername);
         const selfPoroData = await bot.DB.poroCount.findOne({ id: await utils.IDByLogin(targetUser) });
         if (!selfPoroData) {

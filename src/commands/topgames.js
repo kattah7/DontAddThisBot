@@ -6,21 +6,18 @@ module.exports = {
     cooldown: 3000,
     description: 'Live playercount of top games on steam',
     execute: async (message, args, client) => {
-        let { body: userData, statusCode } = await got(
+        let { body: userData } = await got(
             `https://api.steampowered.com/ISteamUserStats/GetNumberOfCurrentPlayers/v0001/?appid=1599340`,
             { timeout: 10000, throwHttpErrors: false, responseType: 'json' }
         );
-        //console.log(userData)
-        let { body: userData2, statusCode2 } = await got(
+        let { body: userData2 } = await got(
             `https://api.steampowered.com/ISteamUserStats/GetNumberOfCurrentPlayers/v0001/?appid=730`,
             { timeout: 10000, throwHttpErrors: false, responseType: 'json' }
         );
-        //console.log(userData2)
-        let { body: userData3, statusCode3 } = await got(
+        let { body: userData3 } = await got(
             `https://api.steampowered.com/ISteamUserStats/GetNumberOfCurrentPlayers/v0001/?appid=570`,
             { timeout: 10000, throwHttpErrors: false, responseType: 'json' }
         );
-        //console.log(userData3)
 
         const data1 = userData.response.player_count;
         const data2 = userData2.response.player_count;

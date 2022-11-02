@@ -8,7 +8,7 @@ module.exports = {
     description: 'Suggestion to the bot',
     execute: async (message, args, client) => {
         if (args.length < 1) return { text: 'Usage: |suggest <suggestion>' };
-        let { body: userData, statusCode } = await got(`https://api.ivr.fi/twitch/resolve/${message.senderUsername}`, {
+        let { body: userData } = await got(`https://api.ivr.fi/twitch/resolve/${message.senderUsername}`, {
             timeout: 10000,
             throwHttpErrors: false,
             responseType: 'json',

@@ -5,17 +5,17 @@ module.exports = {
     cooldown: 3000,
     level: 3,
     execute: async (message, args, client) => {
-        let { body: userData, statusCode } = await got(`https://api.twitchinsights.net/v1/bots/online`, {
+        let { body: userData } = await got(`https://api.twitchinsights.net/v1/bots/online`, {
             timeout: 30000,
             throwHttpErrors: true,
             responseType: 'json',
         });
-        let { body: userData2, statusCode2 } = await got(`https://api.twitchinsights.net/v1/game/all`, {
+        let { body: userData2 } = await got(`https://api.twitchinsights.net/v1/game/all`, {
             timeout: 10000,
             throwHttpErrors: false,
             responseType: 'json',
         });
-        //console.log(userData, userData2);
+
         if (!args[0]) {
             userData.bots[0].pop();
             userData.bots[1].pop();
@@ -35,9 +35,6 @@ module.exports = {
             for (const userDatas of userData.bots) {
                 if (
                     userDatas.includes('aliengathering') ||
-                    userDatas.includes('0turt') ||
-                    userDatas.includes('0liavanna') ||
-                    userDatas.includes('0maisie') ||
                     userDatas.includes('apumusic') ||
                     userDatas.includes('0ax2') ||
                     userDatas.includes('dankingaround') ||
@@ -72,14 +69,11 @@ module.exports = {
         }
         const { chatters } = await got(`https://tmi.twitch.tv/group/user/${args[0].toLowerCase()}/chatters`).json();
         const BRUH = chatters.viewers.length;
-        //console.log(BRUH);
         let xd = 0;
-        let xd2 = 0;
 
         for (const data of userData2.games) {
             try {
                 xd += data.streamers;
-                xd2 += data.viewers;
             } catch (err) {
                 console.error(`error`, err);
             }
@@ -88,7 +82,6 @@ module.exports = {
             if (userDatas.includes(args[0])) {
                 const rank = parseInt(userData.bots.findIndex((e) => e[0] === args[0].toLowerCase())) + 1 ?? 0;
                 userDatas.pop();
-                //console.log(userDatas.length);
                 return {
                     text: `#${rank}, @${userDatas.join(', ')}/${xd} Channels, Currently ${BRUH} users in viewerlist.`,
                 };

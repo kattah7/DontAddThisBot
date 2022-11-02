@@ -13,7 +13,7 @@ module.exports = {
         const data = await fetch(`https://api.ivr.fi/v2/twitch/subage/${targetUser}/xqc`, {
             method: 'GET',
         }).then((res) => res.json());
-        const { statusHidden, followedAt, streak, cumulative, meta, error } = data;
+        const { statusHidden, followedAt, cumulative, meta, error } = data;
         if (error) {
             return {
                 text: `⁉ ${error?.message}` ?? 'Something went wrong',

@@ -12,7 +12,6 @@ module.exports = {
             throwHttpErrors: false,
             responseType: 'json',
         });
-        //console.log(userData)
         const color = userData.chatColor;
         if (color == null) {
             return {
@@ -20,7 +19,6 @@ module.exports = {
             };
         }
         const colorName = await got(`https://www.thecolorapi.com/id?hex=${color.replace('#', '')}`).json();
-        //console.log(colorName)
         return {
             text: `${message.senderUsername}, ${color} (${colorName.name.value}) KappaPride`,
         };
