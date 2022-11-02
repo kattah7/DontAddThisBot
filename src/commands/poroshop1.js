@@ -7,7 +7,7 @@ module.exports = {
     poro: true,
     execute: async (message, args, client) => {
         return {
-            text: `${message.senderUsername}, kattahDance setcolor (50 🥩) | cdr (5 🥩) | change display name (50 🥩) | deactivate bot :tf: (1mill 🥩)`,
+            text: `${message.senderUsername}, kattahDance |setcolor (50 🥩); |cdr (5 🥩); |rankup; deactivate bot :tf: (1mill 🥩)`,
         };
     },
 };
