@@ -56,5 +56,10 @@
     "eslint-plugin-optimize-regex": "^1.2.1",
     "husky": "^8.0.1",
     "prettier": "^2.7.1"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "yarn lint && yarn prettier"
+    }
   }
 }
