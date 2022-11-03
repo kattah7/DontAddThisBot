@@ -1,16 +1,19 @@
 {
   "name": "dontaddthisbot",
   "version": "1.0.0",
-  "description": "\"# DontAddThisBot\"",
-  "main": "main.js",
   "scripts": {
-    "start": "sudo /etc/init.d/mongodb start && node src/main.js",
+    "start": "node src/main.js",
     "dev": "nodemon src/main.js",
     "lint": "eslint --ext js '**/*' ",
     "lint:fix": "eslint --ext js '**/*' --fix",
     "prettier": "prettier --check './**/*.{js,ts}'",
     "prettier:fix": "prettier --write './**/*.{js,ts}'",
     "prepare": "husky install"
+  },
+  "lint-staged": {
+    "*.{js,ts}": [
+      "prettier --write"
+    ]
   },
   "repository": "git+https://github.com/kattah7/DontAddThisBot.git",
   "keywords": [],
@@ -21,15 +24,9 @@
   },
   "homepage": "https://github.com/kattah7/DontAddThisBot#readme",
   "dependencies": {
-    "7tv": "^0.0.4",
     "@kararty/dank-twitch-irc": "^4.6.0",
-    "@typescript-eslint/eslint-plugin": "^5.32.0",
-    "axios": "^0.27.2",
     "cors": "^2.8.5",
     "dotenv": "^16.0.0",
-    "eslint-config-prettier": "^8.5.0",
-    "eslint-plugin-import": "^2.26.0",
-    "eventsource": "^2.0.2",
     "express": "^4.18.1",
     "fetch": "^1.1.0",
     "fs": "^0.0.1-security",
@@ -40,27 +37,22 @@
     "morgan": "^1.10.0",
     "node-cron": "^3.0.0",
     "node-fetch": "2",
-    "nodemon": "^2.0.19",
     "perf_hooks": "0.0.1",
     "pg": "^8.8.0",
-    "prettyjson": "^1.2.5",
     "prom-client": "14.0.1",
     "reconnecting-websocket": "^4.4.0",
-    "redis": "^4.1.0",
-    "tmi-emote-parse": "^2.0.0",
     "twitter-api-v2": "^1.12.0",
     "winston": "3.6.0"
   },
   "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.42.0",
     "eslint": "^8.21.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-optimize-regex": "^1.2.1",
     "husky": "^8.0.1",
     "lint-staged": "^13.0.3",
+    "nodemon": "^2.0.20",
     "prettier": "^2.7.1"
-  },
-  "lint-staged": {
-    "*.{js,ts}": [
-      "prettier --write"
-    ]
   }
 }
