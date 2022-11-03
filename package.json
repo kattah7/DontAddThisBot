@@ -55,11 +55,17 @@
     "eslint": "^8.21.0",
     "eslint-plugin-optimize-regex": "^1.2.1",
     "husky": "^8.0.1",
+    "lint-staged": "^13.0.3",
     "prettier": "^2.7.1"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "yarn lint && yarn prettier"
+      "pre-commit": "lint-staged"
     }
+  },
+  "lint-staged": {
+    "*.{js,ts}": [
+      "prettier --write"
+    ]
   }
 }
