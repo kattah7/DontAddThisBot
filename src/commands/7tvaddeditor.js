@@ -3,7 +3,7 @@ const utils = require('../util/utils.js');
 module.exports = {
     tags: '7tv',
     name: '7tveditor',
-    description: 'Usage: |editor add/remove <username>',
+    description: 'Usage: |editor add/remove <username>a',
     aliases: ['editor'],
     cooldown: 3000,
     permission: 2,
