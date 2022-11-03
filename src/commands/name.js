@@ -1,4 +1,4 @@
-const axios = require('axios');
+const fetch = require('node-fetch');
 const utils = require('../util/utils.js');
 
 module.exports = {
@@ -13,18 +13,13 @@ module.exports = {
                 text: `${targetUser} is not a valid user`,
             };
         }
-        const name = await axios
-            .get(`https://api.fuchsty.com/twitch/checkname?username=${targetUser}`)
-            .then((res) => res.data[0]);
+        const data = await fetch(`https://api.fuchsty.com/twitch/checkname?username=${targetUser}`, {
+            method: 'GET',
+        }).then((res) => res.json());
+        const { username, invalid, available } = data[0];
 
-        if (name.available) {
-            return {
-                text: `${targetUser} is available! PogBones`,
-            };
-        } else {
-            return {
-                text: `${targetUser} is not available! ⛔`,
-            };
-        }
+        return {
+            text: `"${username}" is ${invalid ? 'invalid' : available ? 'available PogBones' : 'taken FeelsBadMan'}`,
+        };
     },
 };
