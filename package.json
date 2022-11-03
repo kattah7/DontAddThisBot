@@ -6,12 +6,11 @@
   "scripts": {
     "start": "sudo /etc/init.d/mongodb start && node src/main.js",
     "dev": "nodemon src/main.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint --ext js '**/*' ",
     "lint:fix": "eslint --ext js '**/*' --fix",
     "prettier": "prettier --check './**/*.{js,ts}'",
     "prettier:fix": "prettier --write './**/*.{js,ts}'",
-    "joiner": "node joiner/main.js"
+    "prepare": "husky install"
   },
   "repository": "git+https://github.com/kattah7/DontAddThisBot.git",
   "keywords": [],
@@ -55,6 +54,7 @@
   "devDependencies": {
     "eslint": "^8.21.0",
     "eslint-plugin-optimize-regex": "^1.2.1",
+    "husky": "^8.0.1",
     "prettier": "^2.7.1"
   }
 }
