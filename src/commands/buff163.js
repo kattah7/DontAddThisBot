@@ -61,7 +61,7 @@ module.exports = {
 
         if (!items.length) {
             return {
-                text: `No items foundm, to get skin ids; more info at buff.163.com`,
+                text: `No items found, to get skin ids; more info at buff.163.com`,
             };
         }
 
