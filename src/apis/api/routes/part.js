@@ -22,6 +22,7 @@ router.post(`/api/bot/part`, async (req, res) => {
             message: 'Forbidden',
         });
     }
+
     const user = await bot.DB.channels.findOne({ id: id }).exec();
     const poro = await bot.DB.poroCount.findOne({ id: id }).exec();
     if (user) {
@@ -65,7 +66,9 @@ router.post(`/api/bot/part`, async (req, res) => {
         try {
             await client.say(username, `Parting ${username} 👋`);
             await bot.DB.channels.findOneAndUpdate({ id: id }, { $set: { isChannel: false } }).exec();
-            await bot.DB.poroCount.updateOne({ id: id }, { $set: { poroCount: poro.poroCount - 100 } }).exec();
+            if (poro) {
+                await bot.DB.poroCount.updateOne({ id: id }, { $set: { poroCount: poro.poroCount - 100 } }).exec();
+            }
         } catch (err) {
             return res.status(500).json({
                 success: false,
