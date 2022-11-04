@@ -59,6 +59,12 @@ module.exports = {
 
         const { items, goods_infos } = await getItem(args[0]);
 
+        if (!items.length) {
+            return {
+                text: `No items foundm, to get skin ids; more info at buff.163.com`,
+            };
+        }
+
         if (args[1] > items[0].price) {
             return {
                 text: `You can only currently remind yourself with the price is lower than ${items[0].price} RMB`,

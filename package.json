@@ -1,6 +1,6 @@
 {
   "name": "dontaddthisbot",
-  "version": "1.0.0",
+  "type": "commonjs",
   "scripts": {
     "start": "node src/main.js",
     "dev": "nodemon src/main.js",
