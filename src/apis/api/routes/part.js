@@ -66,7 +66,7 @@ router.post(`/api/bot/part`, async (req, res) => {
         try {
             await client.say(username, `Parting ${username} 👋`);
             await bot.DB.channels.findOneAndUpdate({ id: id }, { $set: { isChannel: false } }).exec();
-            if (poro) {
+            if (user) {
                 await bot.DB.poroCount.updateOne({ id: id }, { $set: { poroCount: poro.poroCount - 100 } }).exec();
             }
         } catch (err) {
