@@ -43,7 +43,7 @@ exports.SearchSTVEmote = async (emote, Boolean) => {
                 case_sensitive: true,
                 category: `TOP`,
                 exact_match: Boolean,
-                ignore_tags: true,
+                ignore_tags: false,
             },
         },
         operationName: 'SearchEmotes',
