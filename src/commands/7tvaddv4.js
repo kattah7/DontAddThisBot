@@ -4,7 +4,7 @@ const { AddSTVEmote, SearchSTVEmote } = require('../token/stvGQL');
 module.exports = {
     tags: '7tv',
     name: 'add',
-    description: 'add 7tv emotes, |add (emote)',
+    description: 'add 7tv emotes, |add (emote), or |add (emote) (tag)',
     cooldown: 5000,
     stv: true,
     stvOnly: true,
