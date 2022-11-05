@@ -53,7 +53,7 @@ module.exports = {
             const findThatEmote = xda.find((x) => x[1] === args[0]);
             if (!findThatEmote) {
                 return {
-                    text: `⛔ No emote found for tags "${args[0]}"`,
+                    text: `⛔ No emote found for tags "${args[1]}"`,
                 };
             }
             findEmote = findThatEmote;
