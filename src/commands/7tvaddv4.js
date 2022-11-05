@@ -61,7 +61,9 @@ module.exports = {
 
         if (SearchEmote.errors) {
             return {
-                text: `⛔ ${SearchEmote.errors[0]?.extensions?.message}`,
+                text: `⛔ ${SearchEmote.errors[0]?.extensions?.message}; Use the tags feature for accurate results, ${
+                    channelInfo.prefix ?? `|`
+                }add (emote) (tags)`,
             };
         } else {
             const { id, name } = SearchEmote.data.emotes?.items[0];
