@@ -41,7 +41,7 @@ module.exports = {
         }
 
         const isHashTag = /#/.test(args);
-        const SearchEmote = await SearchSTVEmote(isHashTag ? args[1] : args[0], false);
+        const SearchEmote = await SearchSTVEmote(isHashTag ? args[1] : args[0], isHashTag ? false : true);
         let findEmote;
         if (isHashTag) {
             if (/#/.test(args[0])) {
