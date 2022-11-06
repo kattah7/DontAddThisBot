@@ -79,17 +79,11 @@ module.exports = {
                                 { multi: true }
                             )
                             .exec();
-                        await client.say(
-                            channelName,
-                            `${senderUsername}, You have ${Amount - sendAmount} now and ${args[0]} has ${
-                                Amount2 + sendAmount
-                            }`
-                        );
                         await PoroGive(
                             senderUsername,
                             senderUserID,
                             channelName,
-                            args[0],
+                            parseUser,
                             recieverID,
                             sendAmount,
                             Amount,
@@ -104,6 +98,12 @@ module.exports = {
                                 )
                                 .exec();
                         }
+                        await client.say(
+                            channelName,
+                            `${senderUsername}, You have ${Amount - sendAmount} now and ${args[0]} has ${
+                                Amount2 + sendAmount
+                            }`
+                        );
                     } else {
                         await client.say(
                             channelName,
