@@ -11,7 +11,7 @@ module.exports = {
     execute: async (message, args, client, userdata, params) => {
         const { channelName } = message;
         const user = await ParseUser(args[0] ?? channelName);
-        const emoteStats = await fetch(`https://api.kattah.me/c/${user}`, {
+        const emoteStats = await fetch(`https://api.kattah.me/c/${user.toLowerCase()}`, {
             method: 'GET',
         }).then((res) => res.json());
         const { success, data } = emoteStats;
