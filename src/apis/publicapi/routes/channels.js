@@ -7,24 +7,52 @@ router.get('/api/bot/channels', async (req, res) => {
         let currentIndex = array.length,
             randomIndex;
 
-        // While there remain elements to shuffle.
         while (currentIndex != 0) {
-            // Pick a remaining element.
             randomIndex = Math.floor(Math.random() * currentIndex);
             currentIndex--;
-
-            // And swap it with the current element.
             [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
         }
 
         return array;
     }
 
+    async function returnChannels(totalChannels) {
+        const isTotal = totalChannels ? { isChannel: true } : {};
+        const channels = await bot.DB.channels.find(isTotal).exec();
+        return channels;
+    }
+
+    async function returnChannelCount() {
+        const channels = await bot.DB.channels.count({ isChannel: true }).exec();
+        return channels;
+    }
+
+    async function returnUsersCount() {
+        const users = await bot.DB.users.count({}).exec();
+        return users;
+    }
+
+    async function returnExecutedCommands() {
+        let commands = 0;
+        const channels = await returnChannels(false);
+        for (const { commandsUsed } of channels) {
+            if (commandsUsed.length == 0) continue;
+            commandsUsed.forEach((command) => {
+                commands += command.Usage;
+            });
+        }
+
+        return commands;
+    }
+
+    const channels = await returnChannels(true);
+    const channelCount = await returnChannelCount();
+    const userCount = await returnUsersCount();
+    const commandsCount = await returnExecutedCommands();
+
     let channels2 = [];
-    const channels = await bot.DB.channels.find({ isChannel: true }).exec();
     const mapped = channels.map((x) => x.username);
     const getEmebed = async () => {
-        const channels = await bot.DB.channels.find({ isChannel: true }).exec();
         shuffle(channels);
         const mapped = channels.map((x) => x.username);
         const randomSliced = mapped.splice(Math.floor(Math.random() * mapped.length), 100);
@@ -37,9 +65,12 @@ router.get('/api/bot/channels', async (req, res) => {
                 },
             }
         ).then((res) => res.json());
+
         const streamers = streams.data.map((stream) => stream.user_name);
         const chooseOneStream = streamers[Math.floor(Math.random() * streamers.length)] ?? null;
+
         channels2.push(chooseOneStream);
+
         return chooseOneStream != null ? chooseOneStream : getEmebed();
     };
     await getEmebed();
@@ -53,11 +84,13 @@ router.get('/api/bot/channels', async (req, res) => {
     }
 
     return res.status(200).json({
-        channelCount: channels.length,
+        channelCount: channelCount,
         channels: mapped,
         totalPoros: sum,
         todaysCode: todaysCode.todaysCode,
         embedStream: channels2.find((x) => x != null),
+        executedCommands: commandsCount,
+        seenUsers: userCount,
     });
 });
 
