@@ -1,18 +1,30 @@
 const express = require('express');
 const router = express.Router();
 
+async function getLeaderboard() {
+    const poroData = await bot.DB.poroCount.find({}).exec();
+    const topUsers = poroData
+        .filter((a) => a.poroPrestige > 0)
+        .sort((a, b) => b.poroPrestige - a.poroPrestige || b.poroRank - a.poroRank || b.poroCount - a.poroCount)
+        .slice(0, 10);
+
+    return topUsers;
+}
+
+async function getLoserboard() {
+    const poroData = await bot.DB.poroCount.find({}).exec();
+    const count = await bot.DB.poroCount.count({}).exec();
+    const sorted = poroData.sort((a, b) => b.poroPrestige - a.poroPrestige || b.poroCount - a.poroCount);
+    const losers = sorted.slice(count - 10, count);
+    return losers;
+}
+
 let leaderboards = [];
 let loserboards = [];
 
 setInterval(async () => {
-    const poroData = await bot.DB.poroCount.find({}).exec();
-    const count = await bot.DB.poroCount.count({}).exec();
-    const topUsers = poroData
-        .filter((a) => a.poroPrestige > 0)
-        .sort((a, b) => b.poroPrestige - a.poroPrestige || b.poroRank - a.poroRank || b.poroCount - a.poroCount);
-
-    leaderboards = topUsers.slice(0, 10);
-    loserboards = topUsers.slice(count - 10, count);
+    leaderboards = await getLeaderboard();
+    loserboards = await getLoserboard();
 }, 1000 * 30);
 
 router.get('/api/bot/leaderboard', async (req, res) => {
