@@ -5,7 +5,7 @@ const utils = require('../../../util/utils');
 
 router.post(`/api/bot/part`, async (req, res) => {
     const { username } = req.query;
-    if (!username || !/^[A-Z_\d]{4,25}$/i.test(username)) {
+    if (!username || !/^[A-Z_\d]{2,30}$/i.test(username)) {
         return res.status(400).json({
             success: false,
             message: 'malformed username parameter',

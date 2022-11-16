@@ -8,7 +8,7 @@ join() {
     echo "$1: $r"
 }
 
-for i in {0..100}; do
+for i in {0..10000}; do
     { join $i & } 3>&2 2>/dev/null
 done
 wait

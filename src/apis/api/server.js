@@ -9,12 +9,13 @@ const admin = require('./routes/checkadmin');
 const offline = require('./routes/offlineOnly');
 const poroOnly = require('./routes/poroOnly');
 const stvOnly = require('./routes/stvOnly');
+const createUser = require('./routes/createUser');
 
 const app = express();
 
 app.use(morgan('dev'));
 app.use(cors());
-for (const api of [part, join, ban, unban, admin, offline, poroOnly, stvOnly]) {
+for (const api of [part, join, ban, unban, admin, offline, poroOnly, stvOnly, createUser]) {
     app.use(api);
 }
 
