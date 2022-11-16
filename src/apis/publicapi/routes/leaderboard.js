@@ -4,7 +4,6 @@ const router = express.Router();
 async function getLeaderboard() {
     const poroData = await bot.DB.poroCount.find({}).exec();
     const topUsers = poroData
-        .filter((a) => a.poroPrestige > 0)
         .sort((a, b) => b.poroPrestige - a.poroPrestige || b.poroRank - a.poroRank || b.poroCount - a.poroCount)
         .slice(0, 10);
 
