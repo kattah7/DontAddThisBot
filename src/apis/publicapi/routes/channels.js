@@ -61,7 +61,6 @@ let commandsCount = 0;
 let poroCount = 0;
 
 setInterval(async () => {
-    console.log('cached');
     returnChannels(true).then((x) => {
         channels = x;
     });
@@ -77,7 +76,7 @@ setInterval(async () => {
     returnPoroCount().then((x) => {
         poroCount = x;
     });
-}, 1000 * 5);
+}, 1000 * 30);
 
 router.get('/api/bot/channels', async (req, res) => {
     let channels2 = [];
