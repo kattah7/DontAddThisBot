@@ -20,22 +20,26 @@ async function getLoserboard() {
 
 let leaderboards = [];
 let loserboards = [];
+let totalUsers = 0;
 
 setInterval(async () => {
     leaderboards = await getLeaderboard();
     loserboards = await getLoserboard();
+    totalUsers = await bot.DB.poroCount.count({}).exec();
 }, 1000 * 30);
 
 router.get('/api/bot/leaderboard', async (req, res) => {
     const keys = Object.keys(req.query)[0];
 
     if (!keys) {
-        const leaderboard = leaderboards.map((a) => {
+        const leaderboard = leaderboards.map((a, index) => {
             return {
                 username: a.username,
                 poroCount: a.poroCount,
                 poroPrestige: a.poroPrestige,
                 poroRank: a.poroRank,
+                joinedAt: a.joinedAt,
+                userRank: index + 1,
             };
         });
 
@@ -56,12 +60,14 @@ router.get('/api/bot/leaderboard', async (req, res) => {
 
     if (type === 'lowest') {
         const loser = loserboards
-            .map((a) => {
+            .map((a, index) => {
                 return {
                     username: a.username,
                     poroCount: a.poroCount,
                     poroPrestige: a.poroPrestige,
                     poroRank: a.poroRank,
+                    joinedAt: a.joinedAt,
+                    userRank: totalUsers - [...loserboards].reverse().indexOf(a),
                 };
             })
             .reverse();
