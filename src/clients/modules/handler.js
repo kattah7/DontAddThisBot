@@ -252,12 +252,9 @@ exports.handler = async (commands, aliases, message, client) => {
                     const targetUser = await bot.DB.users.findOne({ id: message.senderUserID });
                     const commandUsed = targetUser.commandsUsed.find((x) => x.command == command.name);
                     if (commandUsed) {
+                        console.log('used');
                         await bot.DB.users.updateOne(
                             { 'id': message.senderUserID, 'commandsUsed.command': command.name },
-                            { $inc: { 'commandsUsed.$.Usage': 1 }, $set: { 'commandsUsed.$.lastUsage': Date.now() } }
-                        );
-                        await bot.DB.channels.updateOne(
-                            { 'id': message.channelID, 'commandsUsed.command': command.name },
                             { $inc: { 'commandsUsed.$.Usage': 1 }, $set: { 'commandsUsed.$.lastUsage': Date.now() } }
                         );
                     } else {
@@ -269,6 +266,18 @@ exports.handler = async (commands, aliases, message, client) => {
                                 },
                             }
                         );
+                    }
+
+                    const targetChannel = await bot.DB.channels.findOne({ id: message.channelID });
+                    const commandUsedChannel = targetChannel.commandsUsed.find((x) => x.command == command.name);
+                    console.log(commandUsedChannel);
+
+                    if (commandUsedChannel) {
+                        await bot.DB.channels.updateOne(
+                            { 'id': message.channelID, 'commandsUsed.command': command.name },
+                            { $inc: { 'commandsUsed.$.Usage': 1 }, $set: { 'commandsUsed.$.lastUsage': Date.now() } }
+                        );
+                    } else {
                         await bot.DB.channels.updateOne(
                             { id: message.channelID },
                             {
