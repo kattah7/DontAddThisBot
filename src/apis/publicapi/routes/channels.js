@@ -47,6 +47,7 @@ let commandsCount = new Number(0);
 let poroCount = new Number(0);
 
 setInterval(async () => {
+    console.log('cache users');
     returnChannels(true).then((x) => {
         channels = x;
     });

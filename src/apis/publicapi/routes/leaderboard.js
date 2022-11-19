@@ -23,6 +23,7 @@ let loserboards = new Array();
 let totalUsers = new Number(0);
 
 setInterval(async () => {
+    console.log('cache leaderboard');
     leaderboards = await getLeaderboard();
     loserboards = await getLoserboard();
     totalUsers = await bot.DB.poroCount.count({}).exec();
