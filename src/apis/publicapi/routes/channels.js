@@ -62,9 +62,11 @@ setInterval(async () => {
     returnPoroCount().then((x) => {
         poroCount = x;
     });
-}, 1000 * 60 * 1);
+}, 1000 * 30);
 
 router.get('/api/bot/channels', async (req, res) => {
+    const mapped = channels.map((x) => x.username);
+
     const todaysCode = await bot.DB.private.findOne({ code: 'code' }).exec();
 
     return res.status(200).json({
