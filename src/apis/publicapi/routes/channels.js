@@ -62,7 +62,7 @@ setInterval(async () => {
     returnPoroCount().then((x) => {
         poroCount = x;
     });
-}, 1000 * 30);
+}, 1000 * 60 * 30);
 
 router.get('/api/bot/channels', async (req, res) => {
     const mapped = channels.map((x) => x.username);
