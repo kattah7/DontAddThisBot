@@ -40,11 +40,11 @@ async function returnPoroCount() {
     return sum;
 }
 
-let channels = [];
-let channelCount = 0;
-let userCount = 0;
-let commandsCount = 0;
-let poroCount = 0;
+let channels = new Array();
+let channelCount = new Number(0);
+let userCount = new Number(0);
+let commandsCount = new Number(0);
+let poroCount = new Number(0);
 
 setInterval(async () => {
     returnChannels(true).then((x) => {
@@ -62,7 +62,7 @@ setInterval(async () => {
     returnPoroCount().then((x) => {
         poroCount = x;
     });
-}, 1000 * 60 * 30);
+}, 1000 * 30);
 
 router.get('/api/bot/channels', async (req, res) => {
     const mapped = channels.map((x) => x.username);

@@ -18,15 +18,15 @@ async function getLoserboard() {
     return losers;
 }
 
-let leaderboards = [];
-let loserboards = [];
-let totalUsers = 0;
+let leaderboards = new Array();
+let loserboards = new Array();
+let totalUsers = new Number(0);
 
 setInterval(async () => {
     leaderboards = await getLeaderboard();
     loserboards = await getLoserboard();
     totalUsers = await bot.DB.poroCount.count({}).exec();
-}, 1000 * 60 * 30);
+}, 1000 * 30);
 
 router.get('/api/bot/leaderboard', async (req, res) => {
     const keys = Object.keys(req.query)[0];
