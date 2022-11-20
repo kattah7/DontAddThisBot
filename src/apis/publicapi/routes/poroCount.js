@@ -19,19 +19,13 @@ router.get('/api/bot/porocount/:user', async (req, res) => {
             message: 'user not found',
         });
     }
-    const poroData = await bot.DB.poroCount.find({}).exec();
-    const userRank =
-        poroData
-            .filter((a) => a.poroPrestige > -1)
-            .sort((a, b) => b.poroPrestige - a.poroPrestige || b.poroRank - a.poroRank || b.poroCount - a.poroCount)
-            .findIndex((user) => user.username == req.params.user) + 1;
     const poroLastUsage = await bot.Redis.get(`poro:${UID}`);
     const poroCdrLastUsage = await bot.Redis.get(`porocdr:${UID}`);
     const poroRedeemLastUsage = await bot.Redis.get(`pororedeem:${UID}`);
 
-    function obj(key) {
+    function obj(Boolean, key) {
         return {
-            isAvailable: false,
+            isAvailable: Boolean,
             lastUsage: key,
         };
     }
@@ -41,21 +35,21 @@ router.get('/api/bot/porocount/:user', async (req, res) => {
     }
 
     const cooldownsMapped = {
-        poro: IHateMath(poroLastUsage, 2) ? true : obj(poroLastUsage),
-        poroCdr: IHateMath(poroCdrLastUsage, 3) ? true : obj(poroCdrLastUsage),
-        poroRedeem: IHateMath(poroRedeemLastUsage, 24) ? true : obj(poroRedeemLastUsage),
+        poro: IHateMath(poroLastUsage, 2) ? obj(true, poroLastUsage) : obj(false, poroLastUsage),
+        poroCdr: IHateMath(poroCdrLastUsage, 3) ? obj(true, poroLastUsage) : obj(false, poroCdrLastUsage),
+        poroRedeem: IHateMath(poroRedeemLastUsage, 24) ? obj(true, poroLastUsage) : obj(false, poroRedeemLastUsage),
     };
+
+    const { username, id, poroCount: Count, poroPrestige, poroRank, joinedAt } = poroCount;
 
     return res.status(200).json({
         success: true,
-        username: poroCount.username,
-        id: poroCount.id,
-        poroCount: poroCount.poroCount,
-        poroPrestige: poroCount.poroPrestige,
-        poroRank: poroCount.poroRank,
-        joinedAt: poroCount.joinedAt,
-        userRank: userRank,
-        totalRank: poroData.length,
+        username: username,
+        id: id,
+        poroCount: Count,
+        poroPrestige: poroPrestige,
+        poroRank: poroRank,
+        joinedAt: joinedAt,
         cooldowns: cooldownsMapped,
     });
 });
