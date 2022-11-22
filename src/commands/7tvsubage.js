@@ -6,7 +6,7 @@ const { egVault } = require('../token/stvEGVAULT');
 module.exports = {
     tags: '7tv',
     name: '7tvsa',
-    cooldown: 1000,
+    cooldown: 5000,
     description: "Check user's 7tv subage YEAHBUT7TV",
     stvOnly: true,
     execute: async (message, args, client) => {

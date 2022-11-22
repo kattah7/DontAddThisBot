@@ -5,7 +5,7 @@ const { GetAllEmoteSets } = require('../token/stvGQL.js');
 module.exports = {
     tags: '7tv',
     name: '7tv',
-    cooldown: 1000,
+    cooldown: 5000,
     description: "Check user's 7tv info YEAHBUT7TV",
     stvOnly: true,
     execute: async (message, args, client) => {
