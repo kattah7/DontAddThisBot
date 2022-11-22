@@ -1,7 +1,7 @@
 module.exports = {
     tags: 'stats',
     name: 'hex',
-    aliases: ['rgb'],
+    aliases: ['hextorgb'],
     description: 'convert hex to rgb, |hextorgb (hex)',
     cooldown: 5000,
     execute: async (message, args, client, userdata, params) => {
