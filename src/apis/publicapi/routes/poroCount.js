@@ -4,7 +4,7 @@ const utils = require('../../../util/utils');
 
 router.get('/api/bot/porocount/:user', async (req, res) => {
     const { user } = req.params;
-    if (!user || !/^[A-Z_\d]{3,25}$/i.test(user)) {
+    if (!user || !/^[A-Z_\d]{2,30}$/i.test(user)) {
         return res.status(400).json({
             success: false,
             message: 'malformed username parameter',
@@ -14,7 +14,7 @@ router.get('/api/bot/porocount/:user', async (req, res) => {
     const UID = await utils.IDByLogin(user);
     const poroCount = await bot.DB.poroCount.findOne({ id: UID }).exec();
     if (!poroCount) {
-        return res.status(400).json({
+        return res.status(404).json({
             success: false,
             message: 'user not found',
         });
