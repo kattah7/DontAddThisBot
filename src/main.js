@@ -11,8 +11,7 @@ bot.Utils = require('./util');
 Logger = require('./util/logger.js');
 regex = require('./util/regex.js');
 
-require('./apis/api/server');
-require('./apis/publicapi/server.js');
+require('./api/server');
 
 client.on('ready', async () => {
     Logger.info('Connected to chat!');

@@ -1,4 +1,5 @@
 const got = require('got');
+const fetch = require('node-fetch');
 
 const helix = got.extend({
     prefixUrl: 'https://api.twitch.tv/helix/',
@@ -54,5 +55,17 @@ exports.GetStreams = async (channel, Boolean) => {
 
 exports.GetTopGames = async (amount) => {
     const { data } = await helix.get(`games/top?first=${amount}`).json();
+    return data;
+};
+
+exports.getTwitchProfile = async (accessToken, clientID, userID) => {
+    const { data } = await fetch(`https://api.twitch.tv/helix/users${userID ? `?id=${userID}` : ''}`, {
+        method: 'GET',
+        headers: {
+            'Client-ID': clientID,
+            'Accept': 'application/vnd.twitchtv.v5+json',
+            'Authorization': 'Bearer ' + accessToken,
+        },
+    }).then((res) => res.json());
     return data;
 };
