@@ -36,28 +36,6 @@ exports.handler = async (commands, aliases, message, client) => {
         }
     }
 
-    if (userdata.username !== message.senderUsername) {
-        await bot.DB.users
-            .updateOne({ id: message.senderUserID }, { $set: { username: message.senderUsername } })
-            .exec();
-        await bot.DB.users
-            .updateOne(
-                { id: message.senderUserID },
-                { $addToSet: { nameChanges: [{ username: message.senderUsername, changedAt: new Date() }] } }
-            )
-            .exec(); // Logging since 2022 August 5th 2:19AM UTC
-        await bot.DB.poroCount
-            .updateOne({ id: message.senderUserID }, { $set: { username: message.senderUsername } })
-            .exec();
-        await bot.DB.channels
-            .updateOne({ id: message.senderUserID }, { $set: { username: message.senderUsername } })
-            .exec();
-    }
-
-    if (userdata.level < 1) {
-        return;
-    }
-
     const channelData = await getChannel(message.channelID);
     const prefix = channelData.prefix ?? '|';
     if (!message.messageText.startsWith(prefix)) return;
@@ -78,6 +56,39 @@ exports.handler = async (commands, aliases, message, client) => {
 
     try {
         if (command) {
+            const userdata =
+                (await getUser(message.senderUserID)) ||
+                new bot.DB.users({
+                    id: message.senderUserID,
+                    username: message.senderUsername,
+                    firstSeen: new Date(),
+                    level: 1,
+                });
+
+            await userdata.save();
+
+            if (userdata.username !== message.senderUsername) {
+                await bot.DB.users
+                    .updateOne({ id: message.senderUserID }, { $set: { username: message.senderUsername } })
+                    .exec();
+                await bot.DB.users
+                    .updateOne(
+                        { id: message.senderUserID },
+                        {
+                            $addToSet: {
+                                nameChanges: [{ username: message.senderUsername, changedAt: new Date() }],
+                            },
+                        }
+                    )
+                    .exec(); // Logging since 2022 August 5th 2:19AM UTC
+                await bot.DB.poroCount
+                    .updateOne({ id: message.senderUserID }, { $set: { username: message.senderUsername } })
+                    .exec();
+                await bot.DB.channels
+                    .updateOne({ id: message.senderUserID }, { $set: { username: message.senderUsername } })
+                    .exec();
+            }
+
             if (command.cooldown) {
                 const poroData = await bot.DB.poroCount.find({}).exec();
                 const sorted = poroData.sort((a, b) => b.poroPrestige - a.poroPrestige || b.poroCount - a.poroCount);
@@ -114,7 +125,6 @@ exports.handler = async (commands, aliases, message, client) => {
                     }, command.cooldown);
                 }
             }
-
             if (command.permission) {
                 if (command.permission == 1 && !message.isMod && message.channelName !== message.senderUsername) {
                     return client.say(message.channelName, 'This command is moderator only.');
@@ -207,16 +217,10 @@ exports.handler = async (commands, aliases, message, client) => {
             const response = await command.execute(message, args, client, userdata, params, channelData);
 
             if (response) {
-                const userdata =
-                    (await getUser(message.senderUserID)) ||
-                    new bot.DB.users({
-                        id: message.senderUserID,
-                        username: message.senderUsername,
-                        firstSeen: new Date(),
-                        level: 1,
-                    });
+                if (userdata.level < 1) {
+                    return;
+                }
 
-                await userdata.save();
                 if (response.error) {
                     setTimeout(() => {
                         cooldown.delete(`${command.name}${message.senderUserID}`);
