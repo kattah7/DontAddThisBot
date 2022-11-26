@@ -8,18 +8,6 @@ const cooldown = new Map();
 var block = false;
 
 exports.handler = async (commands, aliases, message, client) => {
-    const userdata =
-        (await getUser(message.senderUserID)) ||
-        new bot.DB.users({
-            id: message.senderUserID,
-            username: message.senderUsername,
-            firstSeen: new Date(),
-            prefix: '|',
-            level: 1,
-        });
-
-    await userdata.save();
-
     const lowerCase = message.messageText.toLowerCase();
     if (lowerCase.startsWith('@dontaddthisbot,') || lowerCase.startsWith('@dontaddthisbot')) {
         if (!block) {
@@ -126,6 +114,7 @@ exports.handler = async (commands, aliases, message, client) => {
                     }, command.cooldown);
                 }
             }
+
             if (command.permission) {
                 if (command.permission == 1 && !message.isMod && message.channelName !== message.senderUsername) {
                     return client.say(message.channelName, 'This command is moderator only.');
@@ -218,6 +207,16 @@ exports.handler = async (commands, aliases, message, client) => {
             const response = await command.execute(message, args, client, userdata, params, channelData);
 
             if (response) {
+                const userdata =
+                    (await getUser(message.senderUserID)) ||
+                    new bot.DB.users({
+                        id: message.senderUserID,
+                        username: message.senderUsername,
+                        firstSeen: new Date(),
+                        level: 1,
+                    });
+
+                await userdata.save();
                 if (response.error) {
                     setTimeout(() => {
                         cooldown.delete(`${command.name}${message.senderUserID}`);
