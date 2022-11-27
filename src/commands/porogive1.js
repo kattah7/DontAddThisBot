@@ -36,7 +36,7 @@ module.exports = {
         const channelData = await bot.DB.poroCount.findOne({ id: senderUserID }).exec(); // Gets channel data for senderID
         if (!channelData) {
             return {
-                text: `You aren't registered. PoroSad type |poro to get started kattahHappy`,
+                text: `You aren't registered. PoroSad type |poro to get started kattahDance`,
             };
         }
         var today = new Date();
@@ -46,7 +46,7 @@ module.exports = {
         const timeLeft = humanizeDuration(diffTime - 604800000);
         if (diffDays < 7) {
             return {
-                text: `${senderUsername}, You must be registered for ${timeLeft} to use this command. kattahDespair`,
+                text: `${senderUsername}, You must be registered for ${timeLeft} to use this command. kattahPoro`,
             };
         }
         const channelData2 = await bot.DB.poroCount.findOne({ id: recieverID }).exec(); // Gets channel data for poro reciever's ID
@@ -61,7 +61,7 @@ module.exports = {
         const timeLeft2 = humanizeDuration(diffTime2 - 604800000);
         if (diffDays2 < 7) {
             return {
-                text: `${senderUsername}, ${args[0]} must be registered for ${timeLeft2} to recieve kattahDespair`,
+                text: `${senderUsername}, ${args[0]} must be registered for ${timeLeft2} to recieve kattahPoro`,
             };
         }
         const findBlacklisted = await bot.DB.users.findOne({ id: recieverID }).exec(); // Gets bot data for poro reciever's ID
@@ -107,13 +107,13 @@ module.exports = {
                     } else {
                         await client.say(
                             channelName,
-                            `${senderUsername}, You must have more than 100 poros kattahDance`
+                            `${senderUsername}, You must have more than 100 poros kattahPoro`
                         );
                     }
                 } else {
                     await client.say(
                         channelName,
-                        `You dont have enough poro to give ${sendAmount} to ${args[0]} kattahDespair`
+                        `You dont have enough poro to give ${sendAmount} to ${args[0]} kattahPoro`
                     );
                 }
             } else {

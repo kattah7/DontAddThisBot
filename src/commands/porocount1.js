@@ -25,8 +25,8 @@ module.exports = {
         if (!selfPoroData) {
             const pronouns =
                 args.length > 0
-                    ? `kattahHappy @${targetUser} isnt registered!`
-                    : `kattahHappy you arent registered! ${senderUsername} type ${
+                    ? `PoroSad @${targetUser} isnt registered!`
+                    : `PoroSad you arent registered! ${senderUsername} type ${
                           channelData.prefix ?? `|`
                       }poro to get started.`;
             return {
@@ -40,10 +40,10 @@ module.exports = {
             args.length > 0
                 ? `${targetUser} => [P${poroPrestige}: ${
                       displayPoroRankByName[poroRank]
-                  }] ${poroCount} poro(s). kattahHappy Registered (${humanizeDuration(parsedTime)})`
+                  }] ${poroCount} poro(s). kattahDance Registered (${humanizeDuration(parsedTime)})`
                 : `${senderUsername} => [P${poroPrestige}: ${
                       displayPoroRankByName[poroRank]
-                  }] ${poroCount} poro(s). kattahHappy Registered (${humanizeDuration(parsedTime)})`;
+                  }] ${poroCount} poro(s). kattahDance Registered (${humanizeDuration(parsedTime)})`;
         return {
             text: successPronouns,
         };

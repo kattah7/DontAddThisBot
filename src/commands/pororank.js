@@ -29,7 +29,7 @@ module.exports = {
             return {
                 text: `${nanRank[0].username} is rank #${
                     totalSliced.findIndex((user) => user.username == nanRank[0].username) + 1
-                }/${sorted.length} in the poro leaderboard! kattahBoom`,
+                }/${sorted.length} in the poro leaderboard! kattahPoro`,
             };
         }
         if (totalSliced.findIndex((user) => user.username == targetUser) + 1 == 0) {
@@ -40,7 +40,7 @@ module.exports = {
         return {
             text: `${targetUser} is rank #${totalSliced.findIndex((user) => user.username == targetUser) + 1}/${
                 totalSliced.length
-            } in the poro leaderboard! kattahBoom`,
+            } in the poro leaderboard! kattahPoro`,
         };
     },
 };

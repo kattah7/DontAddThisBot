@@ -21,7 +21,7 @@ module.exports = {
         const { poroCount, poroPrestige, poroRank } = channelData;
         if (poroCount < 5000 && poroRank != 7) {
             return {
-                text: `Not enough poro meat! ${senderUsername} kattahHappy You need ${(
+                text: `Not enough poro meat! ${senderUsername} PoroSad You need ${(
                     5000 - poroCount
                 ).toLocaleString()} poro meat or [Cooked] rank :tf: | [P${poroPrestige}: ${
                     displayPoroRankByName[poroRank]

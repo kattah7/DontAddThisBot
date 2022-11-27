@@ -23,21 +23,21 @@ module.exports = {
 
         if (!args[0]) {
             return {
-                text: `Please insert a color! kattahBAT`,
+                text: `Please insert a color! kattahDance`,
             };
         }
 
         var reg = /^#[0-9A-F]{6}$/i;
         if (!reg.test(args[0])) {
             return {
-                text: `Please insert a valid color! kattahBAT`,
+                text: `Please insert a valid color! kattahDance`,
             };
         }
 
         const color = await utils.IVR(`790623318`);
         if (color.chatColor == args[0]) {
             return {
-                text: `That color is already being used! kattahBAT`,
+                text: `That color is already being used! kattahDance`,
             };
         }
 
@@ -46,7 +46,7 @@ module.exports = {
         const { poroCount, poroPrestige, poroRank } = channelData;
         if (channelData.poroCount < 50) {
             return {
-                text: `Not enough poro meat! ${senderUsername} kattahHappy You need 50 poro meat | [P${poroPrestige}: ${displayPoroRankByName[poroRank]}] ${poroCount} meat total! 🥩`,
+                text: `Not enough poro meat! ${senderUsername} PoroSad You need 50 poro meat | [P${poroPrestige}: ${displayPoroRankByName[poroRank]}] ${poroCount} meat total! 🥩`,
             };
         } else {
             await bot.DB.poroCount.updateOne({ id: senderUserID }, { $set: { poroCount: poroCount - 50 } }).exec();

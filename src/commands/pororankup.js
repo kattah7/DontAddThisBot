@@ -32,13 +32,13 @@ module.exports = {
 
         if (poroRank == 7) {
             return {
-                text: `You are already at the highest rank, type prestige! ${senderUsername} kattahHappy`,
+                text: `You are already at the highest rank, type prestige! ${senderUsername} kattahPoro`,
             };
         }
 
         if (poroCount < poros[poroRank + 1]) {
             return {
-                text: `Not enough poro meat! ${senderUsername} kattahHappy You need ${
+                text: `Not enough poro meat! ${senderUsername} kattahPoro You need ${
                     poros[poroRank + 1]
                 } poro meat | [P${poroPrestige}: ${displayPoroRankByName[poroRank]}] ${poroCount} meat total! 🥩`,
             };

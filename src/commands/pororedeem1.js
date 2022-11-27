@@ -28,7 +28,7 @@ module.exports = {
         const channelData = await bot.DB.poroCount.findOne({ id: senderUserID }).exec();
         if (!channelData) {
             return {
-                text: `kattahHappy you arent registered! ${senderUsername} type |poro to get started.`,
+                text: `PoroSad you arent registered! ${senderUsername} type |poro to get started.`,
             };
         }
         const { poroCount, poroPrestige, poroRank } = channelData;

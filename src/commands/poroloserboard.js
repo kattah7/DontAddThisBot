@@ -31,7 +31,7 @@ module.exports = {
             .join(' | ');
 
         return {
-            text: `kattahBAT Poro loserboard: ${top5String}`,
+            text: `kattahPoro Poro loserboard: ${top5String}`,
         };
     },
 };
