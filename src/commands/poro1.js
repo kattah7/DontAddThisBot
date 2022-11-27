@@ -74,7 +74,7 @@ module.exports = {
 
         if (random >= 5 && random <= 9) {
             return {
-                text: `Poro slaughtered! ${senderUsername} --> Tenderloin Poro kattahStare (+${random}) kattahPoro ${totalPorosWithRandom}`,
+                text: `Poro slaughtered! ${senderUsername} --> Tenderloin Poro PoroSad (+${random}) kattahPoro ${totalPorosWithRandom}`,
             };
         } else if (random >= 10 && random <= 15) {
             return {
