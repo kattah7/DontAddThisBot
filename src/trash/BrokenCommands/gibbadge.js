@@ -24,11 +24,11 @@ module.exports = {
             if (message.senderUsername == process.env.NUMBER_ONE) {
                 client.privmsg(
                     message.channelName,
-                    `.me ${args[0]} is a invalid badge. kattahBAT (Badges: glhf-pledge, no_audio, no_video, premium)`
+                    `.me ${args[0]} is a invalid badge. PoroSad (Badges: glhf-pledge, no_audio, no_video, premium)`
                 );
             } else {
                 return {
-                    text: `${args[0]} is a invalid badge. kattahBAT (Badges: glhf-pledge, no_audio, no_video, premium)`,
+                    text: `${args[0]} is a invalid badge. PoroSad (Badges: glhf-pledge, no_audio, no_video, premium)`,
                 };
             }
         } else {

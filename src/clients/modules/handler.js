@@ -200,7 +200,7 @@ exports.handler = async (commands, aliases, message, client) => {
                 if (!poroData) {
                     client.say(
                         message.channelName,
-                        `You arent registered @${message.senderUsername}, type ${prefix}poro to get started! kattahHappy`
+                        `You arent registered @${message.senderUsername}, type ${prefix}poro to get started! kattahPoro`
                     );
                     return;
                 }
