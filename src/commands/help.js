@@ -28,7 +28,7 @@ module.exports = {
         }
 
         return {
-            text: `Check the bot's panels for more info kattahHappy`,
+            text: `Check the bot's panels for more info kattahPoro`,
         };
     },
 };

@@ -82,19 +82,19 @@ module.exports = {
             };
         } else if (random <= -1 && random >= -5) {
             return {
-                text: `Poro slaughtered! ${senderUsername} --> Rotten Poro DansGame (${random}) kattahBAT ${totalPorosWithRandom}`,
+                text: `Poro slaughtered! ${senderUsername} --> Rotten Poro DansGame (${random}) PoroSad RainTime ${totalPorosWithRandom}`,
             };
         } else if (random >= 1 && random <= 4) {
             return {
-                text: `Poro slaughtered! ${senderUsername} --> Sirloin Poro OpieOP (+${random}) kattahHappy ${totalPorosWithRandom}`,
+                text: `Poro slaughtered! ${senderUsername} --> Sirloin Poro OpieOP (+${random}) kattahPoro ${totalPorosWithRandom}`,
             };
         } else if (random == 0) {
             return {
-                text: `Poro gone! ${senderUsername} --> Poro ran away haHAA (±${random}) kattahDespair ${totalPorosWithRandom}`,
+                text: `Poro gone! ${senderUsername} --> Poro ran away haHAA (±${random}) PoroSad ${totalPorosWithRandom}`,
             };
         } else if (random >= 16) {
             return {
-                text: `Poro slaughtered! ${senderUsername} --> LEGENDARY PORO VisLaud (+${random}) kattahXd ${totalPorosWithRandom}`,
+                text: `Poro slaughtered! ${senderUsername} --> LEGENDARY PORO VisLaud (+${random}) kattahPoro ${totalPorosWithRandom}`,
             };
         }
     },
