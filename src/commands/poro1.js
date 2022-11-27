@@ -59,7 +59,7 @@ module.exports = {
             if (new Date().getTime() - new Date(lastUsage).getTime() < 1000 * 60 * 60 * 2) {
                 const ms = new Date(lastUsage).getTime() - new Date().getTime() + 1000 * 60 * 60 * 2;
                 return {
-                    text: `No poros found... 🎇 kattahDespair ${senderUsername} | ${totalPoros} 🥩  | Come back later in ${humanizeDuration(
+                    text: `No poros found... 🎇 PoroSad ${senderUsername} | ${totalPoros} 🥩  | Come back later in ${humanizeDuration(
                         ms
                     )}. kattahDance`,
                 };
