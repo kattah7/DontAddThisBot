@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const utils = require('../../../util/utils');
+const utils = require('../../../util/twitch/utils');
 
 router.get('/api/bot/channel/:user', async (req, res) => {
     const { user } = req.params;

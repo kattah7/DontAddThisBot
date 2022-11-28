@@ -1,5 +1,5 @@
 const got = require('got');
-const utils = require('../util/utils.js');
+const utils = require('../util/twitch/utils.js');
 
 const ulength = (text) => {
     let n = 0;

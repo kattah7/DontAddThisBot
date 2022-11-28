@@ -1,6 +1,6 @@
-const { client } = require('../util/connections.js');
+const { client } = require('../util/twitch/connections.js');
 const { BAND: banEvasion } = require('../util/discord.js');
-const { IVR } = require('../util/utils.js');
+const { IVR } = require('../util/twitch/utils.js');
 
 const CLEARCHAT = async function () {
     client.on('CLEARCHAT', async (message) => {

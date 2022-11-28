@@ -1,6 +1,6 @@
-const utils = require('../../util/utils.js');
+const utils = require('../../util/twitch/utils.js');
 const discord = require('../../util/discord.js');
-const { color } = require('../../util/botcolor.json');
+const { color } = require('../../util/twitch/botcolor.json');
 const { ChangeColor, GetStreams } = require('../../token/helix');
 const { ForsenTV } = require('../../token/pajbot.js');
 const { GetEditorOfChannels } = require('../../token/stvGQL.js');

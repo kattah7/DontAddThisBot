@@ -1,6 +1,6 @@
 const got = require('got');
 const humanizeDuration = require('../util/humanizeDuration');
-const utils = require('../util/utils.js');
+const utils = require('../util/twitch/utils.js');
 
 module.exports = {
     tags: 'stats',

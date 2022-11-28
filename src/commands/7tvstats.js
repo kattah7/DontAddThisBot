@@ -1,5 +1,5 @@
 const fetch = require('node-fetch');
-const { ParseUser } = require('.././util/utils');
+const { ParseUser } = require('../util/twitch/utils');
 
 module.exports = {
     tags: '7tv',

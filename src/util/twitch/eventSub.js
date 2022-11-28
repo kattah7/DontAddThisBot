@@ -4,7 +4,7 @@ const WS = new RWS('wss://eventsub-beta.wss.twitch.tv/ws', [], {
     startedClosed: true,
 });
 const fetch = require('node-fetch');
-const Logger = require('./logger');
+const Logger = require('../logger');
 const eventSubEvents = require('./eventSubEvents');
 
 WS.onopen = () => {

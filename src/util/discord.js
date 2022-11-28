@@ -1,6 +1,6 @@
 require('dotenv').config();
 const fetch = require('node-fetch');
-const { getPFP } = require('./../util/utils');
+const { getPFP } = require('./twitch/utils');
 
 exports.NewPoro = async (AccAge, UID, username, channel, description, logo) => {
     const WebHook = `https://discord.com/api/webhooks/${process.env.PORO_DISCORD}`;

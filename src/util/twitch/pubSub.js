@@ -5,9 +5,9 @@ const utils = require('./utils.js');
 const { client } = require('./connections.js');
 const RWS = require('reconnecting-websocket');
 const got = require('got');
-const discord = require('./discord.js');
-const humanizeDuration = require('./humanizeDuration.js');
-const { GetStreams, Announce } = require('../token/helix');
+const discord = require('../discord.js');
+const humanizeDuration = require('../humanizeDuration.js');
+const { GetStreams, Announce } = require('../../token/helix');
 
 exports.topics = [];
 exports.connections = [];

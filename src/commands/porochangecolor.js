@@ -1,4 +1,4 @@
-const utils = require('../util/utils.js');
+const utils = require('../util/twitch/utils.js');
 const { ChangeColor } = require('../token/helix');
 const fs = require('fs/promises');
 
