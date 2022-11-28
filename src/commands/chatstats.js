@@ -1,6 +1,6 @@
 const got = require('got');
 const { ChatStats } = require('../token/SE.js');
-const { ParseUser } = require('../util/utils.js');
+const { ParseUser } = require('../util/twitch/utils.js');
 
 module.exports = {
     tags: 'stats',

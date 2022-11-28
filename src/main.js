@@ -1,12 +1,12 @@
 require('dotenv').config();
 const nodeCron = require('node-cron');
-const { client } = require('./util/connections.js');
-const pubsub = require('./util/pubSub.js');
+const { client } = require('./util/twitch/connections.js');
+const pubsub = require('./util/twitch/pubSub.js');
 const { Twitch } = require('./clients/twitch.js');
 
 global.bot = {};
-bot.Redis = require('./util/redis.js');
-bot.DB = require('./util/db.js');
+bot.Redis = require('./util/database/redis.js');
+bot.DB = require('./util/database/db.js');
 bot.Utils = require('./util');
 Logger = require('./util/logger.js');
 regex = require('./util/regex.js');

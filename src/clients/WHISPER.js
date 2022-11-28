@@ -1,6 +1,6 @@
-const { client } = require('../util/connections.js');
+const { client } = require('../util/twitch/connections.js');
 const { StvInformation, StvEmoteInformation } = require('../token/stvREST.js');
-const { ParseUser, IDByLogin, stvNameToID } = require('../util/utils.js');
+const { ParseUser, IDByLogin, stvNameToID } = require('../util/twitch/utils.js');
 const got = require('got');
 
 const WHISPER = async function () {

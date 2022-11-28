@@ -1,4 +1,4 @@
-const { client } = require('../util/connections.js');
+const { client } = require('../util/twitch/connections.js');
 
 const main = async () => {
     const channels = await bot.DB.channels.find({ isChannel: true }).exec();

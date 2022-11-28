@@ -1,4 +1,4 @@
-const { client } = require('../util/connections.js');
+const { client } = require('../util/twitch/connections.js');
 
 const NOTICE = async function () {
     client.on('NOTICE', async ({ channelName, messageID }) => {

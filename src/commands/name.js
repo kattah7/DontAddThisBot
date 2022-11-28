@@ -1,5 +1,5 @@
 const fetch = require('node-fetch');
-const utils = require('../util/utils.js');
+const utils = require('../util/twitch/utils.js');
 
 module.exports = {
     tags: 'stats',

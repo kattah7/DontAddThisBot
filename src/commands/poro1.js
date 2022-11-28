@@ -1,5 +1,5 @@
 const humanizeDuration = require('../util/humanizeDuration');
-const utils = require('../util/utils.js');
+const utils = require('../util/twitch/utils.js');
 const discord = require('../util/discord.js');
 const { randomInt } = require('crypto');
 

@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const prom = require('prom-client');
 const register = new prom.Registry();
-const { client } = require('../../../util/connections.js');
+const { client } = require('../../../util/twitch/connections.js');
 
 const channelsLengthGauge = new prom.Gauge({
     name: 'channels',

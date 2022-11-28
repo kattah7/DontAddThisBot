@@ -1,4 +1,4 @@
-const Logger = require('./logger');
+const Logger = require('../logger');
 
 module.exports = {
     'channel.follow': async (msg, type, channel, id, status, session_id) => {

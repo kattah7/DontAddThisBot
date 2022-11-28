@@ -1,6 +1,6 @@
 const { getUser, GetEmotes } = require('../token/stvREST');
 const { AddSTVEmote, AliasSTVEmote } = require('../token/stvGQL');
-const { ParseUser, IDByLogin } = require('../util/utils');
+const { ParseUser, IDByLogin } = require('../util/twitch/utils');
 
 module.exports = {
     tags: '7tv',

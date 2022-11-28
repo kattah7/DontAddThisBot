@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { client } = require('../../../util/connections');
+const { client } = require('../../../util/twitch/connections');
 const { middleWare } = require('../../middleWare');
 
 router.post('/api/bot/join', middleWare, async (req, res) => {

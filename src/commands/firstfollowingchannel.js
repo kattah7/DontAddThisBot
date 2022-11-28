@@ -1,5 +1,5 @@
 const { GetFirstFollows } = require('../token/gql');
-const { ParseUser } = require('../util/utils.js');
+const { ParseUser } = require('../util/twitch/utils.js');
 
 module.exports = {
     tags: 'stats',

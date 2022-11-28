@@ -1,6 +1,6 @@
 .env
 node_modules/
 dump.rdb
-src/util/porocodes.json
+src/util/twitch/porocodes.json
 dump
 config.json

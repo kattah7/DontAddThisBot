@@ -1,4 +1,4 @@
-const utils = require('../util/utils.js');
+const utils = require('../util/twitch/utils.js');
 
 module.exports = {
     name: 'botjoin',

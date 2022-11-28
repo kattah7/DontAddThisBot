@@ -1,6 +1,6 @@
 const got = require('got');
 const humanizeDuration = require('../util/humanizeDuration');
-const { ParseUser } = require('../util/utils');
+const { ParseUser } = require('../util/twitch/utils');
 const { GetStreams } = require('../token/helix');
 
 module.exports = {

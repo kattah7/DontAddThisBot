@@ -1,5 +1,5 @@
 const humanizeDuration = require('../util/humanizeDuration');
-const { code } = require('../util/porocodes.json');
+const { code } = require('../util/twitch/porocodes.json');
 
 module.exports = {
     tags: 'poro',
