@@ -17,7 +17,7 @@ module.exports = {
             code: args.join(' '),
         };
 
-        await fs.writeFile('src/util/porocodes.json', JSON.stringify(code) + '\n', (encoding = 'utf8'));
+        await fs.writeFile('src/util/twitch/porocodes.json', JSON.stringify(code) + '\n', (encoding = 'utf8'));
         await exec('cd /home/DontAddThisBot && git reset --hard && git pull && yarn', (err) => {
             if (err) {
                 console.error(err);
