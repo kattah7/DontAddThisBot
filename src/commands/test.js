@@ -10,6 +10,7 @@ module.exports = {
         for (const user of userDB) {
             if (!user.commandsUsed || user.commandsUsed.length === 0) {
                 console.log(`no commandsUsed for ${user.username}`);
+                await bot.DB.users.findOneAndUpdate({ id: user.id }, { $unset: { commandsUsed: [] } }).exec();
                 continue;
             }
             await bot.DB.users.findOneAndUpdate({ id: user.id }, { $set: { commandsUsed: [] } }).exec();
