@@ -13,7 +13,7 @@ module.exports = {
             console.log(user.commandsUsed);
             // completely remove commandsUsed array
             await bot.DB.channels.findOneAndUpdate({ id: user.id }, { $set: { commandsUsed: [] } }).exec();
-            console.log(`Removed commandsUsed from ${user.username}`);
+            Logger.info(`Removed commandsUsed from ${user.username}`);
             // remove entire array
             await bot.DB.channels.findOneAndUpdate({ id: user.id }, { $unset: { commandsUsed: [] } }).exec();
         }
