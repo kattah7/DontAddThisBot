@@ -1,21 +1,17 @@
 const express = require('express');
 const router = express.Router();
 const { backend, token } = require('../../../../config.json');
-const { getTwitchProfile } = require('../../../token/helix');
 const fetch = require('node-fetch');
+const { getTwitchProfile } = require('../../../token/helix');
 const jwt = require('jsonwebtoken');
 
 const TWITCH_CLIENT_ID = backend.client_id;
 const TWITCH_SECRET = backend.client_secret;
 const CALLBACK_URL = backend.callback_url;
 
-router.get('/auth/twitch/callback', async (req, res, next) => {
-    const { current } = req.cookies;
-    if (req.cookies?.token) {
-        return res.redirect(backend.origin + current);
-    }
-
-    const { code, state } = req.query;
+router.post('/authenticate', async (req, res) => {
+    const { code, state } = req.body;
+    if (!code || !state) return res.status(400).send({ success: false, message: 'Bad Request' });
 
     const searchParams = new URLSearchParams({
         client_id: TWITCH_CLIENT_ID,
@@ -35,7 +31,7 @@ router.get('/auth/twitch/callback', async (req, res, next) => {
 
     const profile = await getTwitchProfile(access_token, TWITCH_CLIENT_ID);
     if (!profile) {
-        return res.redirect(backend.origin + current);
+        return res.status(401).send({ success: false, message: 'Unauthorized' });
     }
 
     const info = {
@@ -44,12 +40,7 @@ router.get('/auth/twitch/callback', async (req, res, next) => {
     };
 
     const signJWT = jwt.sign(info, token.key);
-    res.cookie('token', signJWT, {
-        httpOnly: true,
-        secure: true,
-    });
-
-    return res.redirect(backend.origin + current);
+    return res.status(200).send({ success: true, token: signJWT });
 });
 
 module.exports = router;

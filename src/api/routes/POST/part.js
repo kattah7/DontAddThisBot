@@ -13,7 +13,6 @@ router.post('/api/bot/part', middleWare, async (req, res) => {
     }
 
     const channelInfo = await bot.DB.channels.findOne({ id: id }).exec();
-    console.log(channelInfo);
     if (!channelInfo) {
         return res.status(404).json({
             success: false,
