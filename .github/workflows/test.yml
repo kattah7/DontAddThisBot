@@ -1,4 +1,4 @@
-name: Node Integrate
+name: Format check
 
 on:
     push:
