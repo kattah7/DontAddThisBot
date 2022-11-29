@@ -20,11 +20,6 @@ router.get('/api/bot/channel/:user', async (req, res) => {
     }
 
     const mapped = channelInfo.editors.map(({ username, id, grantedAt }) => ({ username, id, grantedAt }));
-    const commandsUed = channelInfo.commandsUsed.map(({ command, Usage, lastUsage }) => ({
-        command,
-        Usage,
-        lastUsage,
-    }));
     return res.status(200).json({
         success: true,
         username: channelInfo.username ?? null,
@@ -35,7 +30,6 @@ router.get('/api/bot/channel/:user', async (req, res) => {
         poroOnly: channelInfo.poroOnly,
         stvOnly: channelInfo.stvOnly,
         isChannel: channelInfo.isChannel,
-        commandsUsed: commandsUed,
     });
 });
 

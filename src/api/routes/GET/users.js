@@ -20,11 +20,6 @@ router.get('/api/bot/users/:user', async (req, res) => {
     }
 
     const mapped = userInfo.nameChanges.map(({ username, changedAt }) => ({ username, changedAt }));
-    const commandsMapped = userInfo.commandsUsed.map(({ command, Usage, lastUsage }) => ({
-        command,
-        Usage,
-        lastUsage,
-    }));
     return res.status(200).json({
         success: true,
         username: userInfo.username,
@@ -32,7 +27,6 @@ router.get('/api/bot/users/:user', async (req, res) => {
         level: userInfo.level,
         firstSeen: userInfo.firstSeen,
         nameChanges: mapped,
-        commandsUsed: commandsMapped,
     });
 });
 

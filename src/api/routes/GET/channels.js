@@ -17,19 +17,6 @@ async function returnUsersCount() {
     return users;
 }
 
-async function returnExecutedCommands() {
-    let commands = 0;
-    const channels = await returnChannels(false);
-    for (const { commandsUsed } of channels) {
-        if (commandsUsed.length == 0) continue;
-        commandsUsed.forEach((command) => {
-            commands += command.Usage;
-        });
-    }
-
-    return commands;
-}
-
 async function returnPoroCount() {
     const poroData = await bot.DB.poroCount.find({}).exec();
     let sum = 0;
@@ -43,7 +30,6 @@ async function returnPoroCount() {
 let channels = new Array();
 let channelCount = new Number(0);
 let userCount = new Number(0);
-let commandsCount = new Number(0);
 let poroCount = new Number(0);
 
 setInterval(async () => {
@@ -56,9 +42,6 @@ setInterval(async () => {
     });
     returnUsersCount().then((x) => {
         userCount = x;
-    });
-    returnExecutedCommands().then((x) => {
-        commandsCount = x;
     });
     returnPoroCount().then((x) => {
         poroCount = x;
@@ -75,8 +58,6 @@ router.get('/api/bot/channels', async (req, res) => {
         channels: mapped,
         totalPoros: poroCount,
         todaysCode: todaysCode.todaysCode,
-        embedStream: 'forsen',
-        executedCommands: commandsCount,
         seenUsers: userCount,
     });
 });
