@@ -11,12 +11,6 @@ exports.handler = async (commands, aliases, message, client) => {
     const lowerCase = message.messageText.toLowerCase();
     if (lowerCase.startsWith('@dontaddthisbot,') || lowerCase.startsWith('@dontaddthisbot')) {
         if (!block) {
-            const channelData = await getChannel(message.channelID);
-            if (!channelData.id) {
-                await bot.DB.channels
-                    .updateOne({ username: message.channelName }, { id: message.ircTags['room-id'] })
-                    .exec();
-            }
             const { prefix, editors } = await bot.DB.channels.findOne({ id: message.channelID }).exec();
             const isPrefix = prefix ? `${prefix}` : `|`;
             const isEditors = editors ? `${editors.length}` : `None`;
@@ -37,6 +31,7 @@ exports.handler = async (commands, aliases, message, client) => {
     }
 
     const channelData = await getChannel(message.channelID);
+    console.log('called', process.memoryUsage().rss / 1024 / 1024);
     const prefix = channelData.prefix ?? '|';
     if (!message.messageText.startsWith(prefix)) return;
     const args = message.messageText.slice(prefix.length).trim().split(/ +/g);
@@ -89,6 +84,18 @@ exports.handler = async (commands, aliases, message, client) => {
                     .exec();
             }
 
+            if (channelData.offlineOnly && !command.offline) {
+                const data = (await GetStreams(message.channelName, true))[0];
+                if (data == undefined) {
+                } else if (data.type == 'live') {
+                    return;
+                }
+            }
+
+            if (userdata.level < 1) {
+                return;
+            }
+
             if (command.cooldown) {
                 const poroData = await bot.DB.poroCount.find({}).exec();
                 const sorted = poroData.sort((a, b) => b.poroPrestige - a.poroPrestige || b.poroCount - a.poroCount);
@@ -125,6 +132,7 @@ exports.handler = async (commands, aliases, message, client) => {
                     }, command.cooldown);
                 }
             }
+
             if (command.permission) {
                 if (command.permission == 1 && !message.isMod && message.channelName !== message.senderUsername) {
                     return client.say(message.channelName, 'This command is moderator only.');
@@ -206,21 +214,9 @@ exports.handler = async (commands, aliases, message, client) => {
                 }
             }
 
-            if (channelData.offlineOnly && !command.offline) {
-                const data = (await GetStreams(message.channelName, true))[0];
-                if (data == undefined) {
-                } else if (data.type == 'live') {
-                    return;
-                }
-            }
-
             const response = await command.execute(message, args, client, userdata, params, channelData);
 
             if (response) {
-                if (userdata.level < 1) {
-                    return;
-                }
-
                 if (response.error) {
                     setTimeout(() => {
                         cooldown.delete(`${command.name}${message.senderUserID}`);
