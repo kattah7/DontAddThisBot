@@ -6,6 +6,9 @@ exports.loginByID = async (userID) => {
     const { body } = await got(`https://api.ivr.fi/v2/twitch/user?id=${encodeURIComponent(userID)}`, {
         responseType: 'json',
         throwHttpErrors: false,
+        headers: {
+            'User-Agent': 'IF YOU SEE THIS VI VON ZULUL',
+        },
     });
     if (!body[0].id) return null;
     return body[0].login;
@@ -16,8 +19,24 @@ exports.IVR = async (userID) => {
     const { body } = await got(`https://api.ivr.fi/v2/twitch/user?id=${encodeURIComponent(userID)}`, {
         responseType: 'json',
         throwHttpErrors: false,
+        headers: {
+            'User-Agent': 'IF YOU SEE THIS VI VON ZULUL',
+        },
     });
     if (!body[0].id) return null;
+    return body[0];
+};
+
+exports.IVRByLogin = async (username) => {
+    if (!username) return null;
+    const { body } = await got(`https://api.ivr.fi/v2/twitch/user?login=${encodeURIComponent(username)}`, {
+        responseType: 'json',
+        throwHttpErrors: false,
+        headers: {
+            'User-Agent': 'IF YOU SEE THIS VI VON ZULUL',
+        },
+    });
+    if (!body[0]?.id) return null;
     return body[0];
 };
 
@@ -26,6 +45,9 @@ exports.displayName = async (username) => {
     const { body } = await got(`https://api.ivr.fi/v2/twitch/user?login=${encodeURIComponent(username)}`, {
         responseType: 'json',
         throwHttpErrors: false,
+        headers: {
+            'User-Agent': 'IF YOU SEE THIS VI VON ZULUL',
+        },
     });
     if (!body[0].id) return null;
     return body[0].displayName;
@@ -36,6 +58,9 @@ exports.IDByLogin = async (username) => {
     const { body } = await got(`https://api.ivr.fi/v2/twitch/user?login=${encodeURIComponent(username)}`, {
         responseType: 'json',
         throwHttpErrors: false,
+        headers: {
+            'User-Agent': 'IF YOU SEE THIS VI VON ZULUL',
+        },
     });
     if (body.length === 0) return null;
     if (!body[0].id) return null;
@@ -47,6 +72,9 @@ exports.getPFP = async (username) => {
     const { body } = await got(`https://api.ivr.fi/v2/twitch/user?login=${encodeURIComponent(username)}`, {
         responseType: 'json',
         throwHttpErrors: false,
+        headers: {
+            'User-Agent': 'IF YOU SEE THIS VI VON ZULUL',
+        },
     });
     if (!body[0].id) return null;
     return body[0].logo;
