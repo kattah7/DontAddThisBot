@@ -251,43 +251,39 @@ exports.handler = async (commands, aliases, message, client) => {
                 }
 
                 if (response.text) {
-                    // if command is already in user db then update the usage count
-                    // const targetUser = await bot.DB.users.findOne({ id: message.senderUserID });
-                    // const commandUsed = targetUser.commandsUsed.find((x) => x.command == command.name);
-                    // if (commandUsed) {
-                    //     console.log('used');
-                    //     await bot.DB.users.updateOne(
-                    //         { 'id': message.senderUserID, 'commandsUsed.command': command.name },
-                    //         { $inc: { 'commandsUsed.$.Usage': 1 }, $set: { 'commandsUsed.$.lastUsage': Date.now() } }
-                    //     );
-                    // } else {
-                    //     await bot.DB.users.updateOne(
-                    //         { id: message.senderUserID },
-                    //         {
-                    //             $addToSet: {
-                    //                 commandsUsed: [{ command: command.name, Usage: 1, lastUsage: Date.now() }],
-                    //             },
-                    //         }
-                    //     );
-                    // }
-                    // const targetChannel = await bot.DB.channels.findOne({ id: message.channelID });
-                    // const commandUsedChannel = targetChannel.commandsUsed.find((x) => x.command == command.name);
-                    // console.log(commandUsedChannel);
-                    // if (commandUsedChannel) {
-                    //     await bot.DB.channels.updateOne(
-                    //         { 'id': message.channelID, 'commandsUsed.command': command.name },
-                    //         { $inc: { 'commandsUsed.$.Usage': 1 }, $set: { 'commandsUsed.$.lastUsage': Date.now() } }
-                    //     );
-                    // } else {
-                    //     await bot.DB.channels.updateOne(
-                    //         { id: message.channelID },
-                    //         {
-                    //             $addToSet: {
-                    //                 commandsUsed: [{ command: command.name, Usage: 1, lastUsage: Date.now() }],
-                    //             },
-                    //         }
-                    //     );
-                    // }
+                    await bot.SQL.query(
+                        `INSERT INTO users (twitch_id, twitch_login) SELECT * FROM (SELECT '${message.senderUserID}', '${message.senderUsername}') AS tmp WHERE NOT EXISTS (SELECT twitch_id FROM users WHERE twitch_id = '${message.senderUserID}') LIMIT 1;`
+                    );
+
+                    const findUserCommand = await bot.SQL.query(
+                        `SELECT * FROM commands WHERE twitch_id = '${message.senderUserID}' AND command = '${command.name}'`
+                    );
+
+                    if (findUserCommand.rows.length == 0) {
+                        await bot.SQL.query(
+                            `INSERT INTO commands (twitch_id, twitch_login, command, command_usage) VALUES ('${message.senderUserID}', '${message.senderUsername}', '${command.name}', 1)`
+                        );
+                    } else {
+                        await bot.SQL.query(
+                            `UPDATE commands SET command_usage = command_usage + 1, last_used = '${new Date().toISOString()}' WHERE twitch_id = '${
+                                message.senderUserID
+                            }' AND command = '${command.name}'`
+                        );
+                    }
+
+                    const userTable = await bot.SQL.query(
+                        `SELECT * FROM users WHERE twitch_id = '${message.senderUserID}'`
+                    );
+
+                    if (userTable.rows[0].twitch_login != message.senderUsername) {
+                        await bot.SQL.query(
+                            `UPDATE users SET twitch_login = '${message.senderUsername}' WHERE twitch_id = '${message.senderUserID}'`
+                        );
+
+                        await bot.SQL.query(
+                            `UPDATE commands SET twitch_login = '${message.senderUsername}' WHERE twitch_id = '${message.senderUserID}'`
+                        );
+                    }
                 }
 
                 if (await utils.PoroNumberOne(message.senderUserID)) {
