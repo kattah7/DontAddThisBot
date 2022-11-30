@@ -26,7 +26,7 @@ router.get('/api/bot/users/:user', async (req, res) => {
         command_usage,
         last_used,
     }));
-    console.log(commandsUsed.rows);
+
     return res.status(200).json({
         success: true,
         username: userInfo.username,
