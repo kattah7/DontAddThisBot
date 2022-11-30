@@ -8,6 +8,7 @@ global.bot = {};
 bot.Redis = require('./util/database/redis.js');
 bot.DB = require('./util/database/db.js');
 bot.Utils = require('./util');
+bot.SQL = require('./util/database/postgres.js');
 Logger = require('./util/logger.js');
 regex = require('./util/regex.js');
 

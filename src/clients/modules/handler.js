@@ -11,12 +11,6 @@ exports.handler = async (commands, aliases, message, client) => {
     const lowerCase = message.messageText.toLowerCase();
     if (lowerCase.startsWith('@dontaddthisbot,') || lowerCase.startsWith('@dontaddthisbot')) {
         if (!block) {
-            const channelData = await getChannel(message.channelID);
-            if (!channelData.id) {
-                await bot.DB.channels
-                    .updateOne({ username: message.channelName }, { id: message.ircTags['room-id'] })
-                    .exec();
-            }
             const { prefix, editors } = await bot.DB.channels.findOne({ id: message.channelID }).exec();
             const isPrefix = prefix ? `${prefix}` : `|`;
             const isEditors = editors ? `${editors.length}` : `None`;
@@ -37,6 +31,7 @@ exports.handler = async (commands, aliases, message, client) => {
     }
 
     const channelData = await getChannel(message.channelID);
+    console.log('called', process.memoryUsage().rss / 1024 / 1024);
     const prefix = channelData.prefix ?? '|';
     if (!message.messageText.startsWith(prefix)) return;
     const args = message.messageText.slice(prefix.length).trim().split(/ +/g);
@@ -89,6 +84,18 @@ exports.handler = async (commands, aliases, message, client) => {
                     .exec();
             }
 
+            if (channelData.offlineOnly && !command.offline) {
+                const data = (await GetStreams(message.channelName, true))[0];
+                if (data == undefined) {
+                } else if (data.type == 'live') {
+                    return;
+                }
+            }
+
+            if (userdata.level < 1) {
+                return;
+            }
+
             if (command.cooldown) {
                 const poroData = await bot.DB.poroCount.find({}).exec();
                 const sorted = poroData.sort((a, b) => b.poroPrestige - a.poroPrestige || b.poroCount - a.poroCount);
@@ -125,6 +132,7 @@ exports.handler = async (commands, aliases, message, client) => {
                     }, command.cooldown);
                 }
             }
+
             if (command.permission) {
                 if (command.permission == 1 && !message.isMod && message.channelName !== message.senderUsername) {
                     return client.say(message.channelName, 'This command is moderator only.');
@@ -206,21 +214,9 @@ exports.handler = async (commands, aliases, message, client) => {
                 }
             }
 
-            if (channelData.offlineOnly && !command.offline) {
-                const data = (await GetStreams(message.channelName, true))[0];
-                if (data == undefined) {
-                } else if (data.type == 'live') {
-                    return;
-                }
-            }
-
             const response = await command.execute(message, args, client, userdata, params, channelData);
 
             if (response) {
-                if (userdata.level < 1) {
-                    return;
-                }
-
                 if (response.error) {
                     setTimeout(() => {
                         cooldown.delete(`${command.name}${message.senderUserID}`);
@@ -251,43 +247,39 @@ exports.handler = async (commands, aliases, message, client) => {
                 }
 
                 if (response.text) {
-                    // if command is already in user db then update the usage count
-                    // const targetUser = await bot.DB.users.findOne({ id: message.senderUserID });
-                    // const commandUsed = targetUser.commandsUsed.find((x) => x.command == command.name);
-                    // if (commandUsed) {
-                    //     console.log('used');
-                    //     await bot.DB.users.updateOne(
-                    //         { 'id': message.senderUserID, 'commandsUsed.command': command.name },
-                    //         { $inc: { 'commandsUsed.$.Usage': 1 }, $set: { 'commandsUsed.$.lastUsage': Date.now() } }
-                    //     );
-                    // } else {
-                    //     await bot.DB.users.updateOne(
-                    //         { id: message.senderUserID },
-                    //         {
-                    //             $addToSet: {
-                    //                 commandsUsed: [{ command: command.name, Usage: 1, lastUsage: Date.now() }],
-                    //             },
-                    //         }
-                    //     );
-                    // }
-                    // const targetChannel = await bot.DB.channels.findOne({ id: message.channelID });
-                    // const commandUsedChannel = targetChannel.commandsUsed.find((x) => x.command == command.name);
-                    // console.log(commandUsedChannel);
-                    // if (commandUsedChannel) {
-                    //     await bot.DB.channels.updateOne(
-                    //         { 'id': message.channelID, 'commandsUsed.command': command.name },
-                    //         { $inc: { 'commandsUsed.$.Usage': 1 }, $set: { 'commandsUsed.$.lastUsage': Date.now() } }
-                    //     );
-                    // } else {
-                    //     await bot.DB.channels.updateOne(
-                    //         { id: message.channelID },
-                    //         {
-                    //             $addToSet: {
-                    //                 commandsUsed: [{ command: command.name, Usage: 1, lastUsage: Date.now() }],
-                    //             },
-                    //         }
-                    //     );
-                    // }
+                    await bot.SQL.query(
+                        `INSERT INTO users (twitch_id, twitch_login) SELECT * FROM (SELECT '${message.senderUserID}', '${message.senderUsername}') AS tmp WHERE NOT EXISTS (SELECT twitch_id FROM users WHERE twitch_id = '${message.senderUserID}') LIMIT 1;`
+                    );
+
+                    const findUserCommand = await bot.SQL.query(
+                        `SELECT * FROM commands WHERE twitch_id = '${message.senderUserID}' AND command = '${command.name}'`
+                    );
+
+                    if (findUserCommand.rows.length == 0) {
+                        await bot.SQL.query(
+                            `INSERT INTO commands (twitch_id, twitch_login, command, command_usage) VALUES ('${message.senderUserID}', '${message.senderUsername}', '${command.name}', 1)`
+                        );
+                    } else {
+                        await bot.SQL.query(
+                            `UPDATE commands SET command_usage = command_usage + 1, last_used = '${new Date().toISOString()}' WHERE twitch_id = '${
+                                message.senderUserID
+                            }' AND command = '${command.name}'`
+                        );
+                    }
+
+                    const userTable = await bot.SQL.query(
+                        `SELECT * FROM users WHERE twitch_id = '${message.senderUserID}'`
+                    );
+
+                    if (userTable.rows[0].twitch_login != message.senderUsername) {
+                        await bot.SQL.query(
+                            `UPDATE users SET twitch_login = '${message.senderUsername}' WHERE twitch_id = '${message.senderUserID}'`
+                        );
+
+                        await bot.SQL.query(
+                            `UPDATE commands SET twitch_login = '${message.senderUsername}' WHERE twitch_id = '${message.senderUserID}'`
+                        );
+                    }
                 }
 
                 if (await utils.PoroNumberOne(message.senderUserID)) {

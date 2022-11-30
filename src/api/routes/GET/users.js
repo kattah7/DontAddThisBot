@@ -20,6 +20,13 @@ router.get('/api/bot/users/:user', async (req, res) => {
     }
 
     const mapped = userInfo.nameChanges.map(({ username, changedAt }) => ({ username, changedAt }));
+    const commandsUsed = await bot.SQL.query(`SELECT * FROM commands WHERE twitch_id = '${userInfo.id}';`);
+    const commandsMapped = commandsUsed.rows.map(({ command, command_usage, last_used }) => ({
+        command,
+        command_usage,
+        last_used,
+    }));
+    console.log(commandsUsed.rows);
     return res.status(200).json({
         success: true,
         username: userInfo.username,
@@ -27,6 +34,7 @@ router.get('/api/bot/users/:user', async (req, res) => {
         level: userInfo.level,
         firstSeen: userInfo.firstSeen,
         nameChanges: mapped,
+        commands: commandsMapped,
     });
 });
 
