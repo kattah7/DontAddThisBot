@@ -22,6 +22,13 @@ sql.connect(async function () {
         command_usage INT NOT NULL,
         last_used TIMESTAMP NOT NULL DEFAULT NOW()
     )`);
+
+    await sql.query(`CREATE TABLE IF NOT EXISTS channels (
+        id SERIAL PRIMARY KEY,
+        twitch_login VARCHAR(255) NOT NULL,
+        is_mod INT NOT NULL,
+        is_vip INT NOT NULL
+    )`);
 });
 
 module.exports = sql;
