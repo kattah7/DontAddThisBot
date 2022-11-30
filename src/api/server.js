@@ -11,6 +11,7 @@ const userInfo = require('./routes/GET/users');
 const commands = require('./routes/GET/commands');
 const grafana = require('./routes/GET/grafana');
 const userAuthInfo = require('./routes/GET/userAuthInfo');
+const botInfo = require('./routes/GET/bot');
 const join = require('./routes/POST/join');
 const part = require('./routes/POST/part');
 const create = require('./routes/POST/createUser');
@@ -39,6 +40,7 @@ for (const API of [
     part,
     create,
     auth,
+    botInfo,
 ]) {
     app.use(API);
 }
