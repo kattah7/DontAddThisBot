@@ -23,11 +23,12 @@ module.exports = {
         }
 
         const { emote_set } = xd;
+        const isParams = params.as ? params.as : '';
 
         const [url] = args;
         if (/https:\/\/(next\.)?7tv\.app\/emotes\/\w{24}/g.test(url)) {
             const linkEmote = /https:\/\/(next\.)?7tv\.app\/emotes\/(\w{24})/.exec(url);
-            const addEmote = await AddSTVEmote(linkEmote[2], emote_set.id);
+            const addEmote = await AddSTVEmote(linkEmote[2], emote_set.id, isParams);
             if (addEmote.errors) {
                 return {
                     text: `⛔ ${addEmote.errors[0].extensions.message}`,
@@ -35,7 +36,7 @@ module.exports = {
             } else {
                 const { name } = await GetEmotes(linkEmote[2]);
                 return {
-                    text: `7tvM "${name}" added to ${message.channelName}`,
+                    text: `7tvM "${name}" added to ${message.channelName} ${isParams ? `as "${isParams}"` : ''}`,
                 };
             }
         }
@@ -49,6 +50,7 @@ module.exports = {
                     text: `⛔ Usage: ${channelInfo.prefix ?? `|`}add (emote) (tags)`,
                 };
             }
+
             const xda = SearchEmote.data.emotes.items.map((x) => [x.id, x.name]);
             const findThatEmote = xda.find((x) => x[1] === args[0]);
             if (!findThatEmote) {
@@ -67,14 +69,16 @@ module.exports = {
             };
         } else {
             const { id, name } = SearchEmote.data.emotes?.items[0];
-            const addEmote = await AddSTVEmote(findEmote ? findEmote[0] : id, emote_set.id);
+            const addEmote = await AddSTVEmote(findEmote ? findEmote[0] : id, emote_set.id, isParams);
             if (addEmote.errors) {
                 return {
                     text: `⛔ ${addEmote.errors[0]?.extensions?.message}`,
                 };
             } else {
                 return {
-                    text: `7tvM "${findEmote ? findEmote[1] : name}" added to ${message.channelName}`,
+                    text: `7tvM "${findEmote ? findEmote[1] : name}" added to ${message.channelName} ${
+                        isParams ? `as "${isParams}"` : ''
+                    }`,
                 };
             }
         }
