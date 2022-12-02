@@ -30,6 +30,7 @@ router.get('/api/bot/channel/:user', async (req, res) => {
         poroOnly: channelInfo.poroOnly,
         stvOnly: channelInfo.stvOnly,
         isChannel: channelInfo.isChannel,
+        prefix: channelInfo.prefix ?? null,
     });
 });
 
