@@ -97,11 +97,8 @@ exports.handler = async (commands, aliases, message, client) => {
             }
 
             if (command.cooldown) {
-                const poroData = await bot.DB.poroCount.find({}).exec();
-                const sorted = poroData.sort((a, b) => b.poroPrestige - a.poroPrestige || b.poroCount - a.poroCount);
-                const top10 = sorted.slice(0, 10);
-                const indexed = top10.map((user, index) => ({ name: user.username, position: index + 1 })); // start at 1
-                const userPosition = indexed.find((user) => user.name === message.senderUsername)?.position;
+                const { leaderboards } = await bot.Redis.get('leaderboardEndpoint');
+                const returnUser = leaderboards.find(({ id }) => id === message.senderUserID);
 
                 if (userdata.level == 3 || userdata.level == 2) {
                     if (cooldown.has(`${command.name}${message.senderUserID}`)) return;
@@ -109,22 +106,19 @@ exports.handler = async (commands, aliases, message, client) => {
                     setTimeout(() => {
                         cooldown.delete(`${command.name}${message.senderUserID}`);
                     }, 10);
-                } else if (userPosition <= 10) {
-                    // users position is within the range of 10
+                } else if (returnUser) {
                     if (cooldown.has(`${command.name}${message.senderUserID}`)) return;
                     cooldown.set(`${command.name}${message.senderUserID}`, Date.now() + 3000);
                     setTimeout(() => {
                         cooldown.delete(`${command.name}${message.senderUserID}`);
                     }, 3000);
                 } else if (message.channelName == 'forsen') {
-                    // users position is within the range of 10
                     if (cooldown.has(`${command.name}${message.senderUserID}`)) return;
                     cooldown.set(`${command.name}${message.senderUserID}`, Date.now() + 3000);
                     setTimeout(() => {
                         cooldown.delete(`${command.name}${message.senderUserID}`);
                     }, 10000);
                 } else {
-                    // user is not in top 10
                     if (cooldown.has(`${command.name}${message.senderUserID}`)) return;
                     cooldown.set(`${command.name}${message.senderUserID}`, Date.now() + command.cooldown);
                     setTimeout(() => {
