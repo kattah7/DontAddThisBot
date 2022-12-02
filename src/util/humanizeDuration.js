@@ -1,6 +1,6 @@
 const humanize = require('humanize-duration');
 
-const humanizeDuration = (ms) => {
+const humanizeDuration = (ms, largest) => {
     const options = {
         language: 'shortEn',
         languages: {
@@ -16,7 +16,7 @@ const humanizeDuration = (ms) => {
             },
         },
         units: ['y', 'mo', 'd', 'h', 'm', 's'],
-        largest: 4,
+        largest: largest ?? 4,
         round: true,
         conjunction: ' and ',
         spacer: '',
