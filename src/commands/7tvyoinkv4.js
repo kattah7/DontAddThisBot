@@ -1,4 +1,4 @@
-const { getUser, GetEmotes } = require('../token/stvREST');
+const { getUser, GetEmotes, GlobalEmote } = require('../token/stvREST');
 const { AddSTVEmote, AliasSTVEmote } = require('../token/stvGQL');
 const { ParseUser, IDByLogin } = require('../util/twitch/utils');
 
@@ -10,6 +10,7 @@ module.exports = {
     stv: true,
     stvOnly: true,
     execute: async (message, args, client, userdata, params) => {
+        const Emote = GlobalEmote();
         if (!args[0] || !params.from) {
             return {
                 text: `⛔ Please specify an ${
@@ -83,7 +84,7 @@ module.exports = {
                 };
             } else {
                 return {
-                    text: `7tvM Added ${pushEmotes[0]} to your emote set`,
+                    text: `${Emote} Added ${pushEmotes[0]} to your emote set`,
                 };
             }
         }
@@ -101,7 +102,7 @@ module.exports = {
         }
 
         return {
-            text: `7tvM Added ${pushEmotes.length} emotes from ${channel} to your emote set${
+            text: `${Emote} Added ${pushEmotes.length} emotes from ${channel} to your emote set${
                 pushAliases.length > 0 ? `, and auto-aliased ${pushAliases.length} emote` : ''
             }`,
         };

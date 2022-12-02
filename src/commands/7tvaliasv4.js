@@ -1,4 +1,4 @@
-const { getUser } = require('../token/stvREST');
+const { getUser, GlobalEmote } = require('../token/stvREST');
 const { AliasSTVEmote, GetAllEmoteSets } = require('../token/stvGQL');
 
 module.exports = {
@@ -10,6 +10,7 @@ module.exports = {
     stv: true,
     stvOnly: true,
     execute: async (message, args, client, userdata, params) => {
+        const Emote = GlobalEmote();
         if (!args[0] || !args[1]) {
             return {
                 text: `⛔ Please specify an ${args[0] ? `alias` : `emote`}`,
@@ -45,7 +46,7 @@ module.exports = {
             };
         } else {
             return {
-                text: `7tvM "${findThatEmote.name}" renamed to "${args[1]}"`,
+                text: `${Emote} "${findThatEmote.name}" renamed to "${args[1]}"`,
             };
         }
     },

@@ -1,4 +1,4 @@
-const { getUser } = require('../token/stvREST');
+const { getUser, GlobalEmote } = require('../token/stvREST');
 const { RemoveSTVEmote, GetAllEmoteSets } = require('../token/stvGQL');
 
 module.exports = {
@@ -9,6 +9,7 @@ module.exports = {
     stv: true,
     stvOnly: true,
     execute: async (message, args, client, userdata, params) => {
+        const Emote = GlobalEmote();
         if (!args[0]) {
             return {
                 text: '⛔ Please specify an emote',
@@ -48,7 +49,7 @@ module.exports = {
         }
 
         return {
-            text: `7tvM ${amount <= 1 ? `"${args[0]}"` : `${amount} emotes`} removed from ${message.channelName}`,
+            text: `${Emote} ${amount <= 1 ? `"${args[0]}"` : `${amount} emotes`} removed from ${message.channelName}`,
         };
     },
 };

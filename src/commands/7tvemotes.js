@@ -1,4 +1,4 @@
-const { getUser } = require('../token/stvREST');
+const { getUser, GlobalEmote } = require('../token/stvREST');
 const { ParseUser, IDByLogin, sleep } = require('../util/twitch/utils');
 
 module.exports = {
@@ -10,6 +10,7 @@ module.exports = {
     stvOnly: true,
     botPerms: 'vip',
     execute: async (message, args, client) => {
+        const Emote = GlobalEmote();
         async function returnTargetID(targetName) {
             const targetUser = await ParseUser(targetName);
             const getUserID = await IDByLogin(targetUser);
@@ -21,14 +22,14 @@ module.exports = {
         const isSelfOrTarget = args[0] ?? message.channelName;
         if (!user || user === null) {
             return {
-                text: `7tvM - ${isSelfOrTarget} UNKOWN USER`,
+                text: `${Emote} - ${isSelfOrTarget} UNKOWN USER`,
             };
         }
 
         const { emotes } = user.emote_set;
         if (!emotes || emotes.length === 0) {
             return {
-                text: `7tvM - ${isSelfOrTarget} has no emotes`,
+                text: `${Emote} - ${isSelfOrTarget} has no emotes`,
             };
         }
 
@@ -67,7 +68,7 @@ module.exports = {
 
         const capacity = user.emote_capacity;
         return {
-            text: `7tvM - ${isSelfOrTarget} has ${emotes.length}/${capacity} 7tv emotes`,
+            text: `${Emote} - ${isSelfOrTarget} has ${emotes.length}/${capacity} 7tv emotes`,
         };
     },
 };
