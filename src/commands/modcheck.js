@@ -12,6 +12,9 @@ module.exports = {
         const targetUser = await utils.ParseUser(args[0] ?? message.channelName);
         const modsApi = await fetch(`https://api.ivr.fi/v2/twitch/modvip/${targetUser}?skipCache=false`, {
             method: 'GET',
+            headers: {
+                'User-Agent': 'IF YOU SEE THIS VI VON ZULUL',
+            },
         });
 
         const { mods } = await modsApi.json();

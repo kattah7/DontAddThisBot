@@ -14,6 +14,9 @@ module.exports = {
         let { body: userData } = await got(`https://api.ivr.fi/v2/twitch/user?login=${targetUser}`, {
             throwHttpErrors: false,
             responseType: 'json',
+            headers: {
+                'User-Agent': 'IF YOU SEE THIS VI VON ZULUL',
+            },
         });
         const { startedAt, title } = userData[0].lastBroadcast;
         if (data2[0] == null) {

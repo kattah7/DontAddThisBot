@@ -20,6 +20,9 @@ module.exports = {
                 {
                     throwHttpErrors: false,
                     responseType: 'json',
+                    headers: {
+                        'User-Agent': 'IF YOU SEE THIS VI VON ZULUL',
+                    },
                 }
             );
             const userID = await utils.IDByLogin(targetUser);

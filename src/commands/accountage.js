@@ -7,7 +7,12 @@ module.exports = {
     description: 'Check account age of a user or yourself',
     execute: async (message, args, client) => {
         const targetUser = args[0] ?? message.senderUsername;
-        let userData = await got(`https://api.ivr.fi/twitch/resolve/${targetUser}`, { timeout: 10000 }).json();
+        let userData = await got(`https://api.ivr.fi/twitch/resolve/${targetUser}`, {
+            timeout: 10000,
+            headers: {
+                'User-Agent': 'IF YOU SEE THIS VI VON ZULUL',
+            },
+        }).json();
         console.log(userData);
 
         const date = userData.createdAt;

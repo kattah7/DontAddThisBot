@@ -10,6 +10,9 @@ module.exports = {
         const { body: pogger2 } = await got(`https://api.ivr.fi/v2/twitch/user?login=${args[0]}`, {
             throwHttpErrors: false,
             responseType: 'json',
+            headers: {
+                'User-Agent': 'IF YOU SEE THIS VI VON ZULUL',
+            },
         });
         if (!args[0]) {
             return {

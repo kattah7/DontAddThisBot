@@ -12,6 +12,9 @@ module.exports = {
         const targetUser = await utils.ParseUser(args[0] ?? message.senderUsername);
         const data = await fetch(`https://api.ivr.fi/v2/twitch/subage/${targetUser}/forsen`, {
             method: 'GET',
+            headers: {
+                'User-Agent': 'IF YOU SEE THIS VI VON ZULUL',
+            },
         }).then((res) => res.json());
         const { statusHidden, followedAt, streak, cumulative, meta, error } = data;
         if (error) {

@@ -9,7 +9,12 @@ module.exports = {
     description: 'checks if a user is a queen supporter (Pokimane)',
     execute: async (message, args, client) => {
         const USERNAME = await ParseUser(args[0] ?? message.senderUsername);
-        let data = await got(`https://api.ivr.fi/twitch/subage/${USERNAME}/pokimane`, { timeout: 10000 }).json();
+        let data = await got(`https://api.ivr.fi/twitch/subage/${USERNAME}/pokimane`, {
+            timeout: 10000,
+            headers: {
+                'User-Agent': 'IF YOU SEE THIS VI VON ZULUL',
+            },
+        }).json();
         const followAge = new Date().getTime() - Date.parse(data.followedAt);
 
         if (data) {

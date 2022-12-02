@@ -11,6 +11,9 @@ module.exports = {
             timeout: 10000,
             throwHttpErrors: false,
             responseType: 'json',
+            headers: {
+                'User-Agent': 'IF YOU SEE THIS VI VON ZULUL',
+            },
         });
         //console.log(userData)
         const bio = userData.bio;
