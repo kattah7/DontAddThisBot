@@ -1,5 +1,7 @@
 const express = require('express');
 const router = express.Router();
+const Redis = require('ioredis');
+const redis = new Redis({});
 
 async function returnChannelCount() {
     const channels = await bot.DB.channels.count({ isChannel: true }).exec();
@@ -31,36 +33,36 @@ async function totalCommands() {
     return count;
 }
 
-let channelCount = new Number(0);
-let userCount = new Number(0);
-let poroCount = new Number(0);
-let commandsCount = new Number(0);
+async function makeRequest() {
+    console.log('Updated channels endpoint');
+    await redis.set(
+        'channelsEndpoint',
+        JSON.stringify({
+            channelCount: await returnChannelCount(),
+            totalPoros: await returnPoroCount(),
+            seenUsers: await returnUsersCount(),
+            executedCommands: await totalCommands(),
+        })
+    );
+}
 
-setInterval(async () => {
-    console.log('cache users');
-    returnChannelCount().then((x) => {
-        channelCount = x;
-    });
-    returnUsersCount().then((x) => {
-        userCount = x;
-    });
-    returnPoroCount().then((x) => {
-        poroCount = x;
-    });
-    totalCommands().then((x) => {
-        commandsCount = x;
-    });
-}, 1000 * 30);
+makeRequest().then(() => {
+    setInterval(() => {
+        makeRequest();
+    }, 1000 * 60 * 1);
+});
 
 router.get('/api/bot/channels', async (req, res) => {
     const todaysCode = await bot.DB.private.findOne({ code: 'code' }).exec();
-    totalCommands();
+    const redisValue = await redis.get('channelsEndpoint');
+    const { channelCount, totalPoros, seenUsers, executedCommands } = JSON.parse(redisValue);
+
     return res.status(200).json({
         channelCount: channelCount,
-        totalPoros: poroCount,
+        totalPoros: totalPoros,
         todaysCode: todaysCode.todaysCode,
-        seenUsers: userCount,
-        executedCommands: commandsCount,
+        seenUsers: seenUsers,
+        executedCommands: executedCommands,
     });
 });
 

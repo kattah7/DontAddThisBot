@@ -16,22 +16,18 @@ module.exports = {
             7: 'Cooked',
         };
 
-        const poroData = await bot.DB.poroCount.find({}).exec();
-        const allUserLength = Number(poroData.length);
-        const sorted = poroData.sort((a, b) => b.poroPrestige - a.poroPrestige || b.poroCount - a.poroCount);
-
-        const top5 = sorted.slice(allUserLength - 5, allUserLength);
-        const top5String = top5
-            .map(
-                (user) =>
-                    `${user.username} - [P${user.poroPrestige}: ${
-                        displayPoroRankByName[user.poroRank]
-                    }] ${user.poroCount.toLocaleString()} `
-            )
-            .join(' | ');
+        const { loserboards } = await bot.Redis.get('leaderboardEndpoint');
+        const Sorted = loserboards.reverse().slice(0, 5);
+        const SortedMapped = Sorted.map((user, index) => {
+            const { username, poroCount, poroPrestige, poroRank } = user;
+            const isTop3 = index == 0 ? `🥇` : index == 1 ? `🥈` : index == 2 ? `🥉` : ``;
+            return `${isTop3} ${username[0]}\u{E0000}${username.slice(1)} - [P${poroPrestige}: ${
+                displayPoroRankByName[poroRank]
+            }] ${poroCount.toLocaleString()}`;
+        });
 
         return {
-            text: `kattahPoro Poro loserboard: ${top5String}`,
+            text: `kattahPoro Poro loserboard: ${SortedMapped.join(' | ')}`,
         };
     },
 };

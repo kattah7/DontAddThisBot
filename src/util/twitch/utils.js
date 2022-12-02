@@ -1,5 +1,7 @@
 require('dotenv').config();
 const got = require('got');
+const Redis = require('ioredis');
+const redis = new Redis({});
 
 exports.loginByID = async (userID) => {
     if (!userID) return null;
@@ -114,14 +116,13 @@ exports.stvNameToID = async (name) => {
     return nameData.body.user.id;
 };
 
-exports.PoroNumberOne = async (username) => {
-    const poroData = await bot.DB.poroCount.find({}).exec();
-    const sorted = poroData
-        .filter((a) => a.poroPrestige > 0)
-        .sort((a, b) => b.poroPrestige - a.poroPrestige || b.poroRank - a.poroRank || b.poroCount - a.poroCount);
-    const top1 = sorted.slice(0, 10);
-    const findTopTen = top1.find((user) => user.id === username);
-    return findTopTen;
+exports.PoroNumberOne = async (userID) => {
+    if (!userID) return null;
+    const redisValue = await redis.get('leaderboardEndpoint');
+    const { leaderboards } = JSON.parse(redisValue);
+    const user = leaderboards.find((u) => u.id === userID);
+    if (!user) return null;
+    return user;
 };
 
 exports.ParseUser = async (user) => {
