@@ -16,7 +16,7 @@ module.exports = {
         const stvInfo = await getUser(uid);
         if (!stvInfo || stvInfo === null) {
             return {
-                text: `${Emote} - ${isSelfOrTarget} UNKOWN USER`,
+                text: `${Emote} - ${targetUser} UNKOWN USER`,
             };
         }
 
