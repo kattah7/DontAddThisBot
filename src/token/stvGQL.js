@@ -108,3 +108,12 @@ exports.GetEditorOfChannels = async (stvID) => {
     const { data } = await makeRequest(query);
     return data;
 };
+
+exports.GetStvRoles = async () => {
+    const query = {
+        operationName: 'AppState',
+        query: 'query AppState {\n  globalEmoteSet: namedEmoteSet(name: GLOBAL) {\n    id\n    name\n    emotes {\n      id\n      name\n      flags\n      __typename\n    }\n    capacity\n    __typename\n  }\n  roles: roles {\n    id\n    name\n    allowed\n    denied\n    position\n    color\n    invisible\n    __typename\n  }\n}',
+    };
+    const { data } = await makeRequest(query);
+    return data;
+};
