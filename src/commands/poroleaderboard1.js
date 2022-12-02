@@ -16,26 +16,18 @@ module.exports = {
             7: 'Cooked',
         };
 
-        const poroData = await bot.DB.poroCount.find({}).exec();
-        // sort porodata by highest poroprestige and poro rank
-        const topUsers = poroData
-            .filter((a) => a.poroPrestige > -1)
-            .sort((a, b) => b.poroPrestige - a.poroPrestige || b.poroRank - a.poroRank || b.poroCount - a.poroCount);
-
-        const top5 = topUsers.slice(0, 5);
-        const top5Text = top5
-            .map(
-                (user, index) =>
-                    `${index == 0 ? `🥇` : index == 1 ? `🥈` : index == 2 ? `🥉` : ``} ${
-                        user.username[0]
-                    }\u{E0000}${user.username.slice(1)} - [P${user.poroPrestige}: ${
-                        displayPoroRankByName[user.poroRank]
-                    }] ${user.poroCount.toLocaleString()} `
-            )
-            .join(' | ');
+        const { leaderboards } = await bot.Redis.get('leaderboardEndpoint');
+        const Sorted = leaderboards.slice(0, 5);
+        const SortedMapped = Sorted.map((user, index) => {
+            const { username, poroCount, poroPrestige, poroRank } = user;
+            const isTop3 = index == 0 ? `🥇` : index == 1 ? `🥈` : index == 2 ? `🥉` : ``;
+            return `${isTop3} ${username[0]}\u{E0000}${username.slice(1)} - [P${poroPrestige}: ${
+                displayPoroRankByName[poroRank]
+            }] ${poroCount.toLocaleString()}`;
+        });
 
         return {
-            text: `${top5Text}`,
+            text: `kattahPoro Poro leaderboard: ${SortedMapped.join(' | ')}`,
         };
     },
 };
