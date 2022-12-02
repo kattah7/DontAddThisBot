@@ -8,7 +8,7 @@ module.exports = {
     cooldown: 3000,
     description: 'Display all 7tv emotes in chat',
     stvOnly: true,
-    botPerms: 'mod',
+    botPerms: 'vip',
     execute: async (message, args, client) => {
         async function returnTargetID(targetName) {
             const targetUser = await ParseUser(targetName);
