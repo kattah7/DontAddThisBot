@@ -25,25 +25,23 @@ app.use(
         credentials: true,
     }),
     express.json(),
-    parser()
+    parser(),
+    [
+        channelInfo,
+        channels,
+        leaderboard,
+        poroCount,
+        userInfo,
+        commands,
+        grafana,
+        userAuthInfo,
+        botInfo,
+        join,
+        part,
+        create,
+        auth,
+    ]
 );
-for (const API of [
-    channelInfo,
-    channels,
-    leaderboard,
-    poroCount,
-    userInfo,
-    commands,
-    grafana,
-    userAuthInfo,
-    join,
-    part,
-    create,
-    auth,
-    botInfo,
-]) {
-    app.use(API);
-}
 
 app.listen(backend.port, () => {
     Logger.info(`API is running on port 3003`);
