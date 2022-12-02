@@ -19,15 +19,12 @@ module.exports = {
 
         const user = await getUser(args[0] ? await returnTargetID(args[0]) : message.channelID);
         const isSelfOrTarget = args[0] ?? message.channelName;
-        if (!user || user === null) {
+        const { emotes } = user.emote_set;
+        if (!user || user === null || emotes.length === 0) {
             return {
                 text: `7tvM - ${isSelfOrTarget} does not have any 7tv emotes`,
             };
         }
-
-        console;
-        const { emotes } = user.emote_set;
-        console.log(emotes);
 
         let emotesArray = new Array();
         let emotesLength = 0;
