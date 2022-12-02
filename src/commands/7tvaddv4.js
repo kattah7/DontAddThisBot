@@ -1,4 +1,4 @@
-const { getUser, GetEmotes } = require('../token/stvREST');
+const { getUser, GetEmotes, GlobalEmote } = require('../token/stvREST');
 const { AddSTVEmote, SearchSTVEmote } = require('../token/stvGQL');
 
 module.exports = {
@@ -9,6 +9,7 @@ module.exports = {
     stv: true,
     stvOnly: true,
     execute: async (message, args, client, userdata, params, channelInfo) => {
+        const Emote = GlobalEmote();
         if (!args[0]) {
             return {
                 text: `⛔ No emote specified`,
@@ -36,7 +37,7 @@ module.exports = {
             } else {
                 const { name } = await GetEmotes(linkEmote[2]);
                 return {
-                    text: `7tvM "${name}" added to ${message.channelName} ${isParams ? `as "${isParams}"` : ''}`,
+                    text: `${Emote} "${name}" added to ${message.channelName} ${isParams ? `as "${isParams}"` : ''}`,
                 };
             }
         }
@@ -82,7 +83,7 @@ module.exports = {
                 };
             } else {
                 return {
-                    text: `7tvM "${findEmote ? findEmote[1] : name}" added to ${message.channelName} ${
+                    text: `${Emote} "${findEmote ? findEmote[1] : name}" added to ${message.channelName} ${
                         isParams ? `as "${isParams}"` : ''
                     }`,
                 };

@@ -1,5 +1,6 @@
 const { Pool } = require('pg');
 const { postgres } = require('../../../config.json');
+const { GetStvRoles } = require('../../token/stvGQL');
 
 const sql = new Pool({
     ...postgres,
@@ -29,6 +30,19 @@ sql.connect(async function () {
         is_mod INT NOT NULL,
         is_vip INT NOT NULL
     )`);
+
+    await sql.query(`CREATE TABLE IF NOT EXISTS stv_roles (
+        id SERIAL PRIMARY KEY,
+        stv_role VARCHAR(255) NOT NULL,
+        stv_role_id VARCHAR(255) NOT NULL
+    )`);
+
+    const { roles } = await GetStvRoles();
+    for (const { id, name } of roles) {
+        await sql.query(
+            `INSERT INTO stv_roles (stv_role, stv_role_id) SELECT * FROM (SELECT '${name}', '${id}') AS tmp WHERE NOT EXISTS (SELECT stv_role_id FROM stv_roles WHERE stv_role_id = '${id}') LIMIT 1;`
+        );
+    }
 });
 
 module.exports = sql;

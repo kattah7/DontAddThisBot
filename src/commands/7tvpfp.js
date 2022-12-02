@@ -13,7 +13,6 @@ module.exports = {
             throwHttpErrors: false,
             responseType: 'json',
         });
-        //console.log(userData)
 
         const { body: stv } = await got.post(`https://api.7tv.app/v2/gql`, {
             throwHttpErrors: false,
