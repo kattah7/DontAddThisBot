@@ -1,7 +1,7 @@
 const express = require('express');
-const cors = require('cors');
 const parser = require('cookie-parser');
 const { backend } = require('../../config.json');
+const cors = require('cors');
 
 const channelInfo = require('./routes/GET/channelInfo');
 const channels = require('./routes/GET/channels');
@@ -18,30 +18,22 @@ const create = require('./routes/POST/createUser');
 const auth = require('./routes/POST/authenticate');
 
 const app = express();
-
-app.use(
-    cors({
-        origin: backend.origin,
-        credentials: true,
-    }),
-    express.json(),
-    parser(),
-    [
-        channelInfo,
-        channels,
-        leaderboard,
-        poroCount,
-        userInfo,
-        commands,
-        grafana,
-        userAuthInfo,
-        botInfo,
-        join,
-        part,
-        create,
-        auth,
-    ]
-);
+app.use(cors());
+app.use(express.json(), parser(), [
+    channelInfo,
+    channels,
+    leaderboard,
+    poroCount,
+    userInfo,
+    commands,
+    grafana,
+    userAuthInfo,
+    botInfo,
+    join,
+    part,
+    create,
+    auth,
+]);
 
 app.listen(backend.port, () => {
     Logger.info(`API is running on port 3003`);
