@@ -22,7 +22,7 @@ module.exports = {
             };
         }
 
-        const followAge = humanizeDuration(new Date().getTime() - Date.parse(followedAt));
+        const followAge = humanizeDuration(new Date().getTime() - Date.parse(followedAt), { largest: 2 });
         if (statusHidden) {
             const isFollowing = followedAt ? `(Followed ${followAge})` : '';
             return {
