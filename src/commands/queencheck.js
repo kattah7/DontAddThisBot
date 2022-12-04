@@ -8,61 +8,39 @@ module.exports = {
     cooldown: 3000,
     description: 'checks if a user is a queen supporter (Pokimane)',
     execute: async (message, args, client) => {
-        const USERNAME = await ParseUser(args[0] ?? message.senderUsername);
-        let data = await got(`https://api.ivr.fi/twitch/subage/${USERNAME}/pokimane`, {
-            timeout: 10000,
+        const targetUser = await utils.ParseUser(args[0] ?? message.senderUsername);
+        const data = await fetch(`https://api.ivr.fi/v2/twitch/subage/${targetUser}/pokimane`, {
+            method: 'GET',
             headers: {
                 'User-Agent': 'IF YOU SEE THIS VI VON ZULUL',
             },
-        }).json();
-        const followAge = new Date().getTime() - Date.parse(data.followedAt);
+        }).then((res) => res.json());
+        const { statusHidden, followedAt, streak, cumulative, meta, error } = data;
+        if (error) {
+            return {
+                text: `⁉ ${error?.message}` ?? 'Something went wrong',
+            };
+        }
 
-        if (data) {
-            if (data.followedAt == null) {
-                if (data.cumulative.months == 0) {
-                    return {
-                        text: `${data.username} WAS NEVER SUBBED & FOLLOWING D:`,
-                    };
-                } else if (data.subscribed == true) {
-                    return {
-                        text: `${data.username} is subbed to pokimane for ${data.cumulative.months} months & not following. ThankEgg`,
-                    };
-                } else if (data.cumulative.months > 0) {
-                    return {
-                        text: `${data.username} is previously subbed to pokimane for ${data.cumulative.months} months & not following. ThankEgg`,
-                    };
-                }
-            } else if (data.cumulative.months == 0) {
-                if (data.cumulative.months == 0) {
-                    return {
-                        text: `${data.username} was never subbed to pokimane & following for ${humanizeDuration(
-                            followAge
-                        )} ThankEgg`,
-                    };
-                }
-            } else if (data.cumulative.months > 0) {
-                if (data.subscribed == false) {
-                    return {
-                        text: `${data.username} was previously subbed to pokimane for ${
-                            data.cumulative.months
-                        } months & following for ${humanizeDuration(followAge)} ThankEgg`,
-                    };
-                } else if (data.subscribed == true) {
-                    return {
-                        text: `${data.username} is subbed to pokimane for ${
-                            data.cumulative.months
-                        } months & following for ${humanizeDuration(followAge)} ThankEgg`,
-                    };
-                }
-            } else if (data.hidden == true) {
-                return {
-                    text: `${
-                        data.username
-                    }'s subscription is hidden, Try hovering over their sub badge. Following for ${humanizeDuration(
-                        followAge
-                    )} ThankEgg`,
-                };
-            }
+        const followAge = humanizeDuration(new Date().getTime() - Date.parse(followedAt));
+        if (statusHidden) {
+            const isFollowing = followedAt ? `(Followed ${followAge})` : '';
+            return {
+                text: `${targetUser}'s subage is hidden Stare ${isFollowing}`,
+            };
+        }
+
+        if (cumulative === null) {
+            const isFollowing = followedAt ? `(Followed ${followAge}) pokiW` : '';
+            return {
+                text: `${targetUser} is not subbed to pokimane D: ${isFollowing}`,
+            };
+        } else if (cumulative?.months) {
+            const isFollowing = followedAt ? `(Followed ${followAge}) Stare` : '';
+            const isSubbed = meta === null ? 'was previously' : 'is currently';
+            return {
+                text: `${targetUser} ${isSubbed} subbed to pokimane for ${cumulative.months} months PagChomp ${isFollowing}`,
+            };
         }
     },
 };
