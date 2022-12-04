@@ -1,4 +1,4 @@
-const got = require('got');
+const fetch = require('node-fetch');
 const humanizeDuration = require('../util/humanizeDuration');
 const { ParseUser } = require('../util/twitch/utils.js');
 
@@ -8,7 +8,7 @@ module.exports = {
     cooldown: 3000,
     description: 'checks if a user is a queen supporter (Pokimane)',
     execute: async (message, args, client) => {
-        const targetUser = await utils.ParseUser(args[0] ?? message.senderUsername);
+        const targetUser = await ParseUser(args[0] ?? message.senderUsername);
         const data = await fetch(`https://api.ivr.fi/v2/twitch/subage/${targetUser}/pokimane`, {
             method: 'GET',
             headers: {
