@@ -50,7 +50,7 @@ async function reJoin(channelID, newName, newID) {
 async function givePoros(id) {
     const poroInfo = await bot.DB.poroCount.findOne({ id: id }).exec();
     if (poroInfo) {
-        await bot.DB.poroCount.findOneAndUpdate({ id: id }, { $inc: { poroCount: 100 } }).exec();
+        await bot.DB.poroCount.findOneAndUpdate({ id: id }, { $inc: { poroCount: 30 } }).exec();
     }
 }
 
