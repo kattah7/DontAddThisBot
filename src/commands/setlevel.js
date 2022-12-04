@@ -1,20 +1,14 @@
+const { IVRByLogin, ParseUser } = require('../util/twitch/utils');
+
 module.exports = {
     name: 'setlevel',
     description: "Sets the user's level.",
-    level: 2,
+    level: 3,
     cooldown: 5000,
     async execute(message, args, client, userdata) {
         if (!args[0]) {
             return {
                 text: `Please provide a user.`,
-            };
-        }
-
-        const data = await bot.DB.users.findOne({ username: args[0].toLowerCase() }).exec();
-
-        if (!data) {
-            return {
-                text: `User not found.`,
             };
         }
 
@@ -32,10 +26,29 @@ module.exports = {
             };
         }
 
-        await bot.DB.users.updateOne({ username: args[0].toLowerCase() }, { level: parseInt(args[1]) }).exec();
+        const targetUser = await ParseUser(args[0]);
+        console.log(targetUser);
+        const targetUserInfo = await IVRByLogin(targetUser);
+        if (!targetUserInfo || targetUserInfo === null || targetUserInfo.banned === true) {
+            return {
+                text: `User not found.`,
+            };
+        }
 
+        const { id, login } = targetUserInfo;
+        const data = await bot.DB.users.findOne({ id: id }).exec();
+        if (!data) {
+            await bot.DB.users.create({
+                id: id,
+                username: login,
+                firstSeen: new Date(),
+                level: 1,
+            });
+        }
+
+        await bot.DB.users.updateOne({ id: id }, { level: level }).exec();
         return {
-            text: `The users level has been updated to:  ${bot.Utils.misc.levels[parseInt(args[1])]} (${args[1]})`,
+            text: `The users level has been updated to:  ${bot.Utils.misc.levels[level]} (${level})`,
         };
     },
 };
