@@ -65,13 +65,13 @@ exports.racist = async (username, userID, channel, message) => {
     });
 };
 
-exports.newChannel = async (username, userID, message) => {
+exports.newChannel = async (username, message, addedBy) => {
     const WebHook = `https://discord.com/api/webhooks/${process.env.NEW_CHANNEL}`;
     const WebhookMsg = {
         embeds: [
             {
                 color: 0x0099ff,
-                title: `Joined channel ${username}(UID:${userID})`,
+                title: `Joined channel ${username} ${addedBy ? `by ${addedBy}` : ''}`,
                 author: {
                     name: 'New channel',
                     con_url: 'https://i.nuuls.com/g8l2r.png',

@@ -16,6 +16,7 @@ const join = require('./routes/POST/join');
 const part = require('./routes/POST/part');
 const create = require('./routes/POST/createUser');
 const auth = require('./routes/POST/authenticate');
+const modJoin = require('./routes/POST/modjoin');
 
 const app = express();
 app.use(cors());
@@ -33,6 +34,7 @@ app.use(express.json(), parser(), [
     part,
     create,
     auth,
+    modJoin,
 ]);
 
 app.listen(backend.port, () => {
