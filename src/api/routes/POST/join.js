@@ -29,7 +29,10 @@ router.post('/api/bot/join', middleWare, async (req, res) => {
 
         try {
             await client.join(login);
-            await client.say(login, `Joined channel, ${login} kattahPoro Also check @DontAddThisBot panels for info!`);
+            await client.say(
+                login,
+                `Joined channel, ${login} kattahPoro; Also check the bot's panels or https://docs.poros.lol for info!`
+            );
             await new bot.DB.channels({
                 username: login,
                 id: id,
@@ -58,7 +61,7 @@ router.post('/api/bot/join', middleWare, async (req, res) => {
             await client.join(login);
             await client.say(
                 login,
-                `Re-Joined channel, ${login} kattahPoro Also check @DontAddThisBot panels for info!`
+                `Re-Joined channel, ${login} kattahPoro; Check the bot's panels or https://docs.poros.lol for info!`
             );
             await bot.DB.channels.findOneAndUpdate({ id: id }, { $set: { isChannel: true } }).exec();
         } catch (err) {
