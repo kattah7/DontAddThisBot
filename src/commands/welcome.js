@@ -7,6 +7,8 @@ module.exports = {
     cooldown: 3000,
     description: 'Give a new viewer a welcoming message <3',
     botPerms: 'vip',
+    canOptout: true,
+    target: null,
     execute: async (message, args, client) => {
         if (!args[0]) {
             return {

@@ -6,8 +6,11 @@ module.exports = {
     tags: 'stats',
     name: 'bajcheck',
     cooldown: 5000,
+    aliases: [],
     description: 'checks if a user is a baj',
     poro: true,
+    canOptout: true,
+    target: 'self',
     execute: async (message, args, client) => {
         const targetUser = await utils.ParseUser(args[0] ?? message.senderUsername);
         const data = await fetch(`https://api.ivr.fi/v2/twitch/subage/${targetUser}/forsen`, {

@@ -6,6 +6,8 @@ module.exports = {
     name: 'firststream',
     aliases: ['fs'],
     cooldown: 3000,
+    canOptout: true,
+    target: 'channel',
     execute: async (message, args, client) => {
         const targetUser = await utils.ParseUser(args[0] ?? message.channelName);
         const UserID = await utils.IDByLogin(targetUser);
