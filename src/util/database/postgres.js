@@ -14,6 +14,7 @@ sql.connect(async function () {
         twitch_id VARCHAR(255) NOT NULL,
         twitch_login VARCHAR(255) NOT NULL
     )`);
+    await sql.query(`ALTER TABLE users ADD COLUMN IF NOT EXISTS language VARCHAR(255)`);
 
     await sql.query(`CREATE TABLE IF NOT EXISTS commands (
         id SERIAL PRIMARY KEY,
@@ -35,6 +36,14 @@ sql.connect(async function () {
         id SERIAL PRIMARY KEY,
         stv_role VARCHAR(255) NOT NULL,
         stv_role_id VARCHAR(255) NOT NULL
+    )`);
+
+    await sql.query(`CREATE TABLE IF NOT EXISTS user_commands_settings (
+        id SERIAL PRIMARY KEY,
+        twitch_id VARCHAR(255) NOT NULL,
+        twitch_login VARCHAR(255) NOT NULL,
+        command VARCHAR(50) NOT NULL,
+        aliases JSONB NOT NULL DEFAULT '[]'
     )`);
 
     const { roles } = await GetStvRoles();
