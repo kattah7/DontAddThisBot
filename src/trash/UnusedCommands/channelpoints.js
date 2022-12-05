@@ -1,4 +1,4 @@
-const { ChannelPoints } = require('../token/gql');
+const { ChannelPoints } = require('../../token/gql');
 
 module.exports = {
     name: 'channelpoints',
