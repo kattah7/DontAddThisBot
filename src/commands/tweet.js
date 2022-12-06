@@ -5,6 +5,7 @@ module.exports = {
     tags: 'stats',
     name: 'tweet',
     cooldown: 5000,
+    aliases: [],
     description: 'Tweet anything :) Check out your tweet twitter.com/twitchsayschat ',
     execute: async (message, args, client) => {
         const targetUser = message.senderUsername;

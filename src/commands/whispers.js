@@ -2,6 +2,7 @@ module.exports = {
     tags: 'stats',
     name: 'whispers',
     cooldown: 3000,
+    aliases: [],
     description: 'whisper popout',
     execute: async (message, args) => {
         const targetUser = args[0] ?? message.senderUsername;

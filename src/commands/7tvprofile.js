@@ -8,6 +8,7 @@ module.exports = {
     name: '7tv',
     cooldown: 5000,
     description: "Check user's 7tv info YEAHBUT7TV",
+    aliases: [],
     stvOnly: true,
     execute: async (message, args, client) => {
         const Emote = GlobalEmote();

@@ -6,6 +6,7 @@ module.exports = {
     name: 'remove',
     description: 'remove 7tv emotes, |remove (emotes...mutiple)',
     cooldown: 5000,
+    aliases: [],
     stv: true,
     stvOnly: true,
     execute: async (message, args, client, userdata, params) => {

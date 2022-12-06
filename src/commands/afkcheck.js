@@ -5,6 +5,7 @@ module.exports = {
     tags: 'stats',
     name: 'isafk',
     cooldown: 3000,
+    aliases: [],
     description: 'Checks if user is AFK with SupiBot',
     execute: async (message, args, client) => {
         const targetUser = args[0] ?? message.senderUsername;

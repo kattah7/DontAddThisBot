@@ -4,6 +4,7 @@ module.exports = {
     tags: 'stats',
     name: 'bio',
     cooldown: 3000,
+    aliases: [],
     description: "Check user's bio",
     execute: async (message, args, client) => {
         const targetUser = args[0] ?? message.senderUsername;

@@ -5,6 +5,7 @@ module.exports = {
     name: 'massping',
     cooldown: 3000,
     permission: 2,
+    aliases: [],
     description: ':tf:',
     botPerms: 'vip',
     execute: async (message, args, client) => {

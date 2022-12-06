@@ -6,6 +6,7 @@ const { randomInt } = require('crypto');
 module.exports = {
     tags: 'poro',
     name: 'poro',
+    aliases: [],
     cooldown: 5000,
     description: 'Get poro meat every 2 hour',
     poro: true,

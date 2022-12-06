@@ -6,6 +6,7 @@ module.exports = {
     permission: 2,
     stvOnly: true,
     poro: true,
+    aliases: [],
     usage: '<prefix>',
     async execute(message, args, client) {
         if (!args.length) return { text: `you need to specify the prefix` };

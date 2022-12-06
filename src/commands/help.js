@@ -2,6 +2,7 @@ module.exports = {
     name: 'help',
     cooldown: 10000,
     poro: true,
+    aliases: [],
     description: 'Bot help',
     execute: async (message, args, client) => {
         if (args[0]) {

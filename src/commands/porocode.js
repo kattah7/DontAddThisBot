@@ -5,6 +5,7 @@ module.exports = {
     name: 'setcode',
     cooldown: 5000,
     description: 'check poro count of user',
+    aliases: [],
     level: 3,
     execute: async (message, args, client, userdata, params, channelData) => {
         if (!args[0]) {

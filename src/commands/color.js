@@ -6,6 +6,7 @@ module.exports = {
     tags: 'stats',
     name: 'color',
     cooldown: 3000,
+    aliases: [],
     description: "Gets user's chat color",
     execute: async (message, args, client) => {
         async function changeChatColor(chatColor, botColor) {

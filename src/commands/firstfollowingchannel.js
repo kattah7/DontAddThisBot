@@ -5,6 +5,7 @@ module.exports = {
     tags: 'stats',
     name: 'fcf',
     cooldown: 3000,
+    aliases: [],
     description: 'Check your first follower.',
     canOptout: true,
     target: 'self',

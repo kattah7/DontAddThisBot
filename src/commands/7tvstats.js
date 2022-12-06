@@ -6,6 +6,7 @@ module.exports = {
     name: 'stats',
     aliases: ['7tvstats'],
     description: 'Check your 7tv emote usage stats',
+    aliases: [],
     cooldown: 5000,
     stvOnly: true,
     execute: async (message, args, client, userdata, params) => {

@@ -3,6 +3,7 @@ const got = require('got');
 module.exports = {
     tags: 'stats',
     name: 'pfp',
+    aliases: [],
     cooldown: 3000,
     description: "Grabs user's Twitch profile picture",
     execute: async (message, args, client) => {

@@ -5,6 +5,7 @@ module.exports = {
     description: "Sets the user's level.",
     level: 3,
     cooldown: 5000,
+    aliases: [],
     async execute(message, args, client, userdata) {
         if (!args[0]) {
             return {
