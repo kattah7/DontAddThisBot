@@ -46,6 +46,16 @@ sql.connect(async function () {
         aliases JSONB NOT NULL DEFAULT '[]'
     )`);
 
+    await sql.query(`CREATE TABLE IF NOT EXISTS channel_settings (
+        id SERIAL PRIMARY KEY,
+        twitch_id VARCHAR(255) NOT NULL,
+        twitch_login VARCHAR(255) NOT NULL,
+        command VARCHAR(50) NOT NULL,
+        aliases JSONB NOT NULL DEFAULT '[]',
+        offline_only INT NOT NULL DEFAULT 0,
+        is_disabled INT NOT NULL DEFAULT 0
+    )`);
+
     const { roles } = await GetStvRoles();
     for (const { id, name } of roles) {
         await sql.query(
