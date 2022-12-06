@@ -15,7 +15,7 @@ module.exports = {
         const { channelCount } = JSON.parse(redisValue);
         const uptime = humanizeDuration(process.uptime() * 1000);
         return {
-            text: `@${message.senderUsername}, DontAddThisBot has been online for ${uptime} in ${channelCount} channels! kattahSilly`,
+            text: `@${message.senderUsername}, DontAddThisBot has been online for (${uptime}) in ${channelCount} channels! kattahSilly`,
         };
     },
 };
