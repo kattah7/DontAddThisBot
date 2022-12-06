@@ -8,7 +8,6 @@ module.exports = {
     cooldown: 5000,
     aliases: [],
     description: 'checks if a user is a baj',
-    poro: true,
     canOptout: true,
     target: 'self',
     execute: async (message, args, client) => {

@@ -67,17 +67,18 @@ exports.handler = async (commands, aliases, message, client) => {
 
             const userTable = await bot.SQL.query(`SELECT * FROM users WHERE twitch_id = '${message.senderUserID}'`);
             if (userTable.rows[0].twitch_login != message.senderUsername) {
-                await bot.SQL.query(
-                    `UPDATE users SET twitch_login = '${message.senderUsername}' WHERE twitch_id = '${message.senderUserID}'`
-                );
+                async function updateTable(table) {
+                    await bot.SQL.query(
+                        `UPDATE ${JSON.stringify(table)} SET twitch_login = '${
+                            message.senderUsername
+                        }' WHERE twitch_id = '${message.senderUserID}'`
+                    );
+                }
 
-                await bot.SQL.query(
-                    `UPDATE commands SET twitch_login = '${message.senderUsername}' WHERE twitch_id = '${message.senderUserID}'`
-                );
-
-                await bot.SQL.query(
-                    `UPDATE user_commands_settings SET twitch_login = '${message.senderUsername}' WHERE twitch_id = '${message.senderUserID}'`
-                );
+                await updateTable('users');
+                await updateTable('commands');
+                await updateTable('user_commands_settings');
+                await updateTable('channel_settings');
             }
 
             if (userdata.username !== message.senderUsername) {
@@ -102,6 +103,14 @@ exports.handler = async (commands, aliases, message, client) => {
                     .exec();
             }
 
+            const { rows } = await bot.SQL.query(
+                `SELECT * FROM channel_settings WHERE twitch_id = '${message.channelID}' AND command = '${command.name}'`
+            );
+
+            if (userdata.level < 1) {
+                return;
+            }
+
             if (channelData.offlineOnly && !command.offline) {
                 const data = (await GetStreams(message.channelName, true))[0];
                 if (data == undefined) {
@@ -110,8 +119,11 @@ exports.handler = async (commands, aliases, message, client) => {
                 }
             }
 
-            if (userdata.level < 1) {
-                return;
+            if (rows[0]?.is_disabled === 1) {
+                return await client.say(
+                    message.channelName,
+                    `@${message.senderUsername}, this command is disabled on this channel.`
+                );
             }
 
             if (command.cooldown) {
@@ -222,14 +234,6 @@ exports.handler = async (commands, aliases, message, client) => {
                     // vips use displayname
                     return client.say(message.channelName, 'This command requires the bot to be VIP.'); // and since the bot has a feature to change display names
                 } // this my only option
-            }
-
-            if (channelData.poroOnly && !command.poro) {
-                return;
-            }
-
-            if (channelData.stvOnly && !command.stvOnly) {
-                return;
             }
 
             if (command.stv) {

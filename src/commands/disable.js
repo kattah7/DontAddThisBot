@@ -21,9 +21,15 @@ module.exports = {
         };
 
         const input = args[0].toLowerCase();
+        if (input === 'disable' || input === 'enable') {
+            return {
+                text: `You cannot disable the ${input === 'disable' ? 'disable' : 'enable'} command. 4Head`,
+            };
+        }
+
         for (let command of commands) {
-            const { name, aliases } = command[1];
-            if (!aliases) continue;
+            const { name, aliases, level } = command[1];
+            if (!aliases || level > 1) continue;
             function returnNamesAndAliases() {
                 namesAndAliases.command = name;
                 namesAndAliases.aliases = aliases;
@@ -50,8 +56,6 @@ module.exports = {
         );
 
         if (cmd === 'disable') {
-            console.log(rows);
-            console.log('disable');
             if (!rows[0] || rows[0].length === 0) {
                 await bot.SQL.query(
                     `INSERT INTO channel_settings (twitch_id, twitch_login, command, aliases, is_disabled) VALUES ('${
@@ -60,18 +64,39 @@ module.exports = {
                 );
 
                 return {
-                    text: `The command ${command} has been disabled.`,
+                    text: `The command "${command}" has been disabled.`,
+                };
+            } else if (rows[0].is_disabled === 0) {
+                await bot.SQL.query(
+                    `UPDATE channel_settings SET is_disabled = 1 WHERE twitch_id = '${message.senderUserID}' AND command = '${command}';`
+                );
+
+                return {
+                    text: `The command "${command}" has been re-disabled.`,
                 };
             }
 
             if (rows[0].is_disabled === 1) {
                 return {
-                    text: `The command ${command} is already disabled.`,
+                    text: `The command "${command}" is already disabled.`,
                 };
             }
         } else if (cmd === 'enable') {
-            console.log(rows);
-            console.log('enable');
+            if (rows.length === 0 || rows[0].is_disabled === 0) {
+                return {
+                    text: `The command "${command}" is already enabled.`,
+                };
+            }
+
+            if (rows[0].is_disabled === 1) {
+                await bot.SQL.query(
+                    `UPDATE channel_settings SET is_disabled = 0 WHERE twitch_id = '${message.senderUserID}' AND command = '${command}';`
+                );
+
+                return {
+                    text: `The command "${command}" has been enabled.`,
+                };
+            }
         }
     },
 };
