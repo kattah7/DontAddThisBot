@@ -6,7 +6,8 @@ module.exports = {
     cooldown: 5000,
     aliases: ['enable'],
     description: 'Disable a command',
-    permission: 1,
+    level: 3,
+    permission: 2,
     async execute(message, args, client, userdata, params, channelData, cmd) {
         if (!args[0]) {
             return {
