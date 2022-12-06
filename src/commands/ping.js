@@ -12,15 +12,10 @@ module.exports = {
     stvOnly: true,
     execute: async (message, args, client) => {
         const redisValue = await redis.get('channelsEndpoint');
-        const { channelCount, totalPoros, executedCommands } = JSON.parse(redisValue);
-        const ping1 = performance.now();
-        await client.ping();
-        const ping2 = performance.now();
-        const actualPing = (ping2 - ping1).toFixed(0);
+        const { channelCount } = JSON.parse(redisValue);
+        const uptime = humanizeDuration(process.uptime() * 1000);
         return {
-            text: `${message.senderUsername}, kattahPoro 🏓 BOT UPTIME: ${humanizeDuration(
-                process.uptime() * 1000
-            )} - PING: ${actualPing}ms - Channels: ${channelCount} - Executed Commands: ${executedCommands} - Total Poros: ${totalPoros}`,
+            text: `@${message.senderUsername}, DontAddThisBot has been online for ${uptime} in ${channelCount} channels! kattahSilly`,
         };
     },
 };
