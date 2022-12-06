@@ -5,8 +5,11 @@ const { ParseUser } = require('../util/twitch/utils.js');
 module.exports = {
     tags: 'stats',
     name: 'queencheck',
+    aliases: [],
     cooldown: 3000,
     description: 'checks if a user is a queen supporter (Pokimane)',
+    canOptout: true,
+    target: 'self',
     execute: async (message, args, client) => {
         const targetUser = await ParseUser(args[0] ?? message.senderUsername);
         const data = await fetch(`https://api.ivr.fi/v2/twitch/subage/${targetUser}/pokimane`, {

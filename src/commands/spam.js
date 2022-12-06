@@ -5,6 +5,7 @@ module.exports = {
     permission: 1, //1 = mod, 2 = broadcaster
     description: 'Spams message in chat',
     botPerms: 'vip',
+    aliases: [],
     execute: async (message, args, client) => {
         if (args.length < 2) return { text: 'Usage: |spam 3 xd' };
 

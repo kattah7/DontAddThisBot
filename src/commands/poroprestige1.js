@@ -2,6 +2,7 @@ module.exports = {
     tags: 'poro',
     name: 'prestige',
     cooldown: 5000,
+    aliases: [],
     description: 'prestige with 10,000 poro meat',
     poro: true,
     poroRequire: true,

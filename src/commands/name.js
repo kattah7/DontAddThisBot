@@ -5,6 +5,7 @@ module.exports = {
     tags: 'stats',
     name: 'name',
     cooldown: 3000,
+    aliases: [],
     description: 'Check available names on Twitch',
     execute: async (message, args, client) => {
         const targetUser = await utils.ParseUser(args[0] ?? message.senderUsername);

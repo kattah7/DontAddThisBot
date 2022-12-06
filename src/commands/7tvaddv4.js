@@ -6,6 +6,7 @@ module.exports = {
     name: 'add',
     description: 'add 7tv emotes, |add (emote), or |add (emote) (tag)',
     cooldown: 5000,
+    aliases: [],
     stv: true,
     stvOnly: true,
     execute: async (message, args, client, userdata, params, channelInfo) => {

@@ -3,6 +3,7 @@ module.exports = {
     name: '7tvonly',
     aliases: ['7tvonly'],
     cooldown: 3000,
+    aliases: [],
     description: '7tv only cmds',
     stvOnly: true,
     poro: true,

@@ -5,7 +5,10 @@ module.exports = {
     tags: 'stats',
     name: 'history',
     cooldown: 5000,
+    aliases: [],
     description: 'Check name history',
+    canOptout: true,
+    target: null,
     execute: async (message, args, client) => {
         const { body: pogger2 } = await got(`https://api.ivr.fi/v2/twitch/user?login=${args[0]}`, {
             throwHttpErrors: false,

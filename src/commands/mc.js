@@ -4,7 +4,10 @@ module.exports = {
     tags: 'stats',
     name: 'mc',
     cooldown: 3000,
+    aliases: [],
     description: "Gets user's minecraft account age and first name",
+    canOptout: true,
+    target: 'self',
     execute: async (message, args, client) => {
         const targetUser = args[0] ?? message.senderUsername;
         let { body: userData } = await got(`https://api.mojang.com/users/profiles/minecraft/${targetUser}?at=0`, {

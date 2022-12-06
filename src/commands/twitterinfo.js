@@ -4,6 +4,7 @@ module.exports = {
     tags: 'stats',
     name: 'twitter',
     cooldown: 1000,
+    aliases: [],
     description: "Gets info of user's twitter",
     execute: async (message, args, client) => {
         if (!args[0]) {

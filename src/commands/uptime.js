@@ -7,6 +7,7 @@ module.exports = {
     tags: 'stats',
     name: 'uptime',
     cooldown: 3000,
+    aliases: [],
     description: 'Uptime of channel',
     execute: async (message, args, client) => {
         const targetUser = await ParseUser(args[0] ?? message.channelName);

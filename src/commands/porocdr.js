@@ -6,6 +6,7 @@ module.exports = {
     description: 'cooldown reset timer',
     cooldown: 3000,
     poro: true,
+    aliases: [],
     poroRequire: true,
     execute: async (message, args, client) => {
         const displayPoroRankByName = {

@@ -6,7 +6,10 @@ module.exports = {
     tags: 'stats',
     name: 'gambafrog',
     cooldown: 3000,
+    aliases: [],
     description: 'checks if a user is a gamba frog in trainwreckstv',
+    canOptout: true,
+    target: 'self',
     execute: async (message, args, client) => {
         const USERNAME = await utils.ParseUser(args[0] ?? message.senderUsername);
         let data = await got(`https://api.ivr.fi/twitch/subage/${USERNAME}/trainwreckstv`, { timeout: 10000 }).json();

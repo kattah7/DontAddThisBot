@@ -4,6 +4,7 @@ module.exports = {
     cooldown: 3000,
     description: 'Make the bot only type when channel is offline',
     permission: 2,
+    aliases: [],
     stvOnly: true,
     poro: true,
     offline: true,

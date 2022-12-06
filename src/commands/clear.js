@@ -3,6 +3,7 @@ module.exports = {
     name: 'clear',
     description: 'Clears the chat',
     cooldown: 5000,
+    aliases: [],
     permission: 1,
     botPerms: 'mod',
     async execute(message, args, client) {

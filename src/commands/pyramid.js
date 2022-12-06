@@ -3,6 +3,7 @@ module.exports = {
     name: 'pyramid',
     cooldown: 10000,
     description: 'Pyramid command in chat',
+    aliases: [],
     permission: 1,
     botPerms: 'vip',
     async execute(message, args, client) {

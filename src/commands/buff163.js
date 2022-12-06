@@ -4,6 +4,7 @@ module.exports = {
     tags: 'stats',
     name: 'buff',
     cooldown: 5000,
+    aliases: [],
     description: 'Price alert for buff163, usage: |buff <item ID> <price, if you want>',
     execute: async (message, args, client) => {
         const createRedisReminder = async (item) => {

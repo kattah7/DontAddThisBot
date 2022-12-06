@@ -8,6 +8,8 @@ module.exports = {
     aliases: ['fm'],
     cooldown: 3000,
     description: 'First Mod of the channel',
+    canOptout: true,
+    target: 'channel',
     execute: async (message, args, client) => {
         const targetUser = await utils.ParseUser(args[0] ?? message.channelName);
         const modsApi = await fetch(`https://api.ivr.fi/v2/twitch/modvip/${targetUser}?skipCache=false`, {

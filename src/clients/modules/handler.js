@@ -1,4 +1,4 @@
-const utils = require('../../util/twitch/utils.js');
+const { displayName, PoroNumberOne, stvNameToID, ParseUser } = require('../../util/twitch/utils.js');
 const discord = require('../../util/discord.js');
 const { color } = require('../../util/twitch/botcolor.json');
 const { ChangeColor, GetStreams } = require('../../token/helix');
@@ -61,6 +61,25 @@ exports.handler = async (commands, aliases, message, client) => {
                 });
 
             await userdata.save();
+            await bot.SQL.query(
+                `INSERT INTO users (twitch_id, twitch_login) SELECT * FROM (SELECT '${message.senderUserID}', '${message.senderUsername}') AS tmp WHERE NOT EXISTS (SELECT twitch_id FROM users WHERE twitch_id = '${message.senderUserID}') LIMIT 1;`
+            );
+
+            const userTable = await bot.SQL.query(`SELECT * FROM users WHERE twitch_id = '${message.senderUserID}'`);
+            if (userTable.rows[0].twitch_login != message.senderUsername) {
+                async function updateTable(table) {
+                    await bot.SQL.query(
+                        `UPDATE ${JSON.stringify(table)} SET twitch_login = '${
+                            message.senderUsername
+                        }' WHERE twitch_id = '${message.senderUserID}'`
+                    );
+                }
+
+                await updateTable('users');
+                await updateTable('commands');
+                await updateTable('user_commands_settings');
+                await updateTable('channel_settings');
+            }
 
             if (userdata.username !== message.senderUsername) {
                 await bot.DB.users
@@ -84,6 +103,14 @@ exports.handler = async (commands, aliases, message, client) => {
                     .exec();
             }
 
+            const { rows } = await bot.SQL.query(
+                `SELECT * FROM channel_settings WHERE twitch_id = '${message.channelID}' AND command = '${command.name}'`
+            );
+
+            if (userdata.level < 1) {
+                return;
+            }
+
             if (channelData.offlineOnly && !command.offline) {
                 const data = (await GetStreams(message.channelName, true))[0];
                 if (data == undefined) {
@@ -92,8 +119,11 @@ exports.handler = async (commands, aliases, message, client) => {
                 }
             }
 
-            if (userdata.level < 1) {
-                return;
+            if (rows[0]?.is_disabled === 1) {
+                return await client.say(
+                    message.channelName,
+                    `@${message.senderUsername}, this command is disabled on this channel.`
+                );
             }
 
             if (command.cooldown) {
@@ -127,6 +157,43 @@ exports.handler = async (commands, aliases, message, client) => {
                 }
             }
 
+            if (command.canOptout) {
+                async function userCommands(username, commandName) {
+                    const targetUser = await ParseUser(username);
+                    const findUserInTable = await bot.SQL.query(
+                        `SELECT * FROM user_commands_settings WHERE twitch_login = '${targetUser}' AND command = '${commandName}'`
+                    );
+
+                    return findUserInTable.rows[0];
+                }
+
+                if (!args[0]) {
+                    switch (command.target) {
+                        case 'channel': {
+                            const channelOptout = await userCommands(message.channelName, command.name);
+                            if (channelOptout) {
+                                return client.say(
+                                    message.channelName,
+                                    `${message.channelName} has opted out of this command.`
+                                );
+                            }
+                            break;
+                        }
+                        case 'self': {
+                            const selfOptout = await userCommands(message.senderUsername, command.name);
+                            if (selfOptout) {
+                                return client.say(message.channelName, `You have opted out of this command.`);
+                            }
+                        }
+                    }
+                } else {
+                    const targetOptout = await userCommands(args[0], command.name);
+                    if (targetOptout) {
+                        return client.say(message.channelName, `${args[0]} has opted out of this command.`);
+                    }
+                }
+            }
+
             if (command.permission) {
                 if (command.permission == 1 && !message.isMod && message.channelName !== message.senderUsername) {
                     return client.say(message.channelName, 'This command is moderator only.');
@@ -153,7 +220,7 @@ exports.handler = async (commands, aliases, message, client) => {
             }
 
             if (command.botPerms) {
-                const displayNamekek = await utils.displayName('dontaddthisbot');
+                const displayNamekek = await displayName('dontaddthisbot');
                 if (
                     command.botPerms == 'mod' &&
                     !(await client.getMods(message.channelName)).find((mod) => mod == 'dontaddthisbot')
@@ -169,16 +236,8 @@ exports.handler = async (commands, aliases, message, client) => {
                 } // this my only option
             }
 
-            if (channelData.poroOnly && !command.poro) {
-                return;
-            }
-
-            if (channelData.stvOnly && !command.stvOnly) {
-                return;
-            }
-
             if (command.stv) {
-                const StvID = await utils.stvNameToID(message.channelID);
+                const StvID = await stvNameToID(message.channelID);
                 const { user } = await GetEditorOfChannels('629d77a20e60c6d53da64e38');
                 const isBotEditor = user.editor_of.find((x) => x.user.id == StvID); // DontAddThisBot's 7tv id
                 if (!isBotEditor) {
@@ -208,7 +267,7 @@ exports.handler = async (commands, aliases, message, client) => {
                 }
             }
 
-            const response = await command.execute(message, args, client, userdata, params, channelData);
+            const response = await command.execute(message, args, client, userdata, params, channelData, cmd);
 
             if (response) {
                 if (response.error) {
@@ -241,10 +300,6 @@ exports.handler = async (commands, aliases, message, client) => {
                 }
 
                 if (response.text) {
-                    await bot.SQL.query(
-                        `INSERT INTO users (twitch_id, twitch_login) SELECT * FROM (SELECT '${message.senderUserID}', '${message.senderUsername}') AS tmp WHERE NOT EXISTS (SELECT twitch_id FROM users WHERE twitch_id = '${message.senderUserID}') LIMIT 1;`
-                    );
-
                     const findUserCommand = await bot.SQL.query(
                         `SELECT * FROM commands WHERE twitch_id = '${message.senderUserID}' AND command = '${command.name}'`
                     );
@@ -260,23 +315,9 @@ exports.handler = async (commands, aliases, message, client) => {
                             }' AND command = '${command.name}'`
                         );
                     }
-
-                    const userTable = await bot.SQL.query(
-                        `SELECT * FROM users WHERE twitch_id = '${message.senderUserID}'`
-                    );
-
-                    if (userTable.rows[0].twitch_login != message.senderUsername) {
-                        await bot.SQL.query(
-                            `UPDATE users SET twitch_login = '${message.senderUsername}' WHERE twitch_id = '${message.senderUserID}'`
-                        );
-
-                        await bot.SQL.query(
-                            `UPDATE commands SET twitch_login = '${message.senderUsername}' WHERE twitch_id = '${message.senderUserID}'`
-                        );
-                    }
                 }
 
-                if (await utils.PoroNumberOne(message.senderUserID)) {
+                if (await PoroNumberOne(message.senderUserID)) {
                     await ChangeColor(message.ircTags['color']);
                     await client.me(message.channelName, `${response.text}`);
                     await ChangeColor(color);

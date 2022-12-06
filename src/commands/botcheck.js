@@ -4,7 +4,10 @@ module.exports = {
     tags: 'stats',
     name: 'bot',
     cooldown: 3000,
+    aliases: [],
     description: 'Check if user is a verified bot',
+    canOptout: true,
+    target: 'self',
     execute: async (message, args, client) => {
         const targetUser = args[0] ?? message.senderUsername;
         let { body: userData, statusCode } = await got(`https://api.ivr.fi/twitch/resolve/${targetUser}`, {

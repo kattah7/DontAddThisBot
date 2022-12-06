@@ -1,6 +1,7 @@
 module.exports = {
     name: 'hint',
     level: 3,
+    aliases: [],
     cooldown: 5000,
     execute: async (message, args, client) => {
         const doesHintExist = await bot.DB.private.findOne({ code: 'code' }).exec();

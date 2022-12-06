@@ -7,6 +7,7 @@ module.exports = {
     name: 'yoink',
     description: 'yoink 7tv emotes, Usage: |yoink (emotes...mutiple) from:(channel)',
     cooldown: 5000,
+    aliases: [],
     stv: true,
     stvOnly: true,
     execute: async (message, args, client, userdata, params) => {

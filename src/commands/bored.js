@@ -5,6 +5,7 @@ module.exports = {
     tags: 'stats',
     name: 'bored',
     cooldown: 3000,
+    aliases: [],
     description: 'Get stuff to do every 12 hours',
     execute: async (message, args, client) => {
         const lastUsage = await bot.Redis.get(`test:${message.senderUsername}`);
