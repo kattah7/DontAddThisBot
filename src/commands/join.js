@@ -38,7 +38,7 @@ module.exports = {
             await newChannel.save();
             await client.say(
                 message.senderUsername,
-                `Joined channel, ${message.senderUsername} kattahPoro Also check @DontAddThisBot panels for info!`
+                `Joined channel, ${message.senderUsername} kattahPoro Check the bot's panels or https://docs.poros.lol for info!`
             );
             if (poroData) {
                 await bot.DB.poroCount
