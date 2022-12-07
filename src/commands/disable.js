@@ -52,7 +52,7 @@ module.exports = {
         }
 
         const { rows } = await bot.SQL.query(
-            `SELECT * FROM channel_settings WHERE twitch_id = '${message.senderUserID}' AND command = '${command}';`
+            `SELECT * FROM channel_settings WHERE twitch_id = '${message.channelID}' AND command = '${command}';`
         );
 
         if (cmd === 'disable') {
@@ -68,7 +68,7 @@ module.exports = {
                 };
             } else if (rows[0].is_disabled === 0) {
                 await bot.SQL.query(
-                    `UPDATE channel_settings SET is_disabled = 1 WHERE twitch_id = '${message.senderUserID}' AND command = '${command}';`
+                    `UPDATE channel_settings SET is_disabled = 1 WHERE twitch_id = '${message.channelID}' AND command = '${command}';`
                 );
 
                 return {
@@ -90,7 +90,7 @@ module.exports = {
 
             if (rows[0].is_disabled === 1) {
                 await bot.SQL.query(
-                    `UPDATE channel_settings SET is_disabled = 0 WHERE twitch_id = '${message.senderUserID}' AND command = '${command}';`
+                    `UPDATE channel_settings SET is_disabled = 0 WHERE twitch_id = '${message.channelID}' AND command = '${command}';`
                 );
 
                 return {
