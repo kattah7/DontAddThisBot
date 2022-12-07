@@ -223,21 +223,15 @@ exports.handler = async (commands, aliases, message, client) => {
             }
 
             if (command.botPerms) {
-                console.log('yo');
-                const displayNamekek = await displayName('dontaddthisbot');
-                if (
-                    command.botPerms == 'mod' &&
-                    !(await client.getMods(message.channelName)).find((mod) => mod == 'dontaddthisbot')
-                ) {
-                    return client.say(message.channelName, 'This command requires the bot to be modded.');
-                } else if (
-                    command.botPerms == 'vip' &&
-                    !(await client.getVips(message.channelName)).find((vip) => vip == displayNamekek) &&
-                    !(await client.getMods(message.channelName)).find((mod) => mod == 'dontaddthisbot')
-                ) {
-                    // vips use displayname
-                    return client.say(message.channelName, 'This command requires the bot to be VIP.'); // and since the bot has a feature to change display names
-                } // this my only option
+                const { rows } = await bot.SQL.query(
+                    `SELECT * FROM channels WHERE twitch_login = '${message.channelName}'`
+                );
+                const { is_mod, is_vip } = rows[0];
+                if (command.botPerms.includes('mod') && is_mod !== 1) {
+                    return client.say(message.channelName, 'This command requires the bot to be a moderator.');
+                } else if (command.botPerms.includes('vip') && is_vip !== 1 && is_mod !== 1) {
+                    return client.say(message.channelName, 'This command requires the bot to be a VIP.');
+                }
             }
 
             if (command.stv) {
