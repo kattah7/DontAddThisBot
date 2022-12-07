@@ -36,7 +36,7 @@ setInterval(async () => {
     }
     channelsLengthGauge.set(channels);
     totalPoros.set(sum);
-}, 100);
+}, 1000 * 60 * 1);
 
 client.on('message', () => {
     messageMetric.inc(1);
