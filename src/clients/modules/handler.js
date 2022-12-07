@@ -195,10 +195,12 @@ exports.handler = async (commands, aliases, message, client) => {
             }
 
             if (command.permission) {
-                if (command.permission == 1 && !message.isMod && message.channelName !== message.senderUsername) {
-                    return client.say(message.channelName, 'This command is moderator only.');
-                } else if (command.permission == 2 && message.channelName !== message.senderUsername) {
-                    return client.say(message.channelName, 'This command is broadcaster only.');
+                if (userdata.level !== 3) {
+                    if (command.permission == 1 && !message.isMod && message.channelName !== message.senderUsername) {
+                        return client.say(message.channelName, 'This command is moderator only.');
+                    } else if (command.permission == 2 && message.channelName !== message.senderUsername) {
+                        return client.say(message.channelName, 'This command is broadcaster only.');
+                    }
                 }
             }
 
