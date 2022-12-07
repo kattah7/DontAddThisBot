@@ -184,6 +184,7 @@ exports.handler = async (commands, aliases, message, client) => {
                             if (selfOptout) {
                                 return client.say(message.channelName, `You have opted out of this command.`);
                             }
+                            break;
                         }
                     }
                 } else {
