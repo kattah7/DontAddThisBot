@@ -6,7 +6,6 @@ module.exports = {
     description: "Get user's 7tv profile picture",
     cooldown: 5000,
     aliases: [],
-    stvOnly: true,
     execute: async (message, args, client) => {
         const targetUser = args[0] ?? message.senderUsername;
         let { body: userData, statusCode } = await got(`https://api.7tv.app/v2/users/${targetUser.toLowerCase()}`, {

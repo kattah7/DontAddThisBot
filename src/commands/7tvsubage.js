@@ -9,7 +9,6 @@ module.exports = {
     cooldown: 5000,
     aliases: [],
     description: "Check user's 7tv subage YEAHBUT7TV",
-    stvOnly: true,
     execute: async (message, args, client) => {
         const Emote = GlobalEmote();
         const targetUser = await ParseUser(args[0] ?? message.senderUsername);

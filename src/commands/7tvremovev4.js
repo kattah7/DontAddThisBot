@@ -8,7 +8,6 @@ module.exports = {
     cooldown: 5000,
     aliases: [],
     stv: true,
-    stvOnly: true,
     execute: async (message, args, client, userdata, params) => {
         const Emote = GlobalEmote();
         if (!args[0]) {

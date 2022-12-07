@@ -8,7 +8,6 @@ module.exports = {
     aliases: ['give', 'send'],
     cooldown: 5000,
     description: 'Give poro to other user',
-    poro: true,
     execute: async (message, args, client) => {
         const { senderUserID, senderUsername, channelName } = message;
         if (!args[0]) {

@@ -7,7 +7,6 @@ module.exports = {
     aliases: ['emotes'],
     cooldown: 3000,
     description: 'Display all 7tv emotes in chat',
-    stvOnly: true,
     botPerms: 'vip',
     execute: async (message, args, client) => {
         const Emote = GlobalEmote();
