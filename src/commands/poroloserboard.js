@@ -4,7 +4,6 @@ module.exports = {
     cooldown: 5000,
     aliases: ['lb2'],
     description: 'See loserboard of poro meat',
-    poro: true,
     execute: async (message, args, client) => {
         const displayPoroRankByName = {
             1: 'Raw',

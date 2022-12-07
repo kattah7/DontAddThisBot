@@ -4,7 +4,6 @@ module.exports = {
     cooldown: 5000,
     aliases: ['pororankup'],
     description: 'Rank up with poros!',
-    poro: true,
     poroRequire: true,
     execute: async (message, args, client) => {
         const { senderUserID, senderUsername } = message;

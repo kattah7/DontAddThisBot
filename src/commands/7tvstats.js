@@ -8,7 +8,6 @@ module.exports = {
     description: 'Check your 7tv emote usage stats',
     aliases: [],
     cooldown: 5000,
-    stvOnly: true,
     execute: async (message, args, client, userdata, params) => {
         const { channelName } = message;
         const user = await ParseUser(args[0] ?? channelName);

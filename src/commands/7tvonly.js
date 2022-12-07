@@ -5,8 +5,6 @@ module.exports = {
     cooldown: 3000,
     aliases: [],
     description: '7tv only cmds',
-    stvOnly: true,
-    poro: true,
     permission: 2,
     execute: async (message, args, client) => {
         return {

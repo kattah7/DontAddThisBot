@@ -6,7 +6,6 @@ module.exports = {
     cooldown: 5000,
     aliases: ['pororank'],
     description: 'Check your rank in the poro leaderboard',
-    poro: true,
     execute: async (message, args, client) => {
         const targetUser = await utils.ParseUser(args[0]?.toLowerCase() ?? message.senderUsername);
 
