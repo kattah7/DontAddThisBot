@@ -59,7 +59,7 @@ module.exports = {
             if (!rows[0] || rows[0].length === 0) {
                 await bot.SQL.query(
                     `INSERT INTO channel_settings (twitch_id, twitch_login, command, aliases, is_disabled) VALUES ('${
-                        message.senderUserID
+                        message.channelID
                     }', '${message.senderUsername}', '${command}', '${JSON.stringify(aliases)}', 1);`
                 );
 
