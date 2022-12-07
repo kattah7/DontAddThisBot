@@ -9,7 +9,6 @@ module.exports = {
     aliases: [],
     cooldown: 5000,
     description: 'Get poro meat every 2 hour',
-    poro: true,
     execute: async (message, args, client) => {
         const displayPoroRankByName = {
             1: 'Raw',

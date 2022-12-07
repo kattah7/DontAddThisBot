@@ -7,7 +7,6 @@ module.exports = {
     cooldown: 5000,
     aliases: ['poros'],
     description: 'check poro count of user',
-    poro: true,
     execute: async (message, args, client, userdata, params, channelData) => {
         const displayPoroRankByName = {
             1: 'Raw',

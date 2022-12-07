@@ -223,6 +223,7 @@ exports.handler = async (commands, aliases, message, client) => {
             }
 
             if (command.botPerms) {
+                console.log('yo');
                 const displayNamekek = await displayName('dontaddthisbot');
                 if (
                     command.botPerms == 'mod' &&

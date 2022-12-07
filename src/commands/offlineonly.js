@@ -5,8 +5,6 @@ module.exports = {
     description: 'Make the bot only type when channel is offline',
     permission: 2,
     aliases: [],
-    stvOnly: true,
-    poro: true,
     offline: true,
     execute: async (message, args, client) => {
         const user = await bot.DB.channels.findOne({ id: message.senderUserID }).exec();

@@ -4,8 +4,6 @@ module.exports = {
     description: 'changes the bot prefix for your channel (default is "|")',
     cooldown: 3000,
     permission: 2,
-    stvOnly: true,
-    poro: true,
     aliases: [],
     usage: '<prefix>',
     async execute(message, args, client) {

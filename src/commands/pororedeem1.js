@@ -7,7 +7,6 @@ module.exports = {
     cooldown: 5000,
     description: 'Redeem poro meat with speical codes',
     aliases: [],
-    poro: true,
     poroRequire: true,
     execute: async (message, args, client) => {
         const displayPoroRankByName = {
