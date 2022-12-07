@@ -8,31 +8,8 @@ module.exports = {
     poro: true,
     offline: true,
     execute: async (message, args, client) => {
-        const { senderUserID, senderUsername } = message;
-        const user = await bot.DB.channels.findOne({ id: senderUserID }).exec();
-        if (user.poroOnly) {
-            try {
-                await bot.DB.channels.updateOne({ id: senderUserID }, { $set: { poroOnly: false } }).exec();
-                return {
-                    text: `#${senderUsername} is now all cmds`,
-                };
-            } catch (err) {
-                return {
-                    text: 'Failed to update database',
-                };
-            }
-        }
-        if (!user.poroOnly) {
-            try {
-                await bot.DB.channels.updateOne({ id: senderUserID }, { $set: { poroOnly: true } }).exec();
-                return {
-                    text: `#${senderUsername} is now poro cmds only`,
-                };
-            } catch (err) {
-                return {
-                    text: 'Failed to update database',
-                };
-            }
-        }
+        return {
+            text: `This command has been deprecated. Please use |disable instead.`,
+        };
     },
 };
