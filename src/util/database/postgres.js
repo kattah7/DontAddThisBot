@@ -56,47 +56,6 @@ sql.connect(async function () {
         is_disabled INT NOT NULL DEFAULT 0
     )`);
 
-    const channels = await bot.DB.channels.find({ isChannel: true }).exec();
-    for (const { poroOnly, stvOnly, id, username } of channels) {
-        if (!poroOnly && !stvOnly) continue;
-        console.log(username, id);
-        const { commands } = await startCmds();
-        for (let asd of commands) {
-            const dontAllowTheseCommands = [
-                'disable',
-                'ping',
-                'setprefix',
-                'datb',
-                'optout',
-                'join',
-                'part',
-                'offlineonly',
-            ];
-            if (dontAllowTheseCommands.includes(asd[1].name)) continue;
-            if (asd[1].level) continue;
-            if (!asd[1].aliases) continue;
-            await sql.query(
-                `INSERT INTO channel_settings (twitch_id, twitch_login, command, is_disabled) SELECT * FROM (SELECT '${id}', '${username}', '${asd[1].name}', 1) AS tmp WHERE NOT EXISTS (SELECT command FROM channel_settings WHERE command = '${asd[1].name}' AND twitch_id = '${id}') LIMIT 1;`
-            );
-
-            if (poroOnly) {
-                if (asd[1].poro) {
-                    await sql.query(
-                        `UPDATE channel_settings SET is_disabled = 0 WHERE command = '${asd[1].name}' AND twitch_id = '${id}'`
-                    );
-                }
-            }
-            if (stvOnly) {
-                if (asd[1].stvOnly) {
-                    console.log(asd[1].name);
-                    await sql.query(
-                        `UPDATE channel_settings SET is_disabled = 0 WHERE command = '${asd[1].name}' AND twitch_id = '${id}'`
-                    );
-                }
-            }
-        }
-    }
-
     const { roles } = await GetStvRoles();
     for (const { id, name } of roles) {
         await sql.query(
