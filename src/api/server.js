@@ -21,22 +21,22 @@ const modJoin = require('./routes/POST/modjoin');
 const app = express();
 app.use(cors());
 app.use(express.json(), parser(), [
-    channelInfo,
-    channels,
-    leaderboard,
-    poroCount,
-    userInfo,
-    commands,
-    grafana,
-    userAuthInfo,
-    botInfo,
-    join,
-    part,
-    create,
-    auth,
-    modJoin,
+	channelInfo,
+	channels,
+	leaderboard,
+	poroCount,
+	userInfo,
+	commands,
+	grafana,
+	userAuthInfo,
+	botInfo,
+	join,
+	part,
+	create,
+	auth,
+	modJoin,
 ]);
 
 app.listen(backend.port, () => {
-    Logger.info(`API is running on port 3003`);
+	Logger.info(`API is running on port 3003`);
 });

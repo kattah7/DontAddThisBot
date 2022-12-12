@@ -8,7 +8,7 @@ const { PRIVMSG } = require('./PRIVMSG.js');
 const { main } = require('./JoinChannels.js');
 
 exports.Twitch = async function () {
-    for (const execute of [JOIN, PART, USERSTATE, WHISPER, CLEARCHAT, NOTICE, PRIVMSG, main]) {
-        await execute();
-    }
+	for (const execute of [JOIN, PART, USERSTATE, WHISPER, CLEARCHAT, NOTICE, PRIVMSG, main]) {
+		await execute();
+	}
 };
