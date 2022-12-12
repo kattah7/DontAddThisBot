@@ -4,20 +4,20 @@ const { GetStvRoles } = require('../../token/stvGQL');
 const { startCmds } = require('../../clients/modules/commands.js');
 
 const sql = new Pool({
-    ...postgres,
-    database: 'dontaddthisbot',
+	...postgres,
+	database: 'dontaddthisbot',
 });
 
 sql.connect(async function () {
-    Logger.info('Connected to SQL database!');
-    await sql.query(`CREATE TABLE IF NOT EXISTS users (
+	Logger.info('Connected to SQL database!');
+	await sql.query(`CREATE TABLE IF NOT EXISTS users (
         id SERIAL PRIMARY KEY,
         twitch_id VARCHAR(255) NOT NULL,
         twitch_login VARCHAR(255) NOT NULL
     )`);
-    await sql.query(`ALTER TABLE users ADD COLUMN IF NOT EXISTS language VARCHAR(255)`);
+	await sql.query(`ALTER TABLE users ADD COLUMN IF NOT EXISTS language VARCHAR(255)`);
 
-    await sql.query(`CREATE TABLE IF NOT EXISTS commands (
+	await sql.query(`CREATE TABLE IF NOT EXISTS commands (
         id SERIAL PRIMARY KEY,
         twitch_id VARCHAR(255) NOT NULL,
         twitch_login VARCHAR(255) NOT NULL,
@@ -26,20 +26,20 @@ sql.connect(async function () {
         last_used TIMESTAMP NOT NULL DEFAULT NOW()
     )`);
 
-    await sql.query(`CREATE TABLE IF NOT EXISTS channels (
+	await sql.query(`CREATE TABLE IF NOT EXISTS channels (
         id SERIAL PRIMARY KEY,
         twitch_login VARCHAR(255) NOT NULL,
         is_mod INT NOT NULL,
         is_vip INT NOT NULL
     )`);
 
-    await sql.query(`CREATE TABLE IF NOT EXISTS stv_roles (
+	await sql.query(`CREATE TABLE IF NOT EXISTS stv_roles (
         id SERIAL PRIMARY KEY,
         stv_role VARCHAR(255) NOT NULL,
         stv_role_id VARCHAR(255) NOT NULL
     )`);
 
-    await sql.query(`CREATE TABLE IF NOT EXISTS user_commands_settings (
+	await sql.query(`CREATE TABLE IF NOT EXISTS user_commands_settings (
         id SERIAL PRIMARY KEY,
         twitch_id VARCHAR(255) NOT NULL,
         twitch_login VARCHAR(255) NOT NULL,
@@ -47,7 +47,7 @@ sql.connect(async function () {
         aliases JSONB NOT NULL DEFAULT '[]'
     )`);
 
-    await sql.query(`CREATE TABLE IF NOT EXISTS channel_settings (
+	await sql.query(`CREATE TABLE IF NOT EXISTS channel_settings (
         id SERIAL PRIMARY KEY,
         twitch_id VARCHAR(255) NOT NULL,
         twitch_login VARCHAR(255) NOT NULL,
@@ -56,12 +56,12 @@ sql.connect(async function () {
         is_disabled INT NOT NULL DEFAULT 0
     )`);
 
-    const { roles } = await GetStvRoles();
-    for (const { id, name } of roles) {
-        await sql.query(
-            `INSERT INTO stv_roles (stv_role, stv_role_id) SELECT * FROM (SELECT '${name}', '${id}') AS tmp WHERE NOT EXISTS (SELECT stv_role_id FROM stv_roles WHERE stv_role_id = '${id}') LIMIT 1;`
-        );
-    }
+	const { roles } = await GetStvRoles();
+	for (const { id, name } of roles) {
+		await sql.query(
+			`INSERT INTO stv_roles (stv_role, stv_role_id) SELECT * FROM (SELECT '${name}', '${id}') AS tmp WHERE NOT EXISTS (SELECT stv_role_id FROM stv_roles WHERE stv_role_id = '${id}') LIMIT 1;`,
+		);
+	}
 });
 
 module.exports = sql;

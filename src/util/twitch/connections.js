@@ -2,14 +2,14 @@ const { ChatClient, AlternateMessageModifier, SlowModeRateLimiter } = require('@
 require('dotenv').config();
 
 const client = new ChatClient({
-    username: process.env.TWITCH_USERNAME,
-    password: process.env.TWITCH_OAUTH,
-    rateLimits: 'verifiedBot',
-    ignoreUnhandledPromiseRejections: true,
-    connectionRateLimits: {
-        parallelConnections: 6,
-        releaseTime: 1000,
-    },
+	username: process.env.TWITCH_USERNAME,
+	password: process.env.TWITCH_OAUTH,
+	rateLimits: 'verifiedBot',
+	ignoreUnhandledPromiseRejections: true,
+	connectionRateLimits: {
+		parallelConnections: 6,
+		releaseTime: 1000,
+	},
 });
 
 client.use(new AlternateMessageModifier(client));

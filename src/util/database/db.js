@@ -3,58 +3,58 @@ const DB = require('mongoose');
 DB.connect(`mongodb://127.0.0.1:27017/dontaddthisbot`, {});
 
 DB.connection.on('connected', () => {
-    Logger.info(`Connected to database!`);
+	Logger.info(`Connected to database!`);
 });
 
 DB.connection.on('disconnected', () => {
-    Logger.error('Disconnected from database');
+	Logger.error('Disconnected from database');
 });
 
 //Emote Schema
 const ChannelsSchema = new DB.Schema({
-    username: String,
-    id: String,
-    joinedAt: Date,
-    prefix: String,
-    editors: [{ username: String, id: String, grantedAt: Date }],
-    isChannel: Boolean,
-    offlineOnly: false,
-    addedBy: [
-        {
-            username: String,
-            id: String,
-            addedAt: Date,
-        },
-    ],
+	username: String,
+	id: String,
+	joinedAt: Date,
+	prefix: String,
+	editors: [{ username: String, id: String, grantedAt: Date }],
+	isChannel: Boolean,
+	offlineOnly: false,
+	addedBy: [
+		{
+			username: String,
+			id: String,
+			addedAt: Date,
+		},
+	],
 });
 
 const PoroSchema = new DB.Schema({
-    username: String,
-    id: String,
-    joinedAt: Date,
-    poroCount: Number,
-    poroPrestige: Number,
-    poroRank: Number,
+	username: String,
+	id: String,
+	joinedAt: Date,
+	poroCount: Number,
+	poroPrestige: Number,
+	poroRank: Number,
 });
 
 const UserSchema = new DB.Schema({
-    id: String,
-    username: String,
-    firstSeen: Date,
-    level: Number,
-    nameChanges: [{ username: String, changedAt: Date }],
+	id: String,
+	username: String,
+	firstSeen: Date,
+	level: Number,
+	nameChanges: [{ username: String, changedAt: Date }],
 });
 
 const ModerationSchema = new DB.Schema({
-    username: String,
-    id: String,
-    StvID: String,
-    warnings: [{ reason: String, warnedAt: Date, warnedBy: String }],
+	username: String,
+	id: String,
+	StvID: String,
+	warnings: [{ reason: String, warnedAt: Date, warnedBy: String }],
 });
 
 const PrivateSchema = new DB.Schema({
-    code: String,
-    todaysCode: String,
+	code: String,
+	todaysCode: String,
 });
 
 exports.users = DB.model('users', UserSchema);
