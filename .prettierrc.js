@@ -27,7 +27,7 @@ module.exports = {
 	endOfLine: 'lf',
 
 	/** The line length where Prettier will try wrap. */
-	printWidth: 150,
+	printWidth: 200,
 
 	/**
 	 * How to wrap prose.
@@ -54,7 +54,7 @@ module.exports = {
 	singleQuote: true,
 
 	/** Number of spaces per indentation level. */
-	tabWidth: 20,
+	tabWidth: 4,
 
 	/**
 	 * Print trailing commas wherever possible when multi-line.
