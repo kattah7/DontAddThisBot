@@ -310,6 +310,7 @@ exports.handler = async (commands, aliases, message, client) => {
 				if (userTable.rows[0].language !== null && message.channelName !== 'forsen') {
 					const userLanguage = userTable.rows[0].language;
 					const translate = await translateLanguage('en', userLanguage, response.text);
+					console.log(translate);
 					if (translate) {
 						await client.say(message.channelName, translate.result);
 						return;
