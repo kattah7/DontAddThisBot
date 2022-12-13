@@ -46,18 +46,14 @@ module.exports = {
 			};
 		}
 
-		const { rows } = await bot.SQL.query(
-			`SELECT * FROM user_commands_settings WHERE twitch_id = '${message.senderUserID}' AND command = '${command}';`,
-		);
+		const { rows } = await bot.SQL.query(`SELECT * FROM user_commands_settings WHERE twitch_id = '${message.senderUserID}' AND command = '${command}';`);
 
 		if (cmd === 'optout') {
 			if (!rows[0] || rows[0].length === 0) {
 				await bot.SQL.query(
-					`INSERT INTO user_commands_settings (twitch_id, twitch_login, command, aliases) VALUES ('${
-						message.senderUserID
-					}', '${
-						message.senderUsername
-					}', '${command}', '${JSON.stringify(aliases)}');`,
+					`INSERT INTO user_commands_settings (twitch_id, twitch_login, command, aliases) VALUES ('${message.senderUserID}', '${message.senderUsername}', '${command}', '${JSON.stringify(
+						aliases,
+					)}');`,
 				);
 
 				return {
@@ -70,9 +66,7 @@ module.exports = {
 			};
 		} else if (cmd === 'optin') {
 			if (rows[0]) {
-				await bot.SQL.query(
-					`DELETE FROM user_commands_settings WHERE twitch_id = '${message.senderUserID}' AND command = '${command}';`,
-				);
+				await bot.SQL.query(`DELETE FROM user_commands_settings WHERE twitch_id = '${message.senderUserID}' AND command = '${command}';`);
 				return {
 					text: `You have opted in to the ${command} command.`,
 				};

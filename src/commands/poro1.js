@@ -37,14 +37,7 @@ module.exports = {
 			await newChannel.save();
 			await bot.Redis.set(`poro:${senderUserID}`, Date.now(), 0);
 			const Info = await utils.IVR(senderUserID);
-			await discord.NewPoro(
-				Info.createdAt.split('T')[0],
-				senderUserID,
-				senderUsername,
-				channelName,
-				messageText,
-				Info.logo,
-			);
+			await discord.NewPoro(Info.createdAt.split('T')[0], senderUserID, senderUsername, channelName, messageText, Info.logo);
 
 			return {
 				text: `New user! ${senderUsername} kattahDance2 here is free 10 poro meat 🥩`,
@@ -52,27 +45,18 @@ module.exports = {
 		}
 
 		const { poroCount, poroPrestige, poroRank } = channelData;
-		const totalPoros = `[P${poroPrestige}: ${
-			displayPoroRankByName[poroRank]
-		}] ${poroCount.toLocaleString()} meat total!`;
+		const totalPoros = `[P${poroPrestige}: ${displayPoroRankByName[poroRank]}] ${poroCount.toLocaleString()} meat total!`;
 		if (lastUsage || channelData) {
 			if (new Date().getTime() - new Date(lastUsage).getTime() < 1000 * 60 * 60 * 2) {
-				const ms =
-					new Date(lastUsage).getTime() -
-					new Date().getTime() +
-					1000 * 60 * 60 * 2;
+				const ms = new Date(lastUsage).getTime() - new Date().getTime() + 1000 * 60 * 60 * 2;
 				return {
-					text: `No poros found... 🎇 PoroSad ${senderUsername} | ${totalPoros} 🥩  | Come back later in ${humanizeDuration(
-						ms,
-					)}. kattahDance`,
+					text: `No poros found... 🎇 PoroSad ${senderUsername} | ${totalPoros} 🥩  | Come back later in ${humanizeDuration(ms)}. kattahDance`,
 				};
 			}
 		}
 
 		await bot.DB.poroCount.updateOne({ id: senderUserID }, { $set: { poroCount: poroCount + random } }).exec();
-		const totalPorosWithRandom = `[P${poroPrestige}: ${displayPoroRankByName[poroRank]}] ${(
-			poroCount + random
-		).toLocaleString()} meat total!`;
+		const totalPorosWithRandom = `[P${poroPrestige}: ${displayPoroRankByName[poroRank]}] ${(poroCount + random).toLocaleString()} meat total!`;
 		await bot.Redis.set(`poro:${senderUserID}`, Date.now(), 0);
 
 		if (random >= 5 && random <= 9) {

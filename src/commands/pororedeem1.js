@@ -38,34 +38,23 @@ module.exports = {
 
 		if (lastUsage) {
 			if (new Date().getTime() - new Date(lastUsage).getTime() < 1000 * 60 * 60 * 24) {
-				const ms =
-					new Date(lastUsage).getTime() -
-					new Date().getTime() +
-					1000 * 60 * 60 * 24;
+				const ms = new Date(lastUsage).getTime() - new Date().getTime() + 1000 * 60 * 60 * 24;
 				return {
-					text: `${senderUsername}, You have already redeemed the code! Come back in ${humanizeDuration(
-						ms,
-					)} for daily codes`,
+					text: `${senderUsername}, You have already redeemed the code! Come back in ${humanizeDuration(ms)} for daily codes`,
 				};
 			}
 		}
 
 		if (!availableBadges.includes(input)) {
 			return {
-				text: `${senderUsername}, Wrong code :p ${
-					channelName === 'forsen'
-						? 'Check the site for hint :)'
-						: 'hint: https://poros.lol/code'
-				}`,
+				text: `${senderUsername}, Wrong code :p ${channelName === 'forsen' ? 'Check the site for hint :)' : 'hint: https://poros.lol/code'}`,
 			};
 		}
 
 		await bot.DB.poroCount.updateOne({ id: senderUserID }, { $set: { poroCount: poroCount + 50 } }).exec();
 		await bot.Redis.set(`pororedeem:${senderUserID}`, Date.now(), 0);
 		return {
-			text: `Code Redeemed! ${senderUsername} (+50) kattahDance2 total [P${poroPrestige}: ${
-				displayPoroRankByName[poroRank]
-			}] ${poroCount + 50} meat`,
+			text: `Code Redeemed! ${senderUsername} (+50) kattahDance2 total [P${poroPrestige}: ${displayPoroRankByName[poroRank]}] ${poroCount + 50} meat`,
 		};
 	},
 };

@@ -49,19 +49,14 @@ module.exports = {
 			});
 
 			await newChannel.save();
-			await client.say(
-				message.senderUsername,
-				`Joined channel, ${message.senderUsername} kattahPoro Check the bot's panels or https://docs.poros.lol for info!`,
-			);
+			await client.say(message.senderUsername, `Joined channel, ${message.senderUsername} kattahPoro Check the bot's panels or https://docs.poros.lol for info!`);
 			if (poroData) {
 				await bot.DB.poroCount
 					.updateOne(
 						{ id: message.senderUserID },
 						{
 							$set: {
-								poroCount:
-									poroData.poroCount +
-									100,
+								poroCount: poroData.poroCount + 100,
 							},
 						},
 					)

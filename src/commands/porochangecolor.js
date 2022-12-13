@@ -48,27 +48,13 @@ module.exports = {
 				text: `Not enough poro meat! ${senderUsername} PoroSad You need 50 poro meat | [P${poroPrestige}: ${displayPoroRankByName[poroRank]}] ${poroCount} meat total! 🥩`,
 			};
 		} else {
-			await bot.DB.poroCount
-				.updateOne(
-					{ id: senderUserID },
-					{ $set: { poroCount: poroCount - 50 } },
-				)
-				.exec();
+			await bot.DB.poroCount.updateOne({ id: senderUserID }, { $set: { poroCount: poroCount - 50 } }).exec();
 			await ChangeColor(args[0]);
-			await client.say(
-				channelName,
-				`Color changed to ${args[0]}! PoroSad [P${poroPrestige}: ${
-					displayPoroRankByName[poroRank]
-				}] ${poroCount - 50} meat total! 🥩`,
-			);
+			await client.say(channelName, `Color changed to ${args[0]}! PoroSad [P${poroPrestige}: ${displayPoroRankByName[poroRank]}] ${poroCount - 50} meat total! 🥩`);
 			var botColor = {
 				color: args[0],
 			};
-			await fs.writeFile(
-				'src/util/botcolor.json',
-				JSON.stringify(botColor) + '\n',
-				(encoding = 'utf8'),
-			);
+			await fs.writeFile('src/util/botcolor.json', JSON.stringify(botColor) + '\n', (encoding = 'utf8'));
 		}
 	},
 };

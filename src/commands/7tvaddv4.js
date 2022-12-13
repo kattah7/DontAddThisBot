@@ -37,9 +37,7 @@ module.exports = {
 			} else {
 				const { name } = await GetEmotes(linkEmote[2]);
 				return {
-					text: `${Emote} "${name}" added to ${
-						message.channelName
-					} ${isParams ? `as "${isParams}"` : ''}`,
+					text: `${Emote} "${name}" added to ${message.channelName} ${isParams ? `as "${isParams}"` : ''}`,
 				};
 			}
 		}
@@ -52,9 +50,7 @@ module.exports = {
 		if (isHashTag) {
 			if (/#/.test(args[0])) {
 				return {
-					text: `⛔ Usage: ${
-						channelInfo.prefix ?? `|`
-					}add (emote) (tags)`,
+					text: `⛔ Usage: ${channelInfo.prefix ?? `|`}add (emote) (tags)`,
 				};
 			}
 
@@ -70,11 +66,7 @@ module.exports = {
 
 		if (errors) {
 			return {
-				text: `⛔ ${
-					errors[0]?.extensions?.message
-				}; Use the tags feature for accurate results, ${
-					channelInfo.prefix ?? `|`
-				}add (emote) (tags)`,
+				text: `⛔ ${errors[0]?.extensions?.message}; Use the tags feature for accurate results, ${channelInfo.prefix ?? `|`}add (emote) (tags)`,
 			};
 		} else if (data.emotes?.items?.length === 0) {
 			return {
@@ -89,15 +81,7 @@ module.exports = {
 				};
 			} else {
 				return {
-					text: `${Emote} "${
-						findEmote
-							? findEmote[1]
-							: name
-					}" added to ${message.channelName} ${
-						isParams
-							? `as "${isParams}"`
-							: ''
-					}`,
+					text: `${Emote} "${findEmote ? findEmote[1] : name}" added to ${message.channelName} ${isParams ? `as "${isParams}"` : ''}`,
 				};
 			}
 		}

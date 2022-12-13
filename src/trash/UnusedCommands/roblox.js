@@ -8,10 +8,7 @@ module.exports = {
 	execute: async (message, args, client) => {
 		const targetUser = args[0] ?? message.senderUsername;
 		const targetChannel = args[1] ?? message.channelName;
-		let { body: userData, statusCode } = await got(
-			`https://api.roblox.com/users/get-by-username?username=${targetUser}`,
-			{ timeout: 10000, throwHttpErrors: false, responseType: 'json' },
-		);
+		let { body: userData, statusCode } = await got(`https://api.roblox.com/users/get-by-username?username=${targetUser}`, { timeout: 10000, throwHttpErrors: false, responseType: 'json' });
 		//console.log(userData)
 		const id = userData.Id;
 		const online = userData.IsOnline;
@@ -33,11 +30,9 @@ module.exports = {
 			};
 		} else {
 			return {
-				text: `${targetUser}'s Roblox display name is ${display}, Created ${
-					age.split('T')[0]
-				}, Status: ${
-					userData.IsOnline ? 'Online ✅' : 'Offline ❌'
-				}, Banned: ${data.isBanned ? 'TRUE ✅' : 'False ❌'}`,
+				text: `${targetUser}'s Roblox display name is ${display}, Created ${age.split('T')[0]}, Status: ${userData.IsOnline ? 'Online ✅' : 'Offline ❌'}, Banned: ${
+					data.isBanned ? 'TRUE ✅' : 'False ❌'
+				}`,
 			};
 		}
 	},

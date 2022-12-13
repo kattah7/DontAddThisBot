@@ -64,54 +64,29 @@ module.exports = {
 					let emotes = [];
 					let pos = 0;
 					for (f of xd.node.content.fragments) {
-						const pos2 =
-							pos +
-							f.text
-								.length -
-							1;
-						if (f.content?.emoteID)
-							emotes.push(
-								`${f.content.emoteID}:${pos}-${pos2}`,
-							);
+						const pos2 = pos + f.text.length - 1;
+						if (f.content?.emoteID) emotes.push(`${f.content.emoteID}:${pos}-${pos2}`);
 						pos += ulength(f.text);
 					}
 
 					const tags = {
 						id: xd.node.id,
-						badges: xd.node.sender.displayBadges
-							.map(
-								(
-									b,
-								) =>
-									`${b.setID}/${b.version}`,
-							)
-							.join(),
-						color: xd.node.sender
-							.chatColor,
+						badges: xd.node.sender.displayBadges.map((b) => `${b.setID}/${b.version}`).join(),
+						color: xd.node.sender.chatColor,
 						emotes: emotes.join('/'),
-						'display-name': xd.node.sender
-							.displayName,
-						'tmi-sent-ts': Date.parse(
-							xd.node
-								.sentAt,
-						),
+						'display-name': xd.node.sender.displayName,
+						'tmi-sent-ts': Date.parse(xd.node.sentAt),
 					};
 
 					const rawTags = Object.entries(tags)
 						.map(([k, v]) => `${k}=${v}`)
 						.join(';');
-					tmiData.push(
-						`@${rawTags} :${xd.node.sender.login} PRIVMSG #${message.channelName} :${text}`,
-					);
+					tmiData.push(`@${rawTags} :${xd.node.sender.login} PRIVMSG #${message.channelName} :${text}`);
 				}
 
 				const paste = await got
 					.post('https://paste.ivr.fi/documents', {
-						body: tmiData
-							.reverse()
-							.join(
-								'\n',
-							),
+						body: tmiData.reverse().join('\n'),
 					})
 					.json();
 				console.log(`Result: https://paste.ivr.fi/raw/${paste.key}`);
@@ -123,9 +98,7 @@ module.exports = {
 					message.channelName,
 					`${user} has sent ${total} messages. Their first message in this channel was ${
 						timestamp.split('T')[0]
-					} ago: "${text}" More info => https://logs.raccatta.cc/?url=https://paste.ivr.fi/raw/${
-						paste.key
-					}?reverse`,
+					} ago: "${text}" More info => https://logs.raccatta.cc/?url=https://paste.ivr.fi/raw/${paste.key}?reverse`,
 				);
 			} else if (nextCursor) {
 				fetchMessages(nextCursor);

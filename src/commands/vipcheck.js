@@ -32,11 +32,7 @@ module.exports = {
 
 		const { login, grantedAt } = vips[0];
 		return {
-			text: `${
-				message.senderUsername
-			}, First VIP of ${targetUser} is ${login} (${humanizeDuration(
-				Date.now() - new Date(grantedAt),
-			)})`,
+			text: `${message.senderUsername}, First VIP of ${targetUser} is ${login} (${humanizeDuration(Date.now() - new Date(grantedAt))})`,
 		};
 	},
 };

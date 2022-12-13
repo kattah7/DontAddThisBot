@@ -15,9 +15,7 @@ module.exports = {
 		if (userData.followedAt) {
 			const ms = new Date().getTime() - Date.parse(userData.followedAt);
 			return {
-				text: `${targetUser} has been following ${targetChannel} for ${humanizeDuration(
-					ms,
-				)} BatChest`,
+				text: `${targetUser} has been following ${targetChannel} for ${humanizeDuration(ms)} BatChest`,
 			};
 		} else {
 			return {

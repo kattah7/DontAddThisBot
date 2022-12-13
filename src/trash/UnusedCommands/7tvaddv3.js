@@ -13,10 +13,7 @@ module.exports = {
 			const channelData = await bot.DB.channels.findOne({ id: message.channelID }).exec();
 			const isArgsRegex = args[0]
 				? regex.test(args[0]) || args[1]
-					? `⛔ Usage ${
-							channelData.prefix ??
-							`|`
-					  }add <emote> <set:name>`
+					? `⛔ Usage ${channelData.prefix ?? `|`}add <emote> <set:name>`
 					: `⛔ Please specify an correct emote`
 				: `⛔ Please specify an emote`;
 			return {
@@ -43,9 +40,7 @@ module.exports = {
 				};
 			} else {
 				const channelEmotes = addEmote.data.emoteSet.emotes;
-				const findAddedEmote = channelEmotes.find(
-					(x) => x.id == linkEmote[2],
-				);
+				const findAddedEmote = channelEmotes.find((x) => x.id == linkEmote[2]);
 				return {
 					text: `7tvM "${findAddedEmote.name}" added to ${message.channelName}`,
 				};
@@ -68,10 +63,7 @@ module.exports = {
 				};
 			}
 
-			const addEmote = await utils.AddSTVEmote(
-				SearchEmote.data.emotes.items[0].id,
-				findParamEmoteSet.id,
-			);
+			const addEmote = await utils.AddSTVEmote(SearchEmote.data.emotes.items[0].id, findParamEmoteSet.id);
 			if (addEmote.errors) {
 				return {
 					text: `⛔ ${addEmote.errors[0].extensions.message}`,

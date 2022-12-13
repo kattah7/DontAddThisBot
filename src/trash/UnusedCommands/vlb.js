@@ -23,13 +23,7 @@ module.exports = {
 			userData.bots[3].pop();
 			userData.bots[4].pop();
 			return {
-				text: `#1 ${userData.bots[0].join(
-					', ',
-				)} Channels | #2 ${userData.bots[1].join(
-					', ',
-				)} Channels | #3 ${userData.bots[2].join(
-					', ',
-				)} Channels | #4 ${userData.bots[3].join(
+				text: `#1 ${userData.bots[0].join(', ')} Channels | #2 ${userData.bots[1].join(', ')} Channels | #3 ${userData.bots[2].join(', ')} Channels | #4 ${userData.bots[3].join(
 					', ',
 				)} Channels | #5 ${userData.bots[4].join(', ')} Channels | `,
 			};
@@ -84,19 +78,10 @@ module.exports = {
 		}
 		for (const userDatas of userData.bots) {
 			if (userDatas.includes(args[0])) {
-				const rank =
-					parseInt(
-						userData.bots.findIndex(
-							(e) =>
-								e[0] ===
-								args[0].toLowerCase(),
-						),
-					) + 1 ?? 0;
+				const rank = parseInt(userData.bots.findIndex((e) => e[0] === args[0].toLowerCase())) + 1 ?? 0;
 				userDatas.pop();
 				return {
-					text: `#${rank}, @${userDatas.join(
-						', ',
-					)}/${xd} Channels, Currently ${BRUH} users in viewerlist.`,
+					text: `#${rank}, @${userDatas.join(', ')}/${xd} Channels, Currently ${BRUH} users in viewerlist.`,
 				};
 			}
 		}

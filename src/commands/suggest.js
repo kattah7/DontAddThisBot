@@ -14,8 +14,7 @@ module.exports = {
 			responseType: 'json',
 		});
 		const pfp = userData.logo;
-		const XD =
-			'https://discord.com/api/webhooks/987635741523869757/MyyRLZ6MV-GSLjuzHEU2JJ5fyWcimcFiT_NGiLRfp-ibv5KpUF2kzHH-kNDgfHfU1leY';
+		const XD = 'https://discord.com/api/webhooks/987635741523869757/MyyRLZ6MV-GSLjuzHEU2JJ5fyWcimcFiT_NGiLRfp-ibv5KpUF2kzHH-kNDgfHfU1leY';
 		const KEKW = {
 			embeds: [
 				{

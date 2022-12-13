@@ -17,17 +17,13 @@ module.exports = {
 		};
 		let channels = [];
 		while (Object.keys(pagination['pagination']).length != 0) {
-			var response = await fetch(
-				`https://api.twitch.tv/helix/users/follows?from_id=${message.senderUserID}&first=100&after=${pagination['pagination']['cursor']}`,
-				{
-					headers: {
-						'Client-ID': process.env
-							.CLIENT_ID,
-						Authorization: `Bearer ${process.env.ACCESS_TOKEN}`,
-					},
-					method: 'GET',
+			var response = await fetch(`https://api.twitch.tv/helix/users/follows?from_id=${message.senderUserID}&first=100&after=${pagination['pagination']['cursor']}`, {
+				headers: {
+					'Client-ID': process.env.CLIENT_ID,
+					Authorization: `Bearer ${process.env.ACCESS_TOKEN}`,
 				},
-			);
+				method: 'GET',
+			});
 			var json = await response.json();
 			pagination = json;
 			for (const user of json['data']) {
@@ -38,16 +34,10 @@ module.exports = {
 		if (!args[0] || targetUser == message.senderUsername) {
 			const IVR2 = await utils.IVR(message.senderUserID);
 			const { id, roles, createdAt } = IVR2;
-			const whichRoles = roles.isPartner
-				? `Partner;`
-				: roles.isAffiliate
-				? `Affiliate;`
-				: `Roles: none;`;
+			const whichRoles = roles.isPartner ? `Partner;` : roles.isAffiliate ? `Affiliate;` : `Roles: none;`;
 			const isStaff = roles.isStaff ? `Staff;` : ``;
 			return {
-				text: `${message.senderUsername}; ${id}; ${
-					createdAt.split('T')[0]
-				}; ${whichRoles} ${isStaff}`,
+				text: `${message.senderUsername}; ${id}; ${createdAt.split('T')[0]}; ${whichRoles} ${isStaff}`,
 			};
 		}
 
@@ -66,17 +56,13 @@ module.exports = {
 		};
 		let channels2 = [];
 		while (Object.keys(pagination2['pagination']).length != 0) {
-			var response = await fetch(
-				`https://api.twitch.tv/helix/users/follows?from_id=${userID}&first=100&after=${pagination2['pagination']['cursor']}`,
-				{
-					headers: {
-						'Client-ID': process.env
-							.CLIENT_ID,
-						Authorization: `Bearer ${process.env.ACCESS_TOKEN}`,
-					},
-					method: 'GET',
+			var response = await fetch(`https://api.twitch.tv/helix/users/follows?from_id=${userID}&first=100&after=${pagination2['pagination']['cursor']}`, {
+				headers: {
+					'Client-ID': process.env.CLIENT_ID,
+					Authorization: `Bearer ${process.env.ACCESS_TOKEN}`,
 				},
-			);
+				method: 'GET',
+			});
 			var json = await response.json();
 			pagination2 = json;
 			for (const user of json['data']) {
@@ -86,21 +72,14 @@ module.exports = {
 		const { banned, banReason, id, roles, createdAt } = IVR;
 		const compare = channels.filter((x) => channels2.includes(x));
 		if (compare.length != 0) {
-			var paste = await got
-				.post('https://paste.ivr.fi/documents', { body: compare.join('\n') })
-				.json();
+			var paste = await got.post('https://paste.ivr.fi/documents', { body: compare.join('\n') }).json();
 		}
-		const isCompareZero =
-			compare.length > 0
-				? `You follow ${compare.length} common channels with ${targetUser}. More info ==> https://paste.ivr.fi/raw/${paste.key}`
-				: ``;
+		const isCompareZero = compare.length > 0 ? `You follow ${compare.length} common channels with ${targetUser}. More info ==> https://paste.ivr.fi/raw/${paste.key}` : ``;
 		const isBanned = banned ? `⛔ ${banReason};` : ``;
 		const whichRoles = roles.isPartner ? `Partner;` : roles.isAffiliate ? `Affiliate;` : `Roles: none;`;
 		const isStaff = roles.isStaff ? `Staff;` : ``;
 		return {
-			text: `${targetUser}; ${id}; ${
-				createdAt.split('T')[0]
-			}; ${isBanned} ${whichRoles} ${isStaff} ${isCompareZero}`,
+			text: `${targetUser}; ${id}; ${createdAt.split('T')[0]}; ${isBanned} ${whichRoles} ${isStaff} ${isCompareZero}`,
 		};
 	},
 };

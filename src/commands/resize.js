@@ -27,21 +27,12 @@ module.exports = {
 				text: `https://ezgif.com/resize?url=https://static-cdn.jtvnw.net/emoticons/v2/${twitchEmote['id']}/default/dark/3.0`,
 			};
 		} else {
-			const getEmote = await fetch(`https://api.ivr.fi/v2/twitch/emotes/${args[0]}`).then(
-				(res) => res.json(),
-			);
+			const getEmote = await fetch(`https://api.ivr.fi/v2/twitch/emotes/${args[0]}`).then((res) => res.json());
 			if (getEmote.error) {
-				const { emote_set } = await fetch(
-					`https://7tv.io/v3/users/twitch/${message.channelID}`,
-				).then((res) => res.json());
-				const findEmote = emote_set['emotes'].find(
-					(e) => e['name'] === args[0],
-				);
+				const { emote_set } = await fetch(`https://7tv.io/v3/users/twitch/${message.channelID}`).then((res) => res.json());
+				const findEmote = emote_set['emotes'].find((e) => e['name'] === args[0]);
 				if (!findEmote) {
-					const searchEmote = await SearchSTVEmote(
-						args[0],
-						false,
-					);
+					const searchEmote = await SearchSTVEmote(args[0], false);
 					if (searchEmote.errors) {
 						return {
 							text: `⛔ ${searchEmote.errors[0].extensions.message}`,
@@ -58,10 +49,7 @@ module.exports = {
 			}
 
 			return {
-				text: `https://ezgif.com/resize?url=${getEmote.emoteURL.replace(
-					'1.0',
-					'4.0',
-				)}`,
+				text: `https://ezgif.com/resize?url=${getEmote.emoteURL.replace('1.0', '4.0')}`,
 			};
 		}
 	},

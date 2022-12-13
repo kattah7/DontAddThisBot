@@ -26,18 +26,9 @@ module.exports = {
 			}
 			if (edges.length > 0) {
 				return {
-					text: `First clip: ${edges[0].node.url} by ${
-						edges[0].node.curator.login
-					} in #${
-						edges[0].node.broadcaster
-							.login
-					} | Game: ${edges[0].node.game.name} | Date: ${
-						edges[0].node.createdAt.split(
-							'T',
-						)[0]
-					} | Title: ${edges[0].node.title} | TotalViews: ${
-						edges[0].node.viewCount
-					}`,
+					text: `First clip: ${edges[0].node.url} by ${edges[0].node.curator.login} in #${edges[0].node.broadcaster.login} | Game: ${edges[0].node.game.name} | Date: ${
+						edges[0].node.createdAt.split('T')[0]
+					} | Title: ${edges[0].node.title} | TotalViews: ${edges[0].node.viewCount}`,
 				};
 			}
 		} catch (error) {

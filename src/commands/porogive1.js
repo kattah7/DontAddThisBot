@@ -78,9 +78,7 @@ module.exports = {
 								},
 								{
 									$set: {
-										poroCount:
-											Amount -
-											sendAmount,
+										poroCount: Amount - sendAmount,
 									},
 								},
 								{
@@ -88,16 +86,7 @@ module.exports = {
 								},
 							)
 							.exec();
-						await PoroGive(
-							senderUsername,
-							senderUserID,
-							channelName,
-							parseUser,
-							recieverID,
-							sendAmount,
-							Amount,
-							Amount2,
-						);
+						await PoroGive(senderUsername, senderUserID, channelName, parseUser, recieverID, sendAmount, Amount, Amount2);
 						if (recieverID) {
 							await bot.DB.poroCount
 								.updateOne(
@@ -106,9 +95,7 @@ module.exports = {
 									},
 									{
 										$set: {
-											poroCount:
-												Amount2 +
-												sendAmount,
+											poroCount: Amount2 + sendAmount,
 										},
 									},
 									{
@@ -117,35 +104,15 @@ module.exports = {
 								)
 								.exec();
 						}
-						await client.say(
-							channelName,
-							`${senderUsername}, You have ${
-								Amount -
-								sendAmount
-							} now and ${
-								args[0]
-							} has ${
-								Amount2 +
-								sendAmount
-							}`,
-						);
+						await client.say(channelName, `${senderUsername}, You have ${Amount - sendAmount} now and ${args[0]} has ${Amount2 + sendAmount}`);
 					} else {
-						await client.say(
-							channelName,
-							`${senderUsername}, You must have more than 100 poros kattahPoro`,
-						);
+						await client.say(channelName, `${senderUsername}, You must have more than 100 poros kattahPoro`);
 					}
 				} else {
-					await client.say(
-						channelName,
-						`You dont have enough poro to give ${sendAmount} to ${args[0]} kattahPoro`,
-					);
+					await client.say(channelName, `You dont have enough poro to give ${sendAmount} to ${args[0]} kattahPoro`);
 				}
 			} else {
-				await client.say(
-					channelName,
-					`${senderUsername}, You can't give poro to yourself PoroSad`,
-				);
+				await client.say(channelName, `${senderUsername}, You can't give poro to yourself PoroSad`);
 			}
 		} else {
 			await client.say(channelName, `${args[0]} is blacklisted PoroSad`);

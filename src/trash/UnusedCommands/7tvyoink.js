@@ -31,48 +31,23 @@ module.exports = {
 			const findEmote = channelEmotes.data.emoteSet.emotes.find((x) => x.name == args[0]);
 			if (findEmote) {
 				const senderChannel = await utils.StvChannelEmotes(StvID2);
-				const emoteConflict = senderChannel.data.emoteSet.emotes.find(
-					(x) => x.name == args[0],
-				);
+				const emoteConflict = senderChannel.data.emoteSet.emotes.find((x) => x.name == args[0]);
 				if (emoteConflict) {
 					return {
 						text: `⛔ Emote "${args[0]}" already exists in ${message.senderUsername}, therefore it cannot be yoinked...`,
 					};
 				} else {
-					const xddddd = await utils.StvChannelEmotes(
-						StvID2,
-					);
-					const availableEmotes =
-						xddddd.data.emoteSet.emotes
-							.length;
-					if (
-						availableEmotes ==
-						xddddd.data.emoteSet.capacity
-					) {
+					const xddddd = await utils.StvChannelEmotes(StvID2);
+					const availableEmotes = xddddd.data.emoteSet.emotes.length;
+					if (availableEmotes == xddddd.data.emoteSet.capacity) {
 						return {
 							text: `⛔ ${message.senderUsername}'s emote slots is full`,
 						};
 					} else {
-						const KEKG =
-							await utils.IDtoEmote(
-								findEmote.id,
-							);
-						const doesSignInRequire =
-							await utils.AddSTVEmote(
-								findEmote.id,
-								StvID2,
-							);
-						if (
-							doesSignInRequire
-								.data
-								.emoteSet ==
-							null
-						) {
-							switch (
-								doesSignInRequire
-									.errors[0]
-									.message
-							) {
+						const KEKG = await utils.IDtoEmote(findEmote.id);
+						const doesSignInRequire = await utils.AddSTVEmote(findEmote.id, StvID2);
+						if (doesSignInRequire.data.emoteSet == null) {
+							switch (doesSignInRequire.errors[0].message) {
 								case '70401 Sign-In Required': {
 									return {
 										text: `⛔ ${doesSignInRequire.errors[0].message}`,
@@ -81,11 +56,7 @@ module.exports = {
 							}
 						}
 						if (KEKG != args[0]) {
-							await utils.AliasSTVEmote(
-								findEmote.id,
-								StvID2,
-								args[0],
-							);
+							await utils.AliasSTVEmote(findEmote.id, StvID2, args[0]);
 							return {
 								text: `7tvM Yoinked ${args[0]} into ${message.senderUsername}'s channel & auto aliased it to ${args[0]}`,
 							};

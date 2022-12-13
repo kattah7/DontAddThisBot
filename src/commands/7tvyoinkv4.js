@@ -13,11 +13,7 @@ module.exports = {
 		const Emote = GlobalEmote();
 		if (!args[0] || !params.from) {
 			return {
-				text: `⛔ Please specify an ${
-					args[0]
-						? 'channel, Usage: |yoink <emotes...mutiple> from:<channel>'
-						: 'emote'
-				}`,
+				text: `⛔ Please specify an ${args[0] ? 'channel, Usage: |yoink <emotes...mutiple> from:<channel>' : 'emote'}`,
 			};
 		}
 
@@ -71,11 +67,7 @@ module.exports = {
 				}
 				const emote = await GetEmotes(x.id);
 				if (emote.name != x.name) {
-					const aliasEmote = await AliasSTVEmote(
-						x.id,
-						user.emote_set.id,
-						x.name,
-					);
+					const aliasEmote = await AliasSTVEmote(x.id, user.emote_set.id, x.name);
 					if (aliasEmote?.data?.emoteSet != null) {
 						pushAliases.push(x.name);
 					}
@@ -108,11 +100,7 @@ module.exports = {
 		}
 
 		return {
-			text: `${Emote} Added ${pushEmotes.length} emotes from ${channel} to your emote set${
-				pushAliases.length > 0
-					? `, and auto-aliased ${pushAliases.length} emote`
-					: ''
-			}`,
+			text: `${Emote} Added ${pushEmotes.length} emotes from ${channel} to your emote set${pushAliases.length > 0 ? `, and auto-aliased ${pushAliases.length} emote` : ''}`,
 		};
 	},
 };

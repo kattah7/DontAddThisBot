@@ -8,14 +8,12 @@ module.exports = {
 	execute: async (message, args, client) => {
 		const pogger = await ChannelPoints(args[0]);
 		const channelPoints = pogger.data.community.channel.communityPointsSettings.customRewards;
-		const channelPointsMapped = channelPoints.map(
-			({ cost, title, prompt, redemptionsRedeemedCurrentStream }) => ({
-				title: title,
-				cost: cost,
-				prompt: prompt,
-				redeemCountThisStream: redemptionsRedeemedCurrentStream,
-			}),
-		);
+		const channelPointsMapped = channelPoints.map(({ cost, title, prompt, redemptionsRedeemedCurrentStream }) => ({
+			title: title,
+			cost: cost,
+			prompt: prompt,
+			redeemCountThisStream: redemptionsRedeemedCurrentStream,
+		}));
 		console.log(channelPointsMapped);
 	},
 };

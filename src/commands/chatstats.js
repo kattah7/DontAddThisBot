@@ -18,9 +18,7 @@ module.exports = {
 		}
 		const { totalMessages, chatters, twitchEmotes } = data;
 		return {
-			text: `This channel has (${totalMessages.toLocaleString()}) messages in total; ${
-				chatters[0]['name']
-			} Top Chatter; "${twitchEmotes[0]['emote']}" Top Twitch Emote with (${twitchEmotes[0][
+			text: `This channel has (${totalMessages.toLocaleString()}) messages in total; ${chatters[0]['name']} Top Chatter; "${twitchEmotes[0]['emote']}" Top Twitch Emote with (${twitchEmotes[0][
 				'amount'
 			].toLocaleString()}) uses`,
 		};

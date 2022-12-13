@@ -40,9 +40,7 @@ module.exports = {
 					{ id: message.senderUserID },
 					{
 						$set: {
-							poroCount:
-								channelData.poroCount -
-								50,
+							poroCount: channelData.poroCount - 50,
 						},
 					},
 				)
@@ -73,9 +71,7 @@ module.exports = {
 			});
 
 			return {
-				text: `Name Changed to ${args[0]}! PoroSad [P:${
-					channelData.poroPrestige
-				}] ${channelData.poroCount - 50} meat total! 🥩`,
+				text: `Name Changed to ${args[0]}! PoroSad [P:${channelData.poroPrestige}] ${channelData.poroCount - 50} meat total! 🥩`,
 			};
 		}
 	},

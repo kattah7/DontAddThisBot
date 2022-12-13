@@ -15,16 +15,13 @@ module.exports = {
 			};
 		}
 		try {
-			const { body: getModsNVips } = await got.get(
-				`https://api.ivr.fi/v2/twitch/modvip/${targetUser}?skipCache=false`,
-				{
-					throwHttpErrors: false,
-					responseType: 'json',
-					headers: {
-						'User-Agent': 'IF YOU SEE THIS VI VON ZULUL',
-					},
+			const { body: getModsNVips } = await got.get(`https://api.ivr.fi/v2/twitch/modvip/${targetUser}?skipCache=false`, {
+				throwHttpErrors: false,
+				responseType: 'json',
+				headers: {
+					'User-Agent': 'IF YOU SEE THIS VI VON ZULUL',
 				},
-			);
+			});
 			const userID = await utils.IDByLogin(targetUser);
 			const { data } = await GetChannelRoles(userID);
 			const { artists } = data;
@@ -34,33 +31,9 @@ module.exports = {
 				displayName: node.displayName,
 				grantedAt: grantedAt,
 			}));
-			const modsMapped = getModsNVips.mods.map(
-				(x) =>
-					x.login +
-					' (' +
-					x.grantedAt.split('T')[0] +
-					')' +
-					' - ' +
-					'[MOD]',
-			);
-			const vipsMapped = getModsNVips.vips.map(
-				(x) =>
-					x.login +
-					' (' +
-					x.grantedAt.split('T')[0] +
-					')' +
-					' - ' +
-					'[VIP]',
-			);
-			const artistMapped = artistsMapped.map(
-				(x) =>
-					x.login +
-					' (' +
-					x.grantedAt.split('T')[0] +
-					')' +
-					' - ' +
-					'[ARTIST]',
-			);
+			const modsMapped = getModsNVips.mods.map((x) => x.login + ' (' + x.grantedAt.split('T')[0] + ')' + ' - ' + '[MOD]');
+			const vipsMapped = getModsNVips.vips.map((x) => x.login + ' (' + x.grantedAt.split('T')[0] + ')' + ' - ' + '[VIP]');
+			const artistMapped = artistsMapped.map((x) => x.login + ' (' + x.grantedAt.split('T')[0] + ')' + ' - ' + '[ARTIST]');
 			const modsNvipsMapped = modsMapped.concat(vipsMapped, artistMapped);
 			const { key } = await got
 				.post(`https://paste.ivr.fi/documents`, {

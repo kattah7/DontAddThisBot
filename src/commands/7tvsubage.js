@@ -36,9 +36,7 @@ module.exports = {
 			const gifter = customer_id !== subscriber_id ? `gifted by ${username.display_name}` : ' ';
 			const subAge = age / 30;
 			return {
-				text: `${Emote} ${targetUser} sub ${gifter} ${isRenew} in ${subDate} [${subAge.toFixed(
-					1,
-				)} Months]`,
+				text: `${Emote} ${targetUser} sub ${gifter} ${isRenew} in ${subDate} [${subAge.toFixed(1)} Months]`,
 			};
 		} else {
 			return {

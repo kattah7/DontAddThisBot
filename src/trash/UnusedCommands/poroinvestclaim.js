@@ -14,13 +14,9 @@ module.exports = {
 			if (isInvesting) {
 				const stocks = await utils.Invest(investPoro.invest[0].stock);
 				var growth = stocks.dp; // 0.0599
-				const data =
-					Number(investPoro.invest[0].amount * growth) +
-					Number(investPoro.invest[0].amount); // 100 * 0.0599 + 100 = 105.99
+				const data = Number(investPoro.invest[0].amount * growth) + Number(investPoro.invest[0].amount); // 100 * 0.0599 + 100 = 105.99
 				console.log(data); // it should give 105 but it logs 5.99100
-				const channelData = await bot.DB.poroCount
-					.findOne({ id: message.senderUserID })
-					.exec(); // Gets channel data for senderID
+				const channelData = await bot.DB.poroCount.findOne({ id: message.senderUserID }).exec(); // Gets channel data for senderID
 				const thePoros = Math.abs(Math.floor(data));
 				await bot.DB.poroCount
 					.updateOne(
@@ -39,9 +35,7 @@ module.exports = {
 						{ id: message.senderUserID },
 						{
 							$set: {
-								poroCount:
-									channelData.poroCount +
-									thePoros,
+								poroCount: channelData.poroCount + thePoros,
 							},
 						},
 						{ multi: true },

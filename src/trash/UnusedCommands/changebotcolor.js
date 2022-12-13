@@ -28,10 +28,7 @@ module.exports = {
 				};
 			} else if (!reg.test(args[0])) {
 				if (message.senderUsername == (await utils.PoroNumberOne())) {
-					return client.privmsg(
-						message.channelName,
-						`.me Invalid color, please use hex color code with # kattahDance`,
-					);
+					return client.privmsg(message.channelName, `.me Invalid color, please use hex color code with # kattahDance`);
 				}
 				return {
 					text: `Invalid color, please use hex color code with # kattahDance`,
@@ -42,29 +39,17 @@ module.exports = {
 						{ id: message.senderUserID },
 						{
 							$set: {
-								poroCount:
-									channelData.poroCount -
-									50,
+								poroCount: channelData.poroCount - 50,
 							},
 						},
 					)
 					.exec();
 				client.privmsg(message.channelName, `.color ${args[0]}`);
 				if (message.senderUsername == (await utils.PoroNumberOne())) {
-					return client.privmsg(
-						message.channelName,
-						`.me Color changed! PoroSad [P:${
-							channelData.poroPrestige
-						}] ${
-							channelData.poroCount -
-							50
-						} meat total! 🥩`,
-					);
+					return client.privmsg(message.channelName, `.me Color changed! PoroSad [P:${channelData.poroPrestige}] ${channelData.poroCount - 50} meat total! 🥩`);
 				}
 				return {
-					text: `Color changed! PoroSad [P:${
-						channelData.poroPrestige
-					}] ${channelData.poroCount - 50} meat total! 🥩`,
+					text: `Color changed! PoroSad [P:${channelData.poroPrestige}] ${channelData.poroCount - 50} meat total! 🥩`,
 				};
 			}
 		} else if (banned == true) {

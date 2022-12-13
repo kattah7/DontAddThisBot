@@ -22,26 +22,14 @@ module.exports = {
 		if (isBotEditor) {
 			const channel = await bot.DB.channels.findOne({ username: message.channelName }).exec();
 			const tc = channel.editors.find((badge) => badge.id === message.senderUserID);
-			const ChannelOwnerEditor =
-				message.senderUsername.toLowerCase() ==
-				message.channelName.toLowerCase();
+			const ChannelOwnerEditor = message.senderUsername.toLowerCase() == message.channelName.toLowerCase();
 			if (tc || ChannelOwnerEditor) {
 				const channelEmotes = await utils.StvChannelEmotes(StvID);
-				const findEmote = channelEmotes.data.emoteSet.emotes.find(
-					(x) => x.name == args[0],
-				);
+				const findEmote = channelEmotes.data.emoteSet.emotes.find((x) => x.name == args[0]);
 				if (findEmote) {
-					const doesSignInRequire =
-						await utils.RemoveSTVEmote(
-							findEmote.id,
-							StvID,
-						);
+					const doesSignInRequire = await utils.RemoveSTVEmote(findEmote.id, StvID);
 					if (doesSignInRequire.data.emoteSet == null) {
-						switch (
-							doesSignInRequire
-								.errors[0]
-								.message
-						) {
+						switch (doesSignInRequire.errors[0].message) {
 							case '70401 Sign-In Required': {
 								return {
 									text: `⛔ ${doesSignInRequire.errors[0].message}`,

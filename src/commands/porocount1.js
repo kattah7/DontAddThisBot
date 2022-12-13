@@ -22,13 +22,7 @@ module.exports = {
 		const targetUser = await utils.ParseUser(args[0]?.toLowerCase() ?? senderUsername);
 		const selfPoroData = await bot.DB.poroCount.findOne({ id: await utils.IDByLogin(targetUser) });
 		if (!selfPoroData) {
-			const pronouns =
-				args.length > 0
-					? `PoroSad @${targetUser} isnt registered!`
-					: `PoroSad you arent registered! ${senderUsername} type ${
-							channelData.prefix ??
-							`|`
-					  }poro to get started.`;
+			const pronouns = args.length > 0 ? `PoroSad @${targetUser} isnt registered!` : `PoroSad you arent registered! ${senderUsername} type ${channelData.prefix ?? `|`}poro to get started.`;
 			return {
 				text: pronouns,
 			};
@@ -38,20 +32,8 @@ module.exports = {
 		const parsedTime = Math.abs(new Date().getTime() - new Date(joinedAt).getTime());
 		const successPronouns =
 			args.length > 0
-				? `${targetUser} => [P${poroPrestige}: ${
-						displayPoroRankByName[
-							poroRank
-						]
-				  }] ${poroCount} poro(s). kattahDance Registered (${humanizeDuration(
-						parsedTime,
-				  )})`
-				: `${senderUsername} => [P${poroPrestige}: ${
-						displayPoroRankByName[
-							poroRank
-						]
-				  }] ${poroCount} poro(s). kattahDance Registered (${humanizeDuration(
-						parsedTime,
-				  )})`;
+				? `${targetUser} => [P${poroPrestige}: ${displayPoroRankByName[poroRank]}] ${poroCount} poro(s). kattahDance Registered (${humanizeDuration(parsedTime)})`
+				: `${senderUsername} => [P${poroPrestige}: ${displayPoroRankByName[poroRank]}] ${poroCount} poro(s). kattahDance Registered (${humanizeDuration(parsedTime)})`;
 		return {
 			text: successPronouns,
 		};

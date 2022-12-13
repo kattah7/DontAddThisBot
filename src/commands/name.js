@@ -20,13 +20,7 @@ module.exports = {
 		const { username, invalid, available } = data[0];
 
 		return {
-			text: `"${username}" is ${
-				invalid
-					? 'invalid'
-					: available
-					? 'available PogBones'
-					: 'taken FeelsBadMan'
-			}`,
+			text: `"${username}" is ${invalid ? 'invalid' : available ? 'available PogBones' : 'taken FeelsBadMan'}`,
 		};
 	},
 };

@@ -12,10 +12,7 @@ module.exports = {
 		async function changeChatColor(chatColor, botColor) {
 			await ChangeColor(chatColor);
 			await new Promise((resolve) => setTimeout(resolve, 30));
-			await client.privmsg(
-				message.channelName,
-				`.me @${message.senderUsername}, ████ ${chatColor}`,
-			);
+			await client.privmsg(message.channelName, `.me @${message.senderUsername}, ████ ${chatColor}`);
 			await new Promise((resolve) => setTimeout(resolve, 30));
 			await ChangeColor(botColor);
 		}

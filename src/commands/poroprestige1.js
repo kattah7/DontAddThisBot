@@ -21,9 +21,7 @@ module.exports = {
 		const { poroCount, poroPrestige, poroRank } = channelData;
 		if (poroCount < 5000 && poroRank != 7) {
 			return {
-				text: `Not enough poro meat! ${senderUsername} PoroSad You need ${(
-					5000 - poroCount
-				).toLocaleString()} poro meat or [Cooked] rank :tf: | [P${poroPrestige}: ${
+				text: `Not enough poro meat! ${senderUsername} PoroSad You need ${(5000 - poroCount).toLocaleString()} poro meat or [Cooked] rank :tf: | [P${poroPrestige}: ${
 					displayPoroRankByName[poroRank]
 				}] ${poroCount} meat total! 🥩`,
 			};
@@ -34,22 +32,14 @@ module.exports = {
 						{ id: senderUserID },
 						{
 							$set: {
-								poroCount:
-									poroCount -
-									5000,
-								poroPrestige:
-									poroPrestige +
-									1,
+								poroCount: poroCount - 5000,
+								poroPrestige: poroPrestige + 1,
 							},
 						},
 					)
 					.exec();
 				return {
-					text: `${senderUsername}, PartyHat Congratulations! | [P${
-						poroPrestige + 1
-					}: ${displayPoroRankByName[poroRank]}] ${
-						poroCount - 5000
-					} meat total! 🥩`,
+					text: `${senderUsername}, PartyHat Congratulations! | [P${poroPrestige + 1}: ${displayPoroRankByName[poroRank]}] ${poroCount - 5000} meat total! 🥩`,
 				};
 			} else if (poroRank == 7) {
 				await bot.DB.poroCount
@@ -58,19 +48,13 @@ module.exports = {
 						{
 							$set: {
 								poroRank: 1,
-								poroPrestige:
-									poroPrestige +
-									1,
+								poroPrestige: poroPrestige + 1,
 							},
 						},
 					)
 					.exec();
 				return {
-					text: `${senderUsername}, PartyHat Congratulations! | [P${
-						poroPrestige + 1
-					}: ${
-						displayPoroRankByName[1]
-					}] ${poroCount} meat total! 🥩`,
+					text: `${senderUsername}, PartyHat Congratulations! | [P${poroPrestige + 1}: ${displayPoroRankByName[1]}] ${poroCount} meat total! 🥩`,
 				};
 			}
 		}

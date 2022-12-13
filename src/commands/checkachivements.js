@@ -19,20 +19,14 @@ module.exports = {
 		const pogger = await Achievements(UserID);
 		try {
 			const { itBegins, pathToAffiliate } = pogger.data.user.quests;
-			const isAffiliate = pathToAffiliate.completedAt
-				? `${pathToAffiliate.completedAt.split('T')[0]}`
-				: false;
+			const isAffiliate = pathToAffiliate.completedAt ? `${pathToAffiliate.completedAt.split('T')[0]}` : false;
 			if (itBegins.completedAt == null) {
 				return {
 					text: `${targetUser} has never streamed before :p`,
 				};
 			} else {
 				return {
-					text: `First stream: ${
-						itBegins.completedAt.split(
-							'T',
-						)[0]
-					} | Affiliated At: ${isAffiliate}`,
+					text: `First stream: ${itBegins.completedAt.split('T')[0]} | Affiliated At: ${isAffiliate}`,
 				};
 			}
 		} catch (error) {

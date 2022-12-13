@@ -22,86 +22,36 @@ module.exports = {
 		if (isBotEditor) {
 			const channel = await bot.DB.channels.findOne({ username: message.channelName }).exec();
 			const tc = channel.editors.find((badge) => badge.id === message.senderUserID);
-			const ChannelOwnerEditor =
-				message.senderUsername.toLowerCase() ==
-				message.channelName.toLowerCase();
+			const ChannelOwnerEditor = message.senderUsername.toLowerCase() == message.channelName.toLowerCase();
 			if (tc || ChannelOwnerEditor) {
 				if (args[1]) {
 					const StvID2 = await utils.stvNameToID(args[1]);
-					const isNull = await utils.StvChannelEmotes(
-						StvID2,
-					);
+					const isNull = await utils.StvChannelEmotes(StvID2);
 					if (isNull.data == null) {
 						return {
 							text: `⛔ "${args[1]}" is not a valid channel...`,
 						};
 					} else {
-						const findEmoteInChannel2 =
-							isNull.data.emoteSet.emotes.find(
-								(
-									emote,
-								) =>
-									emote.name ===
-									args[0],
-							);
+						const findEmoteInChannel2 = isNull.data.emoteSet.emotes.find((emote) => emote.name === args[0]);
 						if (findEmoteInChannel2) {
-							const channelEmotes =
-								await utils.StvChannelEmotes(
-									StvID,
-								);
-							const findEmoteInChannel =
-								channelEmotes.data.emoteSet.emotes.find(
-									(
-										emote,
-									) =>
-										emote.name ===
-										args[0],
-								);
-							if (
-								findEmoteInChannel
-							) {
+							const channelEmotes = await utils.StvChannelEmotes(StvID);
+							const findEmoteInChannel = channelEmotes.data.emoteSet.emotes.find((emote) => emote.name === args[0]);
+							if (findEmoteInChannel) {
 								return {
 									text: `⛔ ${args[0]} is already in ${message.channelName}`,
 								};
 							}
-							const xddddd =
-								await utils.StvChannelEmotes(
-									StvID,
-								);
-							const availableEmotes =
-								xddddd
-									.data
-									.emoteSet
-									.emotes
-									.length;
-							if (
-								availableEmotes ==
-								xddddd
-									.data
-									.emoteSet
-									.capacity
-							) {
+							const xddddd = await utils.StvChannelEmotes(StvID);
+							const availableEmotes = xddddd.data.emoteSet.emotes.length;
+							if (availableEmotes == xddddd.data.emoteSet.capacity) {
 								return {
 									text: `⛔ ${message.channelName}'s emote slots is full`,
 								};
 							} else {
-								await utils.AddSTVEmote(
-									findEmoteInChannel2.id,
-									StvID,
-								);
-								const KEKG =
-									await utils.IDtoEmote(
-										findEmoteInChannel2.id,
-									);
-								if (
-									KEKG !=
-									args[0]
-								) {
-									await utils.AliasSTVEmote(
-										findEmoteInChannel2.id,
-										StvID,
-										args[0],
-									);
+								await utils.AddSTVEmote(findEmoteInChannel2.id, StvID);
+								const KEKG = await utils.IDtoEmote(findEmoteInChannel2.id);
+								if (KEKG != args[0]) {
+									await utils.AliasSTVEmote(findEmoteInChannel2.id, StvID, args[0]);
 									return {
 										text: `7tvM Successfully added "${args[0]}" to ${message.channelName} from ${args[1]} & auto-aliased to "${args[0]}"`,
 									};
@@ -118,93 +68,39 @@ module.exports = {
 					}
 				}
 				const channelEmotes = await utils.StvChannelEmotes(StvID);
-				const findEmoteInChannel = channelEmotes.data.emoteSet.emotes.find(
-					(emote) => emote.name === args[0],
-				);
+				const findEmoteInChannel = channelEmotes.data.emoteSet.emotes.find((emote) => emote.name === args[0]);
 				if (findEmoteInChannel) {
 					return {
 						text: `⛔ Emote "${args[0]}" already exists in ${message.channelName}`,
 					};
 				} else {
 					const [url] = args;
-					if (
-						/https:\/\/(next\.)?7tv\.app\/emotes\/\w{24}/g.test(
-							url,
-						)
-					) {
-						const linkEmote =
-							/https:\/\/(next\.)?7tv\.app\/emotes\/(\w{24})/.exec(
-								url,
-							);
-						const emoteName =
-							await utils.StvEmoteIDToEmoteName(
-								linkEmote[2],
-							);
-						if (
-							emoteName
-								.data
-								.emote ==
-							null
-						) {
+					if (/https:\/\/(next\.)?7tv\.app\/emotes\/\w{24}/g.test(url)) {
+						const linkEmote = /https:\/\/(next\.)?7tv\.app\/emotes\/(\w{24})/.exec(url);
+						const emoteName = await utils.StvEmoteIDToEmoteName(linkEmote[2]);
+						if (emoteName.data.emote == null) {
 							return {
 								text: `⛔ Emote does not exist`,
 							};
 						}
-						const findEmoteInChannel2 =
-							channelEmotes.data.emoteSet.emotes.find(
-								(
-									emote,
-								) =>
-									emote.name ===
-									emoteName
-										.data
-										.emote
-										.name,
-							);
+						const findEmoteInChannel2 = channelEmotes.data.emoteSet.emotes.find((emote) => emote.name === emoteName.data.emote.name);
 						if (findEmoteInChannel2) {
 							return {
 								text: `⛔ ${message.channelName} already has "${emoteName.data.emote.name}"`,
 							};
 						}
-						const xddddd =
-							await utils.StvChannelEmotes(
-								StvID,
-							);
-						const availableEmotes =
-							xddddd
-								.data
-								.emoteSet
-								.emotes
-								.length;
-						if (
-							availableEmotes ==
-							xddddd
-								.data
-								.emoteSet
-								.capacity
-						) {
+						const xddddd = await utils.StvChannelEmotes(StvID);
+						const availableEmotes = xddddd.data.emoteSet.emotes.length;
+						if (availableEmotes == xddddd.data.emoteSet.capacity) {
 							return {
 								text: `⛔ ${message.channelName}'s emote slots is full`,
 							};
 						} else {
 							//console.log(emoteName)
-							const doesSignInRequire =
-								await utils.AddSTVEmote(
-									linkEmote[2],
-									StvID,
-								);
+							const doesSignInRequire = await utils.AddSTVEmote(linkEmote[2], StvID);
 							//console.log(doesSignInRequire)
-							if (
-								doesSignInRequire
-									.data
-									.emoteSet ==
-								null
-							) {
-								switch (
-									doesSignInRequire
-										.errors[0]
-										.message
-								) {
+							if (doesSignInRequire.data.emoteSet == null) {
+								switch (doesSignInRequire.errors[0].message) {
 									case '70401 Sign-In Required': {
 										return {
 											text: `⛔ ${doesSignInRequire.errors[0].message}`,
@@ -227,68 +123,29 @@ module.exports = {
 							};
 						}
 					}
-					const searchEmotes = await utils.SearchSTVEmote(
-						args[0],
-					);
+					const searchEmotes = await utils.SearchSTVEmote(args[0]);
 					//console.log(searchEmotes.data.emotes.items)
 					if (searchEmotes) {
-						if (
-							searchEmotes.data ==
-							null
-						) {
+						if (searchEmotes.data == null) {
 							return {
 								text: `⛔ Emote "${args[0]}" not found`,
 							};
 						}
-						const findThatEmote =
-							searchEmotes.data.emotes.items.find(
-								(
-									emote,
-								) =>
-									emote.name ===
-									args[0],
-							);
+						const findThatEmote = searchEmotes.data.emotes.items.find((emote) => emote.name === args[0]);
 						//console.log(findThatEmote)
 						if (findThatEmote) {
-							const xddddd =
-								await utils.StvChannelEmotes(
-									StvID,
-								);
+							const xddddd = await utils.StvChannelEmotes(StvID);
 							//console.log(xddddd)
-							const availableEmotes =
-								xddddd
-									.data
-									.emoteSet
-									.emotes
-									.length;
+							const availableEmotes = xddddd.data.emoteSet.emotes.length;
 							//console.log(availableEmotes)
-							if (
-								availableEmotes ==
-								xddddd
-									.data
-									.emoteSet
-									.capacity
-							) {
+							if (availableEmotes == xddddd.data.emoteSet.capacity) {
 								return {
 									text: `⛔ ${message.channelName}'s emote slots is full`,
 								};
 							} else {
-								const doesSignInRequire =
-									await utils.AddSTVEmote(
-										findThatEmote.id,
-										StvID,
-									);
-								if (
-									doesSignInRequire
-										.data
-										.emoteSet ==
-									null
-								) {
-									switch (
-										doesSignInRequire
-											.errors[0]
-											.message
-									) {
+								const doesSignInRequire = await utils.AddSTVEmote(findThatEmote.id, StvID);
+								if (doesSignInRequire.data.emoteSet == null) {
+									switch (doesSignInRequire.errors[0].message) {
 										case '70401 Sign-In Required': {
 											return {
 												text: `⛔ ${doesSignInRequire.errors[0].message}`,
@@ -301,48 +158,17 @@ module.exports = {
 								};
 							}
 						} else {
-							const xddddd =
-								await utils.StvChannelEmotes(
-									StvID,
-								);
+							const xddddd = await utils.StvChannelEmotes(StvID);
 							//console.log(xddddd)
-							const availableEmotes =
-								xddddd
-									.data
-									.emoteSet
-									.emotes
-									.length;
-							if (
-								availableEmotes ==
-								xddddd
-									.data
-									.emoteSet
-									.capacity
-							) {
+							const availableEmotes = xddddd.data.emoteSet.emotes.length;
+							if (availableEmotes == xddddd.data.emoteSet.capacity) {
 								return {
 									text: `⛔ ${message.channelName}'s emote slots is full`,
 								};
 							} else {
-								const doesSignInRequire =
-									await utils.AddSTVEmote(
-										searchEmotes
-											.data
-											.emotes
-											.items[0]
-											.id,
-										StvID,
-									);
-								if (
-									doesSignInRequire
-										.data
-										.emoteSet ==
-									null
-								) {
-									switch (
-										doesSignInRequire
-											.errors[0]
-											.message
-									) {
+								const doesSignInRequire = await utils.AddSTVEmote(searchEmotes.data.emotes.items[0].id, StvID);
+								if (doesSignInRequire.data.emoteSet == null) {
+									switch (doesSignInRequire.errors[0].message) {
 										case '70401 Sign-In Required': {
 											return {
 												text: `⛔ ${doesSignInRequire.errors[0].message}`,

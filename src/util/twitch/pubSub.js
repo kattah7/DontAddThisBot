@@ -83,10 +83,7 @@ exports.init = async () => {
 	listen([{ login: 'tommyinnit', id: '116228390' }], ['video-playback-by-id', 'broadcast-settings-update']);
 	listen([{ login: 'georgy177', id: '135075027' }], ['video-playback-by-id', 'broadcast-settings-update']);
 	listen([{ login: 'pokimane', id: '44445592' }], ['video-playback-by-id', 'broadcast-settings-update']);
-	listen(
-		[{ login: 'kattah', id: '137199626' }],
-		['video-playback-by-id', 'broadcast-settings-update', 'community-points-channel-v1', 'raid', 'polls'],
-	);
+	listen([{ login: 'kattah', id: '137199626' }], ['video-playback-by-id', 'broadcast-settings-update', 'community-points-channel-v1', 'raid', 'polls']);
 	listen([{ login: 'forsen', id: '22484632' }], ['video-playback-by-id', 'broadcast-settings-update']);
 	listen([{ id: '790623318' }], ['chatrooms-user-v1', 'follows', 'following']); // dontaddthisbot
 
@@ -141,10 +138,7 @@ const connect = (ws, topics, id) => {
 		for (const topic of topics) {
 			const message = {
 				data: {
-					auth_token:
-						process.env
-							.TWITCH_GQL_TOKEN ||
-						process.env.TWITCH_OAUTH,
+					auth_token: process.env.TWITCH_GQL_TOKEN || process.env.TWITCH_OAUTH,
 					topics: [`${topic.sub}.${topic.channel.id}`],
 				},
 				nonce: topic.nonce,
@@ -166,12 +160,7 @@ const connect = (ws, topics, id) => {
 				break;
 
 			case 'MESSAGE':
-				if (!msg.data)
-					return Logger.error(
-						`No data associated with message [${JSON.stringify(
-							msg,
-						)}]`,
-					);
+				if (!msg.data) return Logger.error(`No data associated with message [${JSON.stringify(msg)}]`);
 
 				const msgData = JSON.parse(msg.data.message);
 				const msgTopic = msg.data.topic;
@@ -180,9 +169,7 @@ const connect = (ws, topics, id) => {
 				break;
 
 			case 'RECONNECT':
-				Logger.info(
-					`[${id}] PubSub server sent a reconnect message. Restarting the socket`,
-				);
+				Logger.info(`[${id}] PubSub server sent a reconnect message. Restarting the socket`);
 				ws.reconnect();
 				break;
 
@@ -207,19 +194,13 @@ const handleWSMsg = async (msg = {}, channel) => {
 		const lastUsage = await bot.Redis.get(`porofollow:${await utils.IDByLogin(msg.username)}`);
 		const channelData = await bot.DB.poroCount.findOne({ id: await utils.IDByLogin(msg.username) }).exec();
 		if (!channelData) {
-			client.say(
-				'dontaddthisbot',
-				`${msg.username}, You aren't registered! type |poro to get started!`,
-			);
+			client.say('dontaddthisbot', `${msg.username}, You aren't registered! type |poro to get started!`);
 		}
 		if (!lastUsage) {
 			await bot.Redis.set(`porofollow:${await utils.IDByLogin(msg.username)}`, Date.now(), 0);
 		}
 		if (lastUsage || channelData) {
-			if (
-				new Date().getTime() - new Date(lastUsage).getTime() <
-				1000 * 60 * 60 * 60 * 60 * 60
-			) {
+			if (new Date().getTime() - new Date(lastUsage).getTime() < 1000 * 60 * 60 * 60 * 60 * 60) {
 				await client.say('dontaddthisbot', `nice try`);
 			}
 		}
@@ -230,92 +211,44 @@ const handleWSMsg = async (msg = {}, channel) => {
 					{ id: await utils.IDByLogin(msg.username) },
 					{
 						$set: {
-							poroCount:
-								channelData.poroCount +
-								100,
+							poroCount: channelData.poroCount + 100,
 						},
 					},
 					{ multi: true },
 				)
 				.exec();
-			client.say(
-				'dontaddthisbot',
-				`@${msg.username} just followed !! kattahHappy +100 Poro Pts ${
-					channelData.poroCount + 100
-				} meat total!`,
-			);
+			client.say('dontaddthisbot', `@${msg.username} just followed !! kattahHappy +100 Poro Pts ${channelData.poroCount + 100} meat total!`);
 		}
 	}
 	if (!msg.type) return Logger.error(`Unknown message without type: ${JSON.stringify(msg)}`);
 
 	switch (msg.type) {
 		case 'stream-up': {
-			if (msg.channelID === '71092938')
-				return Announce(
-					137199626,
-					`${await utils.loginByID(
-						msg.channelID,
-					)} just went live! gn`,
-				);
-			if (msg.channelID === '135075027')
-				return Announce(
-					137199626,
-					`${await utils.loginByID(
-						msg.channelID,
-					)} just went live! ppPoof`,
-				);
+			if (msg.channelID === '71092938') return Announce(137199626, `${await utils.loginByID(msg.channelID)} just went live! gn`);
+			if (msg.channelID === '135075027') return Announce(137199626, `${await utils.loginByID(msg.channelID)} just went live! ppPoof`);
 			if (msg.channelID === '116228390') {
-				return client.privmsg(
-					'kattah',
-					`.w getair_conditioned tommyinnit live Pog`,
-				);
+				return client.privmsg('kattah', `.w getair_conditioned tommyinnit live Pog`);
 			}
 			Announce(137199626, `${await utils.loginByID(msg.channelID)} went live!`);
 			break;
 		}
 
 		case 'stream-down': {
-			if (msg.channelID === '71092938')
-				return Announce(
-					137199626,
-					`${await utils.loginByID(
-						msg.channelID,
-					)} went offline! gm`,
-				);
-			if (msg.channelID === '71092938')
-				return Announce(
-					137199626,
-					`${await utils.loginByID(
-						msg.channelID,
-					)} went offline! UwUDespair`,
-				);
+			if (msg.channelID === '71092938') return Announce(137199626, `${await utils.loginByID(msg.channelID)} went offline! gm`);
+			if (msg.channelID === '71092938') return Announce(137199626, `${await utils.loginByID(msg.channelID)} went offline! UwUDespair`);
 			Announce(137199626, `${await utils.loginByID(msg.channelID)} went offline!`);
 			break;
 		}
 
 		case 'broadcast_settings_update': {
 			if (msg.game_id !== msg.old_game_id) {
-				if (msg.channel === 'xqc' || msg.channel === 'forsen')
-					return Announce(
-						137199626,
-						`${msg.channel} changed to new game: ${msg.game} gn`,
-					);
-				Announce(
-					137199626,
-					`${msg.channel} changed to new game: ${msg.game}`,
-				);
+				if (msg.channel === 'xqc' || msg.channel === 'forsen') return Announce(137199626, `${msg.channel} changed to new game: ${msg.game} gn`);
+				Announce(137199626, `${msg.channel} changed to new game: ${msg.game}`);
 			}
 
 			if (msg.status !== msg.old_status) {
-				if (msg.channel === 'xqc' || msg.channel === 'forsen')
-					return Announce(
-						137199626,
-						`${msg.channel} changed to new title: ${msg.status} gn`,
-					);
-				Announce(
-					137199626,
-					`${msg.channel} changed to new title: ${msg.status}`,
-				);
+				if (msg.channel === 'xqc' || msg.channel === 'forsen') return Announce(137199626, `${msg.channel} changed to new title: ${msg.status} gn`);
+				Announce(137199626, `${msg.channel} changed to new title: ${msg.status}`);
 			}
 			break;
 		}
@@ -324,111 +257,41 @@ const handleWSMsg = async (msg = {}, channel) => {
 			if (redemption.channel_id === '137199626' && redemption.reward.title === 'raid') {
 				const user = redemption.user_input.split(' ')[0].replace('@', '');
 				if (!/^[A-Za-z0-25_]*$/.test(user)) {
-					client.say(
-						'kattah',
-						`Invalid Name, Refunding points...`,
-					);
-					refundPoints(
-						redemption.channel_id,
-						redemption.id,
-					);
+					client.say('kattah', `Invalid Name, Refunding points...`);
+					refundPoints(redemption.channel_id, redemption.id);
 				}
 				if (user == (await utils.loginByID(redemption.channel_id))) {
-					client.say(
-						'kattah',
-						`You cannot raid the broadcaster! Refunding points...`,
-					);
-					refundPoints(
-						redemption.channel_id,
-						redemption.id,
-					);
+					client.say('kattah', `You cannot raid the broadcaster! Refunding points...`);
+					refundPoints(redemption.channel_id, redemption.id);
 				} else {
 					const data = (await GetStreams(user, true))[0];
 					if (data == undefined) {
-						client.say(
-							'kattah',
-							`${user} is not streaming! Refunding points...`,
-						);
-						refundPoints(
-							redemption.channel_id,
-							redemption.id,
-						);
+						client.say('kattah', `${user} is not streaming! Refunding points...`);
+						refundPoints(redemption.channel_id, redemption.id);
 					} else if (data.type == 'live') {
 						try {
-							cancelRaid(
-								redemption.channel_id,
-							);
-							await client.privmsg(
-								'kattah',
-								`.raid ${user}`,
-							);
-							client.say(
-								'kattah',
-								`${redemption.user.display_name} redeemed raid on ${user} PogBones !!`,
-							);
+							cancelRaid(redemption.channel_id);
+							await client.privmsg('kattah', `.raid ${user}`);
+							client.say('kattah', `${redemption.user.display_name} redeemed raid on ${user} PogBones !!`);
 						} catch (err) {
-							Logger.error(
-								err,
-							);
-							client.say(
-								'kattah',
-								`${redemption.user.display_name} FailFish error! refunding points`,
-							);
-							refundPoints(
-								redemption.channel_id,
-								redemption.id,
-							);
+							Logger.error(err);
+							client.say('kattah', `${redemption.user.display_name} FailFish error! refunding points`);
+							refundPoints(redemption.channel_id, redemption.id);
 						}
 					}
 				}
 			}
-			if (
-				redemption.channel_id === redemption.channel_id &&
-				redemption.reward.title === 'random ban'
-			) {
+			if (redemption.channel_id === redemption.channel_id && redemption.reward.title === 'random ban') {
 				try {
-					const c = await got(
-						'http://tmi.twitch.tv/group/user/kattah/chatters',
-					).json();
-					var vipsAndViewers = [
-						...c.chatters.vips,
-						...c.chatters.viewers,
-					];
-					var randomChatters =
-						vipsAndViewers[
-							Math.floor(
-								Math.random() *
-									vipsAndViewers.length,
-							)
-						];
-					client.timeout(
-						await utils.loginByID(
-							redemption.channel_id,
-						),
-						randomChatters,
-						60,
-						`kekw banned by ${redemption.user.display_name}`,
-					);
-					await client.say(
-						await utils.loginByID(
-							redemption.channel_id,
-						),
-						'PoroSad redeemed! ' +
-							randomChatters +
-							' has been banned for 60 seconds',
-					);
+					const c = await got('http://tmi.twitch.tv/group/user/kattah/chatters').json();
+					var vipsAndViewers = [...c.chatters.vips, ...c.chatters.viewers];
+					var randomChatters = vipsAndViewers[Math.floor(Math.random() * vipsAndViewers.length)];
+					client.timeout(await utils.loginByID(redemption.channel_id), randomChatters, 60, `kekw banned by ${redemption.user.display_name}`);
+					await client.say(await utils.loginByID(redemption.channel_id), 'PoroSad redeemed! ' + randomChatters + ' has been banned for 60 seconds');
 				} catch (err) {
 					Logger.error(err);
-					client.say(
-						await utils.loginByID(
-							redemption.channel_id,
-						),
-						`${redemption.user.display_name} FailFish error! refunding points`,
-					);
-					refundPoints(
-						redemption.channel_id,
-						redemption.id,
-					);
+					client.say(await utils.loginByID(redemption.channel_id), `${redemption.user.display_name} FailFish error! refunding points`);
+					refundPoints(redemption.channel_id, redemption.id);
 				}
 			}
 			break;
@@ -443,27 +306,15 @@ const handleWSMsg = async (msg = {}, channel) => {
 				await client.part(user);
 			} else if (action == 'ban') {
 				client.part(user);
-				await bot.DB.channels
-					.updateOne(
-						{ id: channel_id },
-						{ isChannel: false },
-					)
-					.catch((err) => Logger.error(err));
+				await bot.DB.channels.updateOne({ id: channel_id }, { isChannel: false }).catch((err) => Logger.error(err));
 			} else if (action == 'untimeout') {
 				await client.join(user);
 			} else if (action == 'unban') {
 				await client.join(user);
-				await bot.DB.channels
-					.updateOne(
-						{ id: channel_id },
-						{ isChannel: true },
-					)
-					.catch((err) => Logger.error(err));
+				await bot.DB.channels.updateOne({ id: channel_id }, { isChannel: true }).catch((err) => Logger.error(err));
 			}
 
-			const duration = expires_in_ms
-				? `Duration: ${humanizeDuration(expires_in_ms)}`
-				: `Duration: false`;
+			const duration = expires_in_ms ? `Duration: ${humanizeDuration(expires_in_ms)}` : `Duration: false`;
 			const color = action == 'timeout' || action == 'ban' ? 15548997 : 5763719;
 			await discord.BAND(user, action.toUpperCase(), duration, color, logo);
 			break;
@@ -506,8 +357,6 @@ const handleWSResp = (msg) => {
 	if (msg.error && msg.error !== 'ERR_BADAUTH') {
 		// just ignore this shitty error
 		this.topics.splice(this.topics.indexOf(topic), 1);
-		Logger.error(
-			`Error occurred while subscribing to topic ${topic.sub} for channel ${topic.channel.login}: ${msg.error}`,
-		);
+		Logger.error(`Error occurred while subscribing to topic ${topic.sub} for channel ${topic.channel.login}: ${msg.error}`);
 	}
 };

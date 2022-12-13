@@ -24,17 +24,13 @@ module.exports = {
 			} else if (data.user.followers.edges[0].node == null) {
 				const DATE = data.user.followers.edges[0].followedAt;
 				return {
-					text: `Seems like ${targetUser} blocked this person :p following since ${
-						DATE.split('T')[0]
-					}`,
+					text: `Seems like ${targetUser} blocked this person :p following since ${DATE.split('T')[0]}`,
 				};
 			} else {
 				const NAME = data.user.followers.edges[0].node.login;
 				const DATE = data.user.followers.edges[0].followedAt;
 				return {
-					text: `${targetUser} first ever follower, ${NAME} has been following since ${
-						DATE.split('T')[0]
-					}`,
+					text: `${targetUser} first ever follower, ${NAME} has been following since ${DATE.split('T')[0]}`,
 				};
 			}
 		}

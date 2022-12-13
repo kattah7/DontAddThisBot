@@ -15,9 +15,7 @@ module.exports = {
 			};
 		} else {
 			return {
-				text: `${user} is level ${data.level} (${
-					bot.Utils.misc.levels[data.level]
-				})`,
+				text: `${user} is level ${data.level} (${bot.Utils.misc.levels[data.level]})`,
 			};
 		}
 	},

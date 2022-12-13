@@ -29,47 +29,21 @@ module.exports = {
 		const availableBadges = ['docL'];
 		if (banned == false) {
 			if (lastUsage) {
-				if (
-					new Date().getTime() -
-						new Date(
-							lastUsage,
-						).getTime() <
-					1000 * 60 * 60 * 24
-				) {
-					const ms =
-						new Date(
-							lastUsage,
-						).getTime() -
-						new Date().getTime() +
-						1000 * 60 * 60 * 24;
-					if (
-						message.senderUsername ==
-						(await utils.PoroNumberOne())
-					) {
-						client.privmsg(
-							message.channelName,
-							`.me You have already redeemed the code! Come back in ${humanizeDuration(
-								ms,
-							)} for daily codes`,
-						);
+				if (new Date().getTime() - new Date(lastUsage).getTime() < 1000 * 60 * 60 * 24) {
+					const ms = new Date(lastUsage).getTime() - new Date().getTime() + 1000 * 60 * 60 * 24;
+					if (message.senderUsername == (await utils.PoroNumberOne())) {
+						client.privmsg(message.channelName, `.me You have already redeemed the code! Come back in ${humanizeDuration(ms)} for daily codes`);
 						return;
 					} else {
 						return {
-							text: `${
-								message.senderUsername
-							}, You have already redeemed the code! Come back in ${humanizeDuration(
-								ms,
-							)} for daily codes`,
+							text: `${message.senderUsername}, You have already redeemed the code! Come back in ${humanizeDuration(ms)} for daily codes`,
 						};
 					}
 				}
 			}
 			if (!availableBadges.includes(input)) {
 				if (message.senderUsername == (await utils.PoroNumberOne())) {
-					client.privmsg(
-						message.channelName,
-						`.me ${message.senderUsername}, Wrong code :p`,
-					);
+					client.privmsg(message.channelName, `.me ${message.senderUsername}, Wrong code :p`);
 					return;
 				} else {
 					return {
@@ -82,33 +56,17 @@ module.exports = {
 					{ id: message.senderUserID },
 					{
 						$set: {
-							poroCount:
-								channelData.poroCount +
-								50,
+							poroCount: channelData.poroCount + 50,
 						},
 					},
 				)
 				.exec();
 			await bot.Redis.set(`pororedeem:${message.senderUserID}`, Date.now(), 0);
 			if (message.senderUsername == (await utils.PoroNumberOne())) {
-				await client.privmsg(
-					message.channelName,
-					`.me Code Redeemed! ${
-						message.senderUsername
-					} (+50) kattahDance2 total [P:${
-						channelData.poroPrestige
-					}] ${channelData.poroCount + 50} meat`,
-				);
+				await client.privmsg(message.channelName, `.me Code Redeemed! ${message.senderUsername} (+50) kattahDance2 total [P:${channelData.poroPrestige}] ${channelData.poroCount + 50} meat`);
 				return;
 			} else {
-				await client.say(
-					message.channelName,
-					`Code Redeemed! ${
-						message.senderUsername
-					} (+50) kattahDance2 total [P:${
-						channelData.poroPrestige
-					}] ${channelData.poroCount + 50} meat`,
-				);
+				await client.say(message.channelName, `Code Redeemed! ${message.senderUsername} (+50) kattahDance2 total [P:${channelData.poroPrestige}] ${channelData.poroCount + 50} meat`);
 				return;
 			}
 		} else if (banned == true) {

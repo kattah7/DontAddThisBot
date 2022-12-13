@@ -17,10 +17,7 @@ module.exports = {
 			if (!args[0]) {
 				// if no user is provided
 				if (message.senderUsername == (await utils.PoroNumberOne())) {
-					client.privmsg(
-						message.channelName,
-						`.me Please provide a stock. PoroSad`,
-					);
+					client.privmsg(message.channelName, `.me Please provide a stock. PoroSad`);
 				} else {
 					return {
 						text: `Please provide a stock. PoroSad`,
@@ -30,10 +27,7 @@ module.exports = {
 			if (!args[1]) {
 				// if no amount is provided
 				if (message.senderUsername == (await utils.PoroNumberOne())) {
-					client.privmsg(
-						message.channelName,
-						`.me Please provide amount. PoroSad`,
-					);
+					client.privmsg(message.channelName, `.me Please provide amount. PoroSad`);
 				} else {
 					return {
 						text: `Please provide amount. PoroSad`,
@@ -43,10 +37,7 @@ module.exports = {
 			if (isNaN(args[1]) || args[1].startsWith('-', '+')) {
 				// if amount is not a number
 				if (message.senderUsername == (await utils.PoroNumberOne())) {
-					client.privmsg(
-						message.channelName,
-						`.me Please provide a valid amount. PoroSad`,
-					);
+					client.privmsg(message.channelName, `.me Please provide a valid amount. PoroSad`);
 				} else {
 					return {
 						text: `Please provide a valid amount. PoroSad`,
@@ -73,10 +64,7 @@ module.exports = {
 						})
 						.exec(); // Gets channel data for senderID
 					if (channelData.poroCount >= 100) {
-						if (
-							channelData.poroCount >=
-							args[1]
-						) {
+						if (channelData.poroCount >= args[1]) {
 							await bot.DB.poroCount
 								.updateOne(
 									{
@@ -104,9 +92,7 @@ module.exports = {
 									},
 									{
 										$set: {
-											poroCount:
-												channelData.poroCount -
-												args[1],
+											poroCount: channelData.poroCount - args[1],
 										},
 									},
 									{
@@ -115,14 +101,7 @@ module.exports = {
 								)
 								.exec();
 							return {
-								text: `You have invested ${
-									args[1]
-								} to "${
-									args[0]
-								}" kattahHappy ${
-									channelData.poroCount -
-									args[1]
-								} poros left!`,
+								text: `You have invested ${args[1]} to "${args[0]}" kattahHappy ${channelData.poroCount - args[1]} poros left!`,
 							};
 						} else {
 							return {

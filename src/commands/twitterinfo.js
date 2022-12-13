@@ -13,14 +13,11 @@ module.exports = {
 			};
 		}
 		const targetUser = args[0] ?? message.senderUsername;
-		const { data } = await got(
-			`https://api.twitter.com/2/users/by/username/${targetUser}?user.fields=created_at,location,description`,
-			{
-				headers: {
-					Authorization: `Bearer ${process.env.TWITTER_BEARER}`,
-				},
+		const { data } = await got(`https://api.twitter.com/2/users/by/username/${targetUser}?user.fields=created_at,location,description`, {
+			headers: {
+				Authorization: `Bearer ${process.env.TWITTER_BEARER}`,
 			},
-		).json();
+		}).json();
 		//console.log(data)
 
 		const { data: data2 } = await got(`https://api.twitter.com/2/users/${data.id}?user.fields=public_metrics`, {
@@ -37,9 +34,7 @@ module.exports = {
 		const accountAge = data.created_at;
 		const PUBLICMETRICS = data2.public_metrics;
 		return {
-			text: `${targetUser} (${name})'s twitter account created at ${
-				accountAge.split('T')[0]
-			}, ID: ${id}, Location: ${location}, Description: ${desc} [Followers: ${
+			text: `${targetUser} (${name})'s twitter account created at ${accountAge.split('T')[0]}, ID: ${id}, Location: ${location}, Description: ${desc} [Followers: ${
 				PUBLICMETRICS.followers_count
 			} Following: ${PUBLICMETRICS.following_count} ]`,
 		};

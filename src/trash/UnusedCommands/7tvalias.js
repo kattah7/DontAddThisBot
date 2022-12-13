@@ -33,43 +33,20 @@ module.exports = {
 		if (isBotEditor) {
 			const channel = await bot.DB.channels.findOne({ username: message.channelName }).exec();
 			const tc = channel.editors.find((badge) => badge.id === message.senderUserID);
-			const ChannelOwnerEditor =
-				message.senderUsername.toLowerCase() ==
-				message.channelName.toLowerCase();
+			const ChannelOwnerEditor = message.senderUsername.toLowerCase() == message.channelName.toLowerCase();
 			if (tc || ChannelOwnerEditor) {
 				const channelEmotes = await utils.StvChannelEmotes(StvID);
-				const findEmote = channelEmotes.data.emoteSet.emotes.find(
-					(x) => x.name == args[0],
-				);
+				const findEmote = channelEmotes.data.emoteSet.emotes.find((x) => x.name == args[0]);
 				if (findEmote) {
-					const emoteConflict =
-						channelEmotes.data.emoteSet.emotes.find(
-							(x) =>
-								x.name ==
-								args[1],
-						);
+					const emoteConflict = channelEmotes.data.emoteSet.emotes.find((x) => x.name == args[1]);
 					if (emoteConflict) {
 						return {
 							text: `⛔ Emote "${args[1]}" already exists, therefore it cannot be aliased to "${args[1]}"...`,
 						};
 					} else {
-						const doesSignInRequire =
-							await utils.AliasSTVEmote(
-								findEmote.id,
-								StvID,
-								args[1],
-							);
-						if (
-							doesSignInRequire
-								.data
-								.emoteSet ==
-							null
-						) {
-							switch (
-								doesSignInRequire
-									.errors[0]
-									.message
-							) {
+						const doesSignInRequire = await utils.AliasSTVEmote(findEmote.id, StvID, args[1]);
+						if (doesSignInRequire.data.emoteSet == null) {
+							switch (doesSignInRequire.errors[0].message) {
 								case '70401 Sign-In Required': {
 									return {
 										text: `⛔ ${doesSignInRequire.errors[0].message}`,

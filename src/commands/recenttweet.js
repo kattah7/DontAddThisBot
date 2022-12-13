@@ -20,20 +20,15 @@ module.exports = {
 			},
 		}).json();
 
-		const { data: data2 } = await got(
-			`https://api.twitter.com/2/users/${data.id}/tweets?tweet.fields=created_at`,
-			{
-				headers: {
-					Authorization: `Bearer ${process.env.TWITTER_BEARER}`,
-				},
+		const { data: data2 } = await got(`https://api.twitter.com/2/users/${data.id}/tweets?tweet.fields=created_at`, {
+			headers: {
+				Authorization: `Bearer ${process.env.TWITTER_BEARER}`,
 			},
-		).json();
+		}).json();
 		//console.log(data2);
 		const ms = new Date().getTime() - Date.parse(data2[0].created_at);
 		return {
-			text: `Recent Tweet: ${data2[0].text} (Posted ${humanizeDuration(
-				ms,
-			)} ago) | twitter.com/${targetUser}/status/${data2[0].id}`,
+			text: `Recent Tweet: ${data2[0].text} (Posted ${humanizeDuration(ms)} ago) | twitter.com/${targetUser}/status/${data2[0].id}`,
 		};
 	},
 };

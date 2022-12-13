@@ -35,11 +35,7 @@ module.exports = {
 
 		const { login, grantedAt } = mods[0];
 		return {
-			text: `${
-				message.senderUsername
-			}, First MOD of ${targetUser} is ${login} (${humanizeDuration(
-				Date.now() - new Date(grantedAt),
-			)})`,
+			text: `${message.senderUsername}, First MOD of ${targetUser} is ${login} (${humanizeDuration(Date.now() - new Date(grantedAt))})`,
 		};
 	},
 };

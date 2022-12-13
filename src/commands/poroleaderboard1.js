@@ -20,9 +20,7 @@ module.exports = {
 		const SortedMapped = Sorted.map((user, index) => {
 			const { username, poroCount, poroPrestige, poroRank } = user;
 			const isTop3 = index == 0 ? `🥇` : index == 1 ? `🥈` : index == 2 ? `🥉` : ``;
-			return `${isTop3} ${username[0]}\u{E0000}${username.slice(1)} - [P${poroPrestige}: ${
-				displayPoroRankByName[poroRank]
-			}] ${poroCount.toLocaleString()}`;
+			return `${isTop3} ${username[0]}\u{E0000}${username.slice(1)} - [P${poroPrestige}: ${displayPoroRankByName[poroRank]}] ${poroCount.toLocaleString()}`;
 		});
 
 		return {

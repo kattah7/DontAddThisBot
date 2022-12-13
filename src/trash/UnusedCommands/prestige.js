@@ -32,9 +32,7 @@ module.exports = {
 						{ id: message.senderUserID },
 						{
 							$set: {
-								poroCount:
-									channelData.poroCount -
-									5000,
+								poroCount: channelData.poroCount - 5000,
 							},
 						},
 					)
@@ -44,9 +42,7 @@ module.exports = {
 						{ id: message.senderUserID },
 						{
 							$set: {
-								poroPrestige:
-									channelData.poroPrestige +
-									1,
+								poroPrestige: channelData.poroPrestige + 1,
 							},
 						},
 					)
@@ -54,27 +50,11 @@ module.exports = {
 				if (message.senderUsername == (await utils.PoroNumberOne())) {
 					client.privmsg(
 						message.channelName,
-						`.me ${
-							message.senderUsername
-						}, PartyHat Congratulations! | [P:${
-							channelData.poroPrestige +
-							1
-						}] ${
-							channelData.poroCount -
-							5000
-						} meat total! 🥩`,
+						`.me ${message.senderUsername}, PartyHat Congratulations! | [P:${channelData.poroPrestige + 1}] ${channelData.poroCount - 5000} meat total! 🥩`,
 					);
 				} else {
 					return {
-						text: `${
-							message.senderUsername
-						}, PartyHat Congratulations! | [P:${
-							channelData.poroPrestige +
-							1
-						}] ${
-							channelData.poroCount -
-							5000
-						} meat total! 🥩`,
+						text: `${message.senderUsername}, PartyHat Congratulations! | [P:${channelData.poroPrestige + 1}] ${channelData.poroCount - 5000} meat total! 🥩`,
 					};
 				}
 			}

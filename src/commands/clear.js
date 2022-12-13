@@ -9,15 +9,9 @@ module.exports = {
 	async execute(message, args, client) {
 		args[0]
 			? isNaN(args[0])
-				? await client.say(
-						message.channelName,
-						`Please put a valid nunmber :)`,
-				  )
+				? await client.say(message.channelName, `Please put a valid nunmber :)`)
 				: args[0] > 100
-				? await client.say(
-						message.channelName,
-						`You can only put less than 100 :)`,
-				  )
+				? await client.say(message.channelName, `You can only put less than 100 :)`)
 				: clearChat(args[0])
 			: clearChat(50);
 		function clearChat(amount) {

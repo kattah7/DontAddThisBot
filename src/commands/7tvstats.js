@@ -20,22 +20,7 @@ module.exports = {
 			const listTop5Emotes = data.slice(0, 5);
 
 			const top5Text = listTop5Emotes
-				.map(
-					(emote, index) =>
-						`${
-							index == 0
-								? `🥇`
-								: index ==
-								  1
-								? `🥈`
-								: index ==
-								  2
-								? `🥉`
-								: ``
-						} ${
-							emote.name
-						} (Usage: ${emote.usage.toLocaleString()})`,
-				)
+				.map((emote, index) => `${index == 0 ? `🥇` : index == 1 ? `🥈` : index == 2 ? `🥉` : ``} ${emote.name} (Usage: ${emote.usage.toLocaleString()})`)
 				.join(' | ');
 
 			return {

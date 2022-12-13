@@ -131,9 +131,7 @@ exports.ParseUser = async (user) => {
 };
 
 exports.Invest = async (symbol) => {
-	const res = await got(`https://finnhub.io/api/v1/quote?symbol=${symbol}&token=${process.env.FINNHUB_API_KEY}`).catch((e) =>
-		console.log(e),
-	);
+	const res = await got(`https://finnhub.io/api/v1/quote?symbol=${symbol}&token=${process.env.FINNHUB_API_KEY}`).catch((e) => console.log(e));
 	if (!res) return null;
 	const data = JSON.parse(res.body);
 	return data;

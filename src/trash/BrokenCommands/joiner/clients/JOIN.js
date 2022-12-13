@@ -10,14 +10,10 @@ const JOIN = async function () {
 		Logger.info(`Joined ${joinedUsername} to ${channelName}`);
 		const showTables = await sql.query(`SELECT * FROM channels WHERE username = '${joinedUsername}'`);
 		if (showTables.rows.length === 0) {
-			await sql.query(
-				`INSERT INTO channels (username, channelName) VALUES ('${joinedUsername}', '["${channelName}"]')`,
-			);
+			await sql.query(`INSERT INTO channels (username, channelName) VALUES ('${joinedUsername}', '["${channelName}"]')`);
 			Logger.info(`Freshly Added Joined ${joinedUsername} to ${channelName}`);
 		} else {
-			await sql.query(
-				`UPDATE channels SET channelName = jsonb_set(channelName, '{${showTables.rows[0].channelname.length}}', '"${channelName}"') WHERE username = '${joinedUsername}'`,
-			);
+			await sql.query(`UPDATE channels SET channelName = jsonb_set(channelName, '{${showTables.rows[0].channelname.length}}', '"${channelName}"') WHERE username = '${joinedUsername}'`);
 			Logger.info(`Added ${channelName} to ${joinedUsername}'s channels.`);
 		}
 	});

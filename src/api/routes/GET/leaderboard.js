@@ -5,9 +5,7 @@ const redis = new Redis({});
 
 async function getLeaderboard() {
 	const poroData = await bot.DB.poroCount.find({}).exec();
-	const topUsers = poroData
-		.sort((a, b) => b.poroPrestige - a.poroPrestige || b.poroRank - a.poroRank || b.poroCount - a.poroCount)
-		.slice(0, 10);
+	const topUsers = poroData.sort((a, b) => b.poroPrestige - a.poroPrestige || b.poroRank - a.poroRank || b.poroCount - a.poroCount).slice(0, 10);
 
 	return topUsers;
 }
@@ -79,13 +77,7 @@ router.get('/api/bot/leaderboard', async (req, res) => {
 					poroPrestige: a.poroPrestige,
 					poroRank: a.poroRank,
 					joinedAt: a.joinedAt,
-					userRank:
-						totalUsers -
-						[...loserboards]
-							.reverse()
-							.indexOf(
-								a,
-							),
+					userRank: totalUsers - [...loserboards].reverse().indexOf(a),
 				};
 			})
 			.reverse();

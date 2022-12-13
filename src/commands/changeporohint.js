@@ -17,9 +17,7 @@ module.exports = {
 				console.log(err);
 			}
 		} else {
-			await bot.DB.private
-				.updateOne({ code: 'code' }, { $set: { todaysCode: args.join(' ') } })
-				.exec();
+			await bot.DB.private.updateOne({ code: 'code' }, { $set: { todaysCode: args.join(' ') } }).exec();
 			return {
 				text: `code set!`,
 			};

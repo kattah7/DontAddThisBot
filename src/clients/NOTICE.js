@@ -9,9 +9,7 @@ const NOTICE = async function () {
 			return;
 		} else if (messageID == 'msg_banned') {
 			Logger.warn(`Banned from channel ${channelName}`);
-			await bot.DB.channels
-				.updateOne({ username: channelName }, { isChannel: false })
-				.catch((err) => Logger.error(err));
+			await bot.DB.channels.updateOne({ username: channelName }, { isChannel: false }).catch((err) => Logger.error(err));
 		} else if (messageID == 'msg_channel_suspended') {
 			Logger.warn(`Suspended channel ${channelName}`);
 		}

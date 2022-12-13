@@ -24,14 +24,9 @@ module.exports = {
 		const { poroCount, poroPrestige, poroRank } = channelData;
 		if (lastUsage && channelData) {
 			if (new Date().getTime() - new Date(lastUsage).getTime() < 1000 * 60 * 60 * 3) {
-				const ms =
-					new Date(lastUsage).getTime() -
-					new Date().getTime() +
-					1000 * 60 * 60 * 3;
+				const ms = new Date(lastUsage).getTime() - new Date().getTime() + 1000 * 60 * 60 * 3;
 				return {
-					text: `Please wait ${humanizeDuration(
-						ms,
-					)} before doing another cooldown reset! PoroSad`,
+					text: `Please wait ${humanizeDuration(ms)} before doing another cooldown reset! PoroSad`,
 				};
 			}
 		}
@@ -42,9 +37,7 @@ module.exports = {
 		await bot.Redis.del(`poro:${senderUserID}`);
 		// deletes the timer for poro redis timer
 		return {
-			text: `Timer Reset! ${senderUsername} (-5) kattahPoro total [P${poroPrestige}: ${
-				displayPoroRankByName[poroRank]
-			}] ${poroCount - 5} meat`,
+			text: `Timer Reset! ${senderUsername} (-5) kattahPoro total [P${poroPrestige}: ${displayPoroRankByName[poroRank]}] ${poroCount - 5} meat`,
 		};
 	},
 };

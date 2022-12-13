@@ -15,12 +15,7 @@ module.exports = {
 			};
 		}
 		// try to get and delete the channel from the database
-		const channelData = await bot.DB.channels
-			.findOneAndUpdate(
-				{ id: await utils.IDByLogin(targetUser.toLowerCase()) },
-				{ $set: { isChannel: false } },
-			)
-			.exec();
+		const channelData = await bot.DB.channels.findOneAndUpdate({ id: await utils.IDByLogin(targetUser.toLowerCase()) }, { $set: { isChannel: false } }).exec();
 		if (!channelData || !channelData.isChannel) {
 			return { text: `Not in channel #${targetUser}` };
 		}

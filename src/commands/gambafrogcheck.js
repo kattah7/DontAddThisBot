@@ -34,29 +34,15 @@ module.exports = {
 					var date1 = new Date();
 					const date2 = new Date(data.followedAt); // 2022/1/19
 					const diffTime = Math.abs(date2 - date1);
-					const diffDays = Math.ceil(
-						diffTime /
-							(1000 *
-								60 *
-								60 *
-								24),
-					);
+					const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 					console.log(diffDays);
 					if (diffDays < 365) {
 						return {
-							text: `${
-								data.username
-							} was never subbed to trainwrecks & following for ${humanizeDuration(
-								followAge,
-							)} WutFace`,
+							text: `${data.username} was never subbed to trainwrecks & following for ${humanizeDuration(followAge)} WutFace`,
 						};
 					} else {
 						return {
-							text: `${
-								data.username
-							} was never subbed to trainwrecks & following for ${humanizeDuration(
-								followAge,
-							)} 🦍`,
+							text: `${data.username} was never subbed to trainwrecks & following for ${humanizeDuration(followAge)} 🦍`,
 						};
 					}
 				}
@@ -69,64 +55,26 @@ module.exports = {
 				if (data.subscribed == false) {
 					if (diffDays < 365) {
 						return {
-							text: `${
-								data.username
-							} was previously subbed to trainwrecks for ${
-								data
-									.cumulative
-									.months
-							} months & following for ${humanizeDuration(
-								followAge,
-							)} WutFace`,
+							text: `${data.username} was previously subbed to trainwrecks for ${data.cumulative.months} months & following for ${humanizeDuration(followAge)} WutFace`,
 						};
 					} else {
 						return {
-							text: `${
-								data.username
-							} was previously subbed to trainwrecks for ${
-								data
-									.cumulative
-									.months
-							} months & following for ${humanizeDuration(
-								followAge,
-							)} 🦍`,
+							text: `${data.username} was previously subbed to trainwrecks for ${data.cumulative.months} months & following for ${humanizeDuration(followAge)} 🦍`,
 						};
 					}
 				} else if (data.subscribed == true) {
 					const date1 = new Date();
 					const date2 = new Date(data.followedAt); // 2022/1/19
 					const diffTime = Math.abs(date2 - date1);
-					const diffDays = Math.ceil(
-						diffTime /
-							(1000 *
-								60 *
-								60 *
-								24),
-					);
+					const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 					console.log(diffDays);
 					if (diffDays < 365) {
 						return {
-							text: `${
-								data.username
-							} is subbed to trainwrecks for ${
-								data
-									.cumulative
-									.months
-							} months & following for ${humanizeDuration(
-								followAge,
-							)} WutFace`,
+							text: `${data.username} is subbed to trainwrecks for ${data.cumulative.months} months & following for ${humanizeDuration(followAge)} WutFace`,
 						};
 					} else {
 						return {
-							text: `${
-								data.username
-							} is subbed to trainwrecks for ${
-								data
-									.cumulative
-									.months
-							} months & following for ${humanizeDuration(
-								followAge,
-							)} 🦍`,
+							text: `${data.username} is subbed to trainwrecks for ${data.cumulative.months} months & following for ${humanizeDuration(followAge)} 🦍`,
 						};
 					}
 				}
@@ -138,19 +86,11 @@ module.exports = {
 				console.log(diffDays);
 				if (diffDays < 365) {
 					return {
-						text: `${
-							data.username
-						}'s subscription is hidden, Try hovering over their sub badge. Following for ${humanizeDuration(
-							followAge,
-						)} WutFace`,
+						text: `${data.username}'s subscription is hidden, Try hovering over their sub badge. Following for ${humanizeDuration(followAge)} WutFace`,
 					};
 				} else {
 					return {
-						text: `${
-							data.username
-						}'s subscription is hidden, Try hovering over their sub badge. Following for ${humanizeDuration(
-							followAge,
-						)} 🦍`,
+						text: `${data.username}'s subscription is hidden, Try hovering over their sub badge. Following for ${humanizeDuration(followAge)} 🦍`,
 					};
 				}
 			}

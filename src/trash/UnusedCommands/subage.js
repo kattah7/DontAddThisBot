@@ -21,13 +21,7 @@ module.exports = {
 				};
 			} else if (userData.cumulative.months > 0) {
 				return {
-					text: `${targetUser} was previously subbed to ${targetChannel} for ${
-						userData.cumulative.months
-					} months. Expired at ${
-						userData.cumulative.end.split(
-							'T',
-						)[0]
-					} PoroSad`,
+					text: `${targetUser} was previously subbed to ${targetChannel} for ${userData.cumulative.months} months. Expired at ${userData.cumulative.end.split('T')[0]} PoroSad`,
 				};
 			}
 		} else if (userData.subscribed == true) {
@@ -35,29 +29,17 @@ module.exports = {
 				const ms = new Date().getTime() - Date.parse(userData.cumulative.end);
 				const ms2 = new Date().getTime() - Date.parse(userData.meta.endsAt);
 				return {
-					text: `${targetUser} is currently subbed to ${targetChannel} for ${
-						userData.cumulative.months
-					} months with a tier ${userData.meta.tier} ${
+					text: `${targetUser} is currently subbed to ${targetChannel} for ${userData.cumulative.months} months with a tier ${userData.meta.tier} ${
 						userData.meta.type
-					} sub. [Renews: ${humanizeDuration(
-						ms,
-					)} / Expires: ${humanizeDuration(ms2)}] B)`,
+					} sub. [Renews: ${humanizeDuration(ms)} / Expires: ${humanizeDuration(ms2)}] B)`,
 				};
 			} else if (userData.meta.gift.isgift == true) {
 				const ms = new Date().getTime() - Date.parse(userData.cumulative.end);
 				const ms2 = new Date().getTime() - Date.parse(userData.meta.endsAt);
 				return {
-					text: `${targetUser} is currently gifted tier ${
-						userData.meta.tier
-					}, ${
-						userData.cumulative.months
-					} month sub to ${targetChannel} by ${
+					text: `${targetUser} is currently gifted tier ${userData.meta.tier}, ${userData.cumulative.months} month sub to ${targetChannel} by ${
 						userData.meta.gift.name
-					}. [Renews: ${humanizeDuration(
-						ms,
-					)} / Expires: ${humanizeDuration(
-						ms2,
-					)}] HolidayPresent`,
+					}. [Renews: ${humanizeDuration(ms)} / Expires: ${humanizeDuration(ms2)}] HolidayPresent`,
 				};
 			}
 		}

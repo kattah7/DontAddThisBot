@@ -30,10 +30,7 @@ module.exports = {
 
 			if (channelData.poroCount < 50) {
 				if (message.senderUsername == (await utils.PoroNumberOne())) {
-					return client.privmsg(
-						message.channelName,
-						`.me Not enough poro meat! ${message.senderUsername} kattahHappy You need 50 poro meat | ${channelData.poroCount} meat total! 🥩`,
-					);
+					return client.privmsg(message.channelName, `.me Not enough poro meat! ${message.senderUsername} kattahHappy You need 50 poro meat | ${channelData.poroCount} meat total! 🥩`);
 				}
 				return {
 					text: `Not enough poro meat! ${message.senderUsername} kattahHappy You need 50 poro meat | [P:${channelData.poroPrestige}] ${channelData.poroCount} meat total! 🥩`,
@@ -44,9 +41,7 @@ module.exports = {
 						{ id: message.senderUserID },
 						{
 							$set: {
-								poroCount:
-									channelData.poroCount -
-									50,
+								poroCount: channelData.poroCount - 50,
 							},
 						},
 					)
@@ -79,23 +74,10 @@ module.exports = {
 					json: query,
 				});
 				if (message.senderUsername == (await utils.PoroNumberOne())) {
-					return client.privmsg(
-						message.channelName,
-						`.me Name Changed! PoroSad [P:${
-							channelData.poroPrestige
-						}] ${
-							channelData.poroCount -
-							50
-						} meat total! 🥩`,
-					);
+					return client.privmsg(message.channelName, `.me Name Changed! PoroSad [P:${channelData.poroPrestige}] ${channelData.poroCount - 50} meat total! 🥩`);
 				} else {
 					return {
-						text: `Name Changed! PoroSad [P:${
-							channelData.poroPrestige
-						}] ${
-							channelData.poroCount -
-							50
-						} meat total! 🥩`,
+						text: `Name Changed! PoroSad [P:${channelData.poroPrestige}] ${channelData.poroCount - 50} meat total! 🥩`,
 					};
 				}
 			}

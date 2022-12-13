@@ -19,40 +19,16 @@ WS.onmessage = async ({ data }) => {
 		if (data?.length == 0) {
 			const testIDS = ['148554088', '206378648'];
 			for (const id of testIDS) {
-				await createEventSub('channel.follow', id, payload.session.id).then(
-					(response) => {
-						if (response?.error)
-							return Logger.error(
-								`Error creating EventSub: ${response?.message}`,
-							);
-						response?.data.forEach(
-							(sub) => {
-								const {
-									id,
-									status,
-									type,
-									version,
-									condition,
-									transport,
-								} =
-									sub;
-								Logger.info(
-									`Created EventSub: ${type} for ${condition.broadcaster_user_id}`,
-								);
-							},
-						);
-					},
-				);
+				await createEventSub('channel.follow', id, payload.session.id).then((response) => {
+					if (response?.error) return Logger.error(`Error creating EventSub: ${response?.message}`);
+					response?.data.forEach((sub) => {
+						const { id, status, type, version, condition, transport } = sub;
+						Logger.info(`Created EventSub: ${type} for ${condition.broadcaster_user_id}`);
+					});
+				});
 			}
 		} else {
-			Logger.warn(
-				`EventSubs already exist: ${data
-					.map(
-						(sub) =>
-							`${sub.type} | ${sub.condition.broadcaster_user_id}`,
-					)
-					.join(', ')}`,
-			);
+			Logger.warn(`EventSubs already exist: ${data.map((sub) => `${sub.type} | ${sub.condition.broadcaster_user_id}`).join(', ')}`);
 			for (const topic of data) {
 				await deleteEventSub(topic.id);
 				Logger.info(`Deleted EventSub: ${topic.id}`);

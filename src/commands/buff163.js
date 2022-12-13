@@ -31,19 +31,16 @@ module.exports = {
 		}
 
 		async function getItem(itemID) {
-			const { data } = await fetch(
-				`https://buff.163.com/api/market/goods/sell_order?game=csgo&goods_id=${itemID}&page_num=1&sort_by=default&mode=&allow_tradable_cooldown=1&_=1667085434023`,
-				{
-					headers: {
-						accept: 'application/json, text/plain, */*',
-						'accept-language': 'en-US,en;q=0.9',
-						'sec-fetch-dest': 'empty',
-						'sec-fetch-mode': 'cors',
-						'sec-fetch-site': 'same-site',
-						'x-requested-with': 'XMLHttpRequest',
-					},
+			const { data } = await fetch(`https://buff.163.com/api/market/goods/sell_order?game=csgo&goods_id=${itemID}&page_num=1&sort_by=default&mode=&allow_tradable_cooldown=1&_=1667085434023`, {
+				headers: {
+					accept: 'application/json, text/plain, */*',
+					'accept-language': 'en-US,en;q=0.9',
+					'sec-fetch-dest': 'empty',
+					'sec-fetch-mode': 'cors',
+					'sec-fetch-site': 'same-site',
+					'x-requested-with': 'XMLHttpRequest',
 				},
-			).then((res) => res.json());
+			}).then((res) => res.json());
 			return data;
 		}
 		if (!(await getItem(args[0]))) {

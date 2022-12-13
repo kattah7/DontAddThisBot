@@ -58,9 +58,7 @@ module.exports = {
 							$addToSet: {
 								editors: [
 									{
-										username: await utils.ParseUser(
-											user,
-										),
+										username: await utils.ParseUser(user),
 										id: uid,
 										grantedAt: new Date(),
 									},

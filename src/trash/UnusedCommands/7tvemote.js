@@ -78,9 +78,7 @@ module.exports = {
 				},
 			});
 			//console.log(STVEmoteSearch, STVEmoteSearch.data.emotes.items)
-			const findEmoteBySearch = STVEmoteSearch.data.emotes.items.find(
-				(emote) => emote.name === args[0],
-			);
+			const findEmoteBySearch = STVEmoteSearch.data.emotes.items.find((emote) => emote.name === args[0]);
 			if (!findEmoteBySearch) {
 				return {
 					text: `Emote ${args[0]} not found :p check spelling or caps maybe?`,

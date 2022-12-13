@@ -71,10 +71,7 @@ module.exports = {
 			const channelData = await bot.DB.channels.findOne({ id: message.channelID }).exec();
 			const isArgsRegex = args[0]
 				? regex.test(args[0]) || args[1]
-					? `⛔ Usage ${
-							channelData.prefix ??
-							`|`
-					  }yoink <emote or more emotes> <from:channel>`
+					? `⛔ Usage ${channelData.prefix ?? `|`}yoink <emote or more emotes> <from:channel>`
 					: `⛔ Please specify an correct channel`
 				: `⛔ Please specify an emote`;
 			return {
@@ -117,22 +114,11 @@ module.exports = {
 
 			if (find == 0) {
 				return {
-					text: `⛔ ${args
-						.map((x) =>
-							x.replace(
-								/from:(.*)$/g,
-								'',
-							),
-						)
-						.join(', ')} not found in ${
-						params.from
-					}`,
+					text: `⛔ ${args.map((x) => x.replace(/from:(.*)$/g, '')).join(', ')} not found in ${params.from}`,
 				};
 			}
 			return {
-				text: `7tvM ${find} emote${find == 1 ? '' : 's'} found from ${
-					params.from
-				}, adding emotes to ${message.channelName}. There may be some errors`,
+				text: `7tvM ${find} emote${find == 1 ? '' : 's'} found from ${params.from}, adding emotes to ${message.channelName}. There may be some errors`,
 			};
 		} else {
 			const findThatEmote = findMainChannel.emotes.find((x) => x.name == args[0]);
@@ -141,10 +127,7 @@ module.exports = {
 					text: `⛔ "${args[0]}" not found in ${params.from}`,
 				};
 			} else {
-				const addEmote = await utils.AddSTVEmote(
-					findThatEmote.id,
-					findMainChannel2.id,
-				);
+				const addEmote = await utils.AddSTVEmote(findThatEmote.id, findMainChannel2.id);
 				if (addEmote.errors) {
 					return {
 						text: `⛔ ${addEmote.errors[0].extensions.message}`,
@@ -152,11 +135,7 @@ module.exports = {
 				}
 				const EmoteIdToName = await utils.IDtoEmote(findThatEmote.id);
 				if (EmoteIdToName != findThatEmote.name) {
-					const alias = await utils.AliasSTVEmote(
-						findThatEmote.id,
-						findMainChannel2.id,
-						findThatEmote.name,
-					);
+					const alias = await utils.AliasSTVEmote(findThatEmote.id, findMainChannel2.id, findThatEmote.name);
 					if (alias.errors) {
 						return {
 							text: `7tvM Yoinked "${EmoteIdToName}" to ${message.channelName} but error auto-aliasing, ⛔ ${alias.errors[0].extensions.message}`,

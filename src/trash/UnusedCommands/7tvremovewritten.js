@@ -18,33 +18,17 @@ module.exports = {
 		}
 		const channelID = await utils.stvNameToID(message.channelName);
 		const channelEditors = await utils.VThreeEditors(channelID);
-		const isBotEditorInChannelEditors = channelEditors.find(
-			(editor) => editor.user.id === '629d77a20e60c6d53da64e38',
-		); // DontAddThisBot's 7tv ID
+		const isBotEditorInChannelEditors = channelEditors.find((editor) => editor.user.id === '629d77a20e60c6d53da64e38'); // DontAddThisBot's 7tv ID
 		if (isBotEditorInChannelEditors) {
 			const channel = await bot.DB.channels.findOne({ username: message.channelName }).exec();
-			const isSenderIDEditor = channel.editors.find(
-				(badge) => badge.id === message.senderUserID,
-			);
-			const ChannelOwnerEditor =
-				message.senderUsername.toLowerCase() ==
-				message.channelName.toLowerCase();
+			const isSenderIDEditor = channel.editors.find((badge) => badge.id === message.senderUserID);
+			const ChannelOwnerEditor = message.senderUsername.toLowerCase() == message.channelName.toLowerCase();
 			if (isSenderIDEditor || ChannelOwnerEditor) {
 				if (args[0] == 'main') {
-					const isNull = await utils.StvChannelEmotes(
-						channelID,
-					);
-					const isThatEmoteInChat =
-						isNull.data.emoteSet.emotes.find(
-							(emote) =>
-								emote.name ===
-								args[1],
-						);
+					const isNull = await utils.StvChannelEmotes(channelID);
+					const isThatEmoteInChat = isNull.data.emoteSet.emotes.find((emote) => emote.name === args[1]);
 					if (isThatEmoteInChat) {
-						await utils.RemoveSTVEmote(
-							isThatEmoteInChat.id,
-							channelID,
-						);
+						await utils.RemoveSTVEmote(isThatEmoteInChat.id, channelID);
 						return {
 							text: `7tvM Successfully removed "${args[1]}" from ${args[0]}`,
 						};
@@ -54,31 +38,14 @@ module.exports = {
 						};
 					}
 				} else {
-					const channelEmotes = await utils.V3ChannelEmotes(
-						channelID,
-					);
-					const isChannelEmotesFullInSet =
-						channelEmotes.emote_sets.find(
-							(emote) =>
-								emote.name ===
-								args[0],
-						);
+					const channelEmotes = await utils.V3ChannelEmotes(channelID);
+					const isChannelEmotesFullInSet = channelEmotes.emote_sets.find((emote) => emote.name === args[0]);
 					//console.log(isChannelEmotesFullInSet)
 					if (isChannelEmotesFullInSet) {
-						const isThatEmoteInChat =
-							isChannelEmotesFullInSet.emotes.find(
-								(
-									emote,
-								) =>
-									emote.name ===
-									args[1],
-							);
+						const isThatEmoteInChat = isChannelEmotesFullInSet.emotes.find((emote) => emote.name === args[1]);
 						if (isThatEmoteInChat) {
 							//console.log(isThatEmoteInChat.id, isChannelEmotesFullInSet)
-							await utils.RemoveSTVEmote(
-								isThatEmoteInChat.id,
-								isChannelEmotesFullInSet.id,
-							);
+							await utils.RemoveSTVEmote(isThatEmoteInChat.id, isChannelEmotesFullInSet.id);
 							return {
 								text: `7tvM Successfully removed "${args[1]}" from ${args[0]}`,
 							};

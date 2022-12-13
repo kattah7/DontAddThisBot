@@ -11,14 +11,7 @@ module.exports = {
 
 		const poroData = await bot.DB.poroCount.find({}).exec();
 
-		const sorted = poroData
-			.filter((a) => a.poroPrestige > -1)
-			.sort(
-				(a, b) =>
-					b.poroPrestige - a.poroPrestige ||
-					b.poroRank - a.poroRank ||
-					b.poroCount - a.poroCount,
-			);
+		const sorted = poroData.filter((a) => a.poroPrestige > -1).sort((a, b) => b.poroPrestige - a.poroPrestige || b.poroRank - a.poroRank || b.poroCount - a.poroCount);
 
 		const totalSliced = sorted.slice(0, 5000000);
 
@@ -31,14 +24,7 @@ module.exports = {
 				};
 			}
 			return {
-				text: `${nanRank[0].username} is rank #${
-					totalSliced.findIndex(
-						(user) =>
-							user.username ==
-							nanRank[0]
-								.username,
-					) + 1
-				}/${sorted.length} in the poro leaderboard! kattahPoro`,
+				text: `${nanRank[0].username} is rank #${totalSliced.findIndex((user) => user.username == nanRank[0].username) + 1}/${sorted.length} in the poro leaderboard! kattahPoro`,
 			};
 		}
 		if (totalSliced.findIndex((user) => user.username == targetUser) + 1 == 0) {
@@ -47,9 +33,7 @@ module.exports = {
 			};
 		}
 		return {
-			text: `${targetUser} is rank #${
-				totalSliced.findIndex((user) => user.username == targetUser) + 1
-			}/${totalSliced.length} in the poro leaderboard! kattahPoro`,
+			text: `${targetUser} is rank #${totalSliced.findIndex((user) => user.username == targetUser) + 1}/${totalSliced.length} in the poro leaderboard! kattahPoro`,
 		};
 	},
 };

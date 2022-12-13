@@ -37,9 +37,7 @@ module.exports = {
 
 		if (poroCount < poros[poroRank + 1]) {
 			return {
-				text: `Not enough poro meat! ${senderUsername} kattahPoro You need ${
-					poros[poroRank + 1]
-				} poro meat | [P${poroPrestige}: ${
+				text: `Not enough poro meat! ${senderUsername} kattahPoro You need ${poros[poroRank + 1]} poro meat | [P${poroPrestige}: ${
 					displayPoroRankByName[poroRank]
 				}] ${poroCount} meat total! 🥩`,
 			};
@@ -49,25 +47,16 @@ module.exports = {
 					{ id: senderUserID },
 					{
 						$set: {
-							poroCount:
-								poroCount -
-								poros[
-									poroRank +
-										1
-								],
-							poroRank:
-								poroRank +
-								1,
+							poroCount: poroCount - poros[poroRank + 1],
+							poroRank: poroRank + 1,
 						},
 					},
 				)
 				.exec();
 			return {
-				text: `You have ranked up to ${
-					displayPoroRankByName[poroRank + 1]
-				}! PoroSad [P${poroPrestige}: ${
-					displayPoroRankByName[poroRank + 1]
-				}] ${poroCount - poros[poroRank + 1]} meat total! 🥩`,
+				text: `You have ranked up to ${displayPoroRankByName[poroRank + 1]}! PoroSad [P${poroPrestige}: ${displayPoroRankByName[poroRank + 1]}] ${
+					poroCount - poros[poroRank + 1]
+				} meat total! 🥩`,
 			};
 		}
 	},

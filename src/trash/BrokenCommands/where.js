@@ -11,9 +11,7 @@ module.exports = {
 	cooldown: 5000,
 	execute: async (message, args, client, userdata, params) => {
 		async function pasteBin(channels) {
-			const { key } = await got
-				.post('https://paste.ivr.fi/documents', { body: channels.join('\n') })
-				.json();
+			const { key } = await got.post('https://paste.ivr.fi/documents', { body: channels.join('\n') }).json();
 			return `https://paste.ivr.fi/${key}`;
 		}
 
@@ -31,29 +29,8 @@ module.exports = {
 			} else {
 				const channelNames = [...new Set(showTables.rows[0].channelname)];
 				return {
-					text: `${user} is in (${
-						channelNames.length
-					}) Channels: ${
-						channelNames.join(', ')
-							.length >
-						500
-							? await pasteBin(
-									channelNames,
-							  )
-							: channelNames
-									.map(
-										(
-											name,
-										) =>
-											name[0] +
-											'\u{E0000}' +
-											name.slice(
-												1,
-											),
-									)
-									.join(
-										', ',
-									)
+					text: `${user} is in (${channelNames.length}) Channels: ${
+						channelNames.join(', ').length > 500 ? await pasteBin(channelNames) : channelNames.map((name) => name[0] + '\u{E0000}' + name.slice(1)).join(', ')
 					}`,
 				};
 			}
@@ -67,10 +44,7 @@ module.exports = {
 				fs.writeFile(
 					'./joiner/data/users.json',
 					JSON.stringify({
-						tracking_users: [
-							...tracking_users,
-							user,
-						],
+						tracking_users: [...tracking_users, user],
 					}),
 				);
 				return {

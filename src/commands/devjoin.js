@@ -14,9 +14,7 @@ module.exports = {
 				text: isArgs,
 			};
 		}
-		const channelData = await bot.DB.channels
-			.findOne({ id: await utils.IDByLogin(targetUser.toLowerCase()) })
-			.exec();
+		const channelData = await bot.DB.channels.findOne({ id: await utils.IDByLogin(targetUser.toLowerCase()) }).exec();
 		// if the channel already exists, return
 		if (channelData) {
 			if (channelData.isChannel) {
@@ -26,9 +24,7 @@ module.exports = {
 					await bot.DB.channels
 						.findOneAndUpdate(
 							{
-								id: await utils.IDByLogin(
-									targetUser.toLowerCase(),
-								),
+								id: await utils.IDByLogin(targetUser.toLowerCase()),
 							},
 							{
 								$set: {
@@ -60,10 +56,7 @@ module.exports = {
 				isChannel: true,
 			});
 			await newChannel.save();
-			await client.say(
-				targetUser.toLowerCase(),
-				`Joined channel, ${targetUser} kattahPoro Also check @DontAddThisBot panels for info!`,
-			);
+			await client.say(targetUser.toLowerCase(), `Joined channel, ${targetUser} kattahPoro Also check @DontAddThisBot panels for info!`);
 			return { text: `Joined channel #${targetUser}` };
 		}
 	},

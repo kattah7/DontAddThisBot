@@ -15,26 +15,18 @@ module.exports = {
 		const xd = args[0] || selfPoroData;
 		if (!xd) {
 			if (message.senderUsername == (await utils.PoroNumberOne())) {
-				client.privmsg(
-					message.channelName,
-					`.me You aren't registered PoroSad type |poro to get started!`,
-				);
+				client.privmsg(message.channelName, `.me You aren't registered PoroSad type |poro to get started!`);
 			} else {
 				return {
 					text: `You aren't registered PoroSad type |poro to get started!`,
 				};
 			}
 		}
-		const { banned, banphrase_data } = await got
-			.post(`https://forsen.tv/api/v1/banphrases/test `, { json: { message: targetUser } })
-			.json();
+		const { banned, banphrase_data } = await got.post(`https://forsen.tv/api/v1/banphrases/test `, { json: { message: targetUser } }).json();
 		//console.log(banned, banphrase_data)
 		if (banned == true) {
 			if (message.senderUsername == (await utils.PoroNumberOne())) {
-				client.privmsg(
-					message.channelName,
-					`.me Ban phrase ${banphrase_data.id} detected.`,
-				);
+				client.privmsg(message.channelName, `.me Ban phrase ${banphrase_data.id} detected.`);
 			} else {
 				return {
 					text: `Ban phrase ${banphrase_data.id} detected.`,
@@ -44,14 +36,8 @@ module.exports = {
 			var reg = /^[a-z0-9_#@,]+$/i;
 			if (reg.test(args[0])) {
 				if (!poroData) {
-					if (
-						message.senderUsername ==
-						(await utils.PoroNumberOne())
-					) {
-						client.privmsg(
-							message.channelName,
-							`.me ${targetUser} not found in database PoroSad`,
-						);
+					if (message.senderUsername == (await utils.PoroNumberOne())) {
+						client.privmsg(message.channelName, `.me ${targetUser} not found in database PoroSad`);
 					} else {
 						return {
 							text: `${targetUser} not found in database PoroSad`,
@@ -68,10 +54,7 @@ module.exports = {
 				//console.log(poroData.poroCount)
 			} else {
 				if (message.senderUsername == (await utils.PoroNumberOne())) {
-					client.privmsg(
-						message.channelName,
-						`.me message too long or not valid`,
-					);
+					client.privmsg(message.channelName, `.me message too long or not valid`);
 				} else {
 					return {
 						text: `message too long or not valid`,

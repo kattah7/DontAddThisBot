@@ -7,10 +7,11 @@ module.exports = {
 	description: 'Gets live playercount of a steam game, Please use APP ID',
 	execute: async (message, args, client) => {
 		const id = args[0] ?? message.senderUsername;
-		let { body: userData, statusCode } = await got(
-			`https://api.steampowered.com/ISteamUserStats/GetNumberOfCurrentPlayers/v0001/?appid=${id}`,
-			{ timeout: 10000, throwHttpErrors: false, responseType: 'json' },
-		);
+		let { body: userData, statusCode } = await got(`https://api.steampowered.com/ISteamUserStats/GetNumberOfCurrentPlayers/v0001/?appid=${id}`, {
+			timeout: 10000,
+			throwHttpErrors: false,
+			responseType: 'json',
+		});
 		//console.log(userData)
 
 		const data = userData.response.player_count;

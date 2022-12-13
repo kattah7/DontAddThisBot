@@ -49,9 +49,7 @@ module.exports = {
 		}
 
 		return {
-			text: `${Emote} ${amount <= 1 ? `"${args[0]}"` : `${amount} emotes`} removed from ${
-				message.channelName
-			}`,
+			text: `${Emote} ${amount <= 1 ? `"${args[0]}"` : `${amount} emotes`} removed from ${message.channelName}`,
 		};
 	},
 };

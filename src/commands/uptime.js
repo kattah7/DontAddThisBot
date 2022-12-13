@@ -23,17 +23,13 @@ module.exports = {
 		if (data2[0] == null) {
 			const ms2 = new Date().getTime() - Date.parse(startedAt);
 			return {
-				text: `${targetUser} has been offline for ${humanizeDuration(
-					ms2,
-				)}, Title: ${title}`,
+				text: `${targetUser} has been offline for ${humanizeDuration(ms2)}, Title: ${title}`,
 			};
 		} else {
 			const { started_at, user_name, game_name, viewer_count, title } = data2[0];
 			const ms = new Date().getTime() - Date.parse(started_at);
 			return {
-				text: `${user_name} went live ${humanizeDuration(
-					ms,
-				)} ago, Playing ${game_name} with ${viewer_count.toLocaleString()} viewers. Title: ${title}`,
+				text: `${user_name} went live ${humanizeDuration(ms)} ago, Playing ${game_name} with ${viewer_count.toLocaleString()} viewers. Title: ${title}`,
 			};
 		}
 	},

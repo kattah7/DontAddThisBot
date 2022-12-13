@@ -24,9 +24,7 @@ module.exports = {
 
 		const { url, broadcaster_name, view_count, creator_name, created_at } = getClip;
 		return {
-			text: `${broadcaster_name}'s all time top clip with ${view_count} views by ${creator_name} at ${
-				created_at.split('T')[0]
-			} ${url}`,
+			text: `${broadcaster_name}'s all time top clip with ${view_count} views by ${creator_name} at ${created_at.split('T')[0]} ${url}`,
 		};
 	},
 };

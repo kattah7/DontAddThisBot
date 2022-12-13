@@ -16,9 +16,7 @@ module.exports = {
 		const ms = new Date().getTime() - Date.parse(started_at);
 
 		return {
-			text: `${user_name} been live for ${humanizeDuration(
-				ms,
-			)} playing ${game_name} with ${viewer_count} viewers. Title: ${title}. twitch.tv/${user_login} kattahSpin`,
+			text: `${user_name} been live for ${humanizeDuration(ms)} playing ${game_name} with ${viewer_count} viewers. Title: ${title}. twitch.tv/${user_login} kattahSpin`,
 		};
 	},
 };

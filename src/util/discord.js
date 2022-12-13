@@ -154,9 +154,7 @@ exports.PoroGive = async (sender, senderID, channelName, args, recieverID, sendA
 		embeds: [
 			{
 				color: 0x0099ff,
-				title: `${sender}(ID:${senderID}) has given ${args}(ID:${recieverID}) ${sendAmount} poro in #${channelName} ${
-					Amount - sendAmount
-				} ==> ${Amount2 + sendAmount}`,
+				title: `${sender}(ID:${senderID}) has given ${args}(ID:${recieverID}) ${sendAmount} poro in #${channelName} ${Amount - sendAmount} ==> ${Amount2 + sendAmount}`,
 				author: {
 					name: 'Poro Logs',
 					icon_url: `${await getPFP(sender)}`,

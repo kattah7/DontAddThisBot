@@ -17,12 +17,7 @@ module.exports = {
 		if (/[^\x00-\x7F]/i.test(args.join(' '))) return { text: `malformed text parameter` };
 		if (regex.racism.test(args.join(' '))) return { text: `🤨` };
 		const { chatters } = await got(`https://tmi.twitch.tv/group/user/${message.channelName}/chatters`).json();
-		for (const chatter of [
-			...chatters.broadcaster,
-			...chatters.moderators,
-			...chatters.vips,
-			...chatters.viewers,
-		]) {
+		for (const chatter of [...chatters.broadcaster, ...chatters.moderators, ...chatters.vips, ...chatters.viewers]) {
 			client.say(message.channelName, `${chatter} ${args.join(' ')}`);
 			await new Promise((resolve) => setTimeout(resolve, 30));
 		}

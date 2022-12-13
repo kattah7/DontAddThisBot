@@ -11,19 +11,13 @@ module.exports = {
 			const { id, username, addedAt } = addedBy[0];
 			if (id !== message.senderUserID && message.senderUserID !== message.channelID) {
 				return {
-					text: `You cannot part the bot from this channel, since only the Broadcaster or the Moderator ${username} that added the bot (${humanizeDuration(
-						new Date() - addedAt,
-						{ largest: 3 },
-					)}) ago can do that.`,
+					text: `You cannot part the bot from this channel, since only the Broadcaster or the Moderator ${username} that added the bot (${humanizeDuration(new Date() - addedAt, {
+						largest: 3,
+					})}) ago can do that.`,
 				};
 			}
 
-			await bot.DB.channels
-				.findOneAndUpdate(
-					{ id: message.channelID },
-					{ $set: { isChannel: false } },
-				)
-				.exec();
+			await bot.DB.channels.findOneAndUpdate({ id: message.channelID }, { $set: { isChannel: false } }).exec();
 			try {
 				await client.part(message.channelName);
 				return {
@@ -36,9 +30,7 @@ module.exports = {
 			}
 		}
 
-		const channelData = await bot.DB.channels
-			.findOneAndUpdate({ id: message.senderUserID }, { $set: { isChannel: false } })
-			.exec();
+		const channelData = await bot.DB.channels.findOneAndUpdate({ id: message.senderUserID }, { $set: { isChannel: false } }).exec();
 		if (!channelData || !channelData.isChannel) {
 			return { text: `Not in channel #${message.senderUsername}` };
 		}
