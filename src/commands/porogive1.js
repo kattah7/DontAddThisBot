@@ -1,6 +1,6 @@
 const humanizeDuration = require('../util/humanizeDuration');
 const { ParseUser, IDByLogin } = require('../util/twitch/utils');
-const { PoroGive } = require('../util/discord');
+const { PoroGive } = require('../util/discord/discord');
 
 module.exports = {
 	tags: 'poro',

@@ -1,6 +1,7 @@
 const DB = require('mongoose');
+const { mongo } = require('../../../config.json');
 
-DB.connect(`mongodb://127.0.0.1:27017/dontaddthisbot`, {});
+DB.connect(mongo.host + mongo.database, {});
 
 DB.connection.on('connected', () => {
 	Logger.info(`Connected to database!`);

@@ -1,5 +1,6 @@
 const got = require('got');
 const utils = require('../util/twitch/utils.js');
+const { twitch } = require('../../config.json');
 
 const ulength = (text) => {
 	let n = 0;
@@ -29,8 +30,8 @@ module.exports = {
 		const fetchMessages = async (cursor) => {
 			const { body } = await got.post(`https://gql.twitch.tv/gql`, {
 				headers: {
-					'Client-ID': process.env.CLIENT_ID_FOR_GQL,
-					Authorization: `OAuth ${process.env.TWITCH_GQL_TOKEN}`,
+					'Client-ID': twitch.client_id,
+					Authorization: `OAuth ${twitch.gql_token}`,
 				},
 				json: {
 					operationName: 'ViewerCardModLogsMessagesBySender',

@@ -1,11 +1,12 @@
 const got = require('got');
+const { twitch } = require('../../config.json');
 
 const gql = got.extend({
 	url: 'https://7tv.io/v3/gql',
 	throwHttpErrors: false,
 	responseType: 'json',
 	headers: {
-		Authorization: process.env.STV_AUTH_TOKEN,
+		Authorization: `Bearer ${twitch.stv_token}`,
 	},
 });
 
@@ -28,7 +29,6 @@ exports.AddSTVEmote = async (emote, channel, name) => {
 			id: channel,
 			name: name || null,
 		},
-		type: 'connection_init',
 	};
 	const addEmote = await makeRequest(query);
 	return addEmote;
@@ -64,7 +64,6 @@ exports.AliasSTVEmote = async (emote, setID, name) => {
 			id: setID,
 			name: name,
 		},
-		type: 'connection_init',
 	};
 	const aliasEmote = await makeRequest(query);
 	return aliasEmote;
@@ -79,7 +78,6 @@ exports.RemoveSTVEmote = async (emote, channel) => {
 			emote_id: emote,
 			id: channel,
 		},
-		type: 'connection_init',
 	};
 	const removeEmote = await makeRequest(query);
 	return removeEmote;

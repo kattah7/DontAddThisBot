@@ -1,13 +1,14 @@
 const got = require('got');
 const fetch = require('node-fetch');
+const { twitch } = require('../../config.json');
 
 const helix = got.extend({
 	prefixUrl: 'https://api.twitch.tv/helix/',
 	throwHttpErrors: false,
 	responseType: 'json',
 	headers: {
-		'Client-ID': process.env.CLIENT_ID,
-		Authorization: `Bearer ${process.env.ACCESS_TOKEN}`,
+		'Client-ID': twitch.client_id,
+		Authorization: `Bearer ${twitch.access_token}`,
 	},
 });
 

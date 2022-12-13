@@ -1,11 +1,12 @@
 const got = require('got');
+const { twitch } = require('../../config.json');
 
 const gql = got.extend({
 	url: 'https://gql.twitch.tv/gql',
 	throwHttpErrors: false,
 	responseType: 'json',
 	headers: {
-		authorization: `OAuth ${process.env.TWITCH_GQL_TOKEN}`,
+		authorization: `OAuth ${twitch.gql_token}`,
 		'client-id': `kimne78kx3ncx6brgo4mv6wki5h1ko`,
 	},
 });

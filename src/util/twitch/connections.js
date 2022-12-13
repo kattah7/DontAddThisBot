@@ -1,9 +1,9 @@
 const { ChatClient, AlternateMessageModifier, SlowModeRateLimiter } = require('@kararty/dank-twitch-irc');
-require('dotenv').config();
+const { twitch } = require('../../../config.json');
 
 const client = new ChatClient({
-	username: process.env.TWITCH_USERNAME,
-	password: process.env.TWITCH_OAUTH,
+	username: twitch.username,
+	password: twitch.oauth,
 	rateLimits: 'verifiedBot',
 	ignoreUnhandledPromiseRejections: true,
 	connectionRateLimits: {

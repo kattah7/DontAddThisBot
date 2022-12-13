@@ -1,10 +1,10 @@
 const { displayName, PoroNumberOne, stvNameToID, ParseUser } = require('../../util/twitch/utils.js');
-const discord = require('../../util/discord.js');
+const discord = require('../../util/discord/discord.js');
 const { color } = require('../../util/twitch/botcolor.json');
 const { ChangeColor, GetStreams } = require('../../token/helix');
 const { ForsenTV } = require('../../token/pajbot.js');
 const { GetEditorOfChannels } = require('../../token/stvGQL.js');
-const { translateLanguage } = require('../../util/translate');
+const { translateLanguage } = require('../../util/google/translate');
 const cooldown = new Map();
 var block = false;
 

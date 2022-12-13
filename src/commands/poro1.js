@@ -1,6 +1,6 @@
 const humanizeDuration = require('../util/humanizeDuration');
 const utils = require('../util/twitch/utils.js');
-const discord = require('../util/discord.js');
+const discord = require('../util/discord/discord.js');
 const { randomInt } = require('crypto');
 
 module.exports = {

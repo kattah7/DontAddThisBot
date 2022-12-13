@@ -1,6 +1,7 @@
 const fetch = require('node-fetch');
 const utils = require('../util/twitch/utils.js');
 const got = require('got');
+const { twitch } = require('../../config.json');
 
 module.exports = {
 	tags: 'stats',
@@ -19,8 +20,8 @@ module.exports = {
 		while (Object.keys(pagination['pagination']).length != 0) {
 			var response = await fetch(`https://api.twitch.tv/helix/users/follows?from_id=${message.senderUserID}&first=100&after=${pagination['pagination']['cursor']}`, {
 				headers: {
-					'Client-ID': process.env.CLIENT_ID,
-					Authorization: `Bearer ${process.env.ACCESS_TOKEN}`,
+					'Client-ID': twitch.client_id,
+					Authorization: `Bearer ${twitch.access_token}`,
 				},
 				method: 'GET',
 			});
@@ -58,8 +59,8 @@ module.exports = {
 		while (Object.keys(pagination2['pagination']).length != 0) {
 			var response = await fetch(`https://api.twitch.tv/helix/users/follows?from_id=${userID}&first=100&after=${pagination2['pagination']['cursor']}`, {
 				headers: {
-					'Client-ID': process.env.CLIENT_ID,
-					Authorization: `Bearer ${process.env.ACCESS_TOKEN}`,
+					'Client-ID': twitch.client_id,
+					Authorization: `Bearer ${twitch.access_token}`,
 				},
 				method: 'GET',
 			});

@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { client } = require('../../../util/connections');
 const utils = require('../../../util/utils');
-const discord = require('../../../util/discord');
+const discord = require('../../../util/discord/discord');
 
 router.post(`/api/bot/join`, async (req, res) => {
 	const { username } = req.query;

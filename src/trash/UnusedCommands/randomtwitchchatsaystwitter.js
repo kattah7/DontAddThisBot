@@ -1,5 +1,5 @@
 const got = require('got');
-const humanizeDuration = require('../../util/humanizeDuration');
+const { twitter } = require('../../config.json');
 
 module.exports = {
 	tags: 'stats',
@@ -9,13 +9,13 @@ module.exports = {
 	execute: async (message, args, client) => {
 		const { data } = await got(`https://api.twitter.com/2/users/by/username/TwitchGibberish?user.fields=location`, {
 			headers: {
-				Authorization: `Bearer ${process.env.TWITTER_BEARER}`,
+				Authorization: `Bearer ${twitter.bearer}`,
 			},
 		}).json();
 
 		const { data: data2 } = await got(`https://api.twitter.com/2/users/${data.id}/tweets?tweet.fields=created_at`, {
 			headers: {
-				Authorization: `Bearer ${process.env.TWITTER_BEARER}`,
+				Authorization: `Bearer ${twitter.bearer}`,
 			},
 		}).json();
 		const random = Math.floor(Math.random() * 10) + 0;

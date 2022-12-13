@@ -1,4 +1,4 @@
-const { getCodeFromName } = require('../util/translate.js');
+const { getCodeFromName } = require('../util/google/translate.js');
 
 module.exports = {
 	tags: 'moderation',
