@@ -17,7 +17,7 @@
   },
   "repository": "git+https://github.com/kattah7/DontAddThisBot.git",
   "keywords": [],
-  "author": "Kattah <kattahpro@gmail.com>",
+  "author": "Kattah",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/kattah7/DontAddThisBot/issues"
@@ -27,7 +27,6 @@
     "@kararty/dank-twitch-irc": "^4.6.0",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
-    "dotenv": "^16.0.0",
     "express": "^4.18.1",
     "fetch": "^1.1.0",
     "fs": "^0.0.1-security",
