@@ -11,6 +11,10 @@ module.exports = {
 			return string.charAt(0).toUpperCase() + string.slice(1);
 		}
 
+		async function updateLanguage(language, userID) {
+			await bot.SQL.query(`UPDATE users SET language = '${language}' WHERE twitch_id = '${userID}'`);
+		}
+
 		if (!args[0]) {
 			return {
 				text: 'Usage: |language <language>',
@@ -24,8 +28,12 @@ module.exports = {
 				text: 'Invalid language',
 			};
 		}
+		if (code === 'en') {
+			updateLanguage(null, message.senderUserID);
+		} else {
+			updateLanguage(code, message.senderUserID);
+		}
 
-		await bot.SQL.query(`UPDATE users SET language = '${code}' WHERE twitch_id = '${message.senderUserID}'`);
 		return {
 			text: `Language set to ${language}`,
 		};
