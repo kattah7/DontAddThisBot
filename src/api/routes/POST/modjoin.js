@@ -3,7 +3,7 @@ const router = express.Router();
 const { client } = require('../../../util/twitch/connections');
 const { middleWare } = require('../../middleWare');
 const { IDByLogin, IVRByLogin } = require('../../../util/twitch/utils');
-const { newChannel } = require('../../../util/discord');
+const { newChannel } = require('../../../util/discord/discord');
 
 async function returnUserLevelByID(id) {
 	const userLevel = await bot.DB.users.findOne({ id: id }).exec();

@@ -2,6 +2,7 @@ const express = require('express');
 const parser = require('cookie-parser');
 const { backend } = require('../../config.json');
 const cors = require('cors');
+const morgan = require('morgan');
 
 const channelInfo = require('./routes/GET/channelInfo');
 const channels = require('./routes/GET/channels');
@@ -19,7 +20,7 @@ const auth = require('./routes/POST/authenticate');
 const modJoin = require('./routes/POST/modjoin');
 
 const app = express();
-app.use(cors());
+app.use(cors(), morgan('dev'));
 app.use(express.json(), parser(), [channelInfo, channels, leaderboard, poroCount, userInfo, commands, grafana, userAuthInfo, botInfo, join, part, create, auth, modJoin]);
 
 app.listen(backend.port, () => {

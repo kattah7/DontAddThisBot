@@ -14,7 +14,6 @@ module.exports = {
 				'User-Agent': 'IF YOU SEE THIS VI VON ZULUL',
 			},
 		}).json();
-		console.log(userData);
 
 		const date = userData.createdAt;
 		if (userData.banned == true) {

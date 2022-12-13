@@ -1,71 +1,17 @@
-require('dotenv').config();
+const { twitch } = require('../../../config.json');
 const WS = require('ws');
 const crypto = require('crypto');
 const utils = require('./utils.js');
 const { client } = require('./connections.js');
 const RWS = require('reconnecting-websocket');
 const got = require('got');
-const discord = require('../discord.js');
+const discord = require('../discord/discord.js');
 const humanizeDuration = require('../humanizeDuration.js');
 const { GetStreams, Announce } = require('../../token/helix');
 
 exports.topics = [];
 exports.connections = [];
 let id = 0;
-
-const refundPoints = async (channelId, redemptionId) => {
-	const { body } = await got.post('https://gql.twitch.tv/gql', {
-		throwHttpErrors: false,
-		responseType: 'json',
-		headers: {
-			Authorization: `OAuth ${process.env.TWITCH_GQL_TOKEN}`,
-			'Client-Id': `${process.env.CLIENT_ID_FOR_GQL}`,
-		},
-		json: {
-			operationName: 'UpdateCoPoCustomRewardStatus',
-			variables: {
-				input: {
-					channelID: channelId,
-					redemptionID: redemptionId,
-					newStatus: 'CANCELED',
-				},
-			},
-			extensions: {
-				persistedQuery: {
-					version: 1,
-					sha256Hash: 'd940a7ebb2e588c3fc0c69a2fb61c5aeb566833f514cf55b9de728082c90361d', // kekw
-				},
-			},
-		},
-	});
-	return body;
-};
-
-const cancelRaid = async (channelId) => {
-	const { body } = await got.post('https://gql.twitch.tv/gql', {
-		throwHttpErrors: false,
-		responseType: 'json',
-		headers: {
-			Authorization: `OAuth ${process.env.TWITCH_GQL_TOKEN}`,
-			'Client-Id': `${process.env.CLIENT_ID_FOR_GQL}`,
-		},
-		json: {
-			operationName: 'CancelRaid',
-			variables: {
-				input: {
-					sourceID: channelId,
-				},
-			},
-			extensions: {
-				persistedQuery: {
-					version: 1,
-					sha256Hash: '42a2a699ac85256d72fff2471c75803f7ffbc767ba790725de5ad5d6e0163648', // kekw2
-				},
-			},
-		},
-	});
-	return body;
-};
 
 const listen = (channels, subs) => {
 	for (const channel of channels) {
@@ -104,7 +50,7 @@ exports.createListener = (channel, sub) => {
 	if (c) {
 		const message = {
 			data: {
-				auth_token: process.env.TWITCH_GQL_TOKEN,
+				auth_token: twitch.gql_token,
 				topics: [`${sub}.${channel}`],
 			},
 			nonce: nonce,
@@ -138,7 +84,7 @@ const connect = (ws, topics, id) => {
 		for (const topic of topics) {
 			const message = {
 				data: {
-					auth_token: process.env.TWITCH_GQL_TOKEN || process.env.TWITCH_OAUTH,
+					auth_token: twitch.gql_token || twitch.oauth,
 					topics: [`${topic.sub}.${topic.channel.id}`],
 				},
 				nonce: topic.nonce,

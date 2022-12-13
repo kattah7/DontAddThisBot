@@ -1,6 +1,7 @@
 const DB = require('mongoose');
+const { mongo } = require('../../../config.json');
 
-DB.connect(`mongodb://127.0.0.1:27017/dontaddthisbot`, {});
+DB.connect(mongo.host + mongo.database, {});
 
 DB.connection.on('connected', () => {
 	Logger.info(`Connected to database!`);
@@ -62,3 +63,16 @@ exports.poroCount = DB.model('poroCount', PoroSchema);
 exports.channels = DB.model('channels', ChannelsSchema);
 exports.private = DB.model('private', PrivateSchema);
 exports.moderation = DB.model('moderation', ModerationSchema);
+
+exports.updateUser = async (Collection, userID, newName) => {
+	if (!userID || !newName) return { error: 'No user ID provided' };
+	if (typeof userID !== 'string' || typeof newName !== 'string') return { error: 'User ID must be a string' };
+	const user = await this[Collection].findOne({ id: userID }).exec();
+	if (!user) return { error: 'User not found' };
+	const updatedUser = await this[Collection].findOneAndUpdate({ id: userID }, { $set: { username: newName } }, { new: true }).exec();
+
+	return {
+		user: updatedUser,
+		success: true,
+	};
+};

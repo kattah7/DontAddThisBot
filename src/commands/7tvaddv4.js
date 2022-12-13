@@ -8,7 +8,7 @@ module.exports = {
 	cooldown: 5000,
 	aliases: [],
 	stv: true,
-	execute: async (message, args, client, userdata, params, channelInfo) => {
+	execute: async (message, args, client, userdata, params, channelInfo, cmd, channelStvInfo) => {
 		const Emote = GlobalEmote();
 		if (!args[0]) {
 			return {
@@ -16,14 +16,7 @@ module.exports = {
 			};
 		}
 
-		const xd = await getUser(message.channelID);
-		if (xd === null) {
-			return {
-				text: `⛔ Unknown user`,
-			};
-		}
-
-		const { emote_set } = xd;
+		const { emote_set } = channelStvInfo;
 		const isParams = params.as ? params.as : '';
 
 		const [url] = args;

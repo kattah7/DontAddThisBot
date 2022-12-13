@@ -1,3 +1,5 @@
+const { twitch } = require('../../../config.json');
+
 const RWS = require('reconnecting-websocket');
 const WS = new RWS('wss://eventsub-beta.wss.twitch.tv/ws', [], {
 	WebSocket: require('ws'),
@@ -51,8 +53,8 @@ const createEventSub = async (type, userID, session_id) => {
 	const createTopic = await fetch(`https://api.twitch.tv/helix/eventsub/subscriptions`, {
 		method: 'POST',
 		headers: {
-			'Client-ID': process.env.CLIENT_ID,
-			Authorization: `Bearer ${process.env.ACCESS_TOKEN}`,
+			'Client-ID': twitch.client_id,
+			Authorization: `Bearer ${twitch.access_token}`,
 			'Content-Type': 'application/json',
 		},
 		body: JSON.stringify({
@@ -77,8 +79,8 @@ const deleteEventSub = async (id = '') => {
 	fetch('https://api.twitch.tv/helix/eventsub/subscriptions?id=' + id, {
 		method: 'DELETE',
 		headers: {
-			'Client-ID': process.env.CLIENT_ID,
-			Authorization: `Bearer ${process.env.ACCESS_TOKEN}`,
+			'Client-ID': twitch.client_id,
+			Authorization: `Bearer ${twitch.access_token}`,
 			'Content-Type': 'application/json',
 		},
 	});
@@ -88,8 +90,8 @@ const getEventSubs = async () => {
 	const getTopics = await fetch(`https://api.twitch.tv/helix/eventsub/subscriptions`, {
 		method: 'GET',
 		headers: {
-			'Client-ID': process.env.CLIENT_ID,
-			Authorization: `Bearer ${process.env.ACCESS_TOKEN}`,
+			'Client-ID': twitch.client_id,
+			Authorization: `Bearer ${twitch.access_token}`,
 			'Content-Type': 'application/json',
 		},
 	}).then(

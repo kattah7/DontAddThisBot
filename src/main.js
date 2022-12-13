@@ -1,4 +1,3 @@
-require('dotenv').config();
 const nodeCron = require('node-cron');
 const { client } = require('./util/twitch/connections.js');
 const pubsub = require('./util/twitch/pubSub.js');

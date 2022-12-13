@@ -1,11 +1,12 @@
 const got = require('got');
+const { reddit } = require('../../config.json');
 
 const reddit = got.extend({
 	url: 'https://gql.reddit.com',
 	throwHttpErrors: false,
 	responseType: 'json',
 	headers: {
-		Authorization: `Bearer ${process.env.REDDIT_AUTH}`,
+		Authorization: `Bearer ${reddit.gql_token}`,
 	},
 });
 

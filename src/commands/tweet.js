@@ -1,4 +1,4 @@
-const rwClient = require('../util/twitterClient.js');
+const rwClient = require('../util/twitter/twitterClient.js');
 const got = require('got');
 
 module.exports = {

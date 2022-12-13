@@ -1,4 +1,5 @@
 const got = require('got');
+const { twitter } = require('../../config.json');
 
 module.exports = {
 	tags: 'stats',
@@ -15,14 +16,14 @@ module.exports = {
 		const targetUser = args[0] ?? message.senderUsername;
 		const { data } = await got(`https://api.twitter.com/2/users/by/username/${targetUser}?user.fields=created_at,location,description`, {
 			headers: {
-				Authorization: `Bearer ${process.env.TWITTER_BEARER}`,
+				Authorization: `Bearer ${twitter.bearer}`,
 			},
 		}).json();
 		//console.log(data)
 
 		const { data: data2 } = await got(`https://api.twitter.com/2/users/${data.id}?user.fields=public_metrics`, {
 			headers: {
-				Authorization: `Bearer ${process.env.TWITTER_BEARER}`,
+				Authorization: `Bearer ${twitter.bearer}`,
 			},
 		}).json();
 		//console.log(data2);

@@ -1,5 +1,6 @@
 const got = require('got');
 const humanizeDuration = require('../util/humanizeDuration');
+const { twitter } = require('../../config.json');
 
 module.exports = {
 	tags: 'stats',
@@ -16,13 +17,13 @@ module.exports = {
 		const targetUser = args[0] ?? message.senderUsername;
 		const { data } = await got(`https://api.twitter.com/2/users/by/username/${targetUser}?user.fields=location`, {
 			headers: {
-				Authorization: `Bearer ${process.env.TWITTER_BEARER}`,
+				Authorization: `Bearer ${twitter.bearer}`,
 			},
 		}).json();
 
 		const { data: data2 } = await got(`https://api.twitter.com/2/users/${data.id}/tweets?tweet.fields=created_at`, {
 			headers: {
-				Authorization: `Bearer ${process.env.TWITTER_BEARER}`,
+				Authorization: `Bearer ${twitter.bearer}`,
 			},
 		}).json();
 		//console.log(data2);

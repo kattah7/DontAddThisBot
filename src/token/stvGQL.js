@@ -1,11 +1,12 @@
 const got = require('got');
+const { twitch } = require('../../config.json');
 
 const gql = got.extend({
 	url: 'https://7tv.io/v3/gql',
 	throwHttpErrors: false,
 	responseType: 'json',
 	headers: {
-		Authorization: process.env.STV_AUTH_TOKEN,
+		Authorization: `Bearer ${twitch.stv_token}`,
 	},
 });
 
@@ -18,6 +19,19 @@ async function makeRequest(query) {
 	return gqlReq;
 }
 
+exports.GetUser = async (user) => {
+	const query = {
+		operationName: 'GetUser',
+		query: 'query GetUser($id: ObjectID!) {\n  user(id: $id) {\n    id\n    username\n    display_name\n    created_at\n    avatar_url\n    style {\n      color\n      paint_id\n      __typename\n    }\n    biography\n    editors {\n      id\n      permissions\n      visible\n      user {\n        id\n        username\n        display_name\n        avatar_url\n        style {\n          color\n          paint_id\n          __typename\n        }\n        __typename\n      }\n      __typename\n    }\n    roles\n    connections {\n      id\n      username\n      display_name\n      platform\n      linked_at\n      emote_capacity\n      emote_set_id\n      __typename\n    }\n    __typename\n  }\n}',
+		variables: {
+			id: user,
+		},
+	};
+
+	const userInfo = await makeRequest(query);
+	return userInfo;
+};
+
 exports.AddSTVEmote = async (emote, channel, name) => {
 	const query = {
 		operationName: 'ChangeEmoteInSet',
@@ -28,7 +42,6 @@ exports.AddSTVEmote = async (emote, channel, name) => {
 			id: channel,
 			name: name || null,
 		},
-		type: 'connection_init',
 	};
 	const addEmote = await makeRequest(query);
 	return addEmote;
@@ -64,7 +77,6 @@ exports.AliasSTVEmote = async (emote, setID, name) => {
 			id: setID,
 			name: name,
 		},
-		type: 'connection_init',
 	};
 	const aliasEmote = await makeRequest(query);
 	return aliasEmote;
@@ -79,7 +91,6 @@ exports.RemoveSTVEmote = async (emote, channel) => {
 			emote_id: emote,
 			id: channel,
 		},
-		type: 'connection_init',
 	};
 	const removeEmote = await makeRequest(query);
 	return removeEmote;

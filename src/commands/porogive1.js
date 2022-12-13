@@ -1,6 +1,6 @@
 const humanizeDuration = require('../util/humanizeDuration');
 const { ParseUser, IDByLogin } = require('../util/twitch/utils');
-const { PoroGive } = require('../util/discord');
+const { PoroGive } = require('../util/discord/discord');
 
 module.exports = {
 	tags: 'poro',
@@ -86,7 +86,7 @@ module.exports = {
 								},
 							)
 							.exec();
-						await PoroGive(senderUsername, senderUserID, channelName, parseUser, recieverID, sendAmount, Amount, Amount2);
+						await PoroGive(senderUsername, channelName, parseUser, sendAmount);
 						if (recieverID) {
 							await bot.DB.poroCount
 								.updateOne(
