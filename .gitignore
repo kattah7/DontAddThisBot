@@ -4,3 +4,4 @@ dump.rdb
 src/util/twitch/porocodes.json
 dump
 config.json
+scripts/start.sh
