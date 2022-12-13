@@ -1,4 +1,4 @@
-const { PoroNumberOne, stvNameToID, ParseUser } = require('../../util/twitch/utils.js');
+const { PoroNumberOne, ParseUser } = require('../../util/twitch/utils.js');
 const discord = require('../../util/discord/discord.js');
 const { color } = require('../../util/twitch/botcolor.json');
 const { ChangeColor, GetStreams } = require('../../token/helix');
@@ -7,6 +7,7 @@ const { GetUser } = require('../../token/stvGQL.js');
 const { getUser } = require('../../token/stvREST');
 const { translateLanguage } = require('../../util/google/translate');
 const { updateUser } = require('../../util/database/db');
+
 const cooldown = new Map();
 var block = false;
 
@@ -99,7 +100,8 @@ exports.handler = async (commands, aliases, message, client) => {
 			}
 
 			if (rows[0]?.is_disabled === 1) {
-				return await client.say(channelName, `@${senderUsername}, this command is disabled on this channel.`);
+				client.say(channelName, `@${senderUsername}, this command is disabled on this channel.`);
+				return;
 			}
 
 			if (command.cooldown) {
@@ -271,10 +273,7 @@ exports.handler = async (commands, aliases, message, client) => {
 				if (userTable.rows[0].language !== null && channelName !== 'forsen') {
 					const userLanguage = userTable.rows[0].language;
 					const translate = await translateLanguage('en', userLanguage, response.text);
-					if (translate) {
-						await client.say(channelName, translate.result);
-						return;
-					}
+					response.text = translate.result;
 				}
 
 				if (await PoroNumberOne(senderUserID)) {
