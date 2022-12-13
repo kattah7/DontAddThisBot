@@ -86,7 +86,7 @@ module.exports = {
 								},
 							)
 							.exec();
-						await PoroGive(senderUsername, senderUserID, channelName, parseUser, recieverID, sendAmount, Amount, Amount2);
+						await PoroGive(senderUsername, channelName, parseUser, sendAmount);
 						if (recieverID) {
 							await bot.DB.poroCount
 								.updateOne(
