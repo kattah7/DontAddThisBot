@@ -1,9 +1,9 @@
-require('dotenv').config();
+const { discord } = require('../../../config.json');
 const fetch = require('node-fetch');
-const { getPFP } = require('./twitch/utils');
+const { getPFP } = require('../twitch/utils');
 
 exports.NewPoro = async (AccAge, UID, username, channel, description, logo) => {
-	const WebHook = `https://discord.com/api/webhooks/${process.env.PORO_DISCORD}`;
+	const WebHook = `https://discord.com/api/webhooks/${discord.poro_logs}`;
 	const WebhookMsg = {
 		embeds: [
 			{
@@ -38,7 +38,7 @@ exports.NewPoro = async (AccAge, UID, username, channel, description, logo) => {
 };
 
 exports.racist = async (username, userID, channel, message) => {
-	const WebHook = `https://discord.com/api/webhooks/${process.env.RACIST}`;
+	const WebHook = `https://discord.com/api/webhooks/${discord.racist}`;
 	const WebhookMsg = {
 		embeds: [
 			{
@@ -65,7 +65,7 @@ exports.racist = async (username, userID, channel, message) => {
 };
 
 exports.newChannel = async (username, message, addedBy) => {
-	const WebHook = `https://discord.com/api/webhooks/${process.env.NEW_CHANNEL}`;
+	const WebHook = `https://discord.com/api/webhooks/${discord.new_channels}`;
 	const WebhookMsg = {
 		embeds: [
 			{
@@ -92,7 +92,7 @@ exports.newChannel = async (username, message, addedBy) => {
 };
 
 exports.errorMessage = async (channel, username, message, error) => {
-	const WebHook = `https://discord.com/api/webhooks/${process.env.ERROR}`;
+	const WebHook = `https://discord.com/api/webhooks/${discord.errors}`;
 	const WebhookMsg = {
 		content: `<@363968088783323136>`,
 		embeds: [
@@ -120,7 +120,7 @@ exports.errorMessage = async (channel, username, message, error) => {
 };
 
 exports.BAND = async (channel, action, message, color, pfp) => {
-	const WebHook = `https://discord.com/api/webhooks/${process.env.ACTION}`;
+	const WebHook = `https://discord.com/api/webhooks/${discord.action}`;
 	const WebhookMsg = {
 		embeds: [
 			{
@@ -149,7 +149,7 @@ exports.BAND = async (channel, action, message, color, pfp) => {
 };
 
 exports.PoroGive = async (sender, senderID, channelName, args, recieverID, sendAmount, Amount, Amount2) => {
-	const XD = `https://discord.com/api/webhooks/${process.env.POROGIVE}`;
+	const XD = `https://discord.com/api/webhooks/${discord.poro_give}`;
 	const msg2 = {
 		embeds: [
 			{
