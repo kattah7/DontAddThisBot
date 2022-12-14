@@ -1,7 +1,6 @@
 const { Pool } = require('pg');
 const { postgres } = require('../../../config.json');
 const { GetStvRoles } = require('../../token/stvGQL');
-const { startCmds } = require('../../clients/modules/commands.js');
 
 const sql = new Pool({
 	...postgres,
