@@ -120,14 +120,14 @@ function getCodeFromName(name) {
 	return String(iso6391LanguageCodes[formattedName] || '');
 }
 
-async function translateLanguage(to, from, text) {
+async function translateLanguage(from, to, text) {
 	const params = new URLSearchParams({
 		client: 'gtx',
 		dt: 't',
 		ie: 'UTF-8',
 		oe: 'UTF-8',
-		sl: to,
-		tl: from,
+		sl: from,
+		tl: to,
 		q: text,
 	});
 
@@ -154,4 +154,5 @@ module.exports = {
 	getNameFromCode,
 	getCodeFromName,
 	translateLanguage,
+	iso6391LanguageCodes,
 };
