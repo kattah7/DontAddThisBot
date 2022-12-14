@@ -22,12 +22,18 @@ module.exports = {
 		}
 
 		const language = capitalizeFirstLetter(args[0]);
-		const code = getCodeFromName(language);
+		let code = getCodeFromName(language);
+
+		if (!code && language === 'Random') {
+			code = 'random';
+		}
+
 		if (!code) {
 			return {
 				text: 'Invalid language',
 			};
 		}
+
 		if (code === 'en') {
 			updateLanguage(null, message.senderUserID);
 		} else {

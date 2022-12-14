@@ -5,7 +5,7 @@ const { ChangeColor, GetStreams } = require('../../token/helix');
 const { ForsenTV } = require('../../token/pajbot.js');
 const { GetUser } = require('../../token/stvGQL.js');
 const { getUser } = require('../../token/stvREST');
-const { translateLanguage } = require('../../util/google/translate');
+const { translateLanguage, iso6391LanguageCodes, getCodeFromName } = require('../../util/google/translate');
 const { updateUser } = require('../../util/database/db');
 
 const cooldown = new Map();
@@ -271,7 +271,13 @@ exports.handler = async (commands, aliases, message, client) => {
 				}
 
 				if (userTable.rows[0].language !== null && channelName !== 'forsen') {
-					const userLanguage = userTable.rows[0].language;
+					let userLanguage = userTable.rows[0].language;
+
+					if (userLanguage === 'random') {
+						const languages = Object.keys(iso6391LanguageCodes);
+						userLanguage = getCodeFromName(languages[~~(Math.random() * languages.length)]);
+					}
+
 					const translate = await translateLanguage('en', userLanguage, response.text);
 					response.text = translate.result;
 				}
