@@ -22,9 +22,61 @@ async function makeRequest(query) {
 exports.GetUser = async (user) => {
 	const query = {
 		operationName: 'GetUser',
-		query: 'query GetUser($id: ObjectID!) {\n  user(id: $id) {\n    id\n    username\n    display_name\n    created_at\n    avatar_url\n    style {\n      color\n      paint_id\n      __typename\n    }\n    biography\n    editors {\n      id\n      permissions\n      visible\n      user {\n        id\n        username\n        display_name\n        avatar_url\n        style {\n          color\n          paint_id\n          __typename\n        }\n        __typename\n      }\n      __typename\n    }\n    roles\n    connections {\n      id\n      username\n      display_name\n      platform\n      linked_at\n      emote_capacity\n      emote_set_id\n      __typename\n    }\n    __typename\n  }\n}',
+		query: `query GetUser($id: ObjectID!) {
+		user(id: $id) {
+			id
+			username
+			emote_sets {
+				id
+				name
+				capacity
+				emotes {
+					id
+					name
+					data {
+						id
+						name
+					}
+				}
+			}
+			editors {
+				user {
+					id
+					username
+				}
+			}
+			connections {
+				platform
+				emote_set_id
+				id
+			}
+		}
+		}`,
 		variables: {
 			id: user,
+		},
+	};
+
+	const userInfo = await makeRequest(query);
+	return userInfo;
+};
+
+exports.SearchUser = async (user) => {
+	const query = {
+		operationName: 'SearchUsers',
+		query: `query SearchUsers($query: String!) {
+		users(query: $query) {
+			id
+			username
+			connections {
+				platform
+				emote_set_id
+				id
+			}
+		}
+		}`,
+		variables: {
+			query: user,
 		},
 	};
 

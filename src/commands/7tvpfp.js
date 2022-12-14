@@ -24,7 +24,6 @@ module.exports = {
 				},
 			},
 		});
-		//console.log(stv)
 
 		return { text: `${stv.data.user.profile_image_url.replace('//', '')}` };
 	},

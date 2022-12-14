@@ -63,8 +63,7 @@ exports.IDByLogin = async (username) => {
 			'User-Agent': 'IF YOU SEE THIS VI VON ZULUL',
 		},
 	});
-	if (body.length === 0) return null;
-	if (!body[0].id) return null;
+	if (!body[0]?.id || body?.length === 0 || body?.error) return null;
 	return body[0].id;
 };
 
@@ -103,16 +102,6 @@ exports.channelEmotes = async (channel) => {
 	});
 	if (!channelData) return null;
 	return channelData.body;
-};
-
-exports.stvNameToID = async (name) => {
-	if (!name) return null;
-	const nameData = await got(`https://7tv.io/v3/users/twitch/${encodeURIComponent(name)}`, {
-		responseType: 'json',
-		throwHttpErrors: false,
-	});
-	if (!nameData.body.id) return null;
-	return nameData.body.user.id;
 };
 
 exports.PoroNumberOne = async (userID) => {

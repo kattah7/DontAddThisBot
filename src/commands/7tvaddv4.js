@@ -1,4 +1,4 @@
-const { getUser, GetEmotes, GlobalEmote } = require('../token/stvREST');
+const { GetEmotes, GlobalEmote } = require('../token/stvREST');
 const { AddSTVEmote, SearchSTVEmote } = require('../token/stvGQL');
 
 module.exports = {
@@ -16,23 +16,42 @@ module.exports = {
 			};
 		}
 
-		const { emote_set } = channelStvInfo;
-		const isParams = params.as ? params.as : '';
+		const { emote_sets, connections } = channelStvInfo.user;
+		const findChannel = connections.find((x) => x.id === message.channelID);
+		if (!findChannel || emote_sets.length === 0) {
+			return {
+				text: `⛔ Not connected to this channel`,
+			};
+		}
+
+		const findChannelEmoteSet = emote_sets.find((x) => x.id === findChannel.emote_set_id);
+		if (findChannelEmoteSet?.length === 0 || !findChannelEmoteSet) {
+			return {
+				text: `⛔ No emote set enabled`,
+			};
+		}
+
+		async function AddEmote(emote, setID) {
+			const isParams = params.as ? params.as : '';
+			const addEmote = await AddSTVEmote(emote, setID, isParams);
+			let text = '';
+			if (addEmote.errors) {
+				text = `⛔ ${addEmote.errors[0].extensions.message}`;
+			} else {
+				const { name } = await GetEmotes(emote);
+				text = `${Emote} "${name}" added to ${message.channelName} ${isParams ? `as "${isParams}"` : ''}`;
+			}
+
+			return text;
+		}
 
 		const [url] = args;
 		if (/https:\/\/(next\.)?7tv\.app\/emotes\/\w{24}/g.test(url)) {
 			const linkEmote = /https:\/\/(next\.)?7tv\.app\/emotes\/(\w{24})/.exec(url);
-			const addEmote = await AddSTVEmote(linkEmote[2], emote_set.id, isParams);
-			if (addEmote.errors) {
-				return {
-					text: `⛔ ${addEmote.errors[0].extensions.message}`,
-				};
-			} else {
-				const { name } = await GetEmotes(linkEmote[2]);
-				return {
-					text: `${Emote} "${name}" added to ${message.channelName} ${isParams ? `as "${isParams}"` : ''}`,
-				};
-			}
+			const result = await AddEmote(linkEmote[2], findChannelEmoteSet.id);
+			return {
+				text: result,
+			};
 		}
 
 		const isHashTag = /#/.test(args);
@@ -59,24 +78,20 @@ module.exports = {
 
 		if (errors) {
 			return {
-				text: `⛔ ${errors[0]?.extensions?.message}; Use the tags feature for accurate results, ${channelInfo.prefix ?? `|`}add (emote) (tags)`,
+				text: `⛔ ${errors[0]?.extensions?.message}`,
 			};
-		} else if (data.emotes?.items?.length === 0) {
+		}
+
+		if (data.emotes?.items?.length === 0) {
 			return {
 				text: `⛔ No emote found "${args[0]}", make sure its case sensitive or use the tags feature`,
 			};
 		} else {
-			const { id, name } = data.emotes?.items[0];
-			const addEmote = await AddSTVEmote(findEmote ? findEmote[0] : id, emote_set.id, isParams);
-			if (addEmote.errors) {
-				return {
-					text: `⛔ ${addEmote.errors[0]?.extensions?.message}`,
-				};
-			} else {
-				return {
-					text: `${Emote} "${findEmote ? findEmote[1] : name}" added to ${message.channelName} ${isParams ? `as "${isParams}"` : ''}`,
-				};
-			}
+			const { id } = data.emotes?.items[0];
+			const Result = await AddEmote(findEmote ? findEmote[0] : id, findChannelEmoteSet.id);
+			return {
+				text: Result,
+			};
 		}
 	},
 };

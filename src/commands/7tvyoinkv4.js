@@ -1,4 +1,4 @@
-const { getUser, GetEmotes, GlobalEmote } = require('../token/stvREST');
+const { getUser: getUserRest, GlobalEmote } = require('../token/stvREST');
 const { AddSTVEmote, AliasSTVEmote } = require('../token/stvGQL');
 const { ParseUser, IDByLogin } = require('../util/twitch/utils');
 
@@ -9,7 +9,7 @@ module.exports = {
 	cooldown: 5000,
 	aliases: [],
 	stv: true,
-	execute: async (message, args, client, userdata, params) => {
+	execute: async (message, args, client, userdata, params, channelInfo, cmd, channelStvInfo) => {
 		const Emote = GlobalEmote();
 		if (!args[0] || !params.from) {
 			return {
@@ -17,38 +17,42 @@ module.exports = {
 			};
 		}
 
-		const user = await getUser(message.channelID);
-		if (user === null) {
+		const { emote_sets, connections } = channelStvInfo.user;
+		const findChannel = connections.find((x) => x.id === message.channelID);
+		if (!findChannel || emote_sets.length === 0) {
 			return {
-				text: `⛔ This channel never logged into 7tv`,
+				text: `⛔ Not connected to this channel`,
 			};
 		}
 
-		const channel = await ParseUser(params.from);
-		const userID = await IDByLogin(channel);
-		if (userID === null) {
+		const targetChannel = (await ParseUser(params.from)).toLowerCase();
+		const targetChannelID = await IDByLogin(targetChannel);
+		if (!targetChannelID || targetChannelID === null) {
 			return {
-				text: `⛔ Channel not found`,
+				text: `⛔ Channel not found on Twitch`,
 			};
 		}
 
-		const channelStv = await getUser(userID);
-		if (channelStv === null) {
+		const targetChannelStv = await getUserRest(targetChannelID);
+		if (!targetChannelStv || targetChannelStv === null) {
 			return {
 				text: `⛔ Channel never logged into 7tv`,
 			};
 		}
-		const { emote_set } = channelStv;
-		const emotes = new Set(args);
-		const findEmotes = emote_set.emotes?.filter((x) => emotes.has(x.name));
-		if (!findEmotes) {
+
+		const { emote_set } = targetChannelStv;
+		const senderInputEmotes = new Set(args);
+		const findEmotes = emote_set.emotes?.filter((x) => senderInputEmotes.has(x.name));
+		if (!findEmotes || findEmotes.length === 0) {
 			return {
-				text: `⛔ That channel's emote set has no emotes at all`,
+				text: `⛔ No emotes found`,
 			};
 		}
-		if (findEmotes.length === 0) {
+
+		const findChannelEmoteSet = emote_sets.find((x) => x.id === findChannel.emote_set_id);
+		if (findChannelEmoteSet?.length === 0 || !findChannelEmoteSet) {
 			return {
-				text: `⛔ No emotes found, please try again until 7tv caches the emotes (10-30s)`,
+				text: `⛔ No emote set enabled`,
 			};
 		}
 
@@ -58,16 +62,16 @@ module.exports = {
 		let errorCode = 0;
 		await Promise.all(
 			findEmotes.map(async (x) => {
-				const addEmote = await AddSTVEmote(x.id, user.emote_set.id);
+				const addEmote = await AddSTVEmote(x.id, findChannelEmoteSet.id);
 				if (addEmote?.data?.emoteSet != null) {
 					pushEmotes.push(x.name);
 				} else {
 					errorCode = addEmote.errors[0].extensions.code;
 					errorMessage = `${addEmote.errors[0]?.extensions?.message}`;
 				}
-				const emote = await GetEmotes(x.id);
-				if (emote.name != x.name) {
-					const aliasEmote = await AliasSTVEmote(x.id, user.emote_set.id, x.name);
+
+				if (x.name != x.data.name) {
+					const aliasEmote = await AliasSTVEmote(x.id, findChannelEmoteSet.id, x.name);
 					if (aliasEmote?.data?.emoteSet != null) {
 						pushAliases.push(x.name);
 					}
@@ -82,7 +86,7 @@ module.exports = {
 				};
 			} else {
 				return {
-					text: `${Emote} Added ${pushEmotes[0]} to your emote set`,
+					text: `${Emote} Added "${pushEmotes[0]}" to your emote set`,
 				};
 			}
 		}
@@ -93,14 +97,10 @@ module.exports = {
 					text: `⛔ ${errorMessage}`,
 				};
 			}
-
-			return {
-				text: `⛔ No emotes found, please try again until 7tv caches the emotes (10-30s)`,
-			};
 		}
 
 		return {
-			text: `${Emote} Added ${pushEmotes.length} emotes from ${channel} to your emote set${pushAliases.length > 0 ? `, and auto-aliased ${pushAliases.length} emote` : ''}`,
+			text: `${Emote} Added ${pushEmotes.length} emotes from ${targetChannel} to your emote set${pushAliases.length > 0 ? `, and auto-aliased ${pushAliases.length} emote` : ''}`,
 		};
 	},
 };

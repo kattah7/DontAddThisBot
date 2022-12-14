@@ -1,5 +1,5 @@
-const { getUser, GlobalEmote } = require('../token/stvREST');
-const { AliasSTVEmote, GetAllEmoteSets } = require('../token/stvGQL');
+const { GlobalEmote } = require('../token/stvREST');
+const { AliasSTVEmote } = require('../token/stvGQL');
 
 module.exports = {
 	tags: '7tv',
@@ -16,23 +16,29 @@ module.exports = {
 			};
 		}
 
-		const { emote_set, user } = channelStvInfo;
-		if (!emote_set) {
+		const { emote_sets, connections } = channelStvInfo.user;
+		const findChannel = connections.find((x) => x.id === message.channelID);
+		if (!findChannel || emote_sets.length === 0) {
 			return {
-				text: `⛔ No emote set found`,
+				text: `⛔ Not connected to this channel`,
 			};
 		}
 
-		const { data } = await GetAllEmoteSets(user.id);
-		const findThatEmoteSet = data.user.emote_sets.find((set) => set.id === emote_set.id);
-		const findThatEmote = findThatEmoteSet.emotes?.find((x) => x.name === args[0]);
+		const findChannelEmoteSet = emote_sets.find((x) => x.id === findChannel.emote_set_id);
+		if (findChannelEmoteSet?.length === 0 || !findChannelEmoteSet) {
+			return {
+				text: `⛔ No emote set enabled`,
+			};
+		}
+
+		const findThatEmote = findChannelEmoteSet.emotes?.find((x) => x.name === args[0]);
 		if (!findThatEmote) {
 			return {
-				text: `⛔ Emote not found`,
+				text: `⛔ I could not find that emote`,
 			};
 		}
 
-		const alias = await AliasSTVEmote(findThatEmote.id, emote_set.id, args[1]);
+		const alias = await AliasSTVEmote(findThatEmote.id, findChannelEmoteSet.id, args[1]);
 		if (alias.errors) {
 			return {
 				text: `⛔ ${alias.errors[0].extensions.message}`,

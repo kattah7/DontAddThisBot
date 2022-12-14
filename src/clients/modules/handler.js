@@ -80,6 +80,7 @@ exports.handler = async (commands, aliases, message, client) => {
 				await updateTable('commands');
 				await updateTable('user_commands_settings');
 				await updateTable('channel_settings');
+				await updateTable('stv_ids');
 				await updateUser('users', senderUserID, senderUsername);
 				await updateUser('channels', senderUserID, senderUsername);
 				await updateUser('poroCount', senderUserID, senderUsername);
@@ -202,14 +203,20 @@ exports.handler = async (commands, aliases, message, client) => {
 
 			let channelStvInfo;
 			if (command.stv) {
-				const stvInfo = await getUser(channelID);
-				if (stvInfo === null) {
-					client.say(channelName, "This channel doesn't have a 7tv account.");
-					return;
-				}
-				channelStvInfo = stvInfo;
+				const { rows: stvRows } = await bot.SQL.query(`SELECT * FROM stv_ids WHERE twitch_id = '${channelID}'`);
+				let stv_id = stvRows[0]?.stv_id;
+				if (stvRows.length === 0) {
+					const stvInfo = await getUser(channelID);
+					if (stvInfo === null) {
+						client.say(channelName, "This channel doesn't have a 7tv account.");
+						return;
+					}
 
-				const { data } = await GetUser(channelStvInfo.user.id);
+					stv_id = stvInfo.user.id;
+					await bot.SQL.query(`INSERT INTO stv_ids (twitch_login, twitch_id, stv_id) VALUES ('${channelName}', '${channelID}', '${stvInfo.user.id}')`);
+				}
+
+				const { data } = await GetUser(stv_id);
 				const isBotEditor = data.user.editors.find((x) => x.user.id == '629d77a20e60c6d53da64e38'); // DontAddThisBot's 7tv id
 				if (!isBotEditor) {
 					client.say(channelName, 'Please grant @DontAddThisBot 7tv editor permissions.');
@@ -222,6 +229,8 @@ exports.handler = async (commands, aliases, message, client) => {
 					client.say(channelName, `You do not have permission to use this command. ask the broadcaster nicely to add you as editor :) ${prefix}editor add ${senderUsername}`);
 					return;
 				}
+
+				channelStvInfo = data;
 			}
 
 			if (command.poroRequire) {
