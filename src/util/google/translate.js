@@ -1,4 +1,4 @@
-export const iso6391LanguageCodes = {
+const iso6391LanguageCodes = {
 	Afrikaans: 'af',
 	Albanian: 'sq',
 	Amharic: 'am',
@@ -154,4 +154,5 @@ module.exports = {
 	getNameFromCode,
 	getCodeFromName,
 	translateLanguage,
+	iso6391LanguageCodes,
 };
