@@ -1,0 +1,48 @@
+{
+    "postgres": {
+        "password": "",
+        "user": "",
+        "host": "",
+        "port": 5432
+    },
+    "mongo": {
+        "host": "mongodb://127.0.0.1:27017/",
+        "database": "dontaddthisbot"
+    },
+    "backend": {
+        "port": 3003,
+        "origin": "http://localhost:3000",
+        "client_id": "",
+        "client_secret": "",
+        "callback_url": "http://localhost:3003/auth/twitch/callback"
+    },
+    "token": {
+        "key": "JWT TOKEN, can be any random generated crypto string"
+    },
+    "twitch": {
+        "username": "Bot Name",
+        "oauth": "Bot Token",
+        "gql_token": "",
+        "access_token": "",
+        "client_id": "",
+        "stv_token": ""
+    },
+    "twitter": {
+        "app_key": "",
+        "app_secret": "",
+        "access_token": "",
+        "access_secret": "",
+        "bearer": ""
+    },
+    "reddit": {
+        "gql_token": ""
+    },
+    "discord": {
+        "poro_logs": "Just any discord webhook api",
+        "errors": "",
+        "racist": "",
+        "new_channels": "",
+        "action": "",
+        "poro_give": ""
+    }
+}
