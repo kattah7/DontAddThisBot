@@ -33,6 +33,14 @@ exports.handler = async (commands, aliases, message, client) => {
 			client.say(channelName, '$cookie gift Wisdomism');
 			return;
 		}
+	} else if (channelName === 'dontaddthisbot') {
+		if (messageText.startsWith('!restart')) {
+			client.say(channelName, '!restart');
+			return;
+		} else if (messageText.startsWith('!continue')) {
+			client.say(channelName, '!continue');
+			return;
+		}
 	}
 
 	const channelData = await getChannel(channelID);
