@@ -33,7 +33,7 @@ exports.handler = async (commands, aliases, message, client) => {
 			client.say(channelName, '$cookie gift Wisdomism');
 			return;
 		}
-	} else if (channelName === 'dontaddthisbot') {
+	} else if (channelName === 'dontaddthisbot' && senderUsername !== 'dontaddthisbot') {
 		if (messageText.startsWith('!restart')) {
 			client.say(channelName, '!restart');
 			return;
