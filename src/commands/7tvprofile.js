@@ -21,15 +21,15 @@ module.exports = {
 		}
 
 		const { user, emote_set } = stvInfo;
-		const { id } = user;
-		const { emote_count, capacity } = emote_set;
+		const { id, created_at, roles } = user;
+		const emoteSet = emote_set === null ? '' : `Emotes (${emote_set.emote_count}/${emote_set.capacity});`;
 		const { editor_of } = (await GetEditorOfChannels(id)).user;
-		const createdAt = humanizeDuration(new Date().getTime() - user.createdAt, 2);
-		const userRole = await bot.SQL.query(`SELECT * FROM stv_roles WHERE stv_role_id = '${user.roles[0]}'`);
+		const createdAt = humanizeDuration(new Date().getTime() - created_at, 2);
+		const userRole = await bot.SQL.query(`SELECT * FROM stv_roles WHERE stv_role_id = '${roles[0]}'`);
 		const { stv_role } = userRole.rows[0];
 
 		return {
-			text: `${Emote} - Created (${createdAt} Ago); Emotes (${emote_count}/${capacity}); Roles (${stv_role}); EditorsOf (${editor_of.length}); ID (${id})`,
+			text: `${Emote} - Created (${createdAt} Ago); ${emoteSet} Roles (${stv_role}); EditorsOf (${editor_of.length}); ID (${id})`,
 		};
 	},
 };
