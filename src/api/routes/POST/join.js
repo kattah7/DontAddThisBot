@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { client } = require('../../../util/twitch/connections');
 const { middleWare } = require('../../middleWare');
+const { newChannel } = require('../../../util/discord/discord');
 
 router.post('/api/bot/join', middleWare, async (req, res) => {
 	const { id, login } = req.user;
@@ -36,6 +37,7 @@ router.post('/api/bot/join', middleWare, async (req, res) => {
 				joinedAt: new Date(),
 				isChannel: true,
 			}).save();
+			await newChannel(login, new Date(), login);
 		} catch (err) {
 			return res.status(500).json({
 				success: false,
