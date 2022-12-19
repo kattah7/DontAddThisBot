@@ -6,8 +6,8 @@
     "dev": "nodemon src/main.js",
     "lint": "eslint --ext js '**/*' ",
     "lint:fix": "eslint --ext js '**/*' --fix",
-    "prettier": "prettier --check './**/*.{js,ts}'",
-    "prettier:fix": "prettier --write './**/*.{js,ts}'",
+    "format": "prettier --check './**/*.{js,ts}'",
+    "format:fix": "prettier --write './**/*.{js,ts}'",
     "prepare": "husky install"
   },
   "lint-staged": {
