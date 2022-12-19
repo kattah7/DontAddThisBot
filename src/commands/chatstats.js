@@ -1,4 +1,3 @@
-const got = require('got');
 const { ChatStats } = require('../token/SE.js');
 const { ParseUser } = require('../util/twitch/utils.js');
 
