@@ -37,4 +37,6 @@ jobs:
                   IS_RELEASE=`echo "${MESSAGE}" | grep -qP "^v\d+\.\d+\.\d+\S*$" && echo true || echo false`
                   echo "::set-output name=is_release::${IS_RELEASE}"
             - name: Format Style
-              run: yarn prettier
+              run: yarn format:fix
+            - name: Check Format Style
+              run: yarn format
