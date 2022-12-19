@@ -1,5 +1,5 @@
-const { client } = require('../util/twitch/connections.js');
-const { Logger, LogLevel } = require('../misc/logger');
+const { client } = require('../../util/twitch/connections.js');
+const { Logger, LogLevel } = require('../../misc/logger');
 
 const JOIN = async function () {
 	client.on('JOIN', async ({ channelName }) => {

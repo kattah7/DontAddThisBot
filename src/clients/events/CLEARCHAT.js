@@ -1,6 +1,7 @@
-const { client } = require('../util/twitch/connections.js');
-const { BAND: banEvasion } = require('../util/discord/discord.js');
-const { IVR } = require('../util/twitch/utils.js');
+const { client } = require('../../util/twitch/connections.js');
+const { BAND: banEvasion } = require('../../util/discord/discord.js');
+const { IVR } = require('../../util/twitch/utils.js');
+const { Logger, LogLevel } = require('../../misc/logger.js');
 
 const CLEARCHAT = async function () {
 	client.on('CLEARCHAT', async (message) => {
@@ -20,7 +21,7 @@ const CLEARCHAT = async function () {
 					)
 					.exec();
 				await bot.DB.users.updateOne({ id: ircTags['room-id'] }, { level: 0 }).exec();
-				Logger.warn('Banned In ' + channelName + ': ' + targetUsername, ircTags['room-id']);
+				Logger.log(LogLevel.WARN, 'Banned In ' + channelName + ': ' + targetUsername, ircTags['room-id']);
 			} else if (banDuration >= 3600) {
 				client.part(channelName);
 				await bot.DB.channels
@@ -33,10 +34,10 @@ const CLEARCHAT = async function () {
 						},
 					)
 					.exec();
-				Logger.warn(`Timed out for ${banDuration}s in ${channelName}: ${targetUsername}`, ircTags['room-id']);
+				Logger.info(LogLevel.WARN, `Timed out for ${banDuration}s in ${channelName}: ${targetUsername}`, ircTags['room-id']);
 			} else {
 				client.part(channelName);
-				Logger.warn(`Timed out for ${banDuration}s in ${channelName}: ${targetUsername}`, ircTags['room-id']);
+				Logger.log(LogLevel.WARN, `Timed out for ${banDuration}s in ${channelName}: ${targetUsername}`, ircTags['room-id']);
 			}
 			const { logo } = await IVR(ircTags['room-id']);
 			const isPerma = banDuration ? `${targetUsername} 𝗧𝗜𝗠𝗘𝗢𝗨𝗧` : `${targetUsername} 𝗕𝗔𝗡𝗡𝗘𝗗`;

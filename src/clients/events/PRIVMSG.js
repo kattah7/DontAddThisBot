@@ -1,7 +1,7 @@
-const { client } = require('../util/twitch/connections.js');
-const { startCmds } = require('./modules/commands.js');
-const { handler } = require('./modules/handler.js');
-const { getTimers } = require('./modules/timers.js');
+const { client } = require('../../util/twitch/connections.js');
+const { startCmds } = require('../modules/commands.js');
+const { handler } = require('../modules/handler.js');
+const { getTimers } = require('../modules/timers.js');
 
 const PRIVMSG = async function () {
 	getTimers();
