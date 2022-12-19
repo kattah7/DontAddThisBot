@@ -1,4 +1,4 @@
-const humanizeDuration = require('../util/humanizeDuration');
+const humanizeDuration = require('../misc/humanizeDuration');
 const utils = require('../util/twitch/utils.js');
 
 module.exports = {

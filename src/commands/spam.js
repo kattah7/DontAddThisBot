@@ -1,3 +1,5 @@
+const regex = require('../misc/regex');
+
 module.exports = {
 	tags: 'moderation',
 	name: 'spam',

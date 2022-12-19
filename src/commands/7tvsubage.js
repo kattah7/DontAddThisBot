@@ -1,4 +1,4 @@
-const humanizeDuration = require('../util/humanizeDuration.js');
+const humanizeDuration = require('../misc/humanizeDuration.js');
 const { ParseUser, IDByLogin } = require('../util/twitch/utils.js');
 const { getUser, getUsernameByStvID, GlobalEmote } = require('../token/stvREST');
 const { egVault } = require('../token/stvEGVAULT');

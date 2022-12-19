@@ -1,4 +1,5 @@
 const { Announce } = require('../token/helix');
+const regex = require('../misc/regex');
 
 module.exports = {
 	tags: 'moderation',

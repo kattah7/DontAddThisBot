@@ -1,4 +1,4 @@
-const humanizeDuration = require('../util/humanizeDuration');
+const humanizeDuration = require('../misc/humanizeDuration');
 const { code } = require('../util/twitch/porocodes.json');
 
 module.exports = {

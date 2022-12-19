@@ -1,5 +1,5 @@
 const got = require('got');
-const humanizeDuration = require('../util/humanizeDuration');
+const humanizeDuration = require('../misc/humanizeDuration');
 const { twitter } = require('../../config.json');
 
 module.exports = {

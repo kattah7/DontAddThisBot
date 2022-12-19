@@ -1,4 +1,4 @@
-const humanizeDuration = require('../util/humanizeDuration');
+const humanizeDuration = require('../misc/humanizeDuration');
 const { ParseUser, IDByLogin } = require('../util/twitch/utils');
 const { PoroGive } = require('../util/discord/discord');
 

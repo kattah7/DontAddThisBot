@@ -6,7 +6,8 @@ const { ForsenTV } = require('../../token/pajbot.js');
 const { GetUser } = require('../../token/stvGQL.js');
 const { getUser } = require('../../token/stvREST');
 const { translateLanguage, iso6391LanguageCodes, getCodeFromName } = require('../../util/google/translate');
-const { updateUser } = require('../../util/database/db');
+const { updateUser } = require('../../database/db');
+const regex = require('../../misc/regex');
 
 const cooldown = new Map();
 var block = false;

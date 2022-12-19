@@ -1,7 +1,7 @@
 const { getUser, GlobalEmote } = require('../token/stvREST');
 const { ParseUser, IDByLogin } = require('../util/twitch/utils');
 const { GetEditorOfChannels } = require('../token/stvGQL');
-const humanizeDuration = require('../util/humanizeDuration');
+const humanizeDuration = require('../misc/humanizeDuration');
 
 module.exports = {
 	tags: '7tv',

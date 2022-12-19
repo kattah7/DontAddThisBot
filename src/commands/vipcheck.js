@@ -1,6 +1,6 @@
 const fetch = require('node-fetch');
 const utils = require('../util/twitch/utils');
-const humanizeDuration = require('../util/humanizeDuration');
+const humanizeDuration = require('../misc/humanizeDuration');
 
 module.exports = {
 	tags: 'stats',

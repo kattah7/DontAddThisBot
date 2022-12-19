@@ -1,4 +1,4 @@
-const humanizeDuration = require('../util/humanizeDuration');
+const humanizeDuration = require('../misc/humanizeDuration');
 const { GetFirstStreams, GetTopGames } = require('../token/helix');
 
 module.exports = {

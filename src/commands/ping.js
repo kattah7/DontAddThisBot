@@ -1,6 +1,6 @@
 const Redis = require('ioredis');
 const redis = new Redis({});
-const humanizeDuration = require('../util/humanizeDuration');
+const humanizeDuration = require('../misc/humanizeDuration');
 
 module.exports = {
 	tags: 'stats',
