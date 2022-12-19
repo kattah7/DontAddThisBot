@@ -1,20 +1,26 @@
+const { Logger, LogLevel } = require('./misc/logger.js');
+const { ConfigSchema } = require('./validators/ConfigSchema.js');
+const result = ConfigSchema.validate(require('../config.json'));
+if (result.error) {
+	Logger.log(LogLevel.ERROR, result.error.message);
+	process.exit(1);
+}
+
 const nodeCron = require('node-cron');
 const { client } = require('./util/twitch/connections.js');
 const pubsub = require('./util/twitch/pubSub.js');
 const { Twitch } = require('./clients/twitch.js');
 
 global.bot = {};
-bot.Redis = require('./util/database/redis.js');
-bot.DB = require('./util/database/db.js');
-bot.Utils = require('./util');
-bot.SQL = require('./util/database/postgres.js');
-Logger = require('./util/logger.js');
-regex = require('./util/regex.js');
+bot.Redis = require('./database/redis.js');
+bot.DB = require('./database/db.js');
+bot.Utils = require('./misc');
+bot.SQL = require('./database/postgres.js');
 
 require('./api/server');
 
 client.on('ready', async () => {
-	Logger.info('Connected to chat!');
+	Logger.log(LogLevel.SILLY, 'Connected to chat!');
 	pubsub.init();
 	nodeCron.schedule('5 */2 * * *', () => {
 		// every 2 hours at :05
@@ -23,11 +29,11 @@ client.on('ready', async () => {
 	Twitch();
 });
 
-client.on('372', (msg) => Logger.info(`Server MOTD is: ${msg.ircParameters[1]}`));
+client.on('372', (msg) => Logger.log(LogLevel.INFO, `Server MOTD is: ${msg.ircParameters[1]}`));
 
 client.on('close', (err) => {
 	if (err != null) {
-		Logger.error('Client closed due to error', err);
+		Logger.log(LogLevel.ERROR, 'Client closed due to error', err);
 	}
 	process.exit(1);
 });

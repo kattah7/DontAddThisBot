@@ -3,6 +3,7 @@ const parser = require('cookie-parser');
 const { backend } = require('../../config.json');
 const cors = require('cors');
 const morgan = require('morgan');
+const { Logger, LogLevel } = require('../misc/logger');
 
 const channelInfo = require('./routes/GET/channelInfo');
 const channels = require('./routes/GET/channels');
@@ -24,5 +25,5 @@ app.use(cors(), morgan('dev'));
 app.use(express.json(), parser(), [channelInfo, channels, leaderboard, poroCount, userInfo, commands, grafana, userAuthInfo, botInfo, join, part, create, auth, modJoin]);
 
 app.listen(backend.port, () => {
-	Logger.info(`API is running on port 3003`);
+	Logger.log(LogLevel.INFO, `API is running on port ${backend.port}`);
 });

@@ -6,8 +6,9 @@ const { client } = require('./connections.js');
 const RWS = require('reconnecting-websocket');
 const got = require('got');
 const discord = require('../discord/discord.js');
-const humanizeDuration = require('../humanizeDuration.js');
+const humanizeDuration = require('../../misc/humanizeDuration.js');
 const { GetStreams, Announce } = require('../../token/helix');
+const { Logger, LogLevel } = require('../../misc/logger');
 
 exports.topics = [];
 exports.connections = [];
@@ -75,11 +76,11 @@ const connect = (ws, topics, id) => {
 	});
 
 	ws.addEventListener('close', () => {
-		Logger.info(`[${id}] PubSub Disconnected`);
+		Logger.log(LogLevel.WARN, `[${id}] PubSub Disconnected`);
 	});
 
 	ws.addEventListener('open', () => {
-		Logger.info(`[${id}] PubSub Connected`);
+		Logger.log(LogLevel.DEBUG, `[${id}] PubSub Connected`);
 
 		for (const topic of topics) {
 			const message = {
@@ -115,7 +116,7 @@ const connect = (ws, topics, id) => {
 				break;
 
 			case 'RECONNECT':
-				Logger.info(`[${id}] PubSub server sent a reconnect message. Restarting the socket`);
+				Logger.log(LogLevel.WARN, `[${id}] PubSub server sent a reconnect message. Restarting the socket`);
 				ws.reconnect();
 				break;
 
