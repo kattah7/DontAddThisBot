@@ -1,14 +1,15 @@
 const DB = require('mongoose');
-const { mongo } = require('../../../config.json');
+const { mongo } = require('../../config.json');
+const { Logger, LogLevel } = require('../misc/logger');
 
 DB.connect(mongo.host + mongo.database, {});
 
 DB.connection.on('connected', () => {
-	Logger.info(`Connected to database!`);
+	Logger.log(LogLevel.INFO, `Connected to database!`);
 });
 
 DB.connection.on('disconnected', () => {
-	Logger.error('Disconnected from database');
+	Logger.log(LogLevel.ERROR, 'Disconnected from database');
 });
 
 //Emote Schema

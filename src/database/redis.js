@@ -1,12 +1,13 @@
 const Redis = require('ioredis');
 const redis = new Redis({});
+const { Logger, LogLevel } = require('../misc/logger');
 
 redis.on('error', (err) => {
-	Logger.error(`Redis Error: ${err}`);
+	Logger.log(LogLevel.ERROR, `Redis Error: ${err}`);
 });
 
 redis.on('ready', () => {
-	Logger.info('Redis Connected');
+	Logger.log(LogLevel.INFO, 'Redis Connected');
 });
 
 module.exports.redis = redis;
