@@ -22,7 +22,7 @@ WS.onmessage = async ({ data }) => {
 			const testIDS = ['148554088', '206378648'];
 			for (const id of testIDS) {
 				await createEventSub('channel.follow', id, payload.session.id).then((response) => {
-					if (response?.error) return Logger.error(`Error creating EventSub: ${response?.message}`);
+					if (response?.error) return Logger.log(LogLevel.ERROR, `Error creating EventSub: ${response?.message}`);
 					response?.data.forEach((sub) => {
 						const { id, status, type, version, condition, transport } = sub;
 						Logger.log(LogLevel.DEBUG, `Created EventSub: ${type} for ${condition.broadcaster_user_id}`);
@@ -30,7 +30,7 @@ WS.onmessage = async ({ data }) => {
 				});
 			}
 		} else {
-			Logger.warn(`EventSubs already exist: ${data.map((sub) => `${sub.type} | ${sub.condition.broadcaster_user_id}`).join(', ')}`);
+			Logger.log(LogLevel.WARN, `EventSubs already exist: ${data.map((sub) => `${sub.type} | ${sub.condition.broadcaster_user_id}`).join(', ')}`);
 			for (const topic of data) {
 				await deleteEventSub(topic.id);
 				Logger.log(LogLevel.WARN, `Deleted EventSub: ${topic.id}`);
@@ -70,7 +70,7 @@ const createEventSub = async (type, userID, session_id) => {
 		}),
 	}).then(
 		(res) => res.json(),
-		(err) => Logger.error(err),
+		(err) => Logger.log(LogLevel.ERROR, err),
 	);
 	return createTopic;
 };
@@ -96,7 +96,7 @@ const getEventSubs = async () => {
 		},
 	}).then(
 		(res) => res.json(),
-		(err) => Logger.error(err),
+		(err) => Logger.log(LogLevel.ERROR, err),
 	);
 	return getTopics;
 };

@@ -8,6 +8,7 @@ const { getUser } = require('../../token/stvREST');
 const { translateLanguage, iso6391LanguageCodes, getCodeFromName } = require('../../util/google/translate');
 const { updateUser } = require('../../database/db');
 const regex = require('../../misc/regex');
+const { Logger, LogLevel } = require('../../misc/logger');
 
 const cooldown = new Map();
 var block = false;
@@ -266,7 +267,7 @@ exports.handler = async (commands, aliases, message, client) => {
 						await discord.racist(senderUsername, senderUserID, channelName, args.join(' '));
 						return client.say(channelName, 'That message violates the terms of service');
 					} catch (e) {
-						Logger.error(e, 'Error while trying to report racism');
+						Logger.log(LogLevel.ERROR, 'Error while trying to report racism' + e);
 					}
 				}
 
@@ -324,9 +325,9 @@ exports.handler = async (commands, aliases, message, client) => {
 };
 
 const getUserInDB = async function (id) {
-	return await bot.DB.users.findOne({ id: id }).catch((err) => Logger.error(err));
+	return await bot.DB.users.findOne({ id: id }).catch((err) => Logger.log(LogLevel.ERROR, err));
 };
 
 const getChannel = async function (id) {
-	return await bot.DB.channels.findOne({ id: id }).catch((err) => Logger.error(err));
+	return await bot.DB.channels.findOne({ id: id }).catch((err) => Logger.log(LogLevel.ERROR, err));
 };

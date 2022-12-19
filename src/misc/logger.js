@@ -13,8 +13,8 @@ const LogLevel = {
 
 const LogLevelToEmoji = {
 	[LogLevel.ERROR]: '\u{274C}',
-	[LogLevel.WARN]: '\u{26A0}\u{FE0F} ',
-	[LogLevel.INFO]: '\u{2139}\u{FE0F} ',
+	[LogLevel.WARN]: '\u{26A0}\u{FE0F}',
+	[LogLevel.INFO]: '\u{2139}\u{FE0F}',
 	[LogLevel.DEBUG]: '\u{1F41E}',
 	[LogLevel.SILLY]: '\u{1F43E}',
 };
