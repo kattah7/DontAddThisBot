@@ -28,6 +28,10 @@ const ChannelsSchema = new DB.Schema({
 			addedAt: Date,
 		},
 	],
+	optionalSettings: {
+		cooldown: Number,
+		pajbot: String,
+	},
 });
 
 const PoroSchema = new DB.Schema({
@@ -47,13 +51,6 @@ const UserSchema = new DB.Schema({
 	nameChanges: [{ username: String, changedAt: Date }],
 });
 
-const ModerationSchema = new DB.Schema({
-	username: String,
-	id: String,
-	StvID: String,
-	warnings: [{ reason: String, warnedAt: Date, warnedBy: String }],
-});
-
 const PrivateSchema = new DB.Schema({
 	code: String,
 	todaysCode: String,
@@ -63,7 +60,6 @@ exports.users = DB.model('users', UserSchema);
 exports.poroCount = DB.model('poroCount', PoroSchema);
 exports.channels = DB.model('channels', ChannelsSchema);
 exports.private = DB.model('private', PrivateSchema);
-exports.moderation = DB.model('moderation', ModerationSchema);
 
 exports.updateUser = async (Collection, userID, newName) => {
 	if (!userID || !newName) return { error: 'No user ID provided' };
