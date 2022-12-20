@@ -1,7 +1,7 @@
 const { getUser, GlobalEmote } = require('../token/stvREST');
 const { ParseUser, IDByLogin } = require('../util/twitch/utils');
 const { GetEditorOfChannels } = require('../token/stvGQL');
-const humanizeDuration = require('../util/humanizeDuration');
+const humanizeDuration = require('../misc/humanizeDuration');
 
 module.exports = {
 	tags: '7tv',
@@ -9,14 +9,15 @@ module.exports = {
 	cooldown: 5000,
 	description: "Check user's 7tv info YEAHBUT7TV",
 	aliases: [],
-	execute: async (message, args, client) => {
+	execute: async (client, msg) => {
 		const Emote = GlobalEmote();
-		const targetUser = await ParseUser(args[0] ?? message.senderUsername);
+		const targetUser = await ParseUser(msg.args[0] ?? msg.user.login);
 		const uid = await IDByLogin(targetUser);
 		const stvInfo = await getUser(uid);
 		if (!stvInfo || stvInfo === null) {
 			return {
 				text: `${Emote} - ${targetUser} UNKOWN USER`,
+				reply: true,
 			};
 		}
 
@@ -30,6 +31,7 @@ module.exports = {
 
 		return {
 			text: `${Emote} - Created (${createdAt} Ago); ${emoteSet} Roles (${stv_role}); EditorsOf (${editor_of.length}); ID (${id})`,
+			reply: false,
 		};
 	},
 };

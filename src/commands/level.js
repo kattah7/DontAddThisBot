@@ -1,21 +1,25 @@
+const { ParseUser } = require('../util/twitch/utils.js');
+
 module.exports = {
 	tags: 'stats',
 	name: 'level',
 	description: "Shows the user's level.",
 	aliases: ['lvl'],
 	cooldown: 5000,
-	async execute(message, args, client, userdata) {
-		const user = args[0] ? args[0].toLowerCase() : message.senderUsername;
-
-		const data = await bot.DB.users.findOne({ username: user }).exec();
+	async execute(client, msg) {
+		const user = msg.args[0] ? msg.args[0].toLowerCase() : msg.user.login;
+		const targeParsedUser = await ParseUser(user);
+		const data = await bot.DB.users.findOne({ username: targeParsedUser }).exec();
 
 		if (!data) {
 			return {
-				text: `${user} has not been seen before.`,
+				text: `${targeParsedUser} has not been seen before.`,
+				reply: true,
 			};
 		} else {
 			return {
-				text: `${user} is level ${data.level} (${bot.Utils.misc.levels[data.level]})`,
+				text: `${targeParsedUser} is level ${data.level} (${bot.Utils.misc.levels[data.level]})`,
+				reply: true,
 			};
 		}
 	},

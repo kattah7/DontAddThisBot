@@ -8,21 +8,22 @@ module.exports = {
 	cooldown: 3000,
 	aliases: [],
 	description: "Gets user's chat color",
-	execute: async (message, args, client) => {
+	execute: async (client, msg) => {
 		async function changeChatColor(chatColor, botColor) {
 			await ChangeColor(chatColor);
 			await new Promise((resolve) => setTimeout(resolve, 30));
-			await client.privmsg(message.channelName, `.me @${message.senderUsername}, ████ ${chatColor}`);
+			await client.privmsg(msg.channel.login, `.me @${msg.user.login}, ████ ${chatColor}`);
 			await new Promise((resolve) => setTimeout(resolve, 30));
 			await ChangeColor(botColor);
 		}
 
-		const targetUser = await ParseUser(args[0] ?? message.senderUsername);
-		if (args[0]) {
+		const targetUser = await ParseUser(msg.args[0] ?? msg.user.login);
+		if (msg.args[0]) {
 			const user = await IVRByLogin(targetUser);
 			if (user === null || user.chatColor === null) {
 				return {
 					text: `${targetUser} does not have a chat color set. WutFace`,
+					reply: true,
 				};
 			}
 
@@ -32,16 +33,18 @@ module.exports = {
 			} catch (err) {
 				return {
 					text: `Failed to get ${targetUser}'s chat color.`,
+					reply: true,
 				};
 			}
 		}
 
-		if (!message.colorRaw || message.colorRaw === null) {
+		if (!msg.user.colorRaw || msg.user.colorRaw === null) {
 			return {
 				text: `You do not have a chat color set. WutFace`,
+				reply: true,
 			};
 		}
 
-		return await changeChatColor(message?.colorRaw, color);
+		return await changeChatColor(msg?.user.colorRaw, color);
 	},
 };

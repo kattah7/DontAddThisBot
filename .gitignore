@@ -6,3 +6,4 @@ dump
 config.json
 scripts/start.sh
 imgs/
+.logs/

@@ -1,6 +1,7 @@
 const { Pool } = require('pg');
-const { postgres } = require('../../../config.json');
-const { GetStvRoles } = require('../../token/stvGQL');
+const { postgres } = require('../../config.json');
+const { GetStvRoles } = require('../token/stvGQL');
+const { Logger, LogLevel } = require('../misc/logger');
 
 const sql = new Pool({
 	...postgres,
@@ -8,7 +9,7 @@ const sql = new Pool({
 });
 
 sql.connect(async function () {
-	Logger.info('Connected to SQL database!');
+	Logger.log(LogLevel.INFO, 'Connected to SQL database!');
 	await sql.query(`CREATE TABLE IF NOT EXISTS users (
         id SERIAL PRIMARY KEY,
         twitch_id VARCHAR(255) NOT NULL,

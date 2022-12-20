@@ -30,12 +30,14 @@ exports.GetFirstStreams = async (number, game) => {
 };
 
 exports.Announce = async (channel, args) => {
-	await helix.post(`chat/announcements?broadcaster_id=${channel}&moderator_id=790623318`, {
-		json: {
-			message: args,
-			color: 'purple',
-		},
-	});
+	await helix
+		.post(`chat/announcements?broadcaster_id=${channel}&moderator_id=790623318`, {
+			json: {
+				message: args,
+				color: 'purple',
+			},
+		})
+		.json();
 };
 
 exports.UserInfo = async (user) => {

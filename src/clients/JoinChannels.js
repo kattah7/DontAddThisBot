@@ -1,4 +1,5 @@
 const { client } = require('../util/twitch/connections.js');
+const { Logger, LogLevel } = require('../misc/logger');
 
 const main = async () => {
 	const channels = await bot.DB.channels.find({ isChannel: true }).exec();
@@ -6,7 +7,7 @@ const main = async () => {
 		try {
 			client.join(channel.username);
 		} catch (err) {
-			Logger.error(`Failed to join channel ${channel.username}`, err);
+			Logger.log(LogLevel.ERROR, `Failed to join channel ${channel.username}`, err);
 		}
 	}
 };

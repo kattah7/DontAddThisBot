@@ -1,4 +1,4 @@
-const utils = require('../util/twitch/utils.js');
+const { ParseUser, IDByLogin } = require('../util/twitch/utils.js');
 
 module.exports = {
 	name: 'botpart',
@@ -6,26 +6,29 @@ module.exports = {
 	cooldown: 3000,
 	level: 3,
 	description: 'Part channel command (level 3 only)',
-	execute: async (message, args, client) => {
-		const targetUser = await utils.ParseUser(args[0]);
-		if (!args[0] || !/^[A-Z_\d]{3,25}$/i.test(targetUser)) {
-			const isArgs = args[0] ? 'malformed username parameter' : 'Please provide a channel name';
+	execute: async (client, msg) => {
+		const targetUser = await ParseUser(msg.args[0]);
+		if (!targetUser || !/^[A-Z_\d]{3,25}$/i.test(targetUser)) {
+			const isArgs = targetUser ? 'malformed username parameter' : 'Please provide a channel name';
 			return {
 				text: isArgs,
+				reply: false,
 			};
 		}
-		// try to get and delete the channel from the database
-		const channelData = await bot.DB.channels.findOneAndUpdate({ id: await utils.IDByLogin(targetUser.toLowerCase()) }, { $set: { isChannel: false } }).exec();
+
+		const targetUserID = await IDByLogin(targetUser);
+		const channelData = await bot.DB.channels.findOneAndUpdate({ id: targetUserID }, { $set: { isChannel: false } }).exec();
+
 		if (!channelData || !channelData.isChannel) {
-			return { text: `Not in channel #${targetUser}` };
+			return { text: `Not in channel #${targetUser}`, reply: false };
 		}
 
 		if (channelData.isChannel) {
 			try {
-				await client.part(targetUser.toLowerCase());
-				return { text: `Parting channel #${targetUser}` };
+				await client.part(targetUser);
+				return { text: `Parting channel #${targetUser}`, reply: false };
 			} catch (error) {
-				return { text: `Error leaving channel #${targetUser}` };
+				return { text: `Error leaving channel #${targetUser}`, reply: false };
 			}
 		}
 	},

@@ -1,4 +1,6 @@
 const got = require('got');
+const { ParseUser } = require('../util/twitch/utils.js');
+const fetch = require('node-fetch');
 
 module.exports = {
 	tags: 'stats',
@@ -6,21 +8,27 @@ module.exports = {
 	cooldown: 3000,
 	aliases: [],
 	description: 'Check active/viewerlist count',
-	execute: async (message, args, client) => {
-		const targetUser = args[0] ?? message.senderUsername;
+	execute: async (client, msg) => {
+		const targetUser = await ParseUser(msg.args[0] ?? msg.user.login);
+		const { chatter_count } = await got(`http://tmi.twitch.tv/group/user/${targetUser.toLowerCase()}/chatters`).json();
+		const { messages } = await fetch(`https://recent-messages.robotty.de/api/v2/recent-messages/${targetUser.toLowerCase()}`, {
+			method: 'GET',
+			headers: {
+				'Cotent-Type': 'application/json',
+			},
+		}).then((res) => res.json());
 
-		const data = await fetch(`https://recent-messages.robotty.de/api/v2/recent-messages/${targetUser.toLowerCase()}`);
-		const resp = JSON.parse(await data.text());
-		const clol = await got(`http://tmi.twitch.tv/group/user/${targetUser.toLowerCase()}/chatters`).json();
-		const BRUH = clol;
+		if (!messages) {
+			return {
+				text: `${targetUser} currently has ${chatter_count.toLocaleString()} users in viewerlist.`,
+				reply: true,
+			};
+		}
 
-		//console.log(BRUH)
-
-		const messages = resp.messages;
 		const users = [];
 		const re = /^.+@(.+)\.tmi.twitch.tv\sPRIVMSG\s#.+$/i;
 
-		for (let message of resp.messages) {
+		for (let message of messages) {
 			re.lastIndex = 0;
 			const match = re.exec(message);
 			if (match) {
@@ -30,8 +38,10 @@ module.exports = {
 				}
 			}
 		}
+
 		return {
-			text: `${targetUser} currently has ${users.length} users chatted, ${BRUH.chatter_count.toLocaleString()} users in viewerlist.`,
+			text: `${targetUser} currently has ${users.length} users chatted, ${chatter_count.toLocaleString()} users in viewerlist.`,
+			reply: true,
 		};
 	},
 };

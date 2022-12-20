@@ -3,7 +3,7 @@ const redis = new Redis({});
 const fetch = require('node-fetch');
 const { client } = require('../../util/twitch/connections');
 const { loginByID } = require('../../util/twitch/utils');
-const humanizeDuration = require('../../util/humanizeDuration');
+const humanizeDuration = require('../../misc/humanizeDuration');
 
 const getTimers = () => {
 	setInterval(async () => {

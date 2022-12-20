@@ -1,7 +1,7 @@
 const got = require('got');
 const { reddit } = require('../../config.json');
 
-const reddit = got.extend({
+const redditBat = got.extend({
 	url: 'https://gql.reddit.com',
 	throwHttpErrors: false,
 	responseType: 'json',
@@ -11,7 +11,7 @@ const reddit = got.extend({
 });
 
 async function makeRequest(query) {
-	const gqlReq = await reddit
+	const gqlReq = await redditBat
 		.post({
 			json: query,
 		})

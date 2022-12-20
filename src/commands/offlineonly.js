@@ -6,47 +6,46 @@ module.exports = {
 	permission: 2,
 	aliases: [],
 	offline: true,
-	execute: async (message, args, client) => {
-		const user = await bot.DB.channels.findOne({ id: message.senderUserID }).exec();
-		if (user.offlineOnly) {
-			try {
-				await bot.DB.channels
-					.updateOne(
-						{ id: message.senderUserID },
-						{
-							$set: {
-								offlineOnly: false,
-							},
+	execute: async (client, msg) => {
+		async function setStatus(channelID, Boolean) {
+			await bot.DB.channels
+				.updateOne(
+					{ id: channelID },
+					{
+						$set: {
+							offlineOnly: Boolean,
 						},
-					)
-					.exec();
+					},
+				)
+				.exec();
+		}
+
+		const user = await bot.DB.channels.findOne({ id: msg.channel.id }).exec();
+		if (user?.offlineOnly) {
+			try {
+				await setStatus(msg.channel.id, false);
 				return {
-					text: `${message.senderUsername} is now online & offline only`,
+					text: `${msg.channel.login} is now online & offline only`,
+					reply: false,
 				};
 			} catch (err) {
 				return {
 					text: 'Failed to update database',
+					reply: false,
 				};
 			}
 		}
 		if (!user.offlineOnly) {
 			try {
-				await bot.DB.channels
-					.updateOne(
-						{ id: message.senderUserID },
-						{
-							$set: {
-								offlineOnly: true,
-							},
-						},
-					)
-					.exec();
+				await setStatus(msg.channel.id, true);
 				return {
-					text: `${message.senderUsername} is now offline only`,
+					text: `${msg.channel.login} is now offline only`,
+					reply: false,
 				};
 			} catch (err) {
 				return {
 					text: 'Failed to update database',
+					reply: false,
 				};
 			}
 		}

@@ -8,7 +8,7 @@ module.exports = {
 	cooldown: 3000,
 	description: 'Display all 7tv emotes in chat',
 	botPerms: 'vip',
-	execute: async (message, args, client) => {
+	execute: async (client, msg) => {
 		const Emote = GlobalEmote();
 		async function returnTargetID(targetName) {
 			const targetUser = await ParseUser(targetName);
@@ -17,11 +17,12 @@ module.exports = {
 			return getUserID;
 		}
 
-		const user = await getUser(args[0] ? await returnTargetID(args[0]) : message.channelID);
-		const isSelfOrTarget = args[0] ?? message.channelName;
+		const user = await getUser(msg.args[0] ? await returnTargetID(msg.args[0]) : msg.channel.id);
+		const isSelfOrTarget = msg.args[0] ?? msg.channel.login;
 		if (!user || user === null) {
 			return {
 				text: `${Emote} - ${isSelfOrTarget} UNKOWN USER`,
+				reply: true,
 			};
 		}
 
@@ -29,6 +30,7 @@ module.exports = {
 		if (!emotes || emotes.length === 0) {
 			return {
 				text: `${Emote} - ${isSelfOrTarget} has no emotes`,
+				reply: true,
 			};
 		}
 
@@ -59,7 +61,7 @@ module.exports = {
 			if (typeof emote === 'number') {
 				emotesString += emotesArray.slice(emotesArrayIndex, i).join(' ');
 				emotesArrayIndex = i + 1;
-				await client.say(message.channelName, emotesString);
+				await client.say(msg.channel.login, emotesString);
 				emotesString = '';
 				await sleep(30);
 			}
@@ -68,6 +70,7 @@ module.exports = {
 		const capacity = user.emote_capacity;
 		return {
 			text: `${Emote} - ${isSelfOrTarget} has ${emotes.length}/${capacity} 7tv emotes`,
+			reply: true,
 		};
 	},
 };

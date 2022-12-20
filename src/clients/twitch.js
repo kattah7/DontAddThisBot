@@ -1,10 +1,10 @@
-const { JOIN } = require('./JOIN.js');
-const { PART } = require('./PART.js');
-const { USERSTATE } = require('./USERSTATE');
-const { WHISPER } = require('./WHISPER.js');
-const { CLEARCHAT } = require('./CLEARCHAT.js');
-const { NOTICE } = require('./NOTICE.js');
-const { PRIVMSG } = require('./PRIVMSG.js');
+const { JOIN } = require('./events/JOIN.js');
+const { PART } = require('./events/PART.js');
+const { USERSTATE } = require('./events/USERSTATE');
+const { WHISPER } = require('./events/WHISPER.js');
+const { CLEARCHAT } = require('./events/CLEARCHAT.js');
+const { NOTICE } = require('./events/NOTICE.js');
+const { PRIVMSG } = require('./events/PRIVMSG.js');
 const { main } = require('./JoinChannels.js');
 
 exports.Twitch = async function () {

@@ -1,4 +1,4 @@
-const { client } = require('../util/twitch/connections.js');
+const { client } = require('../../util/twitch/connections.js');
 
 async function UPDATEDB(channel, is_mod, is_vip) {
 	await bot.SQL.query(

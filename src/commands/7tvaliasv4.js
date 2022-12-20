@@ -8,19 +8,21 @@ module.exports = {
 	aliases: ['rename'],
 	cooldown: 5000,
 	stv: true,
-	execute: async (message, args, client, userdata, params, channelInfo, cmd, channelStvInfo) => {
+	execute: async (client, msg) => {
 		const Emote = GlobalEmote();
-		if (!args[0] || !args[1]) {
+		if (!msg.args[0] || !msg.args[1]) {
 			return {
-				text: `⛔ Please specify an ${args[0] ? `alias` : `emote`}`,
+				text: `⛔ Please specify an ${msg.args[0] ? `alias` : `emote`}`,
+				reply: true,
 			};
 		}
 
-		const { emote_sets, connections } = channelStvInfo.user;
-		const findChannel = connections.find((x) => x.id === message.channelID);
+		const { emote_sets, connections } = msg.sevenTV.user;
+		const findChannel = connections.find((x) => x.id === msg.channel.id);
 		if (!findChannel || emote_sets.length === 0) {
 			return {
 				text: `⛔ Not connected to this channel`,
+				reply: true,
 			};
 		}
 
@@ -28,24 +30,28 @@ module.exports = {
 		if (findChannelEmoteSet?.length === 0 || !findChannelEmoteSet) {
 			return {
 				text: `⛔ No emote set enabled`,
+				reply: true,
 			};
 		}
 
-		const findThatEmote = findChannelEmoteSet.emotes?.find((x) => x.name === args[0]);
+		const findThatEmote = findChannelEmoteSet.emotes?.find((x) => x.name === msg.args[0]);
 		if (!findThatEmote) {
 			return {
 				text: `⛔ I could not find that emote`,
+				reply: true,
 			};
 		}
 
-		const alias = await AliasSTVEmote(findThatEmote.id, findChannelEmoteSet.id, args[1]);
+		const alias = await AliasSTVEmote(findThatEmote.id, findChannelEmoteSet.id, msg.args[1]);
 		if (alias.errors) {
 			return {
 				text: `⛔ ${alias.errors[0].extensions.message}`,
+				reply: true,
 			};
 		} else {
 			return {
-				text: `${Emote} "${findThatEmote.name}" renamed to "${args[1]}"`,
+				text: `${Emote} "${findThatEmote.name}" renamed to "${msg.args[1]}"`,
+				reply: true,
 			};
 		}
 	},

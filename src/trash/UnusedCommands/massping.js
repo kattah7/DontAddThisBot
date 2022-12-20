@@ -1,4 +1,5 @@
 const got = require('got');
+const regex = require('../../misc/regex');
 
 module.exports = {
 	tags: 'moderation',

@@ -4,7 +4,7 @@ module.exports = {
 	cooldown: 5000,
 	aliases: ['lb'],
 	description: 'See leaderboard of poro meat',
-	execute: async (message, args, client) => {
+	execute: async (client, msg) => {
 		const displayPoroRankByName = {
 			1: 'Raw',
 			2: 'Rare',
@@ -25,6 +25,7 @@ module.exports = {
 
 		return {
 			text: `kattahPoro Poro leaderboard: ${SortedMapped.join(' | ')}`,
+			reply: false,
 		};
 	},
 };

@@ -5,8 +5,8 @@ module.exports = {
 	aliases: ['pororankup'],
 	description: 'Rank up with poros!',
 	poroRequire: true,
-	execute: async (message, args, client) => {
-		const { senderUserID, senderUsername } = message;
+	execute: async (client, msg) => {
+		const { id: senderUserID, login: senderUsername } = msg.user;
 		const userPoroCount = await bot.DB.poroCount.findOne({ id: senderUserID }).exec();
 		const { poroCount, poroPrestige, poroRank } = userPoroCount;
 		const poros = {
@@ -40,6 +40,7 @@ module.exports = {
 				text: `Not enough poro meat! ${senderUsername} kattahPoro You need ${poros[poroRank + 1]} poro meat | [P${poroPrestige}: ${
 					displayPoroRankByName[poroRank]
 				}] ${poroCount} meat total! 🥩`,
+				reply: false,
 			};
 		} else {
 			await bot.DB.poroCount
@@ -57,6 +58,7 @@ module.exports = {
 				text: `You have ranked up to ${displayPoroRankByName[poroRank + 1]}! PoroSad [P${poroPrestige}: ${displayPoroRankByName[poroRank + 1]}] ${
 					poroCount - poros[poroRank + 1]
 				} meat total! 🥩`,
+				reply: false,
 			};
 		}
 	},

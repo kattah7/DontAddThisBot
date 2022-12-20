@@ -1,4 +1,5 @@
 const got = require('got');
+const { ParseUser } = require('../util/twitch/utils');
 
 module.exports = {
 	tags: 'stats',
@@ -6,8 +7,8 @@ module.exports = {
 	cooldown: 3000,
 	aliases: [],
 	description: 'Gets user ID of a targeted user',
-	execute: async (message, args, client) => {
-		const targetUser = args[0] ?? message.senderUsername;
+	execute: async (client, msg) => {
+		const targetUser = await ParseUser(msg.args[0] ?? msg.user.login);
 		let { body: userData } = await got(`https://api.ivr.fi/v2/twitch/user?login=${targetUser}`, {
 			timeout: 10000,
 			throwHttpErrors: false,
@@ -21,10 +22,12 @@ module.exports = {
 			if (userData[0].banned == true) {
 				return {
 					text: `${targetUser}'s UID ${userData[0].id} PoroSad (${userData[0].banReason})`,
+					reply: true,
 				};
 			} else if (userData[0].banned == false) {
 				return {
 					text: `${targetUser}'s UID ${userData[0].id} BatChest`,
+					reply: true,
 				};
 			}
 		}

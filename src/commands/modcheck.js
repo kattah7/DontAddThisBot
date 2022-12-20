@@ -1,6 +1,6 @@
 const fetch = require('node-fetch');
-const utils = require('../util/twitch/utils');
-const humanizeDuration = require('../util/humanizeDuration');
+const { ParseUser } = require('../util/twitch/utils');
+const humanizeDuration = require('../misc/humanizeDuration');
 
 module.exports = {
 	tags: 'stats',
@@ -10,8 +10,8 @@ module.exports = {
 	description: 'First Mod of the channel',
 	canOptout: true,
 	target: 'channel',
-	execute: async (message, args, client) => {
-		const targetUser = await utils.ParseUser(args[0] ?? message.channelName);
+	execute: async (client, msg) => {
+		const targetUser = await ParseUser(msg.args[0] ?? msg.channel.login);
 		const modsApi = await fetch(`https://api.ivr.fi/v2/twitch/modvip/${targetUser}?skipCache=false`, {
 			method: 'GET',
 			headers: {
@@ -22,20 +22,23 @@ module.exports = {
 		const { mods } = await modsApi.json();
 		if (mods == undefined) {
 			return {
-				text: `${message.senderUsername}, Channel not found.`,
+				text: `Channel not found.`,
+				reply: true,
 			};
 		}
 
 		if (mods.length == 0) {
-			const isArgs = args[0] ? `${targetUser}` : `This channel`;
+			const isArgs = msg.args[0] ? `${targetUser}` : `This channel`;
 			return {
-				text: `${message.senderUsername}, ${isArgs} has no MODs`,
+				text: `${isArgs} has no MODs`,
+				reply: true,
 			};
 		}
 
 		const { login, grantedAt } = mods[0];
 		return {
-			text: `${message.senderUsername}, First MOD of ${targetUser} is ${login} (${humanizeDuration(Date.now() - new Date(grantedAt))})`,
+			text: `First MOD of ${targetUser} is ${login} (${humanizeDuration(Date.now() - new Date(grantedAt))})`,
+			reply: true,
 		};
 	},
 };

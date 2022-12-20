@@ -1,15 +1,15 @@
-const humanizeDuration = require('../util/humanizeDuration');
+const humanizeDuration = require('../misc/humanizeDuration');
 
 module.exports = {
 	name: 'part',
 	aliases: [],
 	cooldown: 3000,
 	description: 'Part channel command',
-	execute: async (message, args, client) => {
-		const { isChannel, addedBy } = await bot.DB.channels.findOne({ id: message.channelID }).exec();
+	execute: async (client, msg) => {
+		const { isChannel, addedBy } = await bot.DB.channels.findOne({ id: msg.channel.id }).exec();
 		if (isChannel && addedBy.length > 0) {
 			const { id, username, addedAt } = addedBy[0];
-			if (id !== message.senderUserID && message.senderUserID !== message.channelID) {
+			if (id !== msg.user.id && msg.user.id !== msg.channel.id) {
 				return {
 					text: `You cannot part the bot from this channel, since only the Broadcaster or the Moderator ${username} that added the bot (${humanizeDuration(new Date() - addedAt, {
 						largest: 3,
@@ -17,30 +17,30 @@ module.exports = {
 				};
 			}
 
-			await bot.DB.channels.findOneAndUpdate({ id: message.channelID }, { $set: { isChannel: false } }).exec();
+			await bot.DB.channels.findOneAndUpdate({ id: msg.channel.id }, { $set: { isChannel: false } }).exec();
 			try {
-				await client.part(message.channelName);
+				await client.part(msg.channel.login);
 				return {
-					text: `Successfully parted from ${message.channelName}`,
+					text: `Successfully parted from ${msg.channel.login}`,
 				};
 			} catch (err) {
 				return {
-					text: `Failed to part from ${message.channelName}`,
+					text: `Failed to part from ${msg.channel.login}`,
 				};
 			}
 		}
 
-		const channelData = await bot.DB.channels.findOneAndUpdate({ id: message.senderUserID }, { $set: { isChannel: false } }).exec();
+		const channelData = await bot.DB.channels.findOneAndUpdate({ id: msg.user.id }, { $set: { isChannel: false } }).exec();
 		if (!channelData || !channelData.isChannel) {
-			return { text: `Not in channel #${message.senderUsername}` };
+			return { text: `Not in channel #${msg.user.login}` };
 		}
 
 		if (channelData.isChannel) {
 			try {
-				await client.part(message.senderUsername);
-				return { text: `Parting channel #${message.senderUsername}` };
+				await client.part(msg.user.login);
+				return { text: `Parting channel #${msg.user.login}` };
 			} catch (error) {
-				return { text: `Error leaving channel #${message.senderUsername}` };
+				return { text: `Error leaving channel #${msg.user.login}` };
 			}
 		}
 	},

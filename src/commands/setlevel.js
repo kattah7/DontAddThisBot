@@ -6,33 +6,36 @@ module.exports = {
 	level: 3,
 	cooldown: 5000,
 	aliases: [],
-	async execute(message, args, client, userdata) {
-		if (!args[0]) {
+	async execute(client, msg) {
+		if (!msg.args[0]) {
 			return {
 				text: `Please provide a user.`,
+				reply: true,
 			};
 		}
 
-		if (!args[1]) {
+		if (!msg.args[1]) {
 			return {
 				text: `Please provide a level.`,
+				reply: true,
 			};
 		}
 
-		const level = parseInt(args[1]);
+		const level = parseInt(msg.args[1]);
 
 		if (isNaN(level) || level < 0 || level > bot.Utils.misc.levels.length - 1) {
 			return {
 				text: `Please provide a valid level.`,
+				reply: true,
 			};
 		}
 
-		const targetUser = await ParseUser(args[0]);
-		console.log(targetUser);
+		const targetUser = await ParseUser(msg.args[0]);
 		const targetUserInfo = await IVRByLogin(targetUser);
 		if (!targetUserInfo || targetUserInfo === null || targetUserInfo.banned === true) {
 			return {
 				text: `User not found.`,
+				reply: true,
 			};
 		}
 

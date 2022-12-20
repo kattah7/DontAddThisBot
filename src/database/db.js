@@ -1,14 +1,15 @@
 const DB = require('mongoose');
-const { mongo } = require('../../../config.json');
+const { mongo } = require('../../config.json');
+const { Logger, LogLevel } = require('../misc/logger');
 
 DB.connect(mongo.host + mongo.database, {});
 
 DB.connection.on('connected', () => {
-	Logger.info(`Connected to database!`);
+	Logger.log(LogLevel.INFO, `Connected to database!`);
 });
 
 DB.connection.on('disconnected', () => {
-	Logger.error('Disconnected from database');
+	Logger.log(LogLevel.ERROR, 'Disconnected from database');
 });
 
 //Emote Schema
@@ -27,6 +28,10 @@ const ChannelsSchema = new DB.Schema({
 			addedAt: Date,
 		},
 	],
+	optionalSettings: {
+		cooldown: Number,
+		pajbot: String,
+	},
 });
 
 const PoroSchema = new DB.Schema({
@@ -46,13 +51,6 @@ const UserSchema = new DB.Schema({
 	nameChanges: [{ username: String, changedAt: Date }],
 });
 
-const ModerationSchema = new DB.Schema({
-	username: String,
-	id: String,
-	StvID: String,
-	warnings: [{ reason: String, warnedAt: Date, warnedBy: String }],
-});
-
 const PrivateSchema = new DB.Schema({
 	code: String,
 	todaysCode: String,
@@ -62,7 +60,6 @@ exports.users = DB.model('users', UserSchema);
 exports.poroCount = DB.model('poroCount', PoroSchema);
 exports.channels = DB.model('channels', ChannelsSchema);
 exports.private = DB.model('private', PrivateSchema);
-exports.moderation = DB.model('moderation', ModerationSchema);
 
 exports.updateUser = async (Collection, userID, newName) => {
 	if (!userID || !newName) return { error: 'No user ID provided' };

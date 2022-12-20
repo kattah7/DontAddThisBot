@@ -115,7 +115,7 @@ exports.PoroNumberOne = async (userID) => {
 
 exports.ParseUser = async (user) => {
 	const parsed = user.replace(/[@#,]/g, ''); // Remove @, #, and ,
-	return parsed;
+	return parsed.toLowerCase();
 };
 
 exports.Invest = async (symbol) => {
