@@ -1,5 +1,6 @@
 const got = require('got');
 const { NameHistory } = require('../token/gql.js');
+const { ParseUser } = require('../util/twitch/utils.js');
 
 module.exports = {
 	tags: 'stats',
@@ -9,39 +10,47 @@ module.exports = {
 	description: 'Check name history',
 	canOptout: true,
 	target: null,
-	execute: async (message, args, client) => {
-		const { body: pogger2 } = await got(`https://api.ivr.fi/v2/twitch/user?login=${args[0]}`, {
+	execute: async (client, msg) => {
+		const targetUser = await ParseUser(msg.args[0] ?? msg.user.login);
+		const { body: pogger2 } = await got(`https://api.ivr.fi/v2/twitch/user?login=${targetUser}`, {
 			throwHttpErrors: false,
 			responseType: 'json',
 			headers: {
 				'User-Agent': 'IF YOU SEE THIS VI VON ZULUL',
 			},
 		});
-		if (!args[0]) {
+
+		if (!targetUser) {
 			return {
 				text: 'Please provide a username.',
+				reply: true,
 			};
 		}
 		if (pogger2[0] == undefined) {
 			return {
-				text: `${message.senderUsername}, ${args[0]} is not a valid username.`,
+				text: `${targetUser} is not a valid username.`,
+				reply: true,
 			};
 		}
 		if (pogger2[0].roles.isAffiliate != true && pogger2[0].roles.isPartner != true) {
 			return {
-				text: `${args[0]} must be affiliate or partner to check`,
+				text: `${targetUser} must be affiliate or partner to check`,
+				reply: true,
 			};
 		}
-		const pogger = await NameHistory(args[0]);
+
+		const pogger = await NameHistory(targetUser);
 		const { subscriptionProducts } = pogger.data.user;
 		if (subscriptionProducts[0].name) {
-			if (args[0].toLowerCase() == subscriptionProducts[0].name) {
+			if (targetUser == subscriptionProducts[0].name) {
 				return {
-					text: `${args[0]} has no name change history`,
+					text: `${targetUser} has no name change history`,
+					reply: true,
 				};
 			}
 			return {
-				text: `${args[0]}'s name history since affiliate/partner: ${subscriptionProducts[0].name}`,
+				text: `${targetUser}'s name history since affiliate/partner: ${subscriptionProducts[0].name}`,
+				reply: true,
 			};
 		}
 	},

@@ -6,8 +6,8 @@ module.exports = {
 	cooldown: 3000,
 	aliases: [],
 	description: 'Check account age of a user or yourself',
-	execute: async (message, args, client) => {
-		const targetUser = args[0] ?? message.senderUsername;
+	execute: async (client, msg) => {
+		const targetUser = msg.args[0] ?? msg.user.login;
 		let userData = await got(`https://api.ivr.fi/twitch/resolve/${targetUser}`, {
 			timeout: 10000,
 			headers: {
@@ -19,10 +19,12 @@ module.exports = {
 		if (userData.banned == true) {
 			return {
 				text: `${targetUser}'s accage ${date.split('T')[0]} BatChest ❌`,
+				reply: true,
 			};
 		} else {
 			return {
 				text: `${targetUser}'s accage ${date.split('T')[0]} BatChest`,
+				reply: true,
 			};
 		}
 	},

@@ -6,7 +6,7 @@ module.exports = {
 	description: 'Usage: |language <language> <text>',
 	aliases: ['lang'],
 	cooldown: 5000,
-	async execute(message, args, client) {
+	async execute(client, msg) {
 		function capitalizeFirstLetter(string) {
 			return string.charAt(0).toUpperCase() + string.slice(1);
 		}
@@ -15,13 +15,14 @@ module.exports = {
 			await bot.SQL.query(`UPDATE users SET language = '${language}' WHERE twitch_id = '${userID}'`);
 		}
 
-		if (!args[0]) {
+		if (!msg.args[0]) {
 			return {
 				text: 'Usage: |language <language>',
+				reply: false,
 			};
 		}
 
-		const language = capitalizeFirstLetter(args[0]);
+		const language = capitalizeFirstLetter(msg.args[0]);
 		let code = getCodeFromName(language);
 
 		if (!code && language === 'Random') {
@@ -31,17 +32,19 @@ module.exports = {
 		if (!code) {
 			return {
 				text: 'Invalid language',
+				reply: true,
 			};
 		}
 
 		if (code === 'en') {
-			updateLanguage(null, message.senderUserID);
+			updateLanguage(null, msg.user.id);
 		} else {
-			updateLanguage(code, message.senderUserID);
+			updateLanguage(code, msg.user.id);
 		}
 
 		return {
 			text: `Language set to ${language}`,
+			reply: true,
 		};
 	},
 };

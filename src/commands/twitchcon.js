@@ -7,8 +7,8 @@ module.exports = {
 	cooldown: 3000,
 	description: 'check if user has twitchcon badge.',
 	aliases: ['tc'],
-	execute: async (message, args, client) => {
-		const targetUser = await ParseUser((args[0] ?? message.senderUsername).toLowerCase());
+	execute: async (client, msg) => {
+		const targetUser = await ParseUser(msg.args[0] ?? msg.user.login);
 		const { activeTargetUser, channelViewer } = (await GetBadges(targetUser)).data;
 
 		if (activeTargetUser == null) {
@@ -21,6 +21,7 @@ module.exports = {
 				text: `${targetUser} is not going to TwitchCon 2022 PoroSad maybe next year`,
 			};
 		}
+
 		const tc = channelViewer.earnedBadges.find((badge) => badge.setID === 'twitchconNA2022');
 		if (tc) {
 			return {

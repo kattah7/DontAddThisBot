@@ -8,8 +8,8 @@ module.exports = {
 	description: 'Check if user is a verified bot',
 	canOptout: true,
 	target: 'self',
-	execute: async (message, args, client) => {
-		const targetUser = args[0] ?? message.senderUsername;
+	execute: async (client, msg) => {
+		const targetUser = msg.args[0] ?? msg.user.login;
 		let { body: userData, statusCode } = await got(`https://api.ivr.fi/twitch/resolve/${targetUser}`, {
 			timeout: 10000,
 			throwHttpErrors: false,
@@ -18,17 +18,21 @@ module.exports = {
 				'User-Agent': 'IF YOU SEE THIS VI VON ZULUL',
 			},
 		});
+
 		if (userData.bot == false) {
 			return {
-				text: `${targetUser}, BOT: false`,
+				text: `BOT: false`,
+				reply: true,
 			};
 		} else if (userData.bot == true) {
 			return {
-				text: `${targetUser}, BOT: true MrDestructoid`,
+				text: `BOT: true MrDestructoid`,
+				reply: true,
 			};
 		} else if (statusCode == 404) {
 			return {
 				text: `${userData.error}`,
+				reply: true,
 			};
 		}
 	},

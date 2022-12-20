@@ -9,20 +9,22 @@ module.exports = {
 	permission: 1,
 	aliases: ['ann'],
 	botPerms: 'mod',
-	async execute(message, args) {
-		if (!args[0]) {
+	async execute(client, msg) {
+		if (!msg.args[0]) {
 			return {
 				text: 'Please put a message to announce',
+				reply: true,
 			};
 		}
-		const msg = args.join(' ');
-		if (regex.racism.test(msg)) return { text: `🤨` };
-		if (regex.nonEnglish.test(msg) || regex.slurs.test(msg)) {
+		const messages = msg.args.join(' ');
+		if (regex.racism.test(messages)) return { text: `🤨` };
+		if (regex.nonEnglish.test(messages) || regex.slurs.test(messages)) {
 			return {
 				text: `malformed text parameter`,
+				reply: true,
 			};
 		}
 
-		await Announce(message.channelID, msg);
+		await Announce(msg.channel.id, messages);
 	},
 };

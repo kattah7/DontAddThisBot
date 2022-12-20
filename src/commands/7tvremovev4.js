@@ -8,19 +8,21 @@ module.exports = {
 	cooldown: 5000,
 	aliases: [],
 	stv: true,
-	execute: async (message, args, client, userdata, params, channelInfo, cmd, channelStvInfo) => {
+	execute: async (client, msg) => {
 		const Emote = GlobalEmote();
-		if (!args[0]) {
+		if (!msg.args[0]) {
 			return {
 				text: '⛔ Please specify an emote',
+				reply: true,
 			};
 		}
 
-		const { emote_sets, connections } = channelStvInfo.user;
-		const findChannel = connections.find((x) => x.id === message.channelID);
+		const { emote_sets, connections } = msg.sevenTV.user;
+		const findChannel = connections.find((x) => x.id === msg.channel.id);
 		if (!findChannel || emote_sets.length === 0) {
 			return {
 				text: `⛔ Not connected to this channel`,
+				reply: true,
 			};
 		}
 
@@ -28,14 +30,16 @@ module.exports = {
 		if (findChannelEmoteSet?.length === 0 || !findChannelEmoteSet) {
 			return {
 				text: `⛔ No emote set enabled`,
+				reply: true,
 			};
 		}
 
-		const inputSenderEmotes = new Set(args);
+		const inputSenderEmotes = new Set(msg.args);
 		const findEmotes = findChannelEmoteSet.emotes.filter((x) => inputSenderEmotes.has(x.name));
 		if (findEmotes.length === 0 || !findEmotes) {
 			return {
 				text: `⛔ I could not find that emote`,
+				reply: true,
 			};
 		}
 
@@ -47,7 +51,8 @@ module.exports = {
 		}
 
 		return {
-			text: `${Emote} ${amount <= 1 ? `"${args[0]}"` : `${amount} emotes`} removed from ${message.channelName}`,
+			text: `${Emote} ${amount <= 1 ? `"${msg.args[0]}"` : `${amount} emotes`} removed from ${msg.channel.login}`,
+			reply: false,
 		};
 	},
 };

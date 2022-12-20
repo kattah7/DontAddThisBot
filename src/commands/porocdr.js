@@ -7,7 +7,7 @@ module.exports = {
 	cooldown: 3000,
 	aliases: [],
 	poroRequire: true,
-	execute: async (message, args, client) => {
+	execute: async (client, msg) => {
 		const displayPoroRankByName = {
 			1: 'Raw',
 			2: 'Rare',
@@ -18,7 +18,7 @@ module.exports = {
 			7: 'Cooked',
 		};
 
-		const { senderUserID, senderUsername } = message;
+		const { id: senderUserID, login: senderUsername } = msg.user;
 		const lastUsage = await bot.Redis.get(`porocdr:${senderUserID}`);
 		const channelData = await bot.DB.poroCount.findOne({ id: senderUserID }).exec();
 		const { poroCount, poroPrestige, poroRank } = channelData;
@@ -27,17 +27,16 @@ module.exports = {
 				const ms = new Date(lastUsage).getTime() - new Date().getTime() + 1000 * 60 * 60 * 3;
 				return {
 					text: `Please wait ${humanizeDuration(ms)} before doing another cooldown reset! PoroSad`,
+					reply: false,
 				};
 			}
 		}
 		await bot.DB.poroCount.updateOne({ id: senderUserID }, { $set: { poroCount: poroCount - 5 } }).exec();
-		// -5 poros if user types cdr
 		await bot.Redis.set(`porocdr:${senderUserID}`, Date.now(), 0);
-		// resets porocdr redis timer
 		await bot.Redis.del(`poro:${senderUserID}`);
-		// deletes the timer for poro redis timer
 		return {
 			text: `Timer Reset! ${senderUsername} (-5) kattahPoro total [P${poroPrestige}: ${displayPoroRankByName[poroRank]}] ${poroCount - 5} meat`,
+			reply: false,
 		};
 	},
 };

@@ -7,27 +7,28 @@ module.exports = {
 	description: 'check poro count of user',
 	aliases: [],
 	level: 3,
-	execute: async (message, args, client, userdata, params, channelData) => {
-		if (!args[0]) {
+	execute: async (client, msg) => {
+		if (!msg.args[0]) {
 			return {
 				text: `insert code lol`,
 			};
 		}
 
 		var code = {
-			code: args.join(' '),
+			code: msg.args.join(' '),
 		};
 
-		await fs.writeFile('src/util/twitch/porocodes.json', JSON.stringify(code) + '\n', (encoding = 'utf8'));
+		await fs.writeFile('src/util/twitch/porocodes.json', JSON.stringify(code) + '\n', 'utf8');
 		await exec('cd /home/DontAddThisBot && git reset --hard && git pull && yarn', (err) => {
 			if (err) {
 				console.error(err);
 				return {
 					text: `FeelsDankMan !!! failed to pull commit`,
+					reply: false,
 				};
 			}
 		});
-		await client.say(message.channelName, 'Reset code, restarting.. MrDestructoid');
+		await client.say(msg.channel.login, 'Reset code, restarting.. MrDestructoid');
 		process.exit(0);
 	},
 };

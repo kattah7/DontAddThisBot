@@ -7,7 +7,7 @@ module.exports = {
 	aliases: ['rs'],
 	cooldown: 5000,
 	description: 'Fetches a random streamer from any game category',
-	execute: async (message, args, client) => {
+	execute: async (client, msg) => {
 		const topgames = await GetTopGames(100);
 		const getRandomGame = topgames[Math.floor(Math.random() * topgames.length)];
 		const data2 = await GetFirstStreams(100, getRandomGame['id']);
@@ -16,7 +16,8 @@ module.exports = {
 		const ms = new Date().getTime() - Date.parse(started_at);
 
 		return {
-			text: `${user_name} been live for ${humanizeDuration(ms)} playing ${game_name} with ${viewer_count} viewers. Title: ${title}. twitch.tv/${user_login} kattahSpin`,
+			text: `${user_name} been live for (${humanizeDuration(ms, 2)}) playing ${game_name} with ${viewer_count} viewers. Title: ${title}. twitch.tv/${user_login} kattahSpin`,
+			reply: true,
 		};
 	},
 };

@@ -1,5 +1,5 @@
 const got = require('got');
-const utils = require('../util/twitch/utils.js');
+const { ParseUser, IDByLogin } = require('../util/twitch/utils.js');
 const { GetChannelRoles } = require('../token/gql.js');
 
 module.exports = {
@@ -7,13 +7,15 @@ module.exports = {
 	name: 'modvip',
 	aliases: ['mv'],
 	cooldown: 3000,
-	async execute(message, args, client) {
-		const targetUser = await utils.ParseUser(args[0] ?? message.channelName);
+	async execute(client, msg) {
+		const targetUser = await ParseUser(msg.args[0] ?? msg.channel.login);
 		if (!/^[A-Z_\d]{2,26}$/i.test(targetUser)) {
 			return {
 				text: 'malformed username parameter',
+				reply: true,
 			};
 		}
+
 		try {
 			const { body: getModsNVips } = await got.get(`https://api.ivr.fi/v2/twitch/modvip/${targetUser}?skipCache=false`, {
 				throwHttpErrors: false,
@@ -22,7 +24,8 @@ module.exports = {
 					'User-Agent': 'IF YOU SEE THIS VI VON ZULUL',
 				},
 			});
-			const userID = await utils.IDByLogin(targetUser);
+
+			const userID = await IDByLogin(targetUser);
 			const { data } = await GetChannelRoles(userID);
 			const { artists } = data;
 			const artistsMapped = artists.edges.map(({ node, grantedAt }) => ({
@@ -31,6 +34,7 @@ module.exports = {
 				displayName: node.displayName,
 				grantedAt: grantedAt,
 			}));
+
 			const modsMapped = getModsNVips.mods.map((x) => x.login + ' (' + x.grantedAt.split('T')[0] + ')' + ' - ' + '[MOD]');
 			const vipsMapped = getModsNVips.vips.map((x) => x.login + ' (' + x.grantedAt.split('T')[0] + ')' + ' - ' + '[VIP]');
 			const artistMapped = artistsMapped.map((x) => x.login + ' (' + x.grantedAt.split('T')[0] + ')' + ' - ' + '[ARTIST]');
@@ -41,13 +45,16 @@ module.exports = {
 					body: modsNvipsMapped.join('\n'),
 				})
 				.json();
+
 			return {
 				text: `https://paste.ivr.fi/${key} - [${modsMapped.length} mods, ${vipsMapped.length} vips, ${artistMapped.length} artists]`,
+				reply: true,
 			};
 		} catch (e) {
 			console.log(e);
 			return {
 				text: 'error',
+				reply: true,
 			};
 		}
 	},

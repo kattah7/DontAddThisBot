@@ -8,7 +8,7 @@ module.exports = {
 	description: 'Redeem poro meat with speical codes',
 	aliases: [],
 	poroRequire: true,
-	execute: async (message, args, client) => {
+	execute: async (client, msg) => {
 		const displayPoroRankByName = {
 			1: 'Raw',
 			2: 'Rare',
@@ -19,35 +19,32 @@ module.exports = {
 			7: 'Cooked',
 		};
 
-		const { senderUserID, senderUsername, channelName } = message;
-		if (!args[0]) {
+		const { id: senderUserID, login: senderUsername } = msg.user;
+		if (!msg.args[0]) {
 			return {
 				text: `insert code lol`,
+				reply: true,
 			};
 		}
-		const channelData = await bot.DB.poroCount.findOne({ id: senderUserID }).exec();
-		if (!channelData) {
-			return {
-				text: `PoroSad you arent registered! ${senderUsername} type |poro to get started.`,
-			};
-		}
-		const { poroCount, poroPrestige, poroRank } = channelData;
+		const { poroCount, poroPrestige, poroRank } = msg.poro;
 		const lastUsage = await bot.Redis.get(`pororedeem:${senderUserID}`);
-		const input = args[0];
+		const input = msg.args[0];
 		const availableBadges = [code];
 
 		if (lastUsage) {
 			if (new Date().getTime() - new Date(lastUsage).getTime() < 1000 * 60 * 60 * 24) {
 				const ms = new Date(lastUsage).getTime() - new Date().getTime() + 1000 * 60 * 60 * 24;
 				return {
-					text: `${senderUsername}, You have already redeemed the code! Come back in ${humanizeDuration(ms)} for daily codes`,
+					text: `You have already redeemed the code! Come back in ${humanizeDuration(ms)} for daily codes`,
+					reply: true,
 				};
 			}
 		}
 
 		if (!availableBadges.includes(input)) {
 			return {
-				text: `${senderUsername}, Wrong code :p ${channelName === 'forsen' ? 'Check the site for hint :)' : 'hint: https://poros.lol/code'}`,
+				text: `Wrong code :p ${msg.mongoChannel?.optionalSettings?.pajbot ? 'Check the site for hint :)' : 'hint: https://poros.lol/code'}`,
+				reply: true,
 			};
 		}
 
@@ -55,6 +52,7 @@ module.exports = {
 		await bot.Redis.set(`pororedeem:${senderUserID}`, Date.now(), 0);
 		return {
 			text: `Code Redeemed! ${senderUsername} (+50) kattahDance2 total [P${poroPrestige}: ${displayPoroRankByName[poroRank]}] ${poroCount + 50} meat`,
+			reply: false,
 		};
 	},
 };

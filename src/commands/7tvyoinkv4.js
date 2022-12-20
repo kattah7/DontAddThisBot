@@ -9,27 +9,30 @@ module.exports = {
 	cooldown: 5000,
 	aliases: [],
 	stv: true,
-	execute: async (message, args, client, userdata, params, channelInfo, cmd, channelStvInfo) => {
+	execute: async (client, msg) => {
 		const Emote = GlobalEmote();
-		if (!args[0] || !params.from) {
+		if (!msg.args[0] || !msg.params.from) {
 			return {
 				text: `⛔ Please specify an ${args[0] ? 'channel, Usage: |yoink <emotes...mutiple> from:<channel>' : 'emote'}`,
+				reply: false,
 			};
 		}
 
-		const { emote_sets, connections } = channelStvInfo.user;
-		const findChannel = connections.find((x) => x.id === message.channelID);
+		const { emote_sets, connections } = msg.sevenTV.user;
+		const findChannel = connections.find((x) => x.id === msg.channel.id);
 		if (!findChannel || emote_sets.length === 0) {
 			return {
 				text: `⛔ Not connected to this channel`,
+				reply: false,
 			};
 		}
 
-		const targetChannel = (await ParseUser(params.from)).toLowerCase();
+		const targetChannel = (await ParseUser(msg.params.from)).toLowerCase();
 		const targetChannelID = await IDByLogin(targetChannel);
 		if (!targetChannelID || targetChannelID === null) {
 			return {
 				text: `⛔ Channel not found on Twitch`,
+				reply: false,
 			};
 		}
 
@@ -37,15 +40,17 @@ module.exports = {
 		if (!targetChannelStv || targetChannelStv === null) {
 			return {
 				text: `⛔ Channel never logged into 7tv`,
+				reply: false,
 			};
 		}
 
 		const { emote_set } = targetChannelStv;
-		const senderInputEmotes = new Set(args);
+		const senderInputEmotes = new Set(msg.args);
 		const findEmotes = emote_set.emotes?.filter((x) => senderInputEmotes.has(x.name));
 		if (!findEmotes || findEmotes.length === 0) {
 			return {
 				text: `⛔ No emotes found`,
+				reply: false,
 			};
 		}
 
@@ -53,6 +58,7 @@ module.exports = {
 		if (findChannelEmoteSet?.length === 0 || !findChannelEmoteSet) {
 			return {
 				text: `⛔ No emote set enabled`,
+				reply: false,
 			};
 		}
 
@@ -83,10 +89,12 @@ module.exports = {
 			if (errorMessage) {
 				return {
 					text: `⛔ ${errorMessage}`,
+					reply: false,
 				};
 			} else {
 				return {
 					text: `${Emote} Added "${pushEmotes[0]}" to your emote set`,
+					reply: false,
 				};
 			}
 		}
@@ -95,12 +103,14 @@ module.exports = {
 			if (errorCode) {
 				return {
 					text: `⛔ ${errorMessage}`,
+					reply: false,
 				};
 			}
 		}
 
 		return {
 			text: `${Emote} Added ${pushEmotes.length} emotes from ${targetChannel} to your emote set${pushAliases.length > 0 ? `, and auto-aliased ${pushAliases.length} emote` : ''}`,
+			reply: false,
 		};
 	},
 };

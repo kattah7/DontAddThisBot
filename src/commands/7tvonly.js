@@ -5,9 +5,10 @@ module.exports = {
 	cooldown: 3000,
 	description: '7tv only cmds',
 	permission: 2,
-	execute: async (message, args, client) => {
+	execute(client, msg) {
 		return {
 			text: `This command has been deprecated. Please use |disable instead.`,
+			reply: false,
 		};
 	},
 };

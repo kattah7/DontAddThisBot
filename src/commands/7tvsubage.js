@@ -9,20 +9,22 @@ module.exports = {
 	cooldown: 5000,
 	aliases: [],
 	description: "Check user's 7tv subage YEAHBUT7TV",
-	execute: async (message, args, client) => {
+	execute: async (client, msg) => {
 		const Emote = GlobalEmote();
-		const targetUser = await ParseUser(args[0] ?? message.senderUsername);
+		const targetUser = await ParseUser(msg.args[0] ?? msg.user.login);
 		const uid = await IDByLogin(targetUser);
 		if (uid === null) {
 			return {
 				text: `Unknown user`,
+				reply: false,
 			};
 		}
 
 		const result = await getUser(uid);
 		if (result === null) {
 			return {
-				text: `${args[0] ? 'User is' : 'You are'} not a 7tv user`,
+				text: `${msg.args[0] ? 'User is' : 'You are'} not a 7tv user`,
+				reply: true,
 			};
 		}
 
@@ -37,10 +39,12 @@ module.exports = {
 			const subAge = age / 30;
 			return {
 				text: `${Emote} ${targetUser} sub ${gifter} ${isRenew} in ${subDate} [${subAge.toFixed(1)} Months]`,
+				reply: false,
 			};
 		} else {
 			return {
 				text: `${Emote} ${targetUser} is not a 7tv sub`,
+				reply: false,
 			};
 		}
 	},

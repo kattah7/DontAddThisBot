@@ -4,9 +4,10 @@ module.exports = {
 	aliases: ['TriHard'],
 	cooldown: 3000,
 	description: 'TriHard',
-	execute: async (message, args, client) => {
+	execute() {
 		return {
-			text: `${message.senderUsername} TriHard`,
+			text: `TriHard`,
+			reply: true,
 		};
 	},
 };

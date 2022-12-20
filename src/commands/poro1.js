@@ -9,7 +9,7 @@ module.exports = {
 	aliases: [],
 	cooldown: 5000,
 	description: 'Get poro meat every 2 hour',
-	execute: async (message, args, client) => {
+	execute: async (client, msg) => {
 		const displayPoroRankByName = {
 			1: 'Raw',
 			2: 'Rare',
@@ -20,7 +20,9 @@ module.exports = {
 			7: 'Cooked',
 		};
 
-		const { senderUserID, senderUsername, channelName, messageText } = message;
+		const { id: senderUserID, login: senderUsername } = msg.user;
+		const { login: channelName } = msg.channel;
+		const { text: messageText } = msg;
 		const lastUsage = await bot.Redis.get(`poro:${senderUserID}`);
 		const channelData = await bot.DB.poroCount.findOne({ id: senderUserID }).exec();
 		const random = randomInt(-5, 27);
@@ -62,26 +64,32 @@ module.exports = {
 		if (random >= 5 && random <= 9) {
 			return {
 				text: `Poro slaughtered! ${senderUsername} --> Tenderloin Poro PoroSad (+${random}) kattahPoro ${totalPorosWithRandom}`,
+				reply: false,
 			};
 		} else if (random >= 10 && random <= 15) {
 			return {
 				text: `Poro slaughtered! ${senderUsername} --> Wagyu Poro 🤤 (+${random}) kattahPoro ${totalPorosWithRandom}`,
+				reply: false,
 			};
 		} else if (random <= -1 && random >= -5) {
 			return {
 				text: `Poro slaughtered! ${senderUsername} --> Rotten Poro DansGame (${random}) PoroSad RainTime ${totalPorosWithRandom}`,
+				reply: false,
 			};
 		} else if (random >= 1 && random <= 4) {
 			return {
 				text: `Poro slaughtered! ${senderUsername} --> Sirloin Poro OpieOP (+${random}) kattahPoro ${totalPorosWithRandom}`,
+				reply: false,
 			};
 		} else if (random == 0) {
 			return {
 				text: `Poro gone! ${senderUsername} --> Poro ran away haHAA (±${random}) PoroSad ${totalPorosWithRandom}`,
+				reply: false,
 			};
 		} else if (random >= 16) {
 			return {
 				text: `Poro slaughtered! ${senderUsername} --> LEGENDARY PORO VisLaud (+${random}) kattahPoro ${totalPorosWithRandom}`,
+				reply: false,
 			};
 		}
 	},

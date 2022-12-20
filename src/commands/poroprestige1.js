@@ -5,7 +5,7 @@ module.exports = {
 	aliases: [],
 	description: 'prestige with 10,000 poro meat',
 	poroRequire: true,
-	execute: async (message, args, client) => {
+	execute: async (client, msg) => {
 		const displayPoroRankByName = {
 			1: 'Raw',
 			2: 'Rare',
@@ -16,7 +16,7 @@ module.exports = {
 			7: 'Cooked',
 		};
 
-		const { senderUserID, senderUsername } = message;
+		const { id: senderUserID, login: senderUsername } = msg.user;
 		const channelData = await bot.DB.poroCount.findOne({ id: senderUserID }).exec();
 		const { poroCount, poroPrestige, poroRank } = channelData;
 		if (poroCount < 5000 && poroRank != 7) {

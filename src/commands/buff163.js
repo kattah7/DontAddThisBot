@@ -6,27 +6,28 @@ module.exports = {
 	cooldown: 5000,
 	aliases: [],
 	description: 'Price alert for buff163, usage: |buff <item ID> <price, if you want>',
-	execute: async (message, args, client) => {
+	execute: async (client, msg) => {
 		const createRedisReminder = async (item) => {
-			const key = `buff:${message.senderUserID}`;
+			const key = `buff:${msg.user.id}`;
 			const value = JSON.stringify(item);
 			await bot.Redis.set(key, value, 0);
 		};
 
 		const getRedisReminder = async () => {
-			const key = `buff:${message.senderUserID}`;
+			const key = `buff:${msg.user.id}`;
 			const value = await bot.Redis.get(key);
 			return value;
 		};
 
 		const deleteRedisReminder = async () => {
-			const key = `buff:${message.senderUserID}`;
+			const key = `buff:${msg.user.id}`;
 			await bot.Redis.del(key);
 		};
 
 		if (!args[0]) {
 			return {
 				text: `Please provide a skin ID`,
+				reply: true,
 			};
 		}
 
@@ -43,29 +44,33 @@ module.exports = {
 			}).then((res) => res.json());
 			return data;
 		}
-		if (!(await getItem(args[0]))) {
+		if (!(await getItem(msg.args[0]))) {
 			return {
 				text: `Invalid item ID`,
+				reply: true,
 			};
 		}
 
-		if (isNaN(args[1]) && args[1]) {
+		if (isNaN(msg.args[1]) && msg.args[1]) {
 			return {
 				text: `Please provide a valid price`,
+				reply: true,
 			};
 		}
 
-		const { items, goods_infos } = await getItem(args[0]);
+		const { items, goods_infos } = await getItem(msg.args[0]);
 
 		if (!items.length) {
 			return {
 				text: `No items found, to get skin ids; more info at buff.163.com`,
+				reply: true,
 			};
 		}
 
-		if (args[1] > items[0].price) {
+		if (msg.args[1] > items[0].price) {
 			return {
 				text: `You can only currently remind yourself with the price is lower than ${items[0].price} RMB`,
+				reply: true,
 			};
 		}
 
@@ -75,14 +80,15 @@ module.exports = {
 			await deleteRedisReminder();
 			return {
 				text: `Deleting reminder for "${item}".`,
+				reply: true,
 			};
 		} else {
-			const isArgs = args[1] ? `at desired price ${args[1]} RMB` : ``;
+			const isArgs = msg.args[1] ? `at desired price ${msg.args[1]} RMB` : ``;
 			await createRedisReminder([
 				{
 					id: items[0].goods_id,
-					desired_price: args[1],
-					executed_channel: message.channelID,
+					desired_price: msg.args[1],
+					executed_channel: msg.channel.id,
 					current_price: items[0].price,
 					Date: Date.now(),
 				},
@@ -90,6 +96,7 @@ module.exports = {
 
 			return {
 				text: `Reminder set for "${item}" ${isArgs}`,
+				reply: true,
 			};
 		}
 	},

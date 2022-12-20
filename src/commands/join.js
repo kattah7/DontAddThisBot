@@ -3,57 +3,70 @@ module.exports = {
 	aliases: [],
 	cooldown: 3000,
 	description: 'Join channel command',
-	execute: async (message, args, client) => {
-		// try to get the channel from the database
-		const channelData = await bot.DB.channels.findOne({ id: message.senderUserID }).exec();
-		const poroData = await bot.DB.poroCount.findOne({ id: message.senderUserID }).exec();
+	execute: async (client, msg) => {
+		const channelData = await bot.DB.channels.findOne({ id: msg.user.id }).exec();
+		const poroData = await bot.DB.poroCount.findOne({ id: msg.user.id }).exec();
 		if (channelData) {
 			if (channelData.isChannel) {
-				return { text: `Already in channel #${message.senderUsername}` };
+				return { text: `Already in channel #${msg.user.login}` };
 			} else {
 				try {
-					await bot.DB.channels
-						.findOneAndUpdate(
-							{
-								id: message.senderUserID,
-							},
-							{
-								$set: {
-									isChannel: true,
-								},
-							},
-						)
-						.exec();
-					await client.join(message.senderUsername);
+					await ReJoinChannel(msg.user.id);
+					await client.join(msg.user.login);
 					return {
-						text: `Re-Joining channel #${message.senderUsername}`,
+						text: `Re-Joining channel #${msg.user.login}`,
+						reply: false,
 					};
 				} catch (error) {
 					return {
-						text: `Error joining channel #${message.senderUsername}`,
+						text: `Error joining channel #${msg.user.login}`,
+						reply: false,
 					};
 				}
 			}
 		} else {
 			try {
-				await client.join(message.senderUsername);
+				await client.join(msg.user.login);
+				const Result = await JoinChannel(msg.user.login, msg.user.id);
+				return {
+					text: Result.text,
+					reply: false,
+				};
 			} catch (error) {
-				return { text: `Error joining channel #${message.senderUsername}` };
+				return { text: `Error joining channel #${msg.user.login}` };
 			}
+		}
 
+		async function ReJoinChannel(senderUserID) {
+			await bot.DB.channels
+				.findOneAndUpdate(
+					{
+						id: senderUserID,
+					},
+					{
+						$set: {
+							isChannel: true,
+						},
+					},
+				)
+				.exec();
+		}
+
+		async function JoinChannel(senderUsername, senderUserID) {
 			const newChannel = new bot.DB.channels({
-				username: message.senderUsername,
-				id: message.senderUserID,
+				username: senderUsername,
+				id: senderUserID,
 				joinedAt: Date.now(),
 				isChannel: true,
 			});
 
 			await newChannel.save();
-			await client.say(message.senderUsername, `Joined channel, ${message.senderUsername} kattahPoro Check the bot's panels or https://docs.poros.lol for info!`);
+			await client.say(senderUsername, `Joined channel, ${senderUsername} kattahPoro Check the bot's panels or https://docs.poros.lol for info!`);
+
 			if (poroData) {
 				await bot.DB.poroCount
 					.updateOne(
-						{ id: message.senderUserID },
+						{ id: senderUserID },
 						{
 							$set: {
 								poroCount: poroData.poroCount + 100,
@@ -62,10 +75,11 @@ module.exports = {
 					)
 					.exec();
 				return {
-					text: `Joined channel #${message.senderUsername} also gave u free 100 poros!!`,
+					text: `Joined channel #${senderUsername} also gave u free 100 poros!!`,
+					reply: false,
 				};
 			} else {
-				return { text: `Joined channel #${message.senderUsername}` };
+				return { text: `Joined channel #${senderUsername}`, reply: false };
 			}
 		}
 	},

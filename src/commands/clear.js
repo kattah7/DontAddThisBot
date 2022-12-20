@@ -6,17 +6,18 @@ module.exports = {
 	aliases: [],
 	permission: 1,
 	botPerms: 'mod',
-	async execute(message, args, client) {
-		args[0]
-			? isNaN(args[0])
-				? await client.say(message.channelName, `Please put a valid nunmber :)`)
-				: args[0] > 100
-				? await client.say(message.channelName, `You can only put less than 100 :)`)
-				: clearChat(args[0])
+	async execute(client, msg) {
+		const Input = msg.args[0];
+		Input
+			? isNaN(Input)
+				? await client.say(msg.channel.login, `Please put a valid nunmber :)`)
+				: Input > 100
+				? await client.say(msg.channel.login, `You can only put less than 100 :)`)
+				: clearChat(Input)
 			: clearChat(50);
 		function clearChat(amount) {
 			for (let i = 0; i < amount; i++) {
-				client.privmsg(message.channelName, `.clear`);
+				client.privmsg(msg.channel.login, `.clear`);
 			}
 		}
 	},

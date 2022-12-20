@@ -1,5 +1,5 @@
 const humanizeDuration = require('../misc/humanizeDuration');
-const utils = require('../util/twitch/utils.js');
+const { ParseUser, IDByLogin } = require('../util/twitch/utils.js');
 
 module.exports = {
 	tags: 'poro',
@@ -7,7 +7,7 @@ module.exports = {
 	cooldown: 5000,
 	aliases: ['poros'],
 	description: 'check poro count of user',
-	execute: async (message, args, client, userdata, params, channelData) => {
+	execute: async (client, msg) => {
 		const displayPoroRankByName = {
 			1: 'Raw',
 			2: 'Rare',
@@ -18,24 +18,27 @@ module.exports = {
 			7: 'Cooked',
 		};
 
-		const { senderUsername } = message;
-		const targetUser = await utils.ParseUser(args[0]?.toLowerCase() ?? senderUsername);
-		const selfPoroData = await bot.DB.poroCount.findOne({ id: await utils.IDByLogin(targetUser) });
+		const { login: senderUsername } = msg.user;
+		const targetUser = await ParseUser(msg.args[0] ?? senderUsername);
+		const targetUserID = await IDByLogin(targetUser);
+		const selfPoroData = await bot.DB.poroCount.findOne({ id: targetUserID });
 		if (!selfPoroData) {
-			const pronouns = args.length > 0 ? `PoroSad @${targetUser} isnt registered!` : `PoroSad you arent registered! ${senderUsername} type ${channelData.prefix ?? `|`}poro to get started.`;
+			const pronouns = msg.args.length > 0 ? `PoroSad @${targetUser} isnt registered!` : `PoroSad you arent registered! ${senderUsername} type ${msg.prefix ?? `|`}poro to get started.`;
 			return {
 				text: pronouns,
+				reply: false,
 			};
 		}
 
 		const { poroCount, poroPrestige, joinedAt, poroRank } = selfPoroData;
 		const parsedTime = Math.abs(new Date().getTime() - new Date(joinedAt).getTime());
 		const successPronouns =
-			args.length > 0
+			msg.args.length > 0
 				? `${targetUser} => [P${poroPrestige}: ${displayPoroRankByName[poroRank]}] ${poroCount} poro(s). kattahDance Registered (${humanizeDuration(parsedTime)})`
 				: `${senderUsername} => [P${poroPrestige}: ${displayPoroRankByName[poroRank]}] ${poroCount} poro(s). kattahDance Registered (${humanizeDuration(parsedTime)})`;
 		return {
 			text: successPronouns,
+			reply: false,
 		};
 	},
 };

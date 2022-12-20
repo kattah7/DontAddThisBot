@@ -7,29 +7,35 @@ module.exports = {
 	description: 'gets random bio in the channel',
 	cooldown: 3000,
 	aliases: ['rb'],
-	execute: async (message, args, client) => {
-		const { chatters } = await ViewerList('kattah');
-		const push = [];
-		chatters.moderators.map((mod) => {
-			push.push(mod.login);
-		});
-		chatters.viewers.map((view) => {
-			push.push(view.login);
-		});
-		chatters.vips.map((vip) => {
-			push.push(vip.login);
-		});
-		const randomUser = push[Math.floor(Math.random() * push.length)];
-		const { description } = (await UserInfo(randomUser))[0];
-
-		if (description == '') {
-			return {
-				text: `Unlucky! user doesn't have a bio FeelsDankMan`,
-			};
-		} else {
-			return {
-				text: `${description}`,
-			};
+	execute: async (client, msg) => {
+		async function returnRandom(channelID) {
+			const { chatters } = await ViewerList(channelID);
+			const push = [];
+			for (const chatter of [...chatters.broadcasters, ...chatters.moderators, ...chatters.vips, ...chatters.viewers]) {
+				push.push(chatter.login);
+			}
+			const randomUser = push[Math.floor(Math.random() * push.length)];
+			return randomUser;
 		}
+
+		const randomUser = await returnRandom(msg.channel.login);
+		const { description } = (await UserInfo(randomUser))[0];
+		if (!description) {
+			for (let i = 0; i < 5; i++) {
+				const randomUserAgain = await returnRandom(msg.channel.login);
+				const { description: newDesc } = (await UserInfo(randomUserAgain))[0];
+				if (newDesc) {
+					return {
+						text: `${randomUserAgain}'s bio: ${newDesc}`,
+						reply: true,
+					};
+				}
+			}
+		}
+
+		return {
+			text: `${randomUser}'s bio: ${description}`,
+			reply: true,
+		};
 	},
 };

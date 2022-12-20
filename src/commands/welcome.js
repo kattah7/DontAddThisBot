@@ -9,27 +9,28 @@ module.exports = {
 	botPerms: 'vip',
 	canOptout: true,
 	target: null,
-	execute: async (message, args, client) => {
-		if (!args[0]) {
+	execute: async (client, msg) => {
+		if (!msg.args[0]) {
 			return {
 				text: `Usage: !welcome <message>`,
+				reply: true,
 			};
 		}
-		const targetUser = await ParseUser(args[0].toLowerCase());
-		const { channelName } = message;
-		client.say(message.channelName, `https://www.twitchdatabase.com/following/${targetUser}`);
-		client.say(message.channelName, `https://twitchtracker.com/${targetUser}`);
-		client.say(message.channelName, `https://logs.zzls.xyz/?channel=${channelName}&username=${targetUser}`);
-		client.say(message.channelName, `https://logs.ivr.fi/?channel=${channelName}&username=${targetUser}`);
-		client.say(message.channelName, `https://logs.zneix.eu/?channel=${channelName}&username=${targetUser}`);
-		client.say(message.channelName, `https://justlog.kkx.one//?channel=${channelName}&username=${targetUser}`);
-		client.say(message.channelName, `https://logs.mmattbot.com//?channel=${channelName}&username=${targetUser}`);
-		client.say(message.channelName, `https://logs.magichack.xyz//?channel=${channelName}&username=${targetUser}`);
-		client.say(message.channelName, `https://justlog.kkx.one//?channel=${channelName}&username=${targetUser}`);
-		client.say(message.channelName, `https://vtlogs.moe//?channel=${channelName}&username=${targetUser}`);
-		client.say(message.channelName, `https://logs.fuchsty.de//?channel=${channelName}&username=${targetUser}`);
-		client.say(message.channelName, `https://logs.supa.codes//?channel=${channelName}&username=${targetUser}`);
-		client.say(message.channelName, `https://modlookup.3v.fi/u/${targetUser}`);
-		client.say(message.channelName, `https://www.twitchdatabase.com/roles/${targetUser}`);
+		const targetUser = await ParseUser(msg.args[0].toLowerCase());
+		const channelName = msg.channel.login;
+		client.say(channelName, `https://www.twitchdatabase.com/following/${targetUser}`);
+		client.say(channelName, `https://twitchtracker.com/${targetUser}`);
+		client.say(channelName, `https://logs.zzls.xyz/?channel=${channelName}&username=${targetUser}`);
+		client.say(channelName, `https://logs.ivr.fi/?channel=${channelName}&username=${targetUser}`);
+		client.say(channelName, `https://logs.zneix.eu/?channel=${channelName}&username=${targetUser}`);
+		client.say(channelName, `https://justlog.kkx.one//?channel=${channelName}&username=${targetUser}`);
+		client.say(channelName, `https://logs.mmattbot.com//?channel=${channelName}&username=${targetUser}`);
+		client.say(channelName, `https://logs.magichack.xyz//?channel=${channelName}&username=${targetUser}`);
+		client.say(channelName, `https://justlog.kkx.one//?channel=${channelName}&username=${targetUser}`);
+		client.say(channelName, `https://vtlogs.moe//?channel=${channelName}&username=${targetUser}`);
+		client.say(channelName, `https://logs.fuchsty.de//?channel=${channelName}&username=${targetUser}`);
+		client.say(channelName, `https://logs.supa.codes//?channel=${channelName}&username=${targetUser}`);
+		client.say(channelName, `https://modlookup.3v.fi/u/${targetUser}`);
+		client.say(channelName, `https://www.twitchdatabase.com/roles/${targetUser}`);
 	},
 };
