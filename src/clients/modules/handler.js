@@ -121,6 +121,7 @@ module.exports = {
 						await updateTable('user_commands_settings', msg.user.login, msg.user.id);
 						await updateTable('channel_settings', msg.user.login, msg.user.id);
 						await updateTable('stv_ids', msg.user.login, msg.user.id);
+						await updateTable('pubsub_events', msg.user.login, msg.user.id);
 
 						await updateUser('users', msg.user.login, msg.user.id);
 						await updateUser('channels', msg.user.login, msg.user.id);
