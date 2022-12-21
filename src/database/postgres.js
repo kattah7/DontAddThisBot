@@ -63,6 +63,15 @@ sql.connect(async function () {
         stv_id VARCHAR(255) NOT NULL
     )`);
 
+	await sql.query(`CREATE TABLE IF NOT EXISTS pubsub_events (
+        id SERIAL PRIMARY KEY,
+        twitch_id VARCHAR(255) NOT NULL,
+        twitch_login VARCHAR(255) NOT NULL,
+        event_channel_id VARCHAR(255) NOT NULL,
+        event_channel_name VARCHAR(255) NOT NULL,
+        event_type JSONB NOT NULL
+    )`);
+
 	const { roles } = await GetStvRoles();
 	for (const { id, name } of roles) {
 		await sql.query(
