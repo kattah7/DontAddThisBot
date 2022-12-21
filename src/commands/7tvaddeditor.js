@@ -78,7 +78,7 @@ module.exports = {
 				};
 			}
 		}
-		if (args[0] == 'remove') {
+		if (msg.args[0] == 'remove') {
 			const channel = await bot.DB.channels
 				.findOne({
 					id: msg.channel.id,
