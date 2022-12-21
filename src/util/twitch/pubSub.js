@@ -42,7 +42,7 @@ exports.init = async () => {
 	}
 };
 
-exports.createListener = (channel, sub) => {
+exports.createListener = (channel, sub, type) => {
 	const nonce = crypto.randomBytes(20).toString('hex').slice(-8);
 	const c = this.connections.find(({ topics }) => topics.length < 50);
 
@@ -53,7 +53,7 @@ exports.createListener = (channel, sub) => {
 				topics: [`${sub}.${channel}`],
 			},
 			nonce: nonce,
-			type: 'LISTEN',
+			type: type,
 		};
 
 		c.ws.send(JSON.stringify(message));

@@ -1,4 +1,5 @@
 const { ParseUser, IDByLogin } = require('../util/twitch/utils');
+const { createListener } = require('../util/twitch/pubSub');
 
 async function returnEvents(twitchID) {
 	return await bot.SQL.query(`SELECT * FROM pubsub_events WHERE twitch_id = '${twitchID}';`);
@@ -10,6 +11,10 @@ async function insertEvent(twitchID, twitchLogin, eventChannelID, eventChannelNa
 		await bot.SQL.query(
 			`INSERT INTO pubsub_events (twitch_id, twitch_login, event_channel_id, event_channel_name, event_type) VALUES ('${twitchID}', '${twitchLogin}', '${eventChannelID}', '${eventChannelName}', '${eventType}');`,
 		);
+
+		for (const event of JSON.parse(eventType)) {
+			createListener(eventChannelID, event, 'LISTEN');
+		}
 		return {
 			success: true,
 		};
@@ -32,7 +37,7 @@ module.exports = {
 	tags: 'moderation',
 	name: 'listen',
 	description: 'Listen to pubsub events',
-	cooldown: 5000,
+	cooldown: 3000,
 	aliases: ['unlisten'],
 	botPerms: 'mod',
 	permission: 1,
@@ -54,6 +59,7 @@ module.exports = {
 		}
 
 		const { rows } = await returnEvents(msg.channel.id);
+		const Events = JSON.stringify(['video-playback-by-id', 'broadcast-settings-update']);
 		let eventChannels = [];
 		for (let i = 0; i < rows.length; i++) {
 			eventChannels.push(rows[i].event_channel_id);
@@ -66,7 +72,6 @@ module.exports = {
 					reply: true,
 				};
 
-			const Events = JSON.stringify(['video-playback-by-id', 'broadcast-settings-update']);
 			const { success, text } = await insertEvent(msg.channel.id, msg.channel.login, targetChannelID, targetChannel, Events);
 			return {
 				text: success ? `Now listening to ${targetChannel}` : text,
