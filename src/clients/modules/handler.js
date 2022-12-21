@@ -113,133 +113,134 @@ module.exports = {
 				msg.sender = await createUserInDB(msg.user.id, msg.user.login);
 
 				const userTable = await bot.SQL.query(`SELECT * FROM users WHERE twitch_id = '${msg.user.id}'`);
-				if (userTable.rows[0].twitch_login != msg.user.id) {
-					await updateTable('users', msg.user.login, msg.user.id);
-					await updateTable('commands', msg.user.login, msg.user.id);
-					await updateTable('user_commands_settings', msg.user.login, msg.user.id);
-					await updateTable('channel_settings', msg.user.login, msg.user.id);
-					await updateTable('stv_ids', msg.user.login, msg.user.id);
 
-					await updateUser('users', msg.user.login, msg.user.id);
-					await updateUser('channels', msg.user.login, msg.user.id);
-					await updateUser('poroCount', msg.user.login, msg.user.id);
-				}
+				try {
+					if (userTable.rows[0].twitch_login != msg.user.id) {
+						await updateTable('users', msg.user.login, msg.user.id);
+						await updateTable('commands', msg.user.login, msg.user.id);
+						await updateTable('user_commands_settings', msg.user.login, msg.user.id);
+						await updateTable('channel_settings', msg.user.login, msg.user.id);
+						await updateTable('stv_ids', msg.user.login, msg.user.id);
 
-				if (msg.sender.level < 1) {
-					return;
-				}
+						await updateUser('users', msg.user.login, msg.user.id);
+						await updateUser('channels', msg.user.login, msg.user.id);
+						await updateUser('poroCount', msg.user.login, msg.user.id);
+					}
 
-				if (msg?.mongoChannel.offlineOnly && !command?.offline) {
-					const data = (await GetStreams(msg.channel.login, true))[0];
-					if (data?.type === 'live') {
+					if (msg.sender.level < 1) {
 						return;
 					}
-				}
 
-				const { rows } = await bot.SQL.query(`SELECT * FROM channel_settings WHERE twitch_id = '${msg.channel.id}' AND command = '${command.name}'`);
-				if (rows[0]?.is_disabled === 1) {
-					msg.send(`This command is disabled on this channel.`);
-					return;
-				}
-
-				if (command?.canOptout) {
-					if (msg.args.length <= 0) {
-						const isSelfOrChannel = command?.target === 'self' ? msg.user.login : msg.channel.login;
-						const isOptedOut = await userCommands(isSelfOrChannel, command.name);
-						if (isOptedOut) {
-							msg.send(`This command is disabled for ${isSelfOrChannel}.`);
+					if (msg?.mongoChannel.offlineOnly && !command?.offline) {
+						const data = (await GetStreams(msg.channel.login, true))[0];
+						if (data?.type === 'live') {
 							return;
 						}
-					} else {
-						for (const arg of msg.args) {
-							const isOptedOut = await userCommands(arg, command.name);
+					}
+
+					const { rows } = await bot.SQL.query(`SELECT * FROM channel_settings WHERE twitch_id = '${msg.channel.id}' AND command = '${command.name}'`);
+					if (rows[0]?.is_disabled === 1) {
+						msg.send(`This command is disabled on this channel.`);
+						return;
+					}
+
+					if (command?.canOptout) {
+						if (msg.args.length <= 0) {
+							const isSelfOrChannel = command?.target === 'self' ? msg.user.login : msg.channel.login;
+							const isOptedOut = await userCommands(isSelfOrChannel, command.name);
 							if (isOptedOut) {
-								msg.send(`This command is disabled for ${arg}.`);
+								msg.send(`This command is disabled for ${isSelfOrChannel}.`);
+								return;
+							}
+						} else {
+							for (const arg of msg.args) {
+								const isOptedOut = await userCommands(arg, command.name);
+								if (isOptedOut) {
+									msg.send(`This command is disabled for ${arg}.`);
+									return;
+								}
+							}
+						}
+					}
+
+					if (command?.permission) {
+						if (msg.sender.level !== 3) {
+							if (command.permission == 1 && !msg.user.perms.mod && msg.channel.login !== msg.user.login) {
+								msg.send('This command is moderator only.');
+								return;
+							} else if (command.permission == 2 && msg.channel.login !== msg.user.login) {
+								msg.send('This command is broadcaster only.');
 								return;
 							}
 						}
 					}
-				}
 
-				if (command?.permission) {
-					if (msg.sender.level !== 3) {
-						if (command.permission == 1 && !msg.user.perms.mod && msg.channel.login !== msg.user.login) {
-							msg.send('This command is moderator only.');
-							return;
-						} else if (command.permission == 2 && msg.channel.login !== msg.user.login) {
-							msg.send('This command is broadcaster only.');
+					if (command?.level) {
+						if (msg.sender.level < command.level) {
+							msg.send(`You do not have permission to use this command.`);
 							return;
 						}
 					}
-				}
 
-				if (command?.level) {
-					if (msg.sender.level < command.level) {
-						msg.send(`You do not have permission to use this command.`);
-						return;
+					if (command?.kattah) {
+						if (msg.user.login !== 'kattah') {
+							return;
+						}
 					}
-				}
 
-				if (command?.kattah) {
-					if (msg.user.login !== 'kattah') {
-						return;
+					if (command?.botPerms) {
+						const { rows } = await bot.SQL.query(`SELECT * FROM channels WHERE twitch_login = '${msg.channel.login}'`);
+						const { is_mod, is_vip } = rows[0];
+						if (command.botPerms.includes('mod') && is_mod !== 1) {
+							msg.send('This command requires the bot to be a moderator.');
+							return;
+						} else if (command.botPerms.includes('vip') && is_vip !== 1 && is_mod !== 1) {
+							msg.send('This command requires the bot to be a VIP.');
+							return;
+						}
 					}
-				}
 
-				if (command?.botPerms) {
-					const { rows } = await bot.SQL.query(`SELECT * FROM channels WHERE twitch_login = '${msg.channel.login}'`);
-					const { is_mod, is_vip } = rows[0];
-					if (command.botPerms.includes('mod') && is_mod !== 1) {
-						msg.send('This command requires the bot to be a moderator.');
-						return;
-					} else if (command.botPerms.includes('vip') && is_vip !== 1 && is_mod !== 1) {
-						msg.send('This command requires the bot to be a VIP.');
-						return;
-					}
-				}
+					if (command?.stv) {
+						const { rows: stvRows } = await bot.SQL.query(`SELECT * FROM stv_ids WHERE twitch_id = '${msg.channel.id}'`);
+						let stvID = stvRows[0]?.stv_id;
+						if (!stvRows[0] || stvRows[0] === null) {
+							const stvInfo = await getUser(msg.channel.id);
+							if (stvInfo === null) {
+								msg.send('This channel does not have a 7TV account linked.');
+								return;
+							}
 
-				if (command?.stv) {
-					const { rows: stvRows } = await bot.SQL.query(`SELECT * FROM stv_ids WHERE twitch_id = '${msg.channel.id}'`);
-					let stvID = stvRows[0]?.stv_id;
-					if (!stvRows[0] || stvRows[0] === null) {
-						const stvInfo = await getUser(msg.channel.id);
-						if (stvInfo === null) {
-							msg.send('This channel does not have a 7TV account linked.');
+							stvID = stvInfo.user.id;
+							await bot.SQL.query(`INSERT INTO stv_ids (twitch_login, twitch_id, stv_id) VALUES ('${msg.channel.login}', '${msg.channel.id}', '${stvID}')`);
+						}
+
+						const { data } = await GqlUser(stvID);
+						const isBotEditor = data.user.editors.find((x) => x.user.id == '629d77a20e60c6d53da64e38'); // DontAddThisBot's 7tv id
+						if (!isBotEditor) {
+							msg.send('Please grant @DontAddThisBot 7tv editor permissions.');
 							return;
 						}
 
-						stvID = stvInfo.user.id;
-						await bot.SQL.query(`INSERT INTO stv_ids (twitch_login, twitch_id, stv_id) VALUES ('${msg.channel.login}', '${msg.channel.id}', '${stvID}')`);
+						const channelEditors = msg.mongoChannel.editors.find((x) => x.id === msg.user.id);
+						const ChannelOwnerEditor = msg.user.login === msg.channel.login;
+						if (!channelEditors && !ChannelOwnerEditor) {
+							msg.send(`You do not have permission to use this command. ask the broadcaster nicely to add you as editor :) ${msg.prefix}editor add ${msg.user.login}`);
+							return;
+						}
+
+						msg.sevenTV = data;
 					}
 
-					const { data } = await GqlUser(stvID);
-					const isBotEditor = data.user.editors.find((x) => x.user.id == '629d77a20e60c6d53da64e38'); // DontAddThisBot's 7tv id
-					if (!isBotEditor) {
-						msg.send('Please grant @DontAddThisBot 7tv editor permissions.');
-						return;
+					if (command?.poroRequire) {
+						const poroData = await getPoroDataInDB(msg.user.id);
+						if (!poroData || poroData === null) {
+							msg.send(`You arent registered @${msg.user.login}, type ${msg.prefix}poro to get started! kattahPoro`);
+							return;
+						}
+
+						msg.poro = poroData;
 					}
 
-					const channelEditors = msg.mongoChannel.editors.find((x) => x.id === msg.user.id);
-					const ChannelOwnerEditor = msg.user.login === msg.channel.login;
-					if (!channelEditors && !ChannelOwnerEditor) {
-						msg.send(`You do not have permission to use this command. ask the broadcaster nicely to add you as editor :) ${msg.prefix}editor add ${msg.user.login}`);
-						return;
-					}
-
-					msg.sevenTV = data;
-				}
-
-				if (command?.poroRequire) {
-					const poroData = await getPoroDataInDB(msg.user.id);
-					if (!poroData || poroData === null) {
-						msg.send(`You arent registered @${msg.user.login}, type ${msg.prefix}poro to get started! kattahPoro`);
-						return;
-					}
-
-					msg.poro = poroData;
-				}
-
-				try {
 					if (command.cooldown) {
 						if (msg.sender.level > 1) {
 							cooldown.set(cooldownKey, 1);
