@@ -201,7 +201,7 @@ module.exports = {
 				if (command?.stv) {
 					const { rows: stvRows } = await bot.SQL.query(`SELECT * FROM stv_ids WHERE twitch_id = '${msg.channel.id}'`);
 					let stvID = stvRows[0]?.stv_id;
-					if (stvRows[0]?.length === 0 || !stvRows[0] || stvRows[0] === null) {
+					if (!stvRows[0] || stvRows[0] === null) {
 						const stvInfo = await getUser(msg.channel.id);
 						if (stvInfo === null) {
 							msg.send('This channel does not have a 7TV account linked.');
