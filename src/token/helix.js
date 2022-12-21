@@ -1,6 +1,8 @@
 const got = require('got');
 const fetch = require('node-fetch');
 const { twitch } = require('../../config.json');
+const { racism, slurs } = require('../misc/regex');
+const { shortenText } = require('../../misc/utility');
 
 const helix = got.extend({
 	prefixUrl: 'https://api.twitch.tv/helix/',
@@ -30,6 +32,8 @@ exports.GetFirstStreams = async (number, game) => {
 };
 
 exports.Announce = async (channel, args) => {
+	args = shortenText(args, 490);
+	if (racism.test(args) || slurs.test(args)) return;
 	await helix
 		.post(`chat/announcements?broadcaster_id=${channel}&moderator_id=790623318`, {
 			json: {
