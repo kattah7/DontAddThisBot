@@ -13,7 +13,7 @@ module.exports = {
 		const Emote = GlobalEmote();
 		if (!msg.args[0] || !msg.params.from) {
 			return {
-				text: `⛔ Please specify an ${args[0] ? 'channel, Usage: |yoink <emotes...mutiple> from:<channel>' : 'emote'}`,
+				text: `⛔ Please specify an ${msg.args[0] ? 'channel, Usage: |yoink <emotes...mutiple> from:<channel>' : 'emote'}`,
 				reply: false,
 			};
 		}

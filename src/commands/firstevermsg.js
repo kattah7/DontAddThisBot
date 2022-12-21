@@ -108,7 +108,7 @@ module.exports = {
 
 		fetchMessages();
 		return {
-			text: `Fetching... kattahSpin this will take a while`,
+			text: `Fetching... kattahTo this will take a while`,
 			reply: false,
 		};
 	},

@@ -17,7 +17,7 @@ module.exports = {
 		tweet();
 
 		return {
-			text: `Successfully tweeted kattahSpin Check out twitter.com/twitchsayschat to see your tweet`,
+			text: `Successfully tweeted kattahTo Check out twitter.com/twitchsayschat to see your tweet`,
 			reply: true,
 		};
 	},
