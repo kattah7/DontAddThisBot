@@ -35,5 +35,5 @@ client.on('close', (err) => {
 	if (err != null) {
 		Logger.log(LogLevel.ERROR, 'Client closed due to error', err);
 	}
-	process.exit(1);
+	process.exit(0);
 });
