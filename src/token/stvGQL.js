@@ -187,6 +187,32 @@ exports.RemoveSTVEmote = async (emote, channel) => {
 	return removeEmote;
 };
 
+exports.SwitchEmoteSet = async (connectionID, emoteSetID, sevenTVId) => {
+	const query = {
+		operationName: 'SwitchEmoteSet',
+		query: `mutation SwitchEmoteSet($id: ObjectID!, $conn_id: String!, $d: UserConnectionUpdate!) {
+			user(id: $id) {
+				connections(id: $conn_id, data: $d) {
+					id
+					platform
+					display_name
+					emote_set_id
+				}
+			}
+		}`,
+		variables: {
+			conn_id: connectionID,
+			d: {
+				emote_set_id: emoteSetID,
+			},
+			id: sevenTVId,
+		},
+	};
+
+	const SwitchSet = await makeRequest(query);
+	return SwitchSet;
+};
+
 exports.GetEditorOfChannels = async (stvID) => {
 	const query = {
 		operationName: 'GetUserEditorOf',
