@@ -2,10 +2,7 @@ const { twitch } = require('../../../config.json');
 const WS = require('ws');
 const crypto = require('crypto');
 const utils = require('./utils.js');
-const { client } = require('./connections.js');
 const RWS = require('reconnecting-websocket');
-const discord = require('../discord/discord.js');
-const humanizeDuration = require('../../misc/humanizeDuration.js');
 const { handleWSMsg } = require('./pubSubHandler.js');
 const { Logger, LogLevel } = require('../../misc/logger');
 
