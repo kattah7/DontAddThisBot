@@ -2,7 +2,7 @@ const got = require('got');
 const fetch = require('node-fetch');
 const { twitch } = require('../../config.json');
 const { racism, slurs } = require('../misc/regex');
-const { shortenText } = require('../../misc/utility');
+const { shortenText } = require('../misc/utility');
 
 const helix = got.extend({
 	prefixUrl: 'https://api.twitch.tv/helix/',
