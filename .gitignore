@@ -7,3 +7,6 @@ config.json
 scripts/start.sh
 imgs/
 .logs/
+yarn-error.log
+model.nlp
+yarn.lock
