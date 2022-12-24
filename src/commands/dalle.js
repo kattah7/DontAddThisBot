@@ -32,7 +32,7 @@ module.exports = {
 		const prompt = msg.args.join(' ');
 		const dalleImages = await GenerateImage(prompt);
 		if (!dalleImages) return { text: 'Failed to generate image, Try again later', reply: true };
-		await client.say(`Generating Image... kattahTo This wil ltake a while`);
+		await client.say(msg.channel.login, `Generating Image... kattahTo This wil ltake a while`);
 		const createDoc = await createDocument(msg.user.id, msg.user.login, new Date(), generateRandomString(), prompt);
 		for (const image of dalleImages) {
 			const ImageUrl = `data:image/png;base64,${image}`;
