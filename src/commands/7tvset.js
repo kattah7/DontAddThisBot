@@ -27,7 +27,7 @@ module.exports = {
 			};
 		}
 
-		const { id, name, capacity, emotes } = FindSet;
+		const { name, capacity, emotes } = FindSet;
 		if (!msg.args[0]) {
 			return {
 				text: `${Emote} - Currently on "${name}" with (${emotes.length}/${capacity}) Slots`,
@@ -44,7 +44,7 @@ module.exports = {
 			};
 		}
 
-		const { data, errors } = await SwitchEmoteSet(msg.channel.id, findSpecificSet.id, msg.sevenTV.user.id);
+		const { errors } = await SwitchEmoteSet(msg.channel.id, findSpecificSet.id, msg.sevenTV.user.id);
 		if (errors) {
 			return {
 				text: `⛔ ${errors[0]?.extensions?.message}`,
