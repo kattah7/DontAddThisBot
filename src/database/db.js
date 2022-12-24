@@ -12,7 +12,6 @@ DB.connection.on('disconnected', () => {
 	Logger.log(LogLevel.ERROR, 'Disconnected from database');
 });
 
-//Emote Schema
 const ChannelsSchema = new DB.Schema({
 	username: String,
 	id: String,
@@ -51,6 +50,19 @@ const UserSchema = new DB.Schema({
 	nameChanges: [{ username: String, changedAt: Date }],
 });
 
+const ImageDalleSchema = new DB.Schema({
+	id: String,
+	username: String,
+	createdAt: Date,
+	imageURL: String,
+	prompt: String,
+	images: [
+		{
+			imageURL: String,
+		},
+	],
+});
+
 const PrivateSchema = new DB.Schema({
 	code: String,
 	todaysCode: String,
@@ -60,6 +72,7 @@ exports.users = DB.model('users', UserSchema);
 exports.poroCount = DB.model('poroCount', PoroSchema);
 exports.channels = DB.model('channels', ChannelsSchema);
 exports.private = DB.model('private', PrivateSchema);
+exports.dalle = DB.model('dalle', ImageDalleSchema);
 
 exports.updateUser = async (Collection, userID, newName) => {
 	if (!userID || !newName) return { error: 'No user ID provided' };
