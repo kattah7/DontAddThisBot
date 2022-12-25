@@ -10,6 +10,10 @@ async function returnListenedStreamers(channelID) {
 	return rows;
 }
 
+async function rewardPoros(userID, Amount) {
+	return await bot.DB.poroCount.findOneAndUpdate({ id: userID }, { $inc: { poroCount: Number(Amount) } }).exec();
+}
+
 module.exports = {
 	handleWSMsg: async (msg = {}) => {
 		if (!msg.type) return Logger.log(LogLevel.ERROR, `Unknown message without type: ${JSON.stringify(msg)}`);
@@ -64,6 +68,32 @@ module.exports = {
 				const duration = expires_in_ms ? `Duration: ${humanizeDuration(expires_in_ms)}` : `Duration: false`;
 				const color = action == 'timeout' || action == 'ban' ? 15548997 : 5763719;
 				await discord.BAND(user, action.toUpperCase(), duration, color, logo);
+				break;
+			}
+
+			case 'reward-redeemed': {
+				const { user, reward } = msg.data.redemption;
+				if (reward.title === 'Free 100 Poros') {
+					await rewardPoros(user.id, 100).then(async (res) => {
+						if (!res || res === null) {
+							await client.say('dontaddthisbot', "You aren't registered! type |poro to get started");
+							return;
+						}
+
+						await client.say('dontaddthisbot', `Thank you for redeeming 100 poros kattahPoro You have ${res.poroCount + 100} poros`);
+						return;
+					});
+				} else if (reward.title === 'Free 1000 Poros') {
+					await rewardPoros(user.id, 1000).then(async (res) => {
+						if (!res || res === null) {
+							await client.say('dontaddthisbot', "You aren't registered! type |poro to get started");
+							return;
+						}
+
+						await client.say('dontaddthisbot', `Thank you for redeeming 1000 poros kattahPoro You have ${res.poroCount + 1000} poros`);
+						return;
+					});
+				}
 				break;
 			}
 		}
