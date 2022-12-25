@@ -21,13 +21,12 @@ const listen = (channels, subs) => {
 };
 
 exports.init = async () => {
-	// Streamers
 	let { rows } = await bot.SQL.query(`SELECT * FROM pubsub_events;`);
 	let channels = new Set(rows.map((r) => r.event_channel_id));
 	for (const channel of channels) {
 		listen([{ id: channel }], ['video-playback-by-id', 'broadcast-settings-update']);
 	}
-	listen([{ id: '790623318' }], ['chatrooms-user-v1']); // dontaddthisbot
+	listen([{ id: '790623318' }], ['chatrooms-user-v1', 'community-points-channel-v1']); // dontaddthisbot
 	Logger.log(LogLevel.DEBUG, `PubSub: ${channels.size} streamers`);
 
 	const splitTopics = utils.splitArray(this.topics, 50);
