@@ -15,7 +15,7 @@ module.exports = {
 			};
 		}
 
-		const ezGif = 'https://ezgif.com/reszie?url=';
+		const ezGif = 'https://ezgif.com/resize?url=';
 		const [url] = msg.args;
 		if (/https:\/\/(next\.)?7tv\.app\/emotes\/\w{24}/g.test(url)) {
 			const linkEmote = /https:\/\/(next\.)?7tv\.app\/emotes\/(\w{24})/.exec(url);
