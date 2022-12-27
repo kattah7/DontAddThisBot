@@ -40,5 +40,5 @@ exports.GetEmotes = async (emoteID) => {
 };
 
 exports.GlobalEmote = () => {
-	return '(7TV) SnowTime';
+	return '(7TV)';
 };
