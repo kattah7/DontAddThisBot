@@ -115,7 +115,7 @@ module.exports = {
 				const userTable = await bot.SQL.query(`SELECT * FROM users WHERE twitch_id = '${msg.user.id}'`);
 
 				try {
-					if (userTable.rows[0].twitch_login !== msg.user.login && userTable.rows[0].twitch_id === msg.user.id) {
+					if (msg.sender.username !== msg.user.login) {
 						await updateTable('users', msg.user.login, msg.user.id);
 						await updateTable('commands', msg.user.login, msg.user.id);
 						await updateTable('user_commands_settings', msg.user.login, msg.user.id);

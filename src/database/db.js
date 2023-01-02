@@ -74,7 +74,7 @@ exports.channels = DB.model('channels', ChannelsSchema);
 exports.private = DB.model('private', PrivateSchema);
 exports.dalle = DB.model('dalle', ImageDalleSchema);
 
-exports.updateUser = async (Collection, userID, newName) => {
+exports.updateUser = async (Collection, newName, userID) => {
 	if (!userID || !newName) return { error: 'No user ID provided' };
 	if (typeof userID !== 'string' || typeof newName !== 'string') return { error: 'User ID must be a string' };
 	const user = await this[Collection].findOne({ id: userID }).exec();
