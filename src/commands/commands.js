@@ -5,7 +5,7 @@ module.exports = {
 	cooldown: 3000,
 	execute() {
 		return {
-			text: `https://docs.poros.lol/global-commands WutFace`,
+			text: `https://docs.poros.lol WutFace`,
 			reply: true,
 		};
 	},
