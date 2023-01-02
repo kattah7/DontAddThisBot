@@ -34,7 +34,6 @@ async function totalCommands() {
 }
 
 async function makeRequest() {
-	console.log('Updated channels endpoint');
 	await redis.set(
 		'channelsEndpoint',
 		JSON.stringify({

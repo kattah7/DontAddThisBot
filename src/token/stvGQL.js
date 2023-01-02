@@ -104,7 +104,6 @@ exports.AddSTVEmote = async (emote, channel, name) => {
 		},
 	};
 	const addEmote = await makeRequest(query);
-	console.log(addEmote);
 	return addEmote;
 };
 

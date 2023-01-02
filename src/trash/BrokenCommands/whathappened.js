@@ -26,7 +26,6 @@ module.exports = {
 		const res = await fetch(`https://byabbe.se/on-this-day/${MONTH}/${DAY}/events.json`);
 		const user = await res.json();
 		var random = user.events[Math.floor(Math.random() * user.events.length)];
-		//console.log(random)
 		return {
 			text: `What happened on ${user.date} ${random.year}? ${random.description} BatChest`,
 		};

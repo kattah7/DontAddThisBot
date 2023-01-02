@@ -107,7 +107,6 @@ module.exports = {
 
 			const cooldownKey = `${msg.channel.id}-${msg.user.id}-${command.name}`;
 			if (cooldown.has(cooldownKey)) return;
-			console.log('called', process.memoryUsage().rss / 1024 / 1024);
 			if (command) {
 				msg.command = cmd;
 				msg.sender = await createUserInDB(msg.user.id, msg.user.login);

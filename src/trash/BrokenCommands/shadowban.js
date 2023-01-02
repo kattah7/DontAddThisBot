@@ -21,7 +21,6 @@ module.exports = {
 			throwHttpErrors: false,
 			responseType: 'json',
 		});
-		//console.log(userData)
 
 		const query = [];
 		query.push({

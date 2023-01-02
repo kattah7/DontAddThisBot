@@ -81,7 +81,7 @@ const PRIVMSG = async function () {
 				}
 			},
 		};
-		handlerTwo(msgData).then(() => console.log(`Response timea: ${performance.now() - received}ms`));
+		handlerTwo(msgData);
 	});
 };
 
