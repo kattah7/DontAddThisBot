@@ -7,7 +7,8 @@ const gql = got.extend({
 	responseType: 'json',
 	headers: {
 		authorization: `OAuth ${twitch.gql_token}`,
-		'client-id': `kimne78kx3ncx6brgo4mv6wki5h1ko`,
+		'client-id': `ue6666qo983tsx6so1t0vnawi233wa`,
+		'Device-id': 'a7c952d5b31f7da8',
 	},
 });
 
@@ -185,4 +186,27 @@ exports.GetChannelRoles = async (channelID) => {
 
 	const roles = await makeRequest(query);
 	return roles[0];
+};
+
+exports.ChangeDisplayName = async (displayName) => {
+	const query = [];
+	query.push({
+		operationName: 'UpdateUserProfile',
+		variables: {
+			input: {
+				description: 'Twitch Utility & Moderation bot, check out https://poros.lol for more',
+				displayName: displayName,
+				userID: '790623318',
+			},
+		},
+		extensions: {
+			persistedQuery: {
+				version: 1,
+				sha256Hash: '991718a69ef28e681c33f7e1b26cf4a33a2a100d0c7cf26fbff4e2c0a26d15f2',
+			},
+		},
+	});
+
+	const change = await makeRequest(query);
+	return change[0];
 };
