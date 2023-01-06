@@ -5,23 +5,9 @@ const { middleWare } = require('../../middleWare');
 
 router.post('/api/bot/part', middleWare, async (req, res) => {
 	const { id, login } = req.user;
-	if (!login || !/^[A-Z_\d]{2,30}$/i.test(login)) {
-		return res.status(400).json({
-			success: false,
-			message: 'malformed username parameter',
-		});
-	}
-
 	const channelInfo = await bot.DB.channels.findOne({ id: id }).exec();
-	if (!channelInfo) {
+	if (!channelInfo || !channelInfo.isChannel) {
 		return res.status(404).json({
-			success: false,
-			message: 'Channel not found.',
-		});
-	}
-
-	if (!channelInfo.isChannel) {
-		return res.status(400).json({
 			success: false,
 			message: 'Channel not found.',
 		});
@@ -34,7 +20,7 @@ router.post('/api/bot/part', middleWare, async (req, res) => {
 	} catch (err) {
 		return res.status(500).json({
 			success: false,
-			message: 'Failed to part chat.',
+			message: 'Failed to part chat.' + err,
 		});
 	}
 

@@ -3,7 +3,7 @@ const utils = require('../util/twitch/utils.js');
 module.exports = {
 	tags: '7tv',
 	name: '7tveditor',
-	description: 'Usage: |editor add/remove <username>a',
+	description: 'Usage: |editor add/remove <username>',
 	aliases: ['editor'],
 	cooldown: 3000,
 	permission: 2,

@@ -3,6 +3,7 @@ const router = express.Router();
 const { backend, token } = require('../../../../config.json');
 const fetch = require('node-fetch');
 const { getTwitchProfile } = require('../../../token/helix');
+const { updateEntireDB } = require('../../../clients/modules/updateUser');
 const jwt = require('jsonwebtoken');
 
 const TWITCH_CLIENT_ID = backend.client_id;
@@ -31,9 +32,15 @@ router.post('/authenticate', async (req, res) => {
 		return res.status(401).send({ success: false, message: 'Unauthorized' });
 	}
 
+	const { id, login } = profile[0];
+	const getUser = await bot.DB.users.findOne({ id: id }).exec();
+	if (getUser && getUser.username !== login) {
+		await updateEntireDB(login, id);
+	}
+
 	const info = {
-		id: profile[0].id,
-		login: profile[0].login,
+		id: id,
+		login: login,
 	};
 
 	const signJWT = jwt.sign(info, token.key);

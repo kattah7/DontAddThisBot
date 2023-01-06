@@ -47,7 +47,7 @@ module.exports = {
 			case 'user_moderation_action': {
 				const { channel_id, action, expires_in_ms } = msg.data;
 				const userLevel = await bot.DB.users.findOne({ id: channel_id });
-				if (userLevel.level < 1) return;
+				if (userLevel?.level < 1) return;
 				const inData = await bot.DB.channels.findOne({ id: channel_id });
 				if (!inData) return;
 				const user = await loginByID(channel_id);

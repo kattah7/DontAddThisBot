@@ -65,12 +65,6 @@ async function givePoros(id) {
 
 router.post('/api/bot/mod/join/:channel', middleWare, async (req, res, next) => {
 	const { channel } = req.params;
-	if (!channel || !/^[A-Z_\d]{2,30}$/i.test(channel)) {
-		return res.status(400).json({
-			success: false,
-			message: 'malformed username parameter',
-		});
-	}
 	const TwitchInfo = await IVRByLogin(channel);
 	if (!TwitchInfo || TwitchInfo.banned === true || TwitchInfo === null) {
 		return res.status(400).json({

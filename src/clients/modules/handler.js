@@ -1,7 +1,7 @@
 const { Logger, LogLevel } = require('../../misc/logger');
 const { invisChars } = require('../../misc/regex');
 const { startCmds } = require('./commands');
-const { updateUser } = require('../../database/db');
+const { updateEntireDB } = require('./updateUser');
 const { GetStreams } = require('../../token/helix');
 const { ParseUser } = require('../../util/twitch/utils');
 const { getUser } = require('../../token/stvREST');
@@ -52,10 +52,6 @@ const createUserInDB = async function (senderUserID, senderUsername) {
 	);
 
 	return userdata;
-};
-
-const updateTable = async function (table, senderUsername, senderUserID) {
-	await bot.SQL.query(`UPDATE ${JSON.stringify(table)} SET twitch_login = '${senderUsername}' WHERE twitch_id = '${senderUserID}'`);
 };
 
 const userCommands = async function (username, commandName) {
@@ -115,16 +111,7 @@ module.exports = {
 
 				try {
 					if (msg.sender.username !== msg.user.login) {
-						await updateTable('users', msg.user.login, msg.user.id);
-						await updateTable('commands', msg.user.login, msg.user.id);
-						await updateTable('user_commands_settings', msg.user.login, msg.user.id);
-						await updateTable('channel_settings', msg.user.login, msg.user.id);
-						await updateTable('stv_ids', msg.user.login, msg.user.id);
-						await updateTable('pubsub_events', msg.user.login, msg.user.id);
-
-						await updateUser('users', msg.user.login, msg.user.id);
-						await updateUser('channels', msg.user.login, msg.user.id);
-						await updateUser('poroCount', msg.user.login, msg.user.id);
+						await updateEntireDB(msg.user.login, msg.user.id);
 					}
 
 					if (msg.sender.level < 1) {

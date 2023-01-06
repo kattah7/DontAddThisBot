@@ -6,21 +6,6 @@ const { newChannel } = require('../../../util/discord/discord');
 
 router.post('/api/bot/join', middleWare, async (req, res) => {
 	const { id, login } = req.user;
-	if (!login || !/^[A-Z_\d]{2,30}$/i.test(login)) {
-		return res.status(400).json({
-			success: false,
-			message: 'malformed username parameter',
-		});
-	}
-
-	const userLevel = await bot.DB.users.findOne({ id: id }).exec();
-	if (!userLevel || userLevel.level == 0) {
-		return res.status(403).json({
-			success: false,
-			message: 'Forbidden',
-		});
-	}
-
 	const channelInfo = await bot.DB.channels.findOne({ id: id }).exec();
 	if (!channelInfo) {
 		const poroInfo = await bot.DB.poroCount.findOne({ id: id }).exec();
@@ -41,7 +26,7 @@ router.post('/api/bot/join', middleWare, async (req, res) => {
 		} catch (err) {
 			return res.status(500).json({
 				success: false,
-				message: 'Failed to join chat.',
+				message: 'Failed to join chat.' + err,
 			});
 		}
 
@@ -63,7 +48,7 @@ router.post('/api/bot/join', middleWare, async (req, res) => {
 		} catch (err) {
 			return res.status(500).json({
 				success: false,
-				message: 'Failed to join chat.',
+				message: 'Failed to join chat.' + err,
 			});
 		}
 

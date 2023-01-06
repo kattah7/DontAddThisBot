@@ -4,13 +4,6 @@ const { middleWare } = require('../../middleWare');
 
 router.post('/api/bot/create', middleWare, async (req, res) => {
 	const { id, login } = req.user;
-	if (!login || !/^[A-Z_\d]{2,30}$/i.test(login)) {
-		return res.status(400).json({
-			success: false,
-			message: 'malformed username parameter',
-		});
-	}
-
 	const userInfo = await bot.DB.users.findOne({ id: id }).exec();
 	if (userInfo) {
 		return res.status(400).json({
@@ -25,6 +18,10 @@ router.post('/api/bot/create', middleWare, async (req, res) => {
 				firstSeen: new Date(),
 				level: 1,
 			});
+
+			await bot.SQL.query(
+				`INSERT INTO users (twitch_id, twitch_login) SELECT * FROM (SELECT '${id}', '${login}') AS tmp WHERE NOT EXISTS (SELECT twitch_id FROM users WHERE twitch_id = '${id}') LIMIT 1;`,
+			);
 		} catch (err) {
 			return res.status(500).json({
 				success: false,
