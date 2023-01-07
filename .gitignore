@@ -9,3 +9,4 @@ imgs/
 .logs/
 yarn-error.log
 model.nlp
+psqldump/
