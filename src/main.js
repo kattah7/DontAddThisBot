@@ -23,7 +23,6 @@ client.on('ready', async () => {
 	Logger.log(LogLevel.SILLY, 'Connected to chat!');
 	pubsub.init();
 	nodeCron.schedule('5 */2 * * *', () => {
-		// every 2 hours at :05
 		client.say('kattah', '!cookie');
 	});
 	Twitch();

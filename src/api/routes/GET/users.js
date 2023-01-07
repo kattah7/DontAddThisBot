@@ -19,7 +19,6 @@ router.get('/api/bot/users/:user', async (req, res) => {
 		});
 	}
 
-	const mapped = userInfo.nameChanges.map(({ username, changedAt }) => ({ username, changedAt }));
 	const commandsUsed = await bot.SQL.query(`SELECT command, command_usage, last_used FROM commands WHERE twitch_id = '${userInfo.id}';`);
 	const commandsMapped = commandsUsed.rows.map(({ command, command_usage, last_used }) => ({
 		command,
@@ -34,7 +33,6 @@ router.get('/api/bot/users/:user', async (req, res) => {
 		id: userInfo.id,
 		level: userInfo.level,
 		firstSeen: userInfo.firstSeen,
-		nameChanges: mapped,
 		language: userLangauge.rows[0]?.language === 'null' || !userLangauge.rows[0] ? 'en' : userLangauge.rows[0]?.language,
 		commands: commandsMapped,
 	});

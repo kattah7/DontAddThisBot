@@ -47,7 +47,6 @@ const UserSchema = new DB.Schema({
 	username: String,
 	firstSeen: Date,
 	level: Number,
-	nameChanges: [{ username: String, changedAt: Date }],
 });
 
 const ImageDalleSchema = new DB.Schema({
