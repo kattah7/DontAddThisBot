@@ -1,7 +1,8 @@
+const { shortenText } = require('../misc/utility');
 const { stable } = require('../token/diffusion');
 
 async function createDocument(id, username, createdAt, imageUrl, prompt) {
-	const newImage = new bot.DB.dalle({
+	const newImage = new bot.DB.stable({
 		id: id,
 		username: username,
 		createdAt: createdAt,
@@ -16,12 +17,13 @@ async function createDocument(id, username, createdAt, imageUrl, prompt) {
 module.exports = {
 	tags: 'fun',
 	name: 'stablediffusion',
-	description: 'Diffuse a message to all channels',
+	description: 'Generate an AI Image using Stable Diffusion',
 	aliases: ['sd', 'stable'],
 	cooldown: 5000,
 	execute: async (client, msg) => {
 		const input = msg.args.join(' ');
 		const { output, code } = await stable(input);
+		await client.say(msg.channel.login, shortenText(`Generating Stable Diffusion of "${input}"... kattahTo`));
 
 		if (!output || output === null)
 			return {
@@ -43,7 +45,7 @@ module.exports = {
 		}
 
 		return {
-			text: `Stable Diffusion of "${input}", https://poros.lol/dall-e/${code}`,
+			text: `Stable Diffusion of "${input}", https://poros.lol/stable/${code}`,
 			reply: true,
 		};
 	},

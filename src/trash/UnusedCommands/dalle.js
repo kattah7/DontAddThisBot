@@ -1,4 +1,4 @@
-const { GenerateImage } = require('../token/dalle.js');
+const { GenerateImage } = require('./dalleReq.js');
 const crypto = require('crypto');
 
 function generateRandomString() {

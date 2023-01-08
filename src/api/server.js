@@ -14,7 +14,7 @@ const commands = require('./routes/GET/commands');
 const grafana = require('./routes/GET/grafana');
 const userAuthInfo = require('./routes/GET/userAuthInfo');
 const botInfo = require('./routes/GET/bot');
-const dallE = require('./routes/GET/dalle');
+const stable = require('./routes/GET/stable');
 
 const join = require('./routes/POST/join');
 const part = require('./routes/POST/part');
@@ -45,7 +45,7 @@ app.use(express.json(), parser(), [
 	auth,
 	modJoin,
 	commandStatus,
-	dallE,
+	stable,
 	offline,
 	prefix,
 	language,

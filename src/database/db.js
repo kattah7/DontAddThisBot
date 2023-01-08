@@ -49,7 +49,7 @@ const UserSchema = new DB.Schema({
 	level: Number,
 });
 
-const ImageDalleSchema = new DB.Schema({
+const ImageStableSchema = new DB.Schema({
 	id: String,
 	username: String,
 	createdAt: Date,
@@ -71,7 +71,7 @@ exports.users = DB.model('users', UserSchema);
 exports.poroCount = DB.model('poroCount', PoroSchema);
 exports.channels = DB.model('channels', ChannelsSchema);
 exports.private = DB.model('private', PrivateSchema);
-exports.dalle = DB.model('dalle', ImageDalleSchema);
+exports.stable = DB.model('stable', ImageStableSchema);
 
 exports.updateUser = async (Collection, newName, userID) => {
 	if (!userID || !newName) return { error: 'No user ID provided' };
