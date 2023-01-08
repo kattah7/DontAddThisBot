@@ -22,9 +22,9 @@ module.exports = {
 	cooldown: 5000,
 	execute: async (client, msg) => {
 		const input = msg.args.join(' ');
-		const { output, code } = await stable(input);
 		await client.say(msg.channel.login, shortenText(`Generating Stable Diffusion of "${input}"... kattahTo`));
 
+		const { output, code } = await stable(input);
 		if (!output || output === null)
 			return {
 				text: 'Something went wrong',
