@@ -47,6 +47,13 @@ module.exports = {
 					username: msg.channel.login,
 				})
 				.exec();
+			if (channel.editors.length >= 15) {
+				return {
+					text: `You can't add more than 15 editors to a channel!`,
+					reply: true,
+				};
+			}
+
 			const findChannelEditors = channel.editors.find((editors) => editors.id === uid);
 			if (findChannelEditors) {
 				return {
@@ -72,6 +79,7 @@ module.exports = {
 						},
 					)
 					.exec();
+
 				return {
 					text: `Added "${user}" as an editor in this channel!`,
 					reply: true,

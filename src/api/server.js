@@ -22,6 +22,7 @@ const create = require('./routes/POST/createUser');
 const auth = require('./routes/POST/authenticate');
 const modJoin = require('./routes/POST/modjoin');
 const commandStatus = require('./routes/POST/commandStatus');
+const Editor = require('./routes/POST/Editor');
 
 const offline = require('./routes/PUT/offline');
 const prefix = require('./routes/PUT/prefix');
@@ -44,6 +45,7 @@ app.use(express.json(), parser(), [
 	create,
 	auth,
 	modJoin,
+	Editor,
 	commandStatus,
 	stable,
 	offline,
