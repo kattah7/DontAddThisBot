@@ -2,17 +2,7 @@ const express = require('express');
 const router = express.Router();
 const utils = require('../../../util/twitch/utils');
 const { readdirSync } = require('fs');
-const fetch = require('node-fetch');
-
-async function getAvatar(userID) {
-	const avatar = await fetch(`https://api.ivr.fi/v2/twitch/user?id=${userID}`, {
-		method: 'GET',
-		'Content-Type': 'application/json',
-		'User-Agent': 'IF YOU SEE THIS VI VON ZULUL',
-	}).then((res) => res.json());
-	if (!avatar || avatar.length === 0 || avatar.null) return;
-	return avatar[0].logo;
-}
+const { getAvatar } = require('../../getAvatar');
 
 router.get('/api/bot/channel/:user', async (req, res) => {
 	const { user } = req.params;
@@ -31,17 +21,7 @@ router.get('/api/bot/channel/:user', async (req, res) => {
 		});
 	}
 
-	const editors = [];
-	for (const { username, id, grantedAt } of channelInfo.editors) {
-		if (!id || !username || !grantedAt) continue;
-		editors.push({
-			username,
-			id,
-			grantedAt,
-			avatar: await getAvatar(id),
-		});
-	}
-
+	const editors = await getAvatar(channelInfo.editors);
 	let commands = [];
 	let filteredCommands = [];
 	for (let file of readdirSync('./src/commands').filter((file) => file.endsWith('.js'))) {

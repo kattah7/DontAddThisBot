@@ -1,17 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { middleWare } = require('../../middleWare');
-const fetch = require('node-fetch');
-
-async function getAvatar(userID) {
-	const avatar = await fetch(`https://api.ivr.fi/v2/twitch/user?id=${userID}`, {
-		method: 'GET',
-		'Content-Type': 'application/json',
-		'User-Agent': 'IF YOU SEE THIS VI VON ZULUL',
-	}).then((res) => res.json());
-	if (!avatar || avatar.length === 0 || avatar.null) return;
-	return avatar[0].logo;
-}
+const { getAvatar } = require('../../getAvatar');
 
 async function getUser(username) {
 	const user = await fetch(`https://api.ivr.fi/v2/twitch/user?login=${username}`, {
@@ -60,16 +50,7 @@ router.post('/api/bot/editor', middleWare, async (req, res) => {
 		try {
 			await channelInfo.updateOne({ $pull: { editors: { id: targetID } } });
 			const newState = await bot.DB.channels.findOne({ id: channelID }).exec();
-			const editors = [];
-			for (const { username, id, grantedAt } of newState.editors) {
-				if (!id || !username || !grantedAt) continue;
-				editors.push({
-					username,
-					id,
-					grantedAt,
-					avatar: await getAvatar(id),
-				});
-			}
+			const editors = await getAvatar(newState.editors);
 
 			return res.status(200).json({
 				success: true,
@@ -117,16 +98,7 @@ router.post('/api/bot/editor', middleWare, async (req, res) => {
 		try {
 			await channelInfo.updateOne({ $addToSet: { editors: { id: userID.id, username: targetUser, grantedAt: new Date() } } });
 			const newChannelState = await bot.DB.channels.findOne({ id: channelID }).exec();
-			const editors = [];
-			for (const { username, id, grantedAt } of newChannelState.editors) {
-				if (!id || !username || !grantedAt) continue;
-				editors.push({
-					username,
-					id,
-					grantedAt,
-					avatar: await getAvatar(id),
-				});
-			}
+			const editors = await getAvatar(newChannelState.editors);
 
 			return res.status(200).json({
 				success: true,
