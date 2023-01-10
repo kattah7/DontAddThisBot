@@ -4,27 +4,27 @@ const Redis = require('ioredis');
 const redis = new Redis({});
 
 async function getLeaderboard() {
-	const poroData = await bot.DB.poroCount.find({}).exec();
-	const topUsers = poroData.sort((a, b) => b.poroPrestige - a.poroPrestige || b.poroRank - a.poroRank || b.poroCount - a.poroCount).slice(0, 10);
-
+	const topUsers = await bot.DB.poroCount.find().sort({ poroPrestige: -1, poroRank: -1, poroCount: -1 }).exec();
 	return topUsers;
 }
 
 async function getLoserboard() {
-	const poroData = await bot.DB.poroCount.find({}).exec();
-	const count = await bot.DB.poroCount.count({}).exec();
-	const sorted = poroData.sort((a, b) => b.poroPrestige - a.poroPrestige || b.poroCount - a.poroCount);
-	const losers = sorted.slice(count - 10, count);
-	return losers;
+	// const poroData = await bot.DB.poroCount.find({}).exec();
+	// const count = await bot.DB.poroCount.count({}).exec();
+	// const sorted = poroData.sort((a, b) => b.poroPrestige - a.poroPrestige || b.poroCount - a.poroCount);
+	const returnLowest = await bot.DB.poroCount.find().sort({ poroCount: 1 }).exec();
+	console.log(returnLowest);
+	return returnLowest;
 }
 
 async function makeRequest() {
-	console.log('Updated leaderboard endpoint');
+	const leaderboards = await getLeaderboard();
+	const loserboards = leaderboards.sort((a, b) => b.poroPrestige - a.poroPrestige || b.poroCount - a.poroCount);
 	await redis.set(
 		'leaderboardEndpoint',
 		JSON.stringify({
-			leaderboards: await getLeaderboard(),
-			loserboards: await getLoserboard(),
+			leaderboards,
+			loserboards,
 			totalUsers: await bot.DB.poroCount.count({}).exec(),
 		}),
 	);

@@ -8,13 +8,13 @@ module.exports = {
 	description: 'Check your rank in the poro leaderboard',
 	execute: async (client, msg) => {
 		const targetUser = await ParseUser(msg.args[0] ?? msg.user.login);
-		const poroData = await bot.DB.poroCount.find({}).exec();
-		const sorted = poroData.filter((a) => a.poroPrestige > -1).sort((a, b) => b.poroPrestige - a.poroPrestige || b.poroRank - a.poroRank || b.poroCount - a.poroCount);
+		const { leaderboards } = await bot.Redis.get('leaderboardEndpoint');
 
-		const totalSliced = sorted.slice(0, 5000000);
+		const length = leaderboards.length;
+		const totalSliced = leaderboards.slice(0, length);
 
 		if (!isNaN(msg.args[0])) {
-			const nanRank = sorted.slice(Number(msg.args[0]) - 1, Number(msg.args[0]));
+			const nanRank = leaderboards.slice(Number(msg.args[0]) - 1, Number(msg.args[0]));
 			if (!nanRank[0] || msg.args[0].startsWith('-')) {
 				return {
 					text: `Rank #${targetUser} not found in database PoroSad`,
@@ -22,18 +22,20 @@ module.exports = {
 			}
 
 			return {
-				text: `${nanRank[0].username} is rank #${totalSliced.findIndex((user) => user.username == nanRank[0].username) + 1}/${sorted.length} in the poro leaderboard! kattahPoro`,
+				text: `${nanRank[0].username} is rank #${totalSliced.findIndex((user) => user.username == nanRank[0].username) + 1}/${length} in the poro leaderboard! kattahPoro`,
 				reply: false,
 			};
 		}
+
 		if (totalSliced.findIndex((user) => user.username == targetUser) + 1 == 0) {
 			return {
 				text: `${targetUser} not found in database PoroSad`,
 				reply: true,
 			};
 		}
+
 		return {
-			text: `${targetUser} is rank #${totalSliced.findIndex((user) => user.username == targetUser) + 1}/${totalSliced.length} in the poro leaderboard! kattahPoro`,
+			text: `${targetUser} is rank #${totalSliced.findIndex((user) => user.username == targetUser) + 1}/${length} in the poro leaderboard! kattahPoro`,
 			reply: false,
 		};
 	},

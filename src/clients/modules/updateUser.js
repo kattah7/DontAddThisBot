@@ -16,6 +16,7 @@ const updateEntireDB = async (login, id) => {
 		await updateUser('users', login, id);
 		await updateUser('channels', login, id);
 		await updateUser('poroCount', login, id);
+		await updateUser('stable', login, id);
 	} catch (err) {
 		console.log(err);
 	}
