@@ -24,7 +24,7 @@ async function makeRequest() {
 		'leaderboardEndpoint',
 		JSON.stringify({
 			leaderboards: leaderboards.slice(0, 10),
-			loserboards: loserboards.reverse().slice(0, 10),
+			loserboards: loserboards.reverse().slice(0, 10).reverse(),
 			totalUsers: await bot.DB.poroCount.count({}).exec(),
 		}),
 	);
