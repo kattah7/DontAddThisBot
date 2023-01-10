@@ -23,8 +23,8 @@ async function makeRequest() {
 	await redis.set(
 		'leaderboardEndpoint',
 		JSON.stringify({
-			leaderboards,
-			loserboards,
+			leaderboards: leaderboards.slice(0, 10),
+			loserboards: loserboards.slice(0, 10),
 			totalUsers: await bot.DB.poroCount.count({}).exec(),
 		}),
 	);
