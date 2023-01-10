@@ -23,8 +23,8 @@ async function makeRequest() {
 	await redis.set(
 		'leaderboardEndpoint',
 		JSON.stringify({
-			leaderboards: leaderboards.slice(0, 10),
-			loserboards: loserboards.reverse().slice(0, 10).reverse(),
+			leaderboards: leaderboards,
+			loserboards: loserboards,
 			totalUsers: await bot.DB.poroCount.count({}).exec(),
 		}),
 	);
@@ -42,7 +42,7 @@ router.get('/api/bot/leaderboard', async (req, res) => {
 	const { leaderboards, loserboards, totalUsers } = JSON.parse(redisValue);
 
 	if (!keys) {
-		const leaderboard = leaderboards.map((a, index) => {
+		const leaderboard = leaderboards.slice(0, 10).map((a, index) => {
 			return {
 				username: a.username,
 				poroCount: a.poroCount,
@@ -70,7 +70,9 @@ router.get('/api/bot/leaderboard', async (req, res) => {
 
 	if (type === 'lowest') {
 		const loser = loserboards
-			.map((a, index) => {
+			.reverse()
+			.slice(0, 10)
+			.map((a) => {
 				return {
 					username: a.username,
 					poroCount: a.poroCount,
@@ -79,8 +81,7 @@ router.get('/api/bot/leaderboard', async (req, res) => {
 					joinedAt: a.joinedAt,
 					userRank: totalUsers - [...loserboards].reverse().indexOf(a),
 				};
-			})
-			.reverse();
+			});
 
 		return res.status(200).json({
 			success: true,

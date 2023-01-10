@@ -11,6 +11,7 @@ module.exports = {
 		const { leaderboards } = await bot.Redis.get('leaderboardEndpoint');
 
 		const length = leaderboards.length;
+		console.log(length);
 		const totalSliced = leaderboards.slice(0, length);
 
 		if (!isNaN(msg.args[0])) {
