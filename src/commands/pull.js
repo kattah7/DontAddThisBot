@@ -8,7 +8,7 @@ module.exports = {
 	kattah: true,
 	description: 'Pulls the latest commit from github. (Kattah only)',
 	execute: async (client, msg) => {
-		exec('cd /home/DontAddThisBot && git reset --hard && git pull && yarn && mongodump --db=dontaddthisbot --out=dump/', (err) => {
+		exec('cd /home/DontAddThisBot && git reset --hard && git pull && yarn', (err) => {
 			if (err) {
 				console.error(err);
 				return {
@@ -16,6 +16,11 @@ module.exports = {
 					reply: true,
 				};
 			}
+		});
+
+		const mongoDump = spawn('mongodump', ['--db=dontaddthisbot', '--out=dump/']);
+		mongoDump.stderr.on('data', (data) => {
+			console.error(`child stderr:\n${data}`);
 		});
 
 		const cwd = process.cwd();
