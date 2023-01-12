@@ -1,8 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const { middleWare } = require('../../middleWare');
+const { limiter } = require('../../rateLimit');
 
-router.post('/api/bot/create', middleWare, async (req, res) => {
+router.post('/api/bot/create', limiter, middleWare, async (req, res) => {
 	const { id, login } = req.user;
 	const userInfo = await bot.DB.users.findOne({ id: id }).exec();
 	if (userInfo) {
