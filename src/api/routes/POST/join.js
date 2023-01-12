@@ -3,8 +3,9 @@ const router = express.Router();
 const { client } = require('../../../util/twitch/connections');
 const { middleWare } = require('../../middleWare');
 const { newChannel } = require('../../../util/discord/discord');
+const { limiter } = require('../../rateLimit');
 
-router.post('/api/bot/join', middleWare, async (req, res) => {
+router.post('/api/bot/join', limiter, middleWare, async (req, res) => {
 	const { id, login } = req.user;
 	const channelInfo = await bot.DB.channels.findOne({ id: id }).exec();
 	if (!channelInfo) {
