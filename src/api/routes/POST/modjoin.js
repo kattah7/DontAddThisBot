@@ -4,6 +4,7 @@ const { client } = require('../../../util/twitch/connections');
 const { middleWare } = require('../../middleWare');
 const { IDByLogin, IVRByLogin } = require('../../../util/twitch/utils');
 const { newChannel } = require('../../../util/discord/discord');
+const { limiter } = require('../../rateLimit');
 
 async function returnUserLevelByID(id) {
 	const userLevel = await bot.DB.users.findOne({ id: id }).exec();
@@ -63,7 +64,7 @@ async function givePoros(id) {
 	}
 }
 
-router.post('/api/bot/mod/join/:channel', middleWare, async (req, res, next) => {
+router.post('/api/bot/mod/join/:channel', limiter, middleWare, async (req, res, next) => {
 	const { channel } = req.params;
 	const TwitchInfo = await IVRByLogin(channel);
 	if (!TwitchInfo || TwitchInfo.banned === true || TwitchInfo === null) {
