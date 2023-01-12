@@ -23,17 +23,17 @@ router.post('/api/bot/join', middleWare, async (req, res) => {
 				isChannel: true,
 			}).save();
 			await newChannel(login, new Date(), login);
+
+			return res.status(200).json({
+				success: true,
+				message: 'Joined channel.',
+			});
 		} catch (err) {
 			return res.status(500).json({
 				success: false,
 				message: 'Failed to join chat.' + err,
 			});
 		}
-
-		return res.status(200).json({
-			success: true,
-			message: 'Joined channel.',
-		});
 	}
 
 	if (!channelInfo.isChannel) {
@@ -45,17 +45,17 @@ router.post('/api/bot/join', middleWare, async (req, res) => {
 			await client.join(login);
 			await client.say(login, `Re-Joined channel, ${login} kattahPoro Check the bot's panels or https://docs.poros.lol for info!`);
 			await bot.DB.channels.findOneAndUpdate({ id: id }, { $set: { isChannel: true } }).exec();
+
+			return res.status(200).json({
+				success: true,
+				message: 'Re-Joined channel',
+			});
 		} catch (err) {
 			return res.status(500).json({
 				success: false,
 				message: 'Failed to join chat.' + err,
 			});
 		}
-
-		return res.status(200).json({
-			success: true,
-			message: 'Re-Joined channel',
-		});
 	}
 
 	return res.status(409).json({

@@ -102,17 +102,17 @@ router.post('/api/bot/mod/join/:channel', middleWare, async (req, res, next) => 
 				channel,
 				`Joined channel by Moderator ${login}, kattahPoro Also check https://docs.poros.lol for more info! If you believe this was a mistake, please type |part in chat.`,
 			);
+
+			return res.status(200).json({
+				success: true,
+				message: 'Joined channel.',
+			});
 		} catch (err) {
 			return res.status(500).json({
 				success: false,
 				message: 'Internal Server Error',
 			});
 		}
-
-		return res.status(200).json({
-			success: true,
-			message: 'Joined channel.',
-		});
 	}
 
 	if (channelInfo.isChannel === false) {
@@ -123,17 +123,17 @@ router.post('/api/bot/mod/join/:channel', middleWare, async (req, res, next) => 
 				channel,
 				`Re-Joined channel by Moderator ${login}, kattahPoro Also check https://docs.poros.lol for more info! If you believe this was a mistake, please type |part in chat.`,
 			);
+
+			return res.status(200).json({
+				success: true,
+				message: 'Re-Joined channel.',
+			});
 		} catch (err) {
 			return res.status(500).json({
 				success: false,
 				message: 'Internal Server Error',
 			});
 		}
-
-		return res.status(200).json({
-			success: true,
-			message: 'Re-Joined channel.',
-		});
 	}
 
 	return res.status(200).json({
