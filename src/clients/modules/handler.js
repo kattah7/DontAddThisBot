@@ -7,6 +7,7 @@ const { ParseUser } = require('../../util/twitch/utils');
 const { getUser } = require('../../token/stvREST');
 const { GetUser: GqlUser } = require('../../token/stvGQL');
 const { client } = require('../../util/twitch/connections');
+const { USERSTATE } = require('../events/USERSTATE');
 const { translateLanguage, iso6391LanguageCodes, getCodeFromName } = require('../../util/google/translate');
 const discord = require('../../util/discord/discord.js');
 const cooldown = require('./cooldown');
@@ -81,6 +82,14 @@ const pajBotCheck = async function (link, input) {
 
 	return banned;
 };
+
+async function UPDATEDB(channel, is_mod, is_vip) {
+	await bot.SQL.query(
+		`INSERT INTO channels (twitch_login, is_mod, is_vip) SELECT * FROM (SELECT '${channel}', ${is_mod}, ${is_vip}) AS tmp WHERE NOT EXISTS (SELECT twitch_login FROM channels WHERE twitch_login = '${channel}') LIMIT 1;`,
+	);
+
+	await bot.SQL.query(`UPDATE channels SET is_mod = ${is_mod}, is_vip = ${is_vip} WHERE twitch_login = '${channel}'`);
+}
 
 module.exports = {
 	handler: async function (msg) {
@@ -176,14 +185,17 @@ module.exports = {
 					}
 
 					if (command?.botPerms) {
-						const { rows } = await bot.SQL.query(`SELECT * FROM channels WHERE twitch_login = '${msg.channel.login}'`);
-						const { is_mod, is_vip } = rows[0];
-						if (command.botPerms.includes('mod') && is_mod !== 1) {
-							msg.send('This command requires the bot to be a moderator.');
-							return;
-						} else if (command.botPerms.includes('vip') && is_vip !== 1 && is_mod !== 1) {
-							msg.send('This command requires the bot to be a VIP.');
-							return;
+						const channelState = client.userStateTracker.channelStates[msg.channel.login];
+						if (command.botPerms.includes('mod')) {
+							if (!channelState.badges.hasVIP && !channelState.isMod) {
+								cooldown.set(cooldownKey, 1000);
+								return msg.send(`${msg.user.name}, This command requires the bot to be a VIP.`);
+							}
+						} else if (command.botPerms.includes('vip')) {
+							if (!channelState.isMod) {
+								cooldown.set(cooldownKey, 1000);
+								return msg.send(`${msg.user.name}, This command requires the bot to be a moderator.`);
+							}
 						}
 					}
 
