@@ -186,12 +186,12 @@ module.exports = {
 
 					if (command?.botPerms) {
 						const channelState = client.userStateTracker.channelStates[msg.channel.login];
-						if (command.botPerms.includes('mod')) {
+						if (command.botPerms.includes('vip')) {
 							if (!channelState.badges.hasVIP && !channelState.isMod) {
 								cooldown.set(cooldownKey, 1000);
 								return msg.send(`${msg.user.name}, This command requires the bot to be a VIP.`);
 							}
-						} else if (command.botPerms.includes('vip')) {
+						} else if (command.botPerms.includes('mod')) {
 							if (!channelState.isMod) {
 								cooldown.set(cooldownKey, 1000);
 								return msg.send(`${msg.user.name}, This command requires the bot to be a moderator.`);

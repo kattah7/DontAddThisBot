@@ -72,6 +72,11 @@ sql.connect(async function () {
         event_type JSONB NOT NULL
     )`);
 
+	await sql.query(`CREATE TABLE IF NOT EXISTS logout_token (
+        id SERIAL PRIMARY KEY,
+        jwt_token VARCHAR NOT NULL
+    )`);
+
 	const { roles } = await GetStvRoles();
 	for (const { id, name } of roles) {
 		await sql.query(

@@ -23,6 +23,7 @@ const auth = require('./routes/POST/authenticate');
 const modJoin = require('./routes/POST/modjoin');
 const commandStatus = require('./routes/POST/commandStatus');
 const Editor = require('./routes/POST/Editor');
+const Logout = require('./routes/POST/logout');
 
 const offline = require('./routes/PUT/offline');
 const prefix = require('./routes/PUT/prefix');
@@ -51,6 +52,7 @@ app.use(express.json(), parser(), [
 	offline,
 	prefix,
 	language,
+	Logout,
 ]);
 
 app.listen(backend.port, () => {

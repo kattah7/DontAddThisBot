@@ -6,6 +6,9 @@ async function middleWare(req, res, next) {
 	const AuthToken = AuthHeaders && AuthHeaders.split(' ')[1];
 	if (AuthToken == null || !AuthToken) return res.status(401).send({ success: false, message: 'Unauthorized' });
 
+	const loggedOutTokens = await bot.SQL.query(`SELECT * FROM logout_token WHERE jwt_token = '${AuthToken}'`);
+	if (loggedOutTokens.rowCount > 0) return res.status(401).send({ success: false, message: 'Unauthorized' });
+
 	try {
 		const decoded = jwt.verify(AuthToken, token.key);
 		if (!decoded) return res.status(401).send({ success: false, message: 'Unauthorized' });
