@@ -6,7 +6,6 @@ const { handler: handlerTwo } = require('../modules/handler');
 const { racism, slurs } = require('../../misc/regex');
 const { shortenText } = require('../../misc/utility');
 const { ChangeColor } = require('../../token/helix');
-const { color } = require('../../util/twitch/botcolor.json');
 const discord = require('../../util/discord/discord.js');
 
 const PRIVMSG = async function () {
@@ -65,6 +64,8 @@ const PRIVMSG = async function () {
 					}
 
 					if (await PoroNumberOne(this.user.id)) {
+						const color = await bot.Redis.get('botColor');
+
 						await ChangeColor(this.user.colorRaw);
 						await client.me(this.channel.login, reply ? `@${this.user.display}, ${message}` : message);
 						await ChangeColor(color);
@@ -76,7 +77,7 @@ const PRIVMSG = async function () {
 					client.sendRaw(reply ? Reply : NoReply);
 				} catch (err) {
 					console.log(err);
-					await discord.errorMessage(this.msg.channel.login, this.msg.user.login, this.msg.args, err.message);
+					await discord.errorMessage(this.channel.login, this.user.login, this.text, err.message);
 					Logger.log(LogLevel.ERROR, `Error while sending message: ${err.message}`);
 				}
 			},

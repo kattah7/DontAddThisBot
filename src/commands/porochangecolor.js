@@ -1,6 +1,5 @@
 const utils = require('../util/twitch/utils.js');
 const { ChangeColor } = require('../token/helix');
-const fs = require('fs/promises');
 
 module.exports = {
 	tags: 'poro',
@@ -23,6 +22,7 @@ module.exports = {
 		if (!msg.args[0]) {
 			return {
 				text: `Please insert a color! kattahDance`,
+				reply: true,
 			};
 		}
 
@@ -30,6 +30,7 @@ module.exports = {
 		if (!reg.test(msg.args[0])) {
 			return {
 				text: `Please insert a valid color! kattahDance`,
+				reply: true,
 			};
 		}
 
@@ -37,13 +38,14 @@ module.exports = {
 		if (color.chatColor == msg.args[0]) {
 			return {
 				text: `That color is already being used! kattahDance`,
+				reply: true,
 			};
 		}
 
 		const { id: senderUserID, login: senderUsername } = msg.user;
-		const { login: channelName } = msg.channel;
 		const channelData = await bot.DB.poroCount.findOne({ id: senderUserID }).exec();
 		const { poroCount, poroPrestige, poroRank } = channelData;
+
 		if (channelData.poroCount < 50) {
 			return {
 				text: `Not enough poro meat! ${senderUsername} PoroSad You need 50 poro meat | [P${poroPrestige}: ${displayPoroRankByName[poroRank]}] ${poroCount} meat total! 🥩`,
@@ -51,12 +53,13 @@ module.exports = {
 			};
 		} else {
 			await bot.DB.poroCount.updateOne({ id: senderUserID }, { $set: { poroCount: poroCount - 50 } }).exec();
+			await bot.Redis.set('botColor', msg.args[0]);
 			await ChangeColor(msg.args[0]);
-			await client.say(channelName, `Color changed to ${msg.args[0]}! PoroSad [P${poroPrestige}: ${displayPoroRankByName[poroRank]}] ${poroCount - 50} meat total! 🥩`);
-			var botColor = {
-				color: msg.args[0],
+
+			return {
+				text: `Color changed to ${msg.args[0]}! PoroSad [P${poroPrestige}: ${displayPoroRankByName[poroRank]}] ${poroCount - 50} meat total! 🥩`,
+				reply: false,
 			};
-			await fs.writeFile('src/util/twitch/botcolor.json', JSON.stringify(botColor) + '\n', 'utf8');
 		}
 	},
 };

@@ -1,5 +1,4 @@
 const humanizeDuration = require('../misc/humanizeDuration');
-const { code } = require('../util/twitch/porocodes.json');
 
 module.exports = {
 	tags: 'poro',
@@ -26,10 +25,12 @@ module.exports = {
 				reply: true,
 			};
 		}
+
 		const { poroCount, poroPrestige, poroRank } = msg.poro;
 		const lastUsage = await bot.Redis.get(`pororedeem:${senderUserID}`);
+		const Code = await bot.Redis.get(`poroCode`);
 		const input = msg.args[0];
-		const availableBadges = [code];
+		const availableBadges = [Code];
 
 		if (lastUsage) {
 			if (new Date().getTime() - new Date(lastUsage).getTime() < 1000 * 60 * 60 * 24) {

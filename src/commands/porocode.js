@@ -1,6 +1,3 @@
-const fs = require('fs/promises');
-const { exec } = require('child_process');
-
 module.exports = {
 	name: 'setcode',
 	cooldown: 5000,
@@ -14,21 +11,12 @@ module.exports = {
 			};
 		}
 
-		var code = {
-			code: msg.args.join(' '),
-		};
+		const code = msg.args.join(' ');
+		await bot.Redis.set(`poroCode`, code);
 
-		await fs.writeFile('src/util/twitch/porocodes.json', JSON.stringify(code) + '\n', 'utf8');
-		await exec('cd /home/DontAddThisBot && git reset --hard && git pull && yarn', (err) => {
-			if (err) {
-				console.error(err);
-				return {
-					text: `FeelsDankMan !!! failed to pull commit`,
-					reply: false,
-				};
-			}
-		});
-		await client.say(msg.channel.login, 'Reset code, restarting.. MrDestructoid');
-		process.exit(0);
+		return {
+			text: `Code set!`,
+			reply: true,
+		};
 	},
 };

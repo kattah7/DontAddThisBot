@@ -1,6 +1,5 @@
 const { ParseUser, IVRByLogin } = require('../util/twitch/utils');
 const { ChangeColor } = require('../token/helix');
-const { color } = require('../util/twitch/botcolor.json');
 
 module.exports = {
 	tags: 'stats',
@@ -9,6 +8,9 @@ module.exports = {
 	aliases: [],
 	description: "Gets user's chat color",
 	execute: async (client, msg) => {
+		const color = await bot.Redis.get('botColor');
+		console.log(color);
+
 		async function changeChatColor(chatColor, botColor) {
 			await ChangeColor(chatColor);
 			await new Promise((resolve) => setTimeout(resolve, 30));

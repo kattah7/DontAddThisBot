@@ -18,7 +18,8 @@ exports.ChangeColor = async (color) => {
 	const urlEncodeHex = (hex) => {
 		return hex.replace('#', '%23');
 	};
-	await helix.put(`chat/color?user_id=790623318&color=${urlEncodeHex(color)}`);
+
+	await helix.put(`chat/color?user_id=790623318&color=${urlEncodeHex(color === null ? '#FF69B4' : color)}`);
 };
 
 exports.GetGames = async (name) => {
