@@ -8,15 +8,6 @@ async function getLeaderboard() {
 	return topUsers;
 }
 
-async function getLoserboard() {
-	// const poroData = await bot.DB.poroCount.find({}).exec();
-	// const count = await bot.DB.poroCount.count({}).exec();
-	// const sorted = poroData.sort((a, b) => b.poroPrestige - a.poroPrestige || b.poroCount - a.poroCount);
-	const returnLowest = await bot.DB.poroCount.find().sort({ poroCount: 1 }).exec();
-	console.log(returnLowest);
-	return returnLowest;
-}
-
 async function makeRequest() {
 	const leaderboards = await getLeaderboard();
 	const loserboards = leaderboards.sort((a, b) => b.poroPrestige - a.poroPrestige || b.poroCount - a.poroCount);
