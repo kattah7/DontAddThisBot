@@ -64,7 +64,7 @@ async function givePoros(id) {
 	}
 }
 
-router.post('/api/bot/mod/join/:channel', limiter, middleWare, async (req, res, next) => {
+router.post('/api/bot/mod/join/:channel', limiter(5000, 1), middleWare, async (req, res, next) => {
 	const { channel } = req.params;
 	const TwitchInfo = await IVRByLogin(channel);
 	if (!TwitchInfo || TwitchInfo.banned === true || TwitchInfo === null) {

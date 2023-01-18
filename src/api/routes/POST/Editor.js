@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { middleWare } = require('../../middleWare');
 const { getAvatar } = require('../../getAvatar');
+const { limiter } = require('../../rateLimit');
 
 async function getUser(username) {
 	const user = await fetch(`https://api.ivr.fi/v2/twitch/user?login=${username}`, {
@@ -13,7 +14,7 @@ async function getUser(username) {
 	return user[0];
 }
 
-router.post('/api/bot/editor', middleWare, async (req, res) => {
+router.post('/api/bot/editor', limiter(2500, 5), middleWare, async (req, res) => {
 	const { id } = req.user;
 	const { channelID, targetID, type, targetUser } = req.body;
 	if (id !== channelID) {
