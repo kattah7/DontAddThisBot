@@ -9,7 +9,6 @@ module.exports = {
 	description: "Gets user's chat color",
 	execute: async (client, msg) => {
 		const color = await bot.Redis.get('botColor');
-		console.log(color);
 
 		async function changeChatColor(chatColor, botColor) {
 			await ChangeColor(chatColor);

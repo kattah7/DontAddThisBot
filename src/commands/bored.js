@@ -8,7 +8,6 @@ module.exports = {
 	aliases: [],
 	description: 'Get stuff to do every 12 hours',
 	execute: async (client, msg) => {
-		console.log(msg);
 		const lastUsage = await bot.Redis.get(`test:${msg.user.id}`);
 		let { body: userData, statusCode } = await got(`http://www.boredapi.com/api/activity?participants=1`, {
 			timeout: 10000,
