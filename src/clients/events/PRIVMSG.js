@@ -76,8 +76,6 @@ const PRIVMSG = async function () {
 					const NoReply = `@sent-ts=${ts} PRIVMSG #${this.channel.login} :/ ${message}`;
 					client.sendRaw(reply ? Reply : NoReply);
 				} catch (err) {
-					console.log(err);
-					await discord.errorMessage(this.channel.login, this.user.login, this.text, err.message);
 					Logger.log(LogLevel.ERROR, `Error while sending message: ${err.message}`);
 				}
 			},

@@ -283,7 +283,7 @@ module.exports = {
 						}
 					}
 				} catch (err) {
-					await discord.errorMessage(msg.channel.login, msg.user.login, msg.args, err.message);
+					await discord.errorMessage(msg.channel.login, msg.user.login, msg.text, err.message);
 					msg.send('This command resulted in a unexpected error, Please try again later.');
 					Logger.log(LogLevel.ERROR, `⁉ ERROR! ${err.message} ⁉`);
 				}
