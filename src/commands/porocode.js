@@ -12,7 +12,7 @@ module.exports = {
 		}
 
 		const code = msg.args.join(' ');
-		await bot.Redis.set(`poroCode`, code);
+		await bot.Redis.set(`poroCode`, code, 0);
 
 		return {
 			text: `Code set!`,
