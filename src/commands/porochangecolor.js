@@ -53,7 +53,7 @@ module.exports = {
 			};
 		} else {
 			await bot.DB.poroCount.updateOne({ id: senderUserID }, { $set: { poroCount: poroCount - 50 } }).exec();
-			await bot.Redis.set('botColor', msg.args[0]);
+			await bot.Redis.set('botColor', msg.args[0], 0);
 			await ChangeColor(msg.args[0]);
 
 			return {
