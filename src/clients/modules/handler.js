@@ -7,7 +7,6 @@ const { ParseUser } = require('../../util/twitch/utils');
 const { getUser } = require('../../token/stvREST');
 const { GetUser: GqlUser } = require('../../token/stvGQL');
 const { client } = require('../../util/twitch/connections');
-const { USERSTATE } = require('../events/USERSTATE');
 const { translateLanguage, iso6391LanguageCodes, getCodeFromName } = require('../../util/google/translate');
 const discord = require('../../util/discord/discord.js');
 const cooldown = require('./cooldown');
@@ -83,13 +82,9 @@ const pajBotCheck = async function (link, input) {
 	return banned;
 };
 
-async function UPDATEDB(channel, is_mod, is_vip) {
-	await bot.SQL.query(
-		`INSERT INTO channels (twitch_login, is_mod, is_vip) SELECT * FROM (SELECT '${channel}', ${is_mod}, ${is_vip}) AS tmp WHERE NOT EXISTS (SELECT twitch_login FROM channels WHERE twitch_login = '${channel}') LIMIT 1;`,
-	);
-
-	await bot.SQL.query(`UPDATE channels SET is_mod = ${is_mod}, is_vip = ${is_vip} WHERE twitch_login = '${channel}'`);
-}
+const setHastag = (msg) => {
+	return msg.filter((word) => word.startsWith('#')).map((word) => word.replace('#', ''));
+};
 
 module.exports = {
 	handler: async function (msg) {
@@ -97,10 +92,14 @@ module.exports = {
 			const channelData = await getChannel(msg.channel.id);
 			msg.mongoChannel = channelData;
 			msg.prefix = channelData.prefix ?? '|';
+
 			if (!msg.text.startsWith(msg.prefix)) return;
+
 			msg.text = msg.text.replace(invisChars, '');
 			msg.args = msg.text.slice(msg.prefix.length).trim().split(/ +/g);
 			msg.params = setParams(msg.args);
+			msg.hashtag = setHastag(msg.args);
+
 			const cmd = msg.args.length > 0 ? msg.args.shift().toLowerCase() : '';
 			if (cmd.length == 0) return;
 			const { commands, aliases } = await startCmds();

@@ -11,9 +11,10 @@ module.exports = {
 	stv: true,
 	execute: async (client, msg) => {
 		const Emote = GlobalEmote();
-		if (!msg.args[0] || !msg.params.from) {
+		const target = msg.params.from ?? msg.hashtag[0];
+		if (!msg.args[0] || !target || target.length === 0) {
 			return {
-				text: `⛔ Please specify an ${msg.args[0] ? 'channel, Usage: |yoink <emotes...mutiple> from:<channel>' : 'emote'}`,
+				text: `⛔ Please specify an ${msg.args[0] ? 'channel, Usage: |yoink <emotes...mutiple> from:<channel> or specify channel using #forsen' : 'emote'}`,
 				reply: false,
 			};
 		}
@@ -27,7 +28,7 @@ module.exports = {
 			};
 		}
 
-		const targetChannel = (await ParseUser(msg.params.from)).toLowerCase();
+		const targetChannel = await ParseUser(target);
 		const targetChannelID = await IDByLogin(targetChannel);
 		if (!targetChannelID || targetChannelID === null) {
 			return {
