@@ -34,6 +34,7 @@ router.get('/api/bot/leaderboard', async (req, res) => {
 
 	if (!keys) {
 		const leaderboard = leaderboards.slice(0, 10).map((a, index) => {
+			if (!a.poroPrestige) a.poroPrestige = 0;
 			return {
 				username: a.username,
 				poroCount: a.poroCount,
@@ -64,6 +65,7 @@ router.get('/api/bot/leaderboard', async (req, res) => {
 			.reverse()
 			.slice(0, 10)
 			.map((a) => {
+				if (!a.poroPrestige) a.poroPrestige = 0;
 				return {
 					username: a.username,
 					poroCount: a.poroCount,
