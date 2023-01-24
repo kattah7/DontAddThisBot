@@ -5,7 +5,7 @@ module.exports = {
 	tags: 'stats',
 	name: 'color',
 	cooldown: 3000,
-	aliases: [],
+	aliases: ['colour'],
 	description: "Gets user's chat color",
 	execute: async (client, msg) => {
 		const color = await bot.Redis.get('botColor');
