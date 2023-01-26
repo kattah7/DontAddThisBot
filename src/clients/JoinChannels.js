@@ -8,7 +8,10 @@ const main = async () => {
 	}
 
 	for (const channel of ChannelsArray) {
-		if (!client.joinedChannels.has(channel)) client.join(channel);
+		if (!client.joinedChannels.has(channel)) {
+			await new Promise((resolve) => setTimeout(resolve, 8));
+			client.join(channel);
+		}
 	}
 };
 
