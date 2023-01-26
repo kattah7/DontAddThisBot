@@ -67,11 +67,19 @@ const PrivateSchema = new DB.Schema({
 	todaysCode: String,
 });
 
+const BannedSchema = new DB.Schema({
+	username: String,
+	id: String,
+	bannedDate: Date,
+	banType: String,
+});
+
 exports.users = DB.model('users', UserSchema);
 exports.poroCount = DB.model('poroCount', PoroSchema);
 exports.channels = DB.model('channels', ChannelsSchema);
 exports.private = DB.model('private', PrivateSchema);
 exports.stable = DB.model('stable', ImageStableSchema);
+exports.bans = DB.model('bans', BannedSchema);
 
 exports.updateUser = async (Collection, newName, userID) => {
 	if (!userID || !newName) return { error: 'No user ID provided' };

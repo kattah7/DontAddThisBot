@@ -14,6 +14,21 @@ async function rewardPoros(userID, Amount) {
 	return await bot.DB.poroCount.findOneAndUpdate({ id: userID }, { $inc: { poroCount: Number(Amount) } }).exec();
 }
 
+async function addBans(username, id, banType) {
+	const channel = await bot.DB.bans.findOne({ id: id }).exec();
+	if (!channel) {
+		const newBan = new bot.DB.bans({
+			username,
+			id,
+			bannedDate: new Date(),
+			banType: banType,
+		});
+
+		await newBan.save();
+		return true;
+	}
+}
+
 module.exports = {
 	handleWSMsg: async (msg = {}) => {
 		if (!msg.type) return Logger.log(LogLevel.ERROR, `Unknown message without type: ${JSON.stringify(msg)}`);
@@ -55,9 +70,11 @@ module.exports = {
 
 				if (action == 'timeout') {
 					await client.part(user);
+					await addBans(user, channel_id, 'timeout');
 				} else if (action == 'ban') {
 					client.part(user);
 					await bot.DB.channels.updateOne({ id: channel_id }, { isChannel: false }).catch((err) => Logger.log(LogLevel.ERROR, err));
+					await addBans(user, channel_id, 'ban');
 				} else if (action == 'untimeout') {
 					await client.join(user);
 				} else if (action == 'unban') {
