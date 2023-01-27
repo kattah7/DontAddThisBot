@@ -1,7 +1,7 @@
 const sizeOf = require('buffer-image-size');
 const sharp = require('sharp');
 const isAnimated = require('is-animated');
-const { uploadEmote } = require('../token/stvREST.js');
+const { uploadEmote } = require('../../src/token/stvREST.js');
 
 module.exports = {
 	tags: '7tv',
