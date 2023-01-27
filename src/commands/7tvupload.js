@@ -9,7 +9,6 @@ module.exports = {
 	description: 'Upload an emote to 7TV!',
 	aliases: ['upload'],
 	cooldown: 3000,
-	permission: 2,
 	async execute(client, msg) {
 		if (!msg.args[0]) {
 			return {
