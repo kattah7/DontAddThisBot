@@ -30,16 +30,6 @@ async function middleWare(req, res, next) {
 			});
 		}
 
-		const userRedis = await bot.Redis.get(`xd:kattah:banned:${id}`);
-		if (userRedis === '1' && userLevel?.level < 1) {
-			return res.status(403).json({
-				success: false,
-				message: 'Forbidden',
-			});
-		}
-
-		await bot.Redis.del(`xd:kattah:banned:${id}`);
-		await bot.Redis.del(`xd:kattah:banned:${login}`);
 		req.user = decoded;
 		next();
 	} catch (e) {
