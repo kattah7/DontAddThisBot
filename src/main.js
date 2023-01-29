@@ -18,6 +18,7 @@ const { client } = require('./util/twitch/connections.js');
 const pubsub = require('./util/twitch/pubSub.js');
 const { Twitch } = require('./clients/twitch.js');
 const { bannedChannels } = require('./util/twitch/bannedChannels');
+const { SocketConnection } = require('./token/socket.js');
 
 global.bot = {};
 bot.Redis = require('./database/redis.js');
@@ -36,6 +37,7 @@ client.on('ready', async () => {
 	Twitch();
 
 	await bannedChannels();
+	await SocketConnection(7777);
 });
 
 client.on('372', (msg) => Logger.log(LogLevel.INFO, `Server MOTD is: ${msg.ircParameters[1]}`));
