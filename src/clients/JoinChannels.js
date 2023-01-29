@@ -13,6 +13,7 @@ const main = async () => {
 	}
 
 	for (const channel of ChannelsArray) {
+		console.log(channel);
 		const channelData = await bot.Redis.get(`xd:kattah:banned:${channel.id}`);
 		if (channelData === '1') continue;
 
