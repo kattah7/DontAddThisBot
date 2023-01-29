@@ -4,8 +4,6 @@ const main = async () => {
 	let ChannelsArray = [];
 	const channels = await bot.DB.channels.find({ isChannel: true }).exec();
 	for (const channel of channels) {
-		const findUser = await bot.DB.users.findOne({ id: channel.id }).exec();
-		if (findUser?.level === 0 || !findUser || findUser === null) continue;
 		ChannelsArray.push(channel.username);
 	}
 
