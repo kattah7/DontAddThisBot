@@ -1,9 +1,11 @@
 const { client } = require('../util/twitch/connections.js');
 
 const main = async () => {
+	let levelZeroArray = [];
 	const levelZeros = await bot.DB.users.find({ level: 0 }).exec();
 	for (const levelZero of levelZeros) {
 		await bot.Redis.set(`xd:kattah:banned:${levelZero.id}`, '1', 0);
+		levelZeroArray.push(levelZero.id);
 	}
 
 	let ChannelsArray = [];
@@ -12,10 +14,11 @@ const main = async () => {
 		ChannelsArray.push({ id: channel.id, username: channel.username });
 	}
 
-	for (const channel of ChannelsArray) {
+	let filterChannels = ChannelsArray.filter((channel) => !levelZeroArray.includes(channel.id));
+
+	for (const channel of filterChannels) {
 		const channelData = await bot.Redis.get(`xd:kattah:banned:${channel.id}`);
-		const userLevel = await bot.DB.users.findOne({ id: channel.id }).exec();
-		if (channelData === '1' && userLevel?.level === 0) continue;
+		if (channelData === '1') continue;
 
 		if (!client.joinedChannels.has(channel.username)) {
 			await new Promise((resolve) => setTimeout(resolve, 8));
