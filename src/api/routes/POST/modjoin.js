@@ -104,6 +104,7 @@ router.post('/api/bot/mod/join/:channel', limiter(5000, 1), middleWare, async (r
 				`Joined channel by Moderator ${login}, kattahPoro Also check https://docs.poros.lol for more info! If you believe this was a mistake, please type |part in chat.`,
 			);
 
+			await bot.Redis.set(`xd:kattah:banned:${id}`, '1', 0);
 			return res.status(200).json({
 				success: true,
 				message: 'Joined channel.',

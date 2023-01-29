@@ -25,6 +25,7 @@ router.post('/api/bot/join', limiter(5000, 1), middleWare, async (req, res) => {
 			}).save();
 			await newChannel(login, new Date(), login);
 
+			await bot.Redis.set(`xd:kattah:banned:${id}`, '1', 0);
 			return res.status(200).json({
 				success: true,
 				message: 'Joined channel.',
