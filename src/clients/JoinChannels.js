@@ -15,6 +15,8 @@ const main = async () => {
 	for (const channel of ChannelsArray) {
 		const channelData = await bot.Redis.get(`xd:kattah:banned:${channel.id}`);
 		if (channelData === '1') continue;
+
+		console.log(channel.username);
 		if (!client.joinedChannels.has(channel.username)) {
 			await new Promise((resolve) => setTimeout(resolve, 8));
 			client.join(channel.username);
