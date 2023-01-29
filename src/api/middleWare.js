@@ -38,6 +38,8 @@ async function middleWare(req, res, next) {
 			});
 		}
 
+		await bot.Redis.del(`xd:kattah:banned:${id}`);
+		await bot.Redis.del(`xd:kattah:banned:${login}`);
 		req.user = decoded;
 		next();
 	} catch (e) {
