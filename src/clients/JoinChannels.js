@@ -9,8 +9,6 @@ const main = async () => {
 	let ChannelsArray = [];
 	const channels = await bot.DB.channels.find({ isChannel: true }).exec();
 	for (const channel of channels) {
-		const isBanned = await bot.Redis.get(`xd:kattah:banned:${channel.id}`);
-		if (isBanned === '1') continue;
 		ChannelsArray.push(channel.username);
 	}
 
