@@ -9,13 +9,15 @@ const main = async () => {
 	let ChannelsArray = [];
 	const channels = await bot.DB.channels.find({ isChannel: true }).exec();
 	for (const channel of channels) {
-		ChannelsArray.push(channel.username);
+		ChannelsArray.push({ id: channel.id, username: channel.username });
 	}
 
 	for (const channel of ChannelsArray) {
-		if (!client.joinedChannels.has(channel)) {
+		const channelData = await bot.Redis.get(`xd:kattah:banned:${channel.id}`);
+		if (channelData === '1') continue;
+		if (!client.joinedChannels.has(channel.username)) {
 			await new Promise((resolve) => setTimeout(resolve, 8));
-			client.join(channel);
+			client.join(channel.username);
 		}
 	}
 };
