@@ -23,6 +23,15 @@ async function middleWare(req, res, next) {
 
 		const userLevel = await bot.DB.users.findOne({ id: id }).exec();
 		if (userLevel?.level < 1) {
+			await bot.Redis.set(`xd:kattah:banned:${id}`, '1', 0);
+			return res.status(403).json({
+				success: false,
+				message: 'Forbidden',
+			});
+		}
+
+		const userRedis = await bot.Redis.get(`xd:kattah:banned:${id}`);
+		if (userRedis === '1' && userLevel?.level < 1) {
 			return res.status(403).json({
 				success: false,
 				message: 'Forbidden',
