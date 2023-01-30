@@ -43,7 +43,7 @@ router.post('/authenticate', async (req, res) => {
 		login: login,
 	};
 
-	const signJWT = jwt.sign(info, token.key);
+	const signJWT = jwt.sign(info, token.key, { expiresIn: '120d' });
 	return res.status(200).send({ success: true, token: signJWT });
 });
 
