@@ -40,8 +40,6 @@ client.on('ready', async () => {
 	await SocketConnection(7777);
 });
 
-client.on('372', (msg) => Logger.log(LogLevel.INFO, `Server MOTD is: ${msg.ircParameters[1]}`));
-
 client.on('close', (err) => {
 	if (err != null) {
 		Logger.log(LogLevel.ERROR, 'Client closed due to error', err);
