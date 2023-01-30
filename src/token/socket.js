@@ -31,7 +31,7 @@ async function SocketConnection(port) {
 				});
 			} else if (findUser?.level > 0) {
 				Logger.log(LogLevel.DEBUG, `User ${channelName} is already in database but not level 0, setting to level 0...`);
-				await bot.DB.findOneAndUpdate({ id: channelID }, { $set: { level: 0 } }).exec();
+				await bot.DB.users.findOneAndUpdate({ id: channelID }, { $set: { level: 0 } }).exec();
 			}
 
 			const findChannel = await bot.DB.channels.findOne({ id: channelID }).exec();
