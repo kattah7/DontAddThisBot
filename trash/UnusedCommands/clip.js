@@ -1,5 +1,5 @@
-const { GetClips } = require('../token/helix');
-const { ParseUser, IDByLogin } = require('../util/twitch/utils');
+const { GetClips } = require('../../src/token/helix');
+const { ParseUser, IDByLogin } = require('../../src/util/twitch/utils');
 
 module.exports = {
 	tags: 'stats',

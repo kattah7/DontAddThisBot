@@ -1,5 +1,5 @@
-const { GetClips } = require('../token/gql');
-const { ParseUser, IDByLogin } = require('../util/twitch/utils.js');
+const { GetClips } = require('../../src/token/gql');
+const { ParseUser, IDByLogin } = require('../../src/util/twitch/utils.js');
 
 module.exports = {
 	tags: 'stats',

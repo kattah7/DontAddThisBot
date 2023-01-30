@@ -1,7 +1,7 @@
 const got = require('got');
-const humanizeDuration = require('../misc/humanizeDuration');
-const { ParseUser } = require('../util/twitch/utils');
-const { GetStreams } = require('../token/helix');
+const humanizeDuration = require('../../src/misc/humanizeDuration');
+const { ParseUser } = require('../../src/util/twitch/utils');
+const { GetStreams } = require('../../src/token/helix');
 
 module.exports = {
 	tags: 'stats',

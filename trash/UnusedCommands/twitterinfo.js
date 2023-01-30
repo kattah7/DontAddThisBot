@@ -1,6 +1,6 @@
 const got = require('got');
 const { twitter } = require('../../config.json');
-const { ParseUser } = require('../util/twitch/utils');
+const { ParseUser } = require('../../src/util/twitch/utils');
 
 module.exports = {
 	tags: 'stats',
