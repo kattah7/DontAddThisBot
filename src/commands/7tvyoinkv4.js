@@ -69,7 +69,8 @@ module.exports = {
 		let errorCode = 0;
 		await Promise.all(
 			findEmotes.map(async (x) => {
-				const addEmote = await AddSTVEmote(x.id, findChannelEmoteSet.id);
+				const isSameName = x.name !== x.data.name ? x.name : null;
+				const addEmote = await AddSTVEmote(x.id, findChannelEmoteSet.id, isSameName);
 				if (addEmote?.data?.emoteSet != null) {
 					pushEmotes.push(x.name);
 				} else {
@@ -77,11 +78,8 @@ module.exports = {
 					errorMessage = `${addEmote.errors[0]?.extensions?.message}`;
 				}
 
-				if (x.name != x.data.name) {
-					const aliasEmote = await AliasSTVEmote(x.id, findChannelEmoteSet.id, x.name);
-					if (aliasEmote?.data?.emoteSet != null) {
-						pushAliases.push(x.name);
-					}
+				if (x.name !== x.data.name) {
+					pushAliases.push(x.name);
 				}
 			}),
 		);
