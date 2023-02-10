@@ -12,10 +12,10 @@ module.exports = {
 		const emoteStats = await fetch(`https://api.kattah.me/c/${user.toLowerCase()}`, {
 			method: 'GET',
 		}).then((res) => res.json());
-		const { success, data } = emoteStats;
+		const { success, emotes } = emoteStats;
 
 		if (success) {
-			const listTop5Emotes = data.slice(0, 5);
+			const listTop5Emotes = emotes.slice(0, 5);
 
 			const top5Text = listTop5Emotes
 				.map((emote, index) => `${index == 0 ? `🥇` : index == 1 ? `🥈` : index == 2 ? `🥉` : ``} ${emote.name} (Usage: ${emote.usage.toLocaleString()})`)
@@ -27,7 +27,7 @@ module.exports = {
 			};
 		} else {
 			return {
-				text: `Channel ${user} not found, authorize here ==> https://stats.kattah.me/auth/twitch`,
+				text: `Channel ${user} not found`,
 				reply: false,
 			};
 		}
