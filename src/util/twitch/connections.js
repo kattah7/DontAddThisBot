@@ -16,11 +16,11 @@ const client = new ChatClient({
 
 client.use(new AlternateMessageModifier(client));
 client.use(new SlowModeRateLimiter(client, 10));
-client.use(
-	new ConnectionPool(client, {
-		poolSize: 100,
-	}),
-);
+// client.use(
+// 	new ConnectionPool(client, {
+// 		poolSize: 100,
+// 	}),
+// );
 client.connect();
 
 module.exports = { client };
