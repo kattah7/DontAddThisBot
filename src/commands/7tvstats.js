@@ -12,13 +12,14 @@ module.exports = {
 		const emoteStats = await fetch(`https://api.kattah.me/c/${user.toLowerCase()}`, {
 			method: 'GET',
 		}).then((res) => res.json());
+		console.log(emoteStats);
 		const { success, emotes } = emoteStats;
 
 		if (success) {
 			const listTop5Emotes = emotes.slice(0, 5);
 
 			const top5Text = listTop5Emotes
-				.map((emote, index) => `${index == 0 ? `🥇` : index == 1 ? `🥈` : index == 2 ? `🥉` : ``} ${emote.name} (Usage: ${emote.usage.toLocaleString()})`)
+				.map((emote, index) => `${index == 0 ? `🥇` : index == 1 ? `🥈` : index == 2 ? `🥉` : ``} ${emote.emote} (Usage: ${emote.count.toLocaleString()})`)
 				.join(' | ');
 
 			return {
