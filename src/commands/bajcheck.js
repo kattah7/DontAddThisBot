@@ -11,7 +11,7 @@ module.exports = {
 	canOptout: true,
 	target: 'self',
 	execute: async (client, msg) => {
-		const targetUser = await utils.ParseUser(msg.args[0] ?? msg.user.login);
+		const targetUser = utils.ParseUser(msg.args[0] ?? msg.user.login);
 		const data = await fetch(`https://api.ivr.fi/v2/twitch/subage/${targetUser}/forsen`, {
 			method: 'GET',
 			headers: {

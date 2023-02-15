@@ -30,7 +30,7 @@ module.exports = {
 			};
 		}
 
-		const targetUser = await ParseUser(msg.args[0]);
+		const targetUser = ParseUser(msg.args[0]);
 		const targetUserInfo = await IVRByLogin(targetUser);
 		if (!targetUserInfo || targetUserInfo === null || targetUserInfo.banned === true) {
 			return {

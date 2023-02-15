@@ -32,7 +32,7 @@ module.exports = {
 				.exec();
 		}
 
-		const targetUser = await ParseUser(msg?.args[0]);
+		const targetUser = ParseUser(msg?.args[0]);
 		if (!targetUser || !/^[A-Z_\d]{2,30}$/i.test(targetUser)) {
 			const isArgs = targetUser ? 'malformed username parameter' : 'Please provide a channel name';
 			return {

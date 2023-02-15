@@ -1,4 +1,5 @@
-const got = require('got');
+const { ParseUser, IDByLogin } = require('../util/twitch/utils');
+const { getUser } = require('../token/stvREST');
 
 module.exports = {
 	tags: '7tv',
@@ -7,24 +8,27 @@ module.exports = {
 	cooldown: 5000,
 	aliases: [],
 	execute: async (client, msg) => {
-		const targetUser = msg.args[0] ?? msg.channel.login;
-		let { body: userData, statusCode } = await got(`https://api.7tv.app/v2/users/${targetUser.toLowerCase()}`, {
-			timeout: 10000,
-			throwHttpErrors: false,
-			responseType: 'json',
-		});
+		const targetUser = ParseUser(msg.args[0] ?? msg.user.login);
+		const targetID = await IDByLogin(targetUser);
 
-		const { body: stv } = await got.post(`https://api.7tv.app/v2/gql`, {
-			throwHttpErrors: false,
-			responseType: 'json',
-			json: {
-				query: 'query GetUser($id: String!) {user(id: $id) {...FullUser,, banned, youtube_id}}fragment FullUser on User {id,email, display_name, login,description,role {id,name,position,color,allowed,denied},emote_aliases,emotes { id, name, status, visibility, width, height },owned_emotes { id, name, status, visibility, width, height },emote_ids,editor_ids,editors {id, display_name, login,role { id, name, position, color, allowed, denied },profile_image_url,emote_ids},editor_in {id, display_name, login,role { id, name, position, color, allowed, denied },profile_image_url,emote_ids},follower_count,broadcast {type,title,game_name,viewer_count,},twitch_id,broadcaster_type,profile_image_url,created_at,emote_slots,audit_entries {id,type,timestamp,action_user_id,action_user {id, display_name, login,role { id, name, position, color, allowed, denied },profile_image_url,emote_ids},changes {key, values},target {type,data,id},reason}}',
-				variables: {
-					id: userData.id,
-				},
-			},
-		});
+		if (targetID === null) {
+			return {
+				text: `User ${targetUser} not found`,
+				reply: true,
+			};
+		}
 
-		return { text: `${stv.data.user.profile_image_url.replace('//', '')}` };
+		const stvUser = await getUser(targetID);
+		if (stvUser === null || stvUser?.user?.avatar_url === '' || !stvUser?.user?.avatar_url) {
+			return {
+				text: `User ${targetUser} not found on 7TV`,
+				reply: true,
+			};
+		}
+
+		return {
+			text: 'https:' + stvUser.user.avatar_url,
+			reply: true,
+		};
 	},
 };

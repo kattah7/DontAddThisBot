@@ -18,7 +18,7 @@ module.exports = {
 			await ChangeColor(botColor);
 		}
 
-		const targetUser = await ParseUser(msg.args[0] ?? msg.user.login);
+		const targetUser = ParseUser(msg.args[0] ?? msg.user.login);
 		if (msg.args[0]) {
 			const user = await IVRByLogin(targetUser);
 			if (user === null || user.chatColor === null) {

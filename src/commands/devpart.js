@@ -7,7 +7,7 @@ module.exports = {
 	level: 3,
 	description: 'Part channel command (level 3 only)',
 	execute: async (client, msg) => {
-		const targetUser = await ParseUser(msg.args[0]);
+		const targetUser = ParseUser(msg.args[0]);
 		if (!targetUser || !/^[A-Z_\d]{3,25}$/i.test(targetUser)) {
 			const isArgs = targetUser ? 'malformed username parameter' : 'Please provide a channel name';
 			return {

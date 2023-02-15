@@ -8,7 +8,7 @@ module.exports = {
 	aliases: [],
 	description: 'Check available names on Twitch',
 	execute: async (client, msg) => {
-		const targetUser = await ParseUser(msg.args[0] ?? msg.user.login);
+		const targetUser = ParseUser(msg.args[0] ?? msg.user.login);
 		if (!/^[a-z0-9_]/i.test(targetUser)) {
 			return {
 				text: `${targetUser} is not a valid user`,

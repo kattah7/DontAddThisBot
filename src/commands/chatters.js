@@ -9,7 +9,7 @@ module.exports = {
 	aliases: [],
 	description: 'Check active/viewerlist count',
 	execute: async (client, msg) => {
-		const targetUser = await ParseUser(msg.args[0] ?? msg.user.login);
+		const targetUser = ParseUser(msg.args[0] ?? msg.user.login);
 		const { chatter_count } = await got(`http://tmi.twitch.tv/group/user/${targetUser.toLowerCase()}/chatters`).json();
 		const { messages } = await fetch(`https://recent-messages.robotty.de/api/v2/recent-messages/${targetUser.toLowerCase()}`, {
 			method: 'GET',

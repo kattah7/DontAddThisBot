@@ -11,7 +11,7 @@ module.exports = {
 	canOptout: true,
 	target: null,
 	execute: async (client, msg) => {
-		const targetUser = await ParseUser(msg.args[0] ?? msg.user.login);
+		const targetUser = ParseUser(msg.args[0] ?? msg.user.login);
 		const { body: pogger2 } = await got(`https://api.ivr.fi/v2/twitch/user?login=${targetUser}`, {
 			throwHttpErrors: false,
 			responseType: 'json',

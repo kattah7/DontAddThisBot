@@ -8,7 +8,7 @@ module.exports = {
 	cooldown: 5000,
 	async execute(client, msg) {
 		const user = msg.args[0] ? msg.args[0].toLowerCase() : msg.user.login;
-		const targeParsedUser = await ParseUser(user);
+		const targeParsedUser = ParseUser(user);
 		const data = await bot.DB.users.findOne({ username: targeParsedUser }).exec();
 
 		if (!data) {

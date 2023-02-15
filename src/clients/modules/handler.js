@@ -55,7 +55,7 @@ const createUserInDB = async function (senderUserID, senderUsername) {
 };
 
 const userCommands = async function (username, commandName) {
-	const targetUser = await ParseUser(username);
+	const targetUser = ParseUser(username);
 	const findUserInTable = await bot.SQL.query(`SELECT * FROM user_commands_settings WHERE twitch_login = '${targetUser}' AND command = '${commandName}'`);
 
 	return findUserInTable.rows[0];

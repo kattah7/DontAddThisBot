@@ -11,7 +11,7 @@ module.exports = {
 	aliases: [],
 	execute: async (client, msg) => {
 		const Emote = GlobalEmote();
-		const targetUser = await ParseUser(msg.args[0] ?? msg.user.login);
+		const targetUser = ParseUser(msg.args[0] ?? msg.user.login);
 		const uid = await IDByLogin(targetUser);
 		const stvInfo = await getUser(uid);
 		if (!stvInfo || stvInfo === null) {

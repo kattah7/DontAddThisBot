@@ -8,7 +8,7 @@ module.exports = {
 	aliases: [],
 	description: 'Get channel emote, top chatter, top hastags and top command stats',
 	execute: async (client, msg) => {
-		const targetUser = await ParseUser(msg.args[0] ?? msg.channel.login);
+		const targetUser = ParseUser(msg.args[0] ?? msg.channel.login);
 		const data = await ChatStats(targetUser);
 
 		if (data.error) {

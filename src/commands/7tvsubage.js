@@ -11,7 +11,7 @@ module.exports = {
 	description: "Check user's 7tv subage YEAHBUT7TV",
 	execute: async (client, msg) => {
 		const Emote = GlobalEmote();
-		const targetUser = await ParseUser(msg.args[0] ?? msg.user.login);
+		const targetUser = ParseUser(msg.args[0] ?? msg.user.login);
 		const uid = await IDByLogin(targetUser);
 		if (uid === null) {
 			return {

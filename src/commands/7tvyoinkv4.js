@@ -28,7 +28,7 @@ module.exports = {
 			};
 		}
 
-		const targetChannel = await ParseUser(target);
+		const targetChannel = ParseUser(target);
 		const targetChannelID = await IDByLogin(targetChannel);
 		if (!targetChannelID || targetChannelID === null) {
 			return {

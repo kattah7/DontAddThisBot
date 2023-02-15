@@ -8,7 +8,7 @@ module.exports = {
 	aliases: ['mv'],
 	cooldown: 3000,
 	async execute(client, msg) {
-		const targetUser = await ParseUser(msg.args[0] ?? msg.channel.login);
+		const targetUser = ParseUser(msg.args[0] ?? msg.channel.login);
 		if (!/^[A-Z_\d]{2,26}$/i.test(targetUser)) {
 			return {
 				text: 'malformed username parameter',

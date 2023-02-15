@@ -16,7 +16,7 @@ module.exports = {
 				reply: true,
 			};
 		}
-		const targetUser = await ParseUser(msg.args[0] ?? msg.user.login);
+		const targetUser = ParseUser(msg.args[0] ?? msg.user.login);
 		const { data } = await got(`https://api.twitter.com/2/users/by/username/${targetUser}?user.fields=location`, {
 			headers: {
 				Authorization: `Bearer ${twitter.bearer}`,

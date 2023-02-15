@@ -8,7 +8,7 @@ module.exports = {
 	description: 'check if user has twitchcon badge.',
 	aliases: ['tc'],
 	execute: async (client, msg) => {
-		const targetUser = await ParseUser(msg.args[0] ?? msg.user.login);
+		const targetUser = ParseUser(msg.args[0] ?? msg.user.login);
 		const { activeTargetUser, channelViewer } = (await GetBadges(targetUser)).data;
 
 		if (activeTargetUser == null) {

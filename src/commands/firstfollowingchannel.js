@@ -10,7 +10,7 @@ module.exports = {
 	canOptout: true,
 	target: 'self',
 	execute: async (client, msg) => {
-		const targetUser = await ParseUser(msg.args[0] ?? msg.channel.login);
+		const targetUser = ParseUser(msg.args[0] ?? msg.channel.login);
 		const { data } = await GetFirstFollows(targetUser);
 		const { user } = data;
 

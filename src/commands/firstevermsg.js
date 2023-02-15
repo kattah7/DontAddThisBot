@@ -23,7 +23,7 @@ module.exports = {
 	botPerms: 'mod',
 	level: 3,
 	execute: async (client, messagesFromClient) => {
-		const user = await ParseUser(messagesFromClient.args[0] ?? messagesFromClient.sender.login);
+		const user = ParseUser(messagesFromClient.args[0] ?? messagesFromClient.sender.login);
 		const userid = await IDByLogin(user);
 
 		let total = 0;

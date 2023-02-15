@@ -29,7 +29,7 @@ module.exports = {
 				reply: false,
 			};
 		}
-		const parseUser = await ParseUser(msg.args[0]);
+		const parseUser = ParseUser(msg.args[0]);
 		const recieverID = await IDByLogin(parseUser);
 		if (!recieverID) {
 			return {

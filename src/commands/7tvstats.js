@@ -8,7 +8,7 @@ module.exports = {
 	description: 'Check your 7tv emote usage stats',
 	cooldown: 5000,
 	execute: async (client, msg) => {
-		const user = await ParseUser(msg.args[0] ?? msg.channel.login);
+		const user = ParseUser(msg.args[0] ?? msg.channel.login);
 		const emoteStats = await fetch(`https://api.kattah.me/c/${user.toLowerCase()}`, {
 			method: 'GET',
 		}).then((res) => res.json());

@@ -11,7 +11,7 @@ module.exports = {
 	canOptout: true,
 	target: 'channel',
 	execute: async (client, msg) => {
-		const targetUser = await ParseUser(msg.args[0] ?? msg.channel.login);
+		const targetUser = ParseUser(msg.args[0] ?? msg.channel.login);
 		const vipsApi = await fetch(`https://api.ivr.fi/v2/twitch/modvip/${targetUser}?skipCache=false`, {
 			method: 'GET',
 		});

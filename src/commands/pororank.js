@@ -7,7 +7,7 @@ module.exports = {
 	aliases: ['pororank'],
 	description: 'Check your rank in the poro leaderboard',
 	execute: async (client, msg) => {
-		const targetUser = await ParseUser(msg.args[0] ?? msg.user.login);
+		const targetUser = ParseUser(msg.args[0] ?? msg.user.login);
 		const { leaderboards } = await bot.Redis.get('leaderboardEndpoint');
 
 		const length = leaderboards.length;

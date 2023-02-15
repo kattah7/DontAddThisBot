@@ -80,8 +80,8 @@ exports.getPFP = async (username) => {
 	return body[0].logo;
 };
 
-exports.sleep = (ms) => {
-	return new Promise((resolve) => setTimeout(resolve, ms));
+exports.sleep = async (ms) => {
+	return await new Promise((resolve) => setTimeout(resolve, ms));
 };
 
 exports.splitArray = (arr, len) => {
@@ -113,14 +113,7 @@ exports.PoroNumberOne = async (userID) => {
 	return user;
 };
 
-exports.ParseUser = async (user) => {
+exports.ParseUser = (user) => {
 	const parsed = user.replace(/[@#,]/g, ''); // Remove @, #, and ,
 	return parsed.toLowerCase();
-};
-
-exports.Invest = async (symbol) => {
-	const res = await got(`https://finnhub.io/api/v1/quote?symbol=${symbol}&token=${process.env.FINNHUB_API_KEY}`).catch((e) => console.log(e));
-	if (!res) return null;
-	const data = JSON.parse(res.body);
-	return data;
 };

@@ -16,7 +16,7 @@ module.exports = {
 		}
 
 		const targetUser = (args[0] ?? message.senderUsername).toLowerCase();
-		const user = await ParseUser(targetUser);
+		const user = ParseUser(targetUser);
 		delete require.cache[require.resolve('../../joiner/data/users.json')];
 		const { tracking_users } = require('../../joiner/data/users.json');
 		const isUserInTracking = tracking_users.includes(user);

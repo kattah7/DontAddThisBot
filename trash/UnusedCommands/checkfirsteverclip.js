@@ -9,7 +9,7 @@ module.exports = {
 	canOptout: true,
 	target: 'channel',
 	execute: async (client, msg) => {
-		const targetUser = await ParseUser(msg.args[0] ?? msg.channel.login);
+		const targetUser = ParseUser(msg.args[0] ?? msg.channel.login);
 		const UserID = await IDByLogin(targetUser);
 		if (!UserID || !/^[A-Z_\d]{2,26}$/i.test(targetUser)) {
 			return {

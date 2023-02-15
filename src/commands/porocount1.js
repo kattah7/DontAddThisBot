@@ -19,7 +19,7 @@ module.exports = {
 		};
 
 		const { login: senderUsername } = msg.user;
-		const targetUser = await ParseUser(msg.args[0] ?? senderUsername);
+		const targetUser = ParseUser(msg.args[0] ?? senderUsername);
 		const targetUserID = await IDByLogin(targetUser);
 		const selfPoroData = await bot.DB.poroCount.findOne({ id: targetUserID });
 		if (!selfPoroData) {

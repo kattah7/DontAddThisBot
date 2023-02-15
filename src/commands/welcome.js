@@ -16,7 +16,7 @@ module.exports = {
 				reply: true,
 			};
 		}
-		const targetUser = await ParseUser(msg.args[0].toLowerCase());
+		const targetUser = ParseUser(msg.args[0].toLowerCase());
 		const channelName = msg.channel.login;
 		client.say(channelName, `https://www.twitchdatabase.com/following/${targetUser}`);
 		client.say(channelName, `https://twitchtracker.com/${targetUser}`);

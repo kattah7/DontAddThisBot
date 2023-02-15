@@ -11,7 +11,7 @@ module.exports = {
 	execute: async (client, msg) => {
 		const Emote = GlobalEmote();
 		async function returnTargetID(targetName) {
-			const targetUser = await ParseUser(targetName);
+			const targetUser = ParseUser(targetName);
 			const getUserID = await IDByLogin(targetUser);
 
 			return getUserID;

@@ -20,7 +20,7 @@ module.exports = {
 			return diffDays;
 		}
 
-		const USERNAME = await ParseUser(msg.args[0] ?? msg.user.login);
+		const USERNAME = ParseUser(msg.args[0] ?? msg.user.login);
 		let data = await got(`https://api.ivr.fi/twitch/subage/${USERNAME}/trainwreckstv`, { timeout: 10000 }).json();
 		const followAge = new Date().getTime() - Date.parse(data.followedAt);
 		if (data) {
