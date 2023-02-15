@@ -10,17 +10,17 @@ const client = new ChatClient({
 	installDefaultMixins: true,
 	connectionRateLimits: {
 		parallelConnections: 5,
-		releaseTime: 1000,
+		releaseTime: 2000,
 	},
 });
 
 client.use(new AlternateMessageModifier(client));
 client.use(new SlowModeRateLimiter(client, 10));
-client.use(
-	new ConnectionPool(client, {
-		poolSize: 5,
-	}),
-);
+// client.use(
+// 	new ConnectionPool(client, {
+// 		poolSize: 100,
+// 	}),
+// );
 client.connect();
 
 module.exports = { client };
