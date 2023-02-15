@@ -1,5 +1,5 @@
-const { GetBadges } = require('../token/gql.js');
-const { ParseUser } = require('../util/twitch/utils.js');
+const { GetBadges } = require('../../src/token/gql.js');
+const { ParseUser } = require('../../src/util/twitch/utils.js');
 
 module.exports = {
 	tags: 'stats',
