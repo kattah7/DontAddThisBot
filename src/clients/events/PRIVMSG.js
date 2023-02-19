@@ -11,22 +11,6 @@ const discord = require('../../util/discord/discord.js');
 const PRIVMSG = async function () {
 	getTimers();
 	client.on('PRIVMSG', async (msg) => {
-		const { channelName, senderUserID, senderUsername, messageText } = msg;
-		if (channelName == 'turtoise') {
-			if (messageText.startsWith('$cookie') && senderUserID == '188427533') {
-				client.say(channelName, '$cookie gift Wisdomism');
-				return;
-			}
-		} else if (channelName === 'dontaddthisbot' && senderUsername !== 'dontaddthisbot') {
-			if (messageText.startsWith('!restart')) {
-				client.say(channelName, '!restart');
-				return;
-			} else if (messageText.startsWith('!continue')) {
-				client.say(channelName, '!continue');
-				return;
-			}
-		}
-
 		const ts = Date.now();
 		const received = performance.now();
 		const msgData = {
