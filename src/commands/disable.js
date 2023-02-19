@@ -9,7 +9,7 @@ module.exports = {
 	permission: 1,
 	async execute(client, msg) {
 		return {
-			text: `This command has been deprecated. Please use https://poros.lol/dashboard/${msg.channel.login}/default`,
+			text: `This command has been deprecated. Please use https://poros.lol/dashboard/${msg.channel.login}/channel/default`,
 			reply: true,
 		};
 	},

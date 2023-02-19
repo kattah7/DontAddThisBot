@@ -8,7 +8,7 @@ module.exports = {
 	offline: true,
 	execute: async (client, msg) => {
 		return {
-			text: `This command has been deprecated. Please use https://poros.lol/dashboard/${msg.channel.login}/settings`,
+			text: `This command has been deprecated. Please use https://poros.lol/dashboard/${msg.channel.login}/channel/settings`,
 			reply: true,
 		};
 	},
