@@ -47,6 +47,10 @@ const PRIVMSG = async function () {
 						return;
 					}
 
+					if (this.channel.id === '71092938') {
+						return await client.say('dontaddthisbot', reply ? `@${this.user.display}, ${message}` : message);
+					}
+
 					if (await PoroNumberOne(this.user.id)) {
 						const color = await bot.Redis.get('botColor');
 
