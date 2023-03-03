@@ -3,7 +3,7 @@ const { Logger, LogLevel } = require('../../misc/logger.js');
 
 const NOTICE = async function () {
 	client.on('NOTICE', async ({ channelName, messageID }) => {
-		if (!messageID) return;
+		if (!messageID || channelName === 'xqc') return;
 
 		if (messageID == 'msg_rejected_mandatory') {
 			client.say(channelName, `That message violates the channel's moderation settings`);
