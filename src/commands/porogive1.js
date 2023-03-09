@@ -77,6 +77,8 @@ module.exports = {
 
 			const newSenderPoroMinusPercent = sendingAmount - (sendingAmount * taxPercentage) / 100;
 			taxAmount = Math.floor(newSenderPoroMinusPercent);
+		} else {
+			taxAmount = Number(msg.args[1]);
 		}
 
 		const newSenderPoro = msg.poro.poroCount - Number(msg.args[1]);
