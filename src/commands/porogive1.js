@@ -63,10 +63,10 @@ module.exports = {
 			};
 		}
 
-		let taxPercentage = msg.poro.poroPrestige;
+		let taxPercentage = msg.poro.poroPrestige + Reciever.poroPrestige;
 		let taxAmount = 0;
 		const sendingAmount = Number(msg.args[1]);
-		if (msg.poro.poroPrestige > 0 || sendingAmount > 5000) {
+		if (msg.poro.poroPrestige > 0 || Reciever.poroPrestige > 0 || sendingAmount > 5000) {
 			if (sendingAmount >= 5000) {
 				taxPercentage += Math.floor(sendingAmount / 5000);
 			}
