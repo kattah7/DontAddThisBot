@@ -32,6 +32,13 @@ module.exports = {
 			};
 		}
 
+		if (targetUser === msg.poro.id) {
+			return {
+				text: `You cant give poro to yourself. PoroSad`,
+				reply: true,
+			};
+		}
+
 		const checkLevel = await bot.DB.users.findOne({ id: targetUser }).exec();
 		if (checkLevel?.level < 1 || !checkLevel) {
 			const isBlacklisted = !checkLevel ? 'User was never seen before.' : 'User is blacklisted.';
