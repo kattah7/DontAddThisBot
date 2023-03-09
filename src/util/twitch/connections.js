@@ -6,11 +6,11 @@ const client = new ChatClient({
 	password: twitch.oauth,
 	rateLimits: 'verifiedBot',
 	ignoreUnhandledPromiseRejections: true,
-	maxChannelCountPerConnection: 200,
+	maxChannelCountPerConnection: 1,
 	installDefaultMixins: true,
 	connectionRateLimits: {
-		parallelConnections: 5,
-		releaseTime: 2000,
+		parallelConnections: 200,
+		releaseTime: 10,
 	},
 });
 
