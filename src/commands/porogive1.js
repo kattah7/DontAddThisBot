@@ -87,7 +87,7 @@ module.exports = {
 		await bot.DB.poroCount.updateOne({ id: msg.poro.id }, { $set: { poroCount: newSenderPoro } }, { multi: true }).exec();
 		await bot.DB.poroCount.updateOne({ id: Reciever.id }, { $set: { poroCount: newRecieverPoro } }, { multi: true }).exec();
 
-		const isTaxed = taxAmount > 0 ? `(${taxPercentage}% Fees)` : '';
+		const isTaxed = taxPercentage > 0 ? `(${taxPercentage}% Fees)` : '';
 		await PoroGive(msg.user.login, msg.channel.login, parseUser, msg.args[1]);
 		return {
 			text: `You have ${newSenderPoro.toLocaleString()} and ${parseUser} now has ${newRecieverPoro.toLocaleString()} kattahPoro ${isTaxed}`,
