@@ -9,8 +9,12 @@ const client = new ChatClient({
 	maxChannelCountPerConnection: 1,
 	installDefaultMixins: true,
 	connectionRateLimits: {
-		parallelConnections: 200,
-		releaseTime: 10,
+		parallelConnections: 5,
+		releaseTime: 1000,
+	},
+	connection: {
+		type: 'websocket',
+		secure: true,
 	},
 });
 
