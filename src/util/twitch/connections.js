@@ -6,9 +6,10 @@ const client = new ChatClient({
 	password: twitch.oauth,
 	rateLimits: 'verifiedBot',
 	ignoreUnhandledPromiseRejections: true,
+	maxChannelCountPerConnection: 1,
 	connectionRateLimits: {
-		parallelConnections: 5,
-		releaseTime: 1000,
+		parallelConnections: 200,
+		releaseTime: 10,
 	},
 	connection: {
 		type: 'websocket',
