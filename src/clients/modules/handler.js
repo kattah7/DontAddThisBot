@@ -88,9 +88,9 @@ const setHastag = (msg) => {
 
 module.exports = {
 	handler: async function (msg) {
+		console.log(msg.channel.login);
 		if (msg.user.id !== '790623318') {
 			const channelData = await getChannel(msg.channel.id);
-			console.log(msg.channel.login);
 			msg.mongoChannel = channelData;
 			msg.prefix = channelData.prefix ?? '|';
 
