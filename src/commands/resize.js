@@ -20,7 +20,7 @@ module.exports = {
 		if (/https:\/\/(next\.)?7tv\.app\/emotes\/\w{24}/g.test(url)) {
 			const linkEmote = /https:\/\/(next\.)?7tv\.app\/emotes\/(\w{24})/.exec(url);
 			return {
-				text: ezGif + `https://cdn.7tv.app/emote/${linkEmote[2]}/4x`,
+				text: ezGif + `https://cdn.7tv.app/emote/${linkEmote[2]}/4x.webp`,
 			};
 		}
 
@@ -45,13 +45,13 @@ module.exports = {
 					}
 
 					return {
-						text: ezGif + `https://cdn.7tv.app/emote/${searchEmote['data']['emotes']['items'][0]['id']}/4x`,
+						text: ezGif + `https://cdn.7tv.app/emote/${searchEmote['data']['emotes']['items'][0]['id']}/4x.webp`,
 						reply: true,
 					};
 				}
 
 				return {
-					text: ezGif + `https://cdn.7tv.app/emote/${findEmote['id']}/4x`,
+					text: ezGif + `https://cdn.7tv.app/emote/${findEmote['id']}/4x.webp`,
 					reply: true,
 				};
 			}
