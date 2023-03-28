@@ -6,16 +6,6 @@ const client = new ChatClient({
 	password: twitch.oauth,
 	rateLimits: 'verifiedBot',
 	ignoreUnhandledPromiseRejections: true,
-	maxChannelCountPerConnection: 1,
-	installDefaultMixins: true,
-	connectionRateLimits: {
-		parallelConnections: 200,
-		releaseTime: 10,
-	},
-	connection: {
-		type: 'websocket',
-		secure: true,
-	},
 });
 
 client.use(new AlternateMessageModifier(client));
