@@ -75,7 +75,7 @@ const BannedSchema = new DB.Schema({
 });
 
 exports.users = DB.model('users', UserSchema);
-exports.poroCount = DB.model('TF', PoroSchema);
+exports.poroCount = DB.model('poroCount', PoroSchema);
 exports.channels = DB.model('channels', ChannelsSchema);
 exports.private = DB.model('private', PrivateSchema);
 exports.stable = DB.model('stable', ImageStableSchema);
