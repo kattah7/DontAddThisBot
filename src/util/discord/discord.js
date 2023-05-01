@@ -148,3 +148,18 @@ exports.PoroGive = async (sender, channelName, args, sendAmount) => {
 	};
 	await sendWebhookMsg(WebHook, WebhookMsg);
 };
+
+exports.Levels = async (message) => {
+	const WebHook = `https://discord.com/api/webhooks/${discord.action}`;
+	const WebhookMsg = {
+		...returnEmbed(
+			{
+				name: 'Levels',
+				url: 'https://i.nuuls.com/g8l2r.png',
+			},
+			0x0099ff,
+			message,
+		),
+	};
+	await sendWebhookMsg(WebHook, WebhookMsg);
+};

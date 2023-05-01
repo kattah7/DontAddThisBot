@@ -1,4 +1,5 @@
 const { IVRByLogin, ParseUser } = require('../util/twitch/utils');
+const { Levels } = require('../util/discord/discord');
 
 module.exports = {
 	name: 'setlevel',
@@ -51,6 +52,8 @@ module.exports = {
 		}
 
 		await bot.DB.users.updateOne({ id: id }, { level: level }).exec();
+
+		await Levels(`${login} (${id}) has been updated to level ${level} by ${msg.user.login} in #${msg.channel.login}`);
 		return {
 			text: `The users level has been updated to:  ${bot.Utils.misc.levels[level]} (${level})`,
 		};

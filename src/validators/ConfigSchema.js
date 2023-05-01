@@ -11,11 +11,6 @@ const ConfigSchema = Joi.object({
 		host: Joi.string().required(),
 		database: Joi.string().required(),
 	}).required(),
-	joiner: Joi.object({
-		client_id: Joi.string(),
-		access_token: Joi.string(),
-		desired_viewcount: Joi.number(),
-	}),
 	backend: Joi.object({
 		port: Joi.number(),
 		origin: Joi.string(),
