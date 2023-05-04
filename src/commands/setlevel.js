@@ -4,7 +4,7 @@ const { Levels } = require('../util/discord/discord');
 module.exports = {
 	name: 'setlevel',
 	description: "Sets the user's level.",
-	level: 3,
+	kattah: true,
 	cooldown: 5000,
 	aliases: [],
 	async execute(client, msg) {

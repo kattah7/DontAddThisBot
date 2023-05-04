@@ -4,7 +4,7 @@ module.exports = {
 	name: 'botjoin',
 	aliases: [],
 	cooldown: 3000,
-	level: 3,
+	kattah: true,
 	description: 'Join channel command',
 	execute: async (client, msg) => {
 		async function createUser(targetUser, targetUserID) {

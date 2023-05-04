@@ -4,7 +4,7 @@ module.exports = {
 	name: 'botpart',
 	aliases: [],
 	cooldown: 3000,
-	level: 3,
+	kattah: true,
 	description: 'Part channel command (level 3 only)',
 	execute: async (client, msg) => {
 		const targetUser = ParseUser(msg.args[0]);
