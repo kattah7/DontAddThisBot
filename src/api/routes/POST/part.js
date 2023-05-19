@@ -4,7 +4,7 @@ const { client } = require('../../../util/twitch/connections');
 const { middleWare } = require('../../middleWare');
 const { limiter } = require('../../rateLimit');
 
-router.post('/api/bot/part', limiter(5000, 1), middleWare, async (req, res) => {
+router.post('/api/bot/part', limiter(1000, 1), middleWare, async (req, res) => {
 	const { id, login } = req.user;
 	const channelInfo = await bot.DB.channels.findOne({ id: id }).exec();
 	if (!channelInfo || !channelInfo.isChannel) {

@@ -5,7 +5,7 @@ const { middleWare } = require('../../middleWare');
 const { newChannel } = require('../../../util/discord/discord');
 const { limiter } = require('../../rateLimit');
 
-router.post('/api/bot/join', limiter(5000, 1), middleWare, async (req, res) => {
+router.post('/api/bot/join', limiter(1000, 1), middleWare, async (req, res) => {
 	const { id, login } = req.user;
 	const channelInfo = await bot.DB.channels.findOne({ id: id }).exec();
 	if (!channelInfo) {
@@ -25,7 +25,7 @@ router.post('/api/bot/join', limiter(5000, 1), middleWare, async (req, res) => {
 			}).save();
 			await newChannel(login, new Date(), login);
 
-			await bot.Redis.set(`xd:kattah:banned:${id}`, '1', 0);
+			await bot.Redis.set(`JOINER:banned:${id}`, '1', 0);
 			return res.status(200).json({
 				success: true,
 				message: 'Joined channel.',
