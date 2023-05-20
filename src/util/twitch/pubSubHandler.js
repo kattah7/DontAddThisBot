@@ -93,21 +93,21 @@ module.exports = {
 				if (reward.title === 'Free 100 Poros') {
 					await rewardPoros(user.id, 100).then(async (res) => {
 						if (!res || res === null) {
-							await client.say('dontaddthisbot', "You aren't registered! type |poro to get started");
+							await client.say('kattah', "You aren't registered! type |poro to get started");
 							return;
 						}
 
-						await client.say('dontaddthisbot', `Thank you for redeeming 100 poros kattahPoro You have ${res.poroCount + 100} poros`);
+						await client.say('kattah', `Thank you for redeeming 100 poros kattahPoro You have ${res.poroCount + 100} poros`);
 						return;
 					});
 				} else if (reward.title === 'Free 1000 Poros') {
 					await rewardPoros(user.id, 1000).then(async (res) => {
 						if (!res || res === null) {
-							await client.say('dontaddthisbot', "You aren't registered! type |poro to get started");
+							await client.say('kattah', "You aren't registered! type |poro to get started");
 							return;
 						}
 
-						await client.say('dontaddthisbot', `Thank you for redeeming 1000 poros kattahPoro You have ${res.poroCount + 1000} poros`);
+						await client.say('kattah', `Thank you for redeeming 1000 poros kattahPoro You have ${res.poroCount + 1000} poros`);
 						return;
 					});
 				}
