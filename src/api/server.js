@@ -1,5 +1,6 @@
 const express = require('express');
 const { backend } = require('../../config.json');
+const parser = require('cookie-parser');
 const cors = require('cors');
 const morgan = require('morgan');
 const { Logger, LogLevel } = require('../misc/logger');
@@ -23,7 +24,7 @@ const Path = './src/api/routes';
 	}
 })();
 
-App.use(cors(), morgan('dev'));
+App.use(cors(), morgan('dev'), express.json(), parser());
 App.listen(backend.port, () => {
 	Logger.log(LogLevel.INFO, `API is running on port ${backend.port}`);
 });
