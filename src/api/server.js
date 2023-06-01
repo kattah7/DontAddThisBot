@@ -1,60 +1,29 @@
 const express = require('express');
-const parser = require('cookie-parser');
 const { backend } = require('../../config.json');
 const cors = require('cors');
 const morgan = require('morgan');
 const { Logger, LogLevel } = require('../misc/logger');
+const App = express();
 
-const channelInfo = require('./routes/GET/channelInfo');
-const channels = require('./routes/GET/channels');
-const leaderboard = require('./routes/GET/leaderboard');
-const poroCount = require('./routes/GET/poroCount');
-const userInfo = require('./routes/GET/users');
-const commands = require('./routes/GET/commands');
-const grafana = require('./routes/GET/grafana');
-const userAuthInfo = require('./routes/GET/userAuthInfo');
-const botInfo = require('./routes/GET/bot');
-const stable = require('./routes/GET/stable');
+const fs = require('fs');
+const path = require('path');
+const Path = './src/api/routes';
 
-const join = require('./routes/POST/join');
-const part = require('./routes/POST/part');
-const create = require('./routes/POST/createUser');
-const auth = require('./routes/POST/authenticate');
-const modJoin = require('./routes/POST/modjoin');
-const commandStatus = require('./routes/POST/commandStatus');
-const Editor = require('./routes/POST/Editor');
-const Logout = require('./routes/POST/logout');
+(async () => {
+	for (const file of fs.readdirSync(Path)) {
+		const subFolder = path.join(Path, file);
+		const subFolderFiles = fs.readdirSync(subFolder);
 
-const offline = require('./routes/PUT/offline');
-const prefix = require('./routes/PUT/prefix');
-const language = require('./routes/PUT/language');
+		for (const subFile of subFolderFiles) {
+			const Route = await require(`./routes/${file}/${subFile}`);
+			App.use(Route);
 
-const app = express();
-app.use(cors(), morgan('dev'));
-app.use(express.json(), parser(), [
-	channelInfo,
-	channels,
-	leaderboard,
-	poroCount,
-	userInfo,
-	commands,
-	grafana,
-	userAuthInfo,
-	botInfo,
-	join,
-	part,
-	create,
-	auth,
-	modJoin,
-	Editor,
-	commandStatus,
-	stable,
-	offline,
-	prefix,
-	language,
-	Logout,
-]);
+			Logger.log(LogLevel.INFO, `[${file}] Endpoint ${subFile} is running!`);
+		}
+	}
+})();
 
-app.listen(backend.port, () => {
+App.use(cors(), morgan('dev'));
+App.listen(backend.port, () => {
 	Logger.log(LogLevel.INFO, `API is running on port ${backend.port}`);
 });

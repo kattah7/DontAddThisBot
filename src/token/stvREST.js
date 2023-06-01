@@ -41,7 +41,7 @@ exports.GetEmotes = async (emoteID) => {
 };
 
 exports.GlobalEmote = () => {
-	return '7tvM';
+	return '(7TV)';
 };
 
 exports.uploadEmote = async (bufValue, emoteName, senderName, channelName) => {
