@@ -27,16 +27,6 @@
         "client_id": "",
         "stv_token": ""
     },
-    "twitter": {
-        "app_key": "",
-        "app_secret": "",
-        "access_token": "",
-        "access_secret": "",
-        "bearer": ""
-    },
-    "reddit": {
-        "gql_token": ""
-    },
     "discord": {
         "poro_logs": "Just any discord webhook api",
         "errors": "",
