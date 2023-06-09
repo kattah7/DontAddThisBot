@@ -6,12 +6,6 @@
 // ╚═════╝  ╚═════╝ ╚═╝  ╚═══╝   ╚═╝   ╚═╝  ╚═╝╚═════╝ ╚═════╝    ╚═╝   ╚═╝  ╚═╝╚═╝╚══════╝╚═════╝  ╚═════╝    ╚═╝
 
 const { Logger, LogLevel } = require('./misc/logger.js');
-const { ConfigSchema } = require('./validators/ConfigSchema.js');
-const result = ConfigSchema.validate(require('../config.json'));
-if (result.error) {
-	Logger.log(LogLevel.ERROR, result.error.message);
-	process.exit(1);
-}
 
 const nodeCron = require('node-cron');
 const { client } = require('./util/twitch/connections.js');
