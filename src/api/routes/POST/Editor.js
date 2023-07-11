@@ -81,10 +81,10 @@ router.post('/api/bot/editor', limiter(2500, 5), middleWare, async (req, res) =>
 			});
 		}
 
-		if (channelInfo.editors.length >= 50) {
+		if (channelInfo.editors.length >= 40) {
 			return res.status(400).json({
 				success: false,
-				message: 'You can only have 50 editors.',
+				message: 'You can only have 40 editors.',
 			});
 		}
 
