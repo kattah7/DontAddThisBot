@@ -5,10 +5,12 @@ const { WHISPER } = require('./events/WHISPER.js');
 const { CLEARCHAT } = require('./events/CLEARCHAT.js');
 const { NOTICE } = require('./events/NOTICE.js');
 const { PRIVMSG } = require('./events/PRIVMSG.js');
+const { USERNOTICE } = require('./events/USERNOTICE.js');
+
 const { main } = require('./JoinChannels.js');
 
 exports.Twitch = async function () {
-	for (const execute of [JOIN, PART, USERSTATE, WHISPER, CLEARCHAT, NOTICE, PRIVMSG, main]) {
-		await execute();
+	for (const execute of [JOIN, PART, USERSTATE, WHISPER, CLEARCHAT, NOTICE, PRIVMSG, USERNOTICE, main]) {
+		execute();
 	}
 };

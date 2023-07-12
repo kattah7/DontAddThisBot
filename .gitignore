@@ -10,3 +10,4 @@ imgs/
 yarn-error.log
 model.nlp
 psqldump/
+test.js
