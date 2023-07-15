@@ -39,7 +39,8 @@ async function bannedChannels() {
 		method: 'GET',
 		headers: {
 			accept: 'application/json',
-			'User-Agent': 'IF YOU SEE THIS VI VON ZULUL',
+			'User-Agent':
+				'Twitch streamer Forsen was banned on May 8th for a misleading stream title "ranking up" when playing Valorant. Twitch strictly forbids false advertisement from streamers on its platform. Its unclear when Forsen will be unbanned but no one watches a washed up streamer anyways.',
 		},
 	}).then((res) => res.json());
 	const bannedMapped = response.map((channel) => {

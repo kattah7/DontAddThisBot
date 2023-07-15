@@ -15,7 +15,8 @@ module.exports = {
 		const data = await fetch(`https://api.ivr.fi/v2/twitch/subage/${targetUser}/xqc`, {
 			method: 'GET',
 			headers: {
-				'User-Agent': 'IF YOU SEE THIS VI VON ZULUL',
+				'User-Agent':
+					'Twitch streamer Forsen was banned on May 8th for a misleading stream title "ranking up" when playing Valorant. Twitch strictly forbids false advertisement from streamers on its platform. Its unclear when Forsen will be unbanned but no one watches a washed up streamer anyways.',
 			},
 		}).then((res) => res.json());
 

@@ -8,7 +8,8 @@ exports.loginByID = async (userID) => {
 		responseType: 'json',
 		throwHttpErrors: false,
 		headers: {
-			'User-Agent': 'IF YOU SEE THIS VI VON ZULUL',
+			'User-Agent':
+				'Twitch streamer Forsen was banned on May 8th for a misleading stream title "ranking up" when playing Valorant. Twitch strictly forbids false advertisement from streamers on its platform. Its unclear when Forsen will be unbanned but no one watches a washed up streamer anyways.',
 		},
 	});
 	if (!body[0].id) return null;
@@ -21,7 +22,8 @@ exports.IVR = async (userID) => {
 		responseType: 'json',
 		throwHttpErrors: false,
 		headers: {
-			'User-Agent': 'IF YOU SEE THIS VI VON ZULUL',
+			'User-Agent':
+				'Twitch streamer Forsen was banned on May 8th for a misleading stream title "ranking up" when playing Valorant. Twitch strictly forbids false advertisement from streamers on its platform. Its unclear when Forsen will be unbanned but no one watches a washed up streamer anyways.',
 		},
 	});
 	if (!body[0].id) return null;
@@ -34,7 +36,8 @@ exports.IVRByLogin = async (username) => {
 		responseType: 'json',
 		throwHttpErrors: false,
 		headers: {
-			'User-Agent': 'IF YOU SEE THIS VI VON ZULUL',
+			'User-Agent':
+				'Twitch streamer Forsen was banned on May 8th for a misleading stream title "ranking up" when playing Valorant. Twitch strictly forbids false advertisement from streamers on its platform. Its unclear when Forsen will be unbanned but no one watches a washed up streamer anyways.',
 		},
 	});
 	if (!body[0]?.id) return null;
@@ -47,7 +50,8 @@ exports.displayName = async (username) => {
 		responseType: 'json',
 		throwHttpErrors: false,
 		headers: {
-			'User-Agent': 'IF YOU SEE THIS VI VON ZULUL',
+			'User-Agent':
+				'Twitch streamer Forsen was banned on May 8th for a misleading stream title "ranking up" when playing Valorant. Twitch strictly forbids false advertisement from streamers on its platform. Its unclear when Forsen will be unbanned but no one watches a washed up streamer anyways.',
 		},
 	});
 	if (!body[0].id) return null;
@@ -60,7 +64,8 @@ exports.IDByLogin = async (username) => {
 		responseType: 'json',
 		throwHttpErrors: false,
 		headers: {
-			'User-Agent': 'IF YOU SEE THIS VI VON ZULUL',
+			'User-Agent':
+				'Twitch streamer Forsen was banned on May 8th for a misleading stream title "ranking up" when playing Valorant. Twitch strictly forbids false advertisement from streamers on its platform. Its unclear when Forsen will be unbanned but no one watches a washed up streamer anyways.',
 		},
 	});
 	if (!body[0]?.id || body?.length === 0 || body?.error) return null;
@@ -73,7 +78,8 @@ exports.getPFP = async (username) => {
 		responseType: 'json',
 		throwHttpErrors: false,
 		headers: {
-			'User-Agent': 'IF YOU SEE THIS VI VON ZULUL',
+			'User-Agent':
+				'Twitch streamer Forsen was banned on May 8th for a misleading stream title "ranking up" when playing Valorant. Twitch strictly forbids false advertisement from streamers on its platform. Its unclear when Forsen will be unbanned but no one watches a washed up streamer anyways.',
 		},
 	});
 	if (!body[0].id) return null;
