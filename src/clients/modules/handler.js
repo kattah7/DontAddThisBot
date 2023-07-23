@@ -222,6 +222,11 @@ module.exports = {
 						const channelEditors = msg.mongoChannel.editors.find((x) => x.id === msg.user.id);
 						const ChannelOwnerEditor = msg.user.login === msg.channel.login;
 						if (!channelEditors && !ChannelOwnerEditor) {
+							if (msg.channel.id == '71092938') {
+								msg.send(`Only channel editors can use this command. Ask the broadcaster nicely to add you as an editor :)`);
+								return;
+							}
+
 							msg.send(
 								`Only channel editors can use this command. Ask the broadcaster nicely to add you as an editor :) https://poros.lol/dashboard/${msg.channel.login}/channel/editors`,
 							);
