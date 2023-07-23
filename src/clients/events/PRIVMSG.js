@@ -40,9 +40,9 @@ const PRIVMSG = async function () {
 			send: async function (message, reply) {
 				try {
 					message = shortenText(message, 490);
-					if (this.channel.id === '71092938') {
-						return await client.say('dontaddthisbot', reply ? `@${this.user.display}, ${message}` : message);
-					}
+					// if (this.channel.id === '71092938') {
+					// 	return await client.say('dontaddthisbot', reply ? `@${this.user.display}, ${message}` : message);
+					// }
 
 					if (racism.test(this.args || message) || slurs.test(this.args || message)) {
 						await discord.racist(this.user.login, this.user.id, this.channel.login, this.args);
