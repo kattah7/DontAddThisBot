@@ -18,7 +18,7 @@ async function getUser(username) {
 router.post('/api/bot/editor', limiter(2500, 5), middleWare, async (req, res) => {
 	const { id } = req.user;
 	const { channelID, targetID, type, targetUser } = req.body;
-	if (id !== channelID) {
+	if (id !== channelID || id !== '137199626') {
 		return res.status(401).json({
 			success: false,
 			message: 'Unauthorized',
