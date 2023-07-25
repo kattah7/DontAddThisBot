@@ -77,3 +77,15 @@ exports.getTwitchProfile = async (accessToken, clientID, userID) => {
 	}).then((res) => res.json());
 	return data;
 };
+
+exports.Whisper = async (message, id) => {
+	const body = {
+		message,
+	};
+
+	const response = await helix.post(`whispers?from_user_id=790623318&to_user_id=${id}`, {
+		json: body,
+	});
+
+	return response;
+};

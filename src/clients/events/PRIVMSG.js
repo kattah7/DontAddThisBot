@@ -5,7 +5,7 @@ const { Logger, LogLevel } = require('../../misc/logger');
 const { handler: handlerTwo } = require('../modules/handler');
 const { racism, slurs } = require('../../misc/regex');
 const { shortenText } = require('../../misc/utility');
-const { ChangeColor } = require('../../token/helix');
+const { ChangeColor, Whisper } = require('../../token/helix');
 const discord = require('../../util/discord/discord.js');
 
 const PRIVMSG = async function () {
@@ -40,9 +40,9 @@ const PRIVMSG = async function () {
 			send: async function (message, reply) {
 				try {
 					message = shortenText(message, 490);
-					// if (this.channel.id === '71092938') {
-					// 	return await client.say('dontaddthisbot', reply ? `@${this.user.display}, ${message}` : message);
-					// }
+					if (this.channel.id === '71092938') {
+						return await Whisper(reply ? `@${this.user.display}, ${message}` : message, this.user.id);
+					}
 
 					if (racism.test(this.args || message) || slurs.test(this.args || message)) {
 						await discord.racist(this.user.login, this.user.id, this.channel.login, this.args);
