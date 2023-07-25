@@ -213,7 +213,7 @@ exports.ChangeDisplayName = async (displayName) => {
 
 exports.whisper = async (message, id, q) => {
 	const query = [];
-	const fakeNonce = this.generateHash();
+	const fakeNonce = require('crypto').randomBytes(16).toString('hex');
 	const operation = {
 		operationName: 'SendWhisper',
 		variables: {
