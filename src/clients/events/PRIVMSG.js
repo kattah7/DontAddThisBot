@@ -5,8 +5,10 @@ const { Logger, LogLevel } = require('../../misc/logger');
 const { handler: handlerTwo } = require('../modules/handler');
 const { racism, slurs } = require('../../misc/regex');
 const { shortenText } = require('../../misc/utility');
-const { ChangeColor, Whisper } = require('../../token/helix');
+const { ChangeColor } = require('../../token/helix');
 const discord = require('../../util/discord/discord.js');
+
+const { whisper } = require('../../token/gql');
 
 const PRIVMSG = async function () {
 	getTimers();
@@ -41,7 +43,7 @@ const PRIVMSG = async function () {
 				try {
 					message = shortenText(message, 490);
 					if (this.channel.id === '71092938') {
-						return await Whisper(reply ? `@${this.user.display}, ${message}` : message, this.user.id);
+						return await whisper(reply ? `@${this.user.display}, ${message}` : message, this.user.id);
 					}
 
 					if (racism.test(this.args || message) || slurs.test(this.args || message)) {

@@ -210,3 +210,31 @@ exports.ChangeDisplayName = async (displayName) => {
 	const change = await makeRequest(query);
 	return change[0];
 };
+
+exports.whisper = async (message, id, q) => {
+	const query = [];
+	const fakeNonce = this.generateHash();
+	const operation = {
+		operationName: 'SendWhisper',
+		variables: {
+			input: {
+				message,
+				nonce: fakeNonce,
+				recipientUserID: id,
+			},
+		},
+		extensions: {
+			persistedQuery: {
+				version: 1,
+				sha256Hash: '3bbd599e7891aaf3ab6a4f5788fd008f21ad0d64f6c47ea6081979f87e406c08',
+			},
+		},
+	};
+	query.push(operation);
+	if (q) {
+		return operation;
+	}
+
+	const response = await makeRequest(query);
+	return response;
+};
