@@ -7,10 +7,6 @@ async function rewardPoros(userID, Amount) {
 const USERNOTICE = () => {
 	client.on('USERNOTICE', async (msg) => {
 		const { channelName, channelID, senderUsername, senderUserID } = msg;
-		if (!msg.isSub() && !msg.isResub()) {
-			return;
-		}
-
 		if (channelID !== '137199626') return;
 		try {
 			const res = await rewardPoros(senderUserID, 3500);
