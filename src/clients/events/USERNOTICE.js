@@ -6,22 +6,19 @@ async function rewardPoros(userID, Amount) {
 
 const USERNOTICE = () => {
 	client.on('USERNOTICE', async (msg) => {
-		if (msg.isRaid()) {
-			return;
-		}
-
 		const { channelName, channelID, senderUsername, senderUserID } = msg;
-		if (channelID !== '137199626') return;
-		try {
-			const res = await rewardPoros(senderUserID, 3500);
-			if (!res || res == null) {
-				await client.say('kattah', "You aren't registered! type |poro to get started");
-				return;
-			}
+		if ((msg.isResub || msg.isSub || msg.AnonSubgift || msg.isAnonGiftPaidUpgrade || msg.isSubgift) && channelID === '137199626') {
+			try {
+				const res = await rewardPoros(senderUserID, 3500);
+				if (!res || res == null) {
+					await client.say('kattah', "You aren't registered! type |poro to get started");
+					return;
+				}
 
-			await client.say('kattah', `Thank you for subbing!, ${senderUsername}. Here is free 3,500 poros!. You have ${res.poroCount + 3500} poros now!`);
-		} catch (err) {
-			console.log(err);
+				await client.say('kattah', `Thank you for subbing!, ${senderUsername}. Here is free 3,500 poros!. You have ${res.poroCount + 3500} poros now!`);
+			} catch (err) {
+				console.log(err);
+			}
 		}
 	});
 };
