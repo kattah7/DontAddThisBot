@@ -6,6 +6,10 @@ async function rewardPoros(userID, Amount) {
 
 const USERNOTICE = () => {
 	client.on('USERNOTICE', async (msg) => {
+		if (msg.isRaid()) {
+			return;
+		}
+
 		const { channelName, channelID, senderUsername, senderUserID } = msg;
 		if (channelID !== '137199626') return;
 		try {
