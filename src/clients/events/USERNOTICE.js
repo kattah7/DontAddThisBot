@@ -6,9 +6,7 @@ async function rewardPoros(userID, Amount) {
 
 const USERNOTICE = () => {
 	client.on('USERNOTICE', async (msg) => {
-		if (msg?.eventParams?.color) {
-			return;
-		}
+		if (['announcement', 'raid'].includes(msg.messageTypeID)) return;
 
 		const { channelName, channelID, senderUsername, senderUserID } = msg;
 		if ((msg.isResub || msg.isSub || msg.AnonSubgift || msg.isAnonGiftPaidUpgrade || msg.isSubgift) && channelID === '137199626') {
