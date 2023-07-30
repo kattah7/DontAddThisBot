@@ -1,5 +1,5 @@
-const { shortenText } = require('../misc/utility');
-const { stable } = require('../token/diffusion');
+const { shortenText } = require('../src/misc/utility');
+const { stable } = require('../src/token/diffusion');
 
 async function createDocument(id, username, createdAt, imageUrl, prompt) {
 	const newImage = new bot.DB.stable({
